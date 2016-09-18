@@ -128,7 +128,7 @@ crmd_init(void)
     int exit_code = 0;
     enum crmd_fsa_state state;
 
-    const char *start_state = daemon_option("PCMK_node_start_state");
+    const char *start_state = daemon_option("node_start_state");
 
     fsa_state = S_STARTING;
     fsa_input_register = 0;     /* zero out the regester */

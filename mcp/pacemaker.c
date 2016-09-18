@@ -943,7 +943,7 @@ main(int argc, char **argv)
                 pid_file = optarg;
                 break;
             case 's':
-                set_daemon_option("PCMK_node_start_state", "standby");
+                set_daemon_option("node_start_state", "standby");
                 break;
             case '$':
             case '?':
