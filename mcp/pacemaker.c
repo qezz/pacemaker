@@ -914,6 +914,9 @@ main(int argc, char **argv)
     int option_index = 0;
     gboolean shutdown = FALSE;
 
+    
+    const char* start_state = "default";
+
     uid_t pcmk_uid = 0;
     gid_t pcmk_gid = 0;
     struct rlimit cores;
@@ -1020,7 +1023,7 @@ main(int argc, char **argv)
         crm_exit(ENODATA);
     }
 
-    const char* start_state = daemon_option("PCMK_node_start_state");
+    start_state = daemon_option("PCMK_node_start_state");
     if (safe_str_neq(start_state, "online") && safe_str_neq(start_state, "standby") && 
         safe_str_neq(start_state, "default") && safe_str_neq(start_state, NULL)) {
 
