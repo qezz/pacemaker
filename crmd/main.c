@@ -172,6 +172,9 @@ crmd_init(void)
         cl_make_realtime(SCHED_RR, 5, 64, 64);
 #endif
         g_main_run(crmd_mainloop);
+
+            set_standby(fsa_cib_conn, this_node->uuid, XML_CIB_TAG_STATUS, "on");
+
         if (is_set(fsa_input_register, R_STAYDOWN)) {
             crm_info("Inhibiting automated respawn");
             exit_code = 100;
