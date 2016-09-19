@@ -27,8 +27,8 @@
 #include <crmd_messages.h>
 #include "tengine.h"
 
-const char* uuid = NULL;
-const char* start_state = NULL;
+char* uuid = NULL;
+char* start_state = NULL;
 
 
 char *max_epoch = NULL;
@@ -296,6 +296,7 @@ do_dc_join_filter_offer(long long action,
 
     const char *join_from = crm_element_value(join_ack->msg, F_CRM_HOST_FROM);
     const char *ref = crm_element_value(join_ack->msg, F_CRM_REFERENCE);
+
     const char *s_state = crm_element_value(join_ack->xml, "start-state");
 
     crm_node_t *join_node = crm_get_peer(0, join_from);
@@ -304,13 +305,18 @@ do_dc_join_filter_offer(long long action,
 
     if (safe_str_eq(s_state, "standby")) {
         crm_debug("Standby state");
-        uuid = join_node->uuid;
-        start_state = "standby";
+        uuid = strdup(crm_element_value(join_ack->xml, "our_uuid"));
+        start_state = strdup(s_state);
+  //      strcpy(uuid, crm_element_value(join_ack->xml, "our_uuid"));
+   //     strcpy(start_state, s_state);
+        crm_debug("uuid: %s", uuid);
 
     } else if (safe_str_eq(s_state, "online")) {
         crm_debug("Online state");
-        uuid = join_node->uuid;
-        start_state = "online";
+        uuid = strdup(crm_element_value(join_ack->xml, "our_uuid"));
+        start_state = strdup(s_state);
+     //   strcpy(uuid, crm_element_value(join_ack->xml, "our_uuid"));
+       // strcpy(start_state, s_state);
     } 
 
 
@@ -533,17 +539,6 @@ do_dc_join_ack(long long action,
         return;
     }
 
-    crm_debug("start_state: %s", start_state);
-
-    if (safe_str_eq(start_state, "standby")) {
-        crm_debug("Starting standby state");
-        set_standby(fsa_cib_conn, uuid, XML_CIB_TAG_STATUS, "on");
-
-    } else if (safe_str_eq(start_state, "online")) {
-        crm_debug("Starting online state");
-        set_standby(fsa_cib_conn, uuid, XML_CIB_TAG_STATUS, "off");
-    } 
-
     crm_update_peer_join(__FUNCTION__, peer, crm_join_confirmed);
 
     crm_info("join-%d: Updating node state to %s for %s",
@@ -572,6 +567,20 @@ do_dc_join_ack(long long action,
         fsa_cib_update(XML_CIB_TAG_STATUS, join_ack->xml,
            cib_scope_local | cib_quorum_override | cib_can_create, call_id, NULL);
     }
+
+
+    crm_debug("start_state: %s", start_state);
+    crm_debug("uuid: %s", uuid);
+    
+    if (safe_str_eq(start_state, "standby")) {
+        crm_debug("Starting standby state");
+        set_standby(fsa_cib_conn, uuid, XML_CIB_TAG_STATUS, "on");
+
+    } else if (safe_str_eq(start_state, "online")) {
+        crm_debug("Starting online state");
+        set_standby(fsa_cib_conn, uuid, XML_CIB_TAG_STATUS, "off");
+    } 
+
 
     fsa_register_cib_callback(call_id, FALSE, NULL, join_update_complete_callback);
     crm_debug("join-%d: Registered callback for LRM update %d", join_id, call_id);
