@@ -39,6 +39,11 @@ gboolean check_join_state(enum crmd_fsa_state cur_state, const char *source);
 static int current_join_id = 0;
 unsigned long long saved_ccm_membership_id = 0;
 
+struct start_state_data {
+    const char* uuid;
+    const char* start_state;
+};
+
 void
 crm_update_peer_join(const char *source, crm_node_t * node, enum crm_join_phase phase)
 {
@@ -295,6 +300,8 @@ do_dc_join_filter_offer(long long action,
 
     crm_node_t *join_node = crm_get_peer(0, join_from);
 
+    crm_debug("join_from: %s", join_from);
+
     crm_debug("Processing req from %s", join_from);
 
     generation = join_ack->xml;
@@ -313,9 +320,6 @@ do_dc_join_filter_offer(long long action,
             cmp = compare_int_fields(max_generation_xml, generation, attributes[lpc]);
         }
     }
-
-    crm_debug("Setting standby at the middle of filter_offer");
-    set_standby(fsa_cib_conn, join_node->uuid, XML_CIB_TAG_STATUS, "on");
 
     if (join_id != current_join_id) {
         crm_debug("Invalid response from %s: join-%d vs. join-%d",
@@ -373,9 +377,6 @@ do_dc_join_filter_offer(long long action,
         crm_debug("join-%d: Still waiting on %d outstanding offers",
                   join_id, crmd_join_phase_count(crm_join_welcomed));
     }
-
-    crm_debug("Setting standby at the end of filter_offer");
-    set_standby(fsa_cib_conn, join_node->uuid, XML_CIB_TAG_STATUS, "on");
 }
 
 /*	A_DC_JOIN_FINALIZE	*/
@@ -437,6 +438,7 @@ do_dc_join_finalize(long long action,
 
     rc = fsa_cib_conn->cmds->sync_from(fsa_cib_conn, sync_from, NULL, cib_quorum_override);
     fsa_register_cib_callback(rc, FALSE, sync_from, finalize_sync_callback);
+
 }
 
 void
@@ -498,6 +500,7 @@ do_dc_join_ack(long long action,
     const char *op = crm_element_value(join_ack->msg, F_CRM_TASK);
     const char *join_from = crm_element_value(join_ack->msg, F_CRM_HOST_FROM);
     crm_node_t *peer = crm_get_peer(0, join_from);
+    const char *start_state = crm_element_value(join_ack->msg, "start_state");
 
     if (safe_str_neq(op, CRM_OP_JOIN_CONFIRM) || peer == NULL) {
         crm_debug("Ignoring op=%s message from %s", op, join_from);
@@ -518,6 +521,15 @@ do_dc_join_ack(long long action,
         crm_update_peer_join(__FUNCTION__, peer, crm_join_nack);
         return;
     }
+
+    if (safe_str_eq(start_state, "standby")) {
+        crm_debug("Starting standby state");
+        set_standby(fsa_cib_conn, peer->uuid, XML_CIB_TAG_STATUS, "on");
+
+    } else if (safe_str_eq(start_state, "online")) {
+        crm_debug("Starting online state");
+        set_standby(fsa_cib_conn, peer->uuid, XML_CIB_TAG_STATUS, "off");
+    } 
 
     crm_update_peer_join(__FUNCTION__, peer, crm_join_confirmed);
 

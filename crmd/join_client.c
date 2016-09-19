@@ -143,6 +143,8 @@ join_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
     char *join_id = user_data;
     xmlNode *generation = create_xml_node(NULL, XML_CIB_TAG_GENERATION_TUPPLE);
 
+    const char *start_state = daemon_option("node_start_state");
+
     CRM_LOG_ASSERT(join_id != NULL);
 
     if (query_call_id != call_id) {
@@ -164,6 +166,21 @@ join_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
 
         crm_debug("Respond to join offer join-%s from %s", join_id, fsa_our_dc);
         copy_in_properties(generation, output);
+
+        if (safe_str_eq(start_state, "standby")) {
+            crm_notice("Setting standby state");
+            crm_xml_add(generation, "start-state", "standby");
+
+        } else if (safe_str_eq(start_state, "online")) {
+            crm_notice("Setting online state");
+            crm_xml_add(generation, "start-state", "online");
+
+        } else if (safe_str_eq(start_state, "default") || safe_str_eq(start_state, NULL)) {
+            crm_notice("Starting node in previous state");
+
+        } else {
+            crm_warn("Unrecognized node starting state '%s', using 'default'", start_state);
+        }
 
         reply = create_request(CRM_OP_JOIN_REQUEST, generation, fsa_our_dc,
                                CRM_SYSTEM_DC, CRM_SYSTEM_CRMD, NULL);
