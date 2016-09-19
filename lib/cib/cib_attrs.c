@@ -192,17 +192,25 @@ update_attr_delegate(cib_t * the_cib, int call_options,
 
     rc = find_nvpair_attr_delegate(the_cib, XML_ATTR_ID, section, node_uuid, set_type, set_name,
                                    attr_id, attr_name, to_console, &local_attr_id, user_name);
+
+    crm_debug("rc of find_nvpair_attr_delegate: %d", rc);
+
     if (rc == pcmk_ok) {
+        crm_debug("rc is ok");
+
         attr_id = local_attr_id;
         goto do_modify;
 
     } else if (rc != -ENXIO) {
+        crm_debug("rc != -ENXIO; return rc");
         return rc;
 
         /* } else if(attr_id == NULL) { */
         /*     return -EINVAL; */
 
     } else {
+        crm_debug("else");
+
         crm_trace("%s does not exist, create it", attr_name);
         if (safe_str_eq(section, XML_CIB_TAG_TICKETS)) {
             node_uuid = NULL;
@@ -594,6 +602,8 @@ set_standby(cib_t * the_cib, const char *uuid, const char *scope, const char *st
 
     CRM_CHECK(uuid != NULL, return -EINVAL);
     CRM_CHECK(standby_value != NULL, return -EINVAL);
+
+    crm_debug("Perform set_standby: %s", standby_value);
 
     if (safe_str_eq(scope, "reboot") || safe_str_eq(scope, XML_CIB_TAG_STATUS)) {
         scope = XML_CIB_TAG_STATUS;

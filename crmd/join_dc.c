@@ -314,6 +314,9 @@ do_dc_join_filter_offer(long long action,
         }
     }
 
+    crm_debug("Setting standby at the middle of filter_offer");
+    set_standby(fsa_cib_conn, join_node->uuid, XML_CIB_TAG_STATUS, "on");
+
     if (join_id != current_join_id) {
         crm_debug("Invalid response from %s: join-%d vs. join-%d",
                   join_from, join_id, current_join_id);
@@ -370,6 +373,9 @@ do_dc_join_filter_offer(long long action,
         crm_debug("join-%d: Still waiting on %d outstanding offers",
                   join_id, crmd_join_phase_count(crm_join_welcomed));
     }
+
+    crm_debug("Setting standby at the end of filter_offer");
+    set_standby(fsa_cib_conn, join_node->uuid, XML_CIB_TAG_STATUS, "on");
 }
 
 /*	A_DC_JOIN_FINALIZE	*/

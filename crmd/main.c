@@ -128,7 +128,7 @@ crmd_init(void)
     int exit_code = 0;
     enum crmd_fsa_state state;
 
-    const char *start_state = daemon_option("PCMK_node_start_state");
+    const char *start_state = daemon_option("node_start_state");
 
     fsa_state = S_STARTING;
     fsa_input_register = 0;     /* zero out the regester */
@@ -145,9 +145,17 @@ crmd_init(void)
 
         if (safe_str_eq(start_state, "standby")) {
             set_standby(fsa_cib_conn, this_node->uuid, XML_CIB_TAG_STATUS, "on");
+            crm_notice("Starting node in standby state");
 
         } else if (safe_str_eq(start_state, "online")) {
             set_standby(fsa_cib_conn, this_node->uuid, XML_CIB_TAG_STATUS, "off");
+            crm_notice("Starting node in online state");
+
+        } else if (safe_str_eq(start_state, "default") || safe_str_eq(start_state, NULL)) {
+            crm_notice("Starting node in previous state");
+
+        } else {
+            crm_warn("Unrecognized node starting state '%s', using 'default'", start_state);
         }
 
         /* Create the mainloop and run it... */
@@ -164,6 +172,9 @@ crmd_init(void)
         cl_make_realtime(SCHED_RR, 5, 64, 64);
 #endif
         g_main_run(crmd_mainloop);
+
+            set_standby(fsa_cib_conn, this_node->uuid, XML_CIB_TAG_STATUS, "on");
+
         if (is_set(fsa_input_register, R_STAYDOWN)) {
             crm_info("Inhibiting automated respawn");
             exit_code = 100;

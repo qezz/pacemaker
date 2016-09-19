@@ -914,9 +914,6 @@ main(int argc, char **argv)
     int option_index = 0;
     gboolean shutdown = FALSE;
 
-    
-    const char* start_state = "default";
-
     uid_t pcmk_uid = 0;
     gid_t pcmk_gid = 0;
     struct rlimit cores;
@@ -946,7 +943,7 @@ main(int argc, char **argv)
                 pid_file = optarg;
                 break;
             case 's':
-                set_daemon_option("PCMK_node_start_state", "standby");
+                set_daemon_option("node_start_state", "standby");
                 break;
             case '$':
             case '?':
@@ -1021,13 +1018,6 @@ main(int argc, char **argv)
     if (mcp_read_config() == FALSE) {
         crm_notice("Could not obtain corosync config data, exiting");
         crm_exit(ENODATA);
-    }
-
-    start_state = daemon_option("PCMK_node_start_state");
-    if (safe_str_neq(start_state, "online") && safe_str_neq(start_state, "standby") && 
-        safe_str_neq(start_state, "default") && safe_str_neq(start_state, NULL)) {
-
-        crm_warn("Unrecognized start state %s, using default", start_state);
     }
 
     crm_notice("Starting Pacemaker %s "CRM_XS" build=%s features:%s",
