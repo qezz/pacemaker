@@ -27,6 +27,10 @@
 #include <crmd_messages.h>
 #include "tengine.h"
 
+const char* uuid = NULL;
+const char* start_state = NULL;
+
+
 char *max_epoch = NULL;
 char *max_generation_from = NULL;
 xmlNode *max_generation_xml = NULL;
@@ -38,11 +42,6 @@ gboolean check_join_state(enum crmd_fsa_state cur_state, const char *source);
 
 static int current_join_id = 0;
 unsigned long long saved_ccm_membership_id = 0;
-
-struct start_state_data {
-    const char* uuid;
-    const char* start_state;
-};
 
 void
 crm_update_peer_join(const char *source, crm_node_t * node, enum crm_join_phase phase)
@@ -297,10 +296,23 @@ do_dc_join_filter_offer(long long action,
 
     const char *join_from = crm_element_value(join_ack->msg, F_CRM_HOST_FROM);
     const char *ref = crm_element_value(join_ack->msg, F_CRM_REFERENCE);
+    const char *s_state = crm_element_value(join_ack->xml, "start-state");
 
     crm_node_t *join_node = crm_get_peer(0, join_from);
 
-    crm_debug("join_from: %s", join_from);
+    crm_debug("s_state: %s", s_state);
+
+    if (safe_str_eq(s_state, "standby")) {
+        crm_debug("Standby state");
+        uuid = join_node->uuid;
+        start_state = "standby";
+
+    } else if (safe_str_eq(s_state, "online")) {
+        crm_debug("Online state");
+        uuid = join_node->uuid;
+        start_state = "online";
+    } 
+
 
     crm_debug("Processing req from %s", join_from);
 
@@ -500,7 +512,6 @@ do_dc_join_ack(long long action,
     const char *op = crm_element_value(join_ack->msg, F_CRM_TASK);
     const char *join_from = crm_element_value(join_ack->msg, F_CRM_HOST_FROM);
     crm_node_t *peer = crm_get_peer(0, join_from);
-    const char *start_state = crm_element_value(join_ack->msg, "start_state");
 
     if (safe_str_neq(op, CRM_OP_JOIN_CONFIRM) || peer == NULL) {
         crm_debug("Ignoring op=%s message from %s", op, join_from);
@@ -522,13 +533,15 @@ do_dc_join_ack(long long action,
         return;
     }
 
+    crm_debug("start_state: %s", start_state);
+
     if (safe_str_eq(start_state, "standby")) {
         crm_debug("Starting standby state");
-        set_standby(fsa_cib_conn, peer->uuid, XML_CIB_TAG_STATUS, "on");
+        set_standby(fsa_cib_conn, uuid, XML_CIB_TAG_STATUS, "on");
 
     } else if (safe_str_eq(start_state, "online")) {
         crm_debug("Starting online state");
-        set_standby(fsa_cib_conn, peer->uuid, XML_CIB_TAG_STATUS, "off");
+        set_standby(fsa_cib_conn, uuid, XML_CIB_TAG_STATUS, "off");
     } 
 
     crm_update_peer_join(__FUNCTION__, peer, crm_join_confirmed);
