@@ -914,6 +914,8 @@ do_lrm_query(gboolean is_replace, const char *node_name)
     crm_xml_add(xml_state, XML_NODE_JOIN_STATE, CRMD_JOINSTATE_MEMBER);
     crm_xml_add(xml_state, XML_NODE_EXPECTED, CRMD_JOINSTATE_MEMBER);
 
+    crm_debug("mark from do_lrm_query");
+
     return xml_state;
 }
 

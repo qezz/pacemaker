@@ -27,9 +27,6 @@
 #include <crmd_messages.h>
 #include "tengine.h"
 
-char* uuid = NULL;
-char* start_state = NULL;
-
 
 char *max_epoch = NULL;
 char *max_generation_from = NULL;
