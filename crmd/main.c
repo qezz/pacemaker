@@ -128,6 +128,10 @@ crmd_init(void)
     int exit_code = 0;
     enum crmd_fsa_state state;
 
+//    const char *start_state = daemon_option("node_start_state");
+
+//    xmlNode *tmp = NULL;
+
     fsa_state = S_STARTING;
     fsa_input_register = 0;     /* zero out the regester */
 
@@ -138,6 +142,17 @@ crmd_init(void)
     crm_peer_init();
     state = s_crmd_fsa(C_STARTUP);
 
+/*    tmp = do_lrm_query(TRUE, fsa_our_uname);
+
+    if (tmp != NULL) {
+        if (safe_str_eq(start_state, "standby")) { 
+            crm_debug("Starting standby state");
+            set_standby(fsa_cib_conn, fsa_our_uuid, XML_CIB_TAG_STATUS, "on");
+        }
+    } else {
+        crm_debug("tmp from do_lrm_query = NULL");
+    }
+*/
     if (state == S_PENDING || state == S_STARTING) {
         /* Create the mainloop and run it... */
         crm_trace("Starting %s's mainloop", crm_system_name);

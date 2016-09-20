@@ -600,6 +600,8 @@ set_standby(cib_t * the_cib, const char *uuid, const char *scope, const char *st
     int rc = pcmk_ok;
     char *attr_id = NULL;
 
+    crm_debug("uuid: %s", uuid);
+
     CRM_CHECK(uuid != NULL, return -EINVAL);
     CRM_CHECK(standby_value != NULL, return -EINVAL);
 

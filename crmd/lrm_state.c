@@ -226,8 +226,7 @@ lrm_state_reset_tables(lrm_state_t * lrm_state)
 
 gboolean
 lrm_state_init_local(void)
-{
-
+{   
     const char *start_state = daemon_option("node_start_state");
 
     if (safe_str_eq(start_state, "standby")) { 
