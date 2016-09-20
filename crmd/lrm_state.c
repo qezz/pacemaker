@@ -229,13 +229,6 @@ lrm_state_reset_tables(lrm_state_t * lrm_state)
 gboolean
 lrm_state_init_local(void)
 {   
-/*    const char *start_state = daemon_option("node_start_state");
-
-    if (safe_str_eq(start_state, "standby")) { 
-        crm_debug("Starting standby state");
-        set_standby(fsa_cib_conn, fsa_our_uuid, XML_CIB_TAG_STATUS, "on");
-    }
-*/
     if (lrm_state_table) {
         return TRUE;
     }
