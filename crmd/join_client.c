@@ -143,8 +143,6 @@ join_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
     char *join_id = user_data;
     xmlNode *generation = create_xml_node(NULL, XML_CIB_TAG_GENERATION_TUPPLE);
 
-    const char *start_state = daemon_option("node_start_state");
-
     CRM_LOG_ASSERT(join_id != NULL);
 
     if (query_call_id != call_id) {
