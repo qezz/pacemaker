@@ -139,6 +139,7 @@ do_te_control(long long action,
         transition_graph = create_blank_graph();
         set_bit(fsa_input_register, te_subsystem->flag_connected);
     }
+
 }
 
 /*	 A_TE_INVOKE, A_TE_CANCEL	*/

@@ -41,6 +41,27 @@ do_cl_join_query(long long action,
     xmlNode *req = create_request(CRM_OP_JOIN_ANNOUNCE, NULL, NULL,
                                   CRM_SYSTEM_DC, CRM_SYSTEM_CRMD, NULL);
 
+ /*   const char *start_state = daemon_option("node_start_state");
+
+    int call_id = 0;
+            
+    xmlNode *now_dc_lrmd_state = do_lrm_query(TRUE, fsa_our_uname);
+
+        if (now_dc_lrmd_state != NULL) {
+            crm_debug("LRM state is updated from do_lrm_query");
+            fsa_cib_update(XML_CIB_TAG_STATUS, now_dc_lrmd_state,
+                cib_scope_local | cib_quorum_override | cib_can_create, call_id, NULL);
+            free(now_dc_lrmd_state);
+        }
+
+    crm_debug("call_id: %d", call_id);
+
+    if (safe_str_eq(start_state, "standby")) { 
+       crm_debug("Starting standby state");
+       set_standby(fsa_cib_conn, fsa_our_uuid, XML_CIB_TAG_STATUS, "on");
+    } 
+*/
+
     sleep(1);                   /* give the CCM time to propogate to the DC */
     update_dc(NULL);            /* Unset any existing value so that the result is not discarded */
     crm_debug("Querying for a DC");
@@ -141,7 +162,7 @@ void
 join_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
     char *join_id = user_data;
-    xmlNode *generation = create_xml_node(NULL, XML_CIB_TAG_GENERATION_TUPPLE);
+    xmlNode *generation = create_xml_node(NULL, XML_CIB_TAG_GENERATION_TUPPLE); 
 
     CRM_LOG_ASSERT(join_id != NULL);
 

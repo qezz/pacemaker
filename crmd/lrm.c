@@ -397,6 +397,7 @@ do_lrm_control(long long action,
     }
 }
 
+
 static gboolean
 lrm_state_verify_stopped(lrm_state_t * lrm_state, enum crmd_fsa_state cur_state, int log_level)
 {
@@ -902,6 +903,7 @@ do_lrm_query(gboolean is_replace, const char *node_name)
 
     if (!lrm_state) {
         crm_err("Could not query lrm state for lrmd node %s", node_name);
+        crm_debug("!lrm_state");
         return NULL;
     }
     xml_state = do_lrm_query_internal(lrm_state,

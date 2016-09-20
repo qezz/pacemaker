@@ -175,6 +175,8 @@ remote_node_up(const char *node_name)
     xmlNode *update, *state;
     crm_node_t *node;
 
+    crm_debug("mark from remote_node_up");
+
     CRM_CHECK(node_name != NULL, return);
     crm_info("Announcing pacemaker_remote node %s", node_name);
 

@@ -495,6 +495,8 @@ do_dc_join_ack(long long action,
     const char *join_from = crm_element_value(join_ack->msg, F_CRM_HOST_FROM);
     crm_node_t *peer = crm_get_peer(0, join_from);
 
+    const char *start_state = daemon_option("node_start_state");
+
     if (safe_str_neq(op, CRM_OP_JOIN_CONFIRM) || peer == NULL) {
         crm_debug("Ignoring op=%s message from %s", op, join_from);
         return;
@@ -526,8 +528,10 @@ do_dc_join_ack(long long action,
      */
     erase_status_tag(join_from, XML_CIB_TAG_LRM, cib_scope_local);
 
+   
     if (safe_str_eq(join_from, fsa_our_uname)) {
         xmlNode *now_dc_lrmd_state = do_lrm_query(TRUE, fsa_our_uname);
+
         if (now_dc_lrmd_state != NULL) {
             crm_debug("LRM state is updated from do_lrm_query.(%s)", join_from);
             fsa_cib_update(XML_CIB_TAG_STATUS, now_dc_lrmd_state,
@@ -539,10 +543,16 @@ do_dc_join_ack(long long action,
                 cib_scope_local | cib_quorum_override | cib_can_create, call_id, NULL);
         }
     } else {
+
         crm_debug("LRM state is updated from join_ack->xml.(%s)", join_from);
         fsa_cib_update(XML_CIB_TAG_STATUS, join_ack->xml,
            cib_scope_local | cib_quorum_override | cib_can_create, call_id, NULL);
     }
+
+        if (safe_str_eq(start_state, "standby")) { 
+           crm_debug("Starting standby state");
+           set_standby(fsa_cib_conn, fsa_our_uuid, XML_CIB_TAG_STATUS, "on");
+        }
 
     fsa_register_cib_callback(call_id, FALSE, NULL, join_update_complete_callback);
     crm_debug("join-%d: Registered callback for LRM update %d", join_id, call_id);
