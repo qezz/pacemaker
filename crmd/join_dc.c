@@ -497,6 +497,8 @@ do_dc_join_ack(long long action,
 
     const char *start_state = daemon_option("node_start_state");
 
+    crm_log_xml_debug(join_ack->xml, "xml");
+
     if (safe_str_neq(op, CRM_OP_JOIN_CONFIRM) || peer == NULL) {
         crm_debug("Ignoring op=%s message from %s", op, join_from);
         return;
@@ -528,7 +530,6 @@ do_dc_join_ack(long long action,
      */
     erase_status_tag(join_from, XML_CIB_TAG_LRM, cib_scope_local);
 
-   
     if (safe_str_eq(join_from, fsa_our_uname)) {
         xmlNode *now_dc_lrmd_state = do_lrm_query(TRUE, fsa_our_uname);
 

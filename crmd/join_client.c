@@ -190,6 +190,10 @@ join_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
                                CRM_SYSTEM_DC, CRM_SYSTEM_CRMD, NULL);
 
         crm_xml_add(reply, F_CRM_JOIN_ID, join_id);
+        crm_xml_add(reply, "start_state", "standby");
+
+        crm_log_xml_debug(reply, "xml");
+
         send_cluster_message(crm_get_peer(0, fsa_our_dc), crm_msg_crmd, reply, TRUE);
         free_xml(reply);
     }
