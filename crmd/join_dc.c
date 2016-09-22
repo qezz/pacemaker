@@ -295,8 +295,10 @@ do_dc_join_filter_offer(long long action,
     const char *ref = crm_element_value(join_ack->msg, F_CRM_REFERENCE);
 
     crm_node_t *join_node = crm_get_peer(0, join_from);
-    
+
     crm_debug("Processing req from %s", join_from);
+
+    crm_log_xml_debug(join_ack->msg, "fo msg");
 
     generation = join_ack->xml;
     crm_element_value_int(join_ack->msg, F_CRM_JOIN_ID, &join_id);
@@ -550,9 +552,16 @@ do_dc_join_ack(long long action,
            cib_scope_local | cib_quorum_override | cib_can_create, call_id, NULL);
     }
 
-    if (safe_str_eq(start_state, "standby")) { 
-       crm_debug("Starting standby state");
-       set_standby(fsa_cib_conn, fsa_our_uuid, XML_CIB_TAG_STATUS, "on");
+    if (safe_str_eq(start_state, "standby")) {
+	    crm_debug("Starting standby state");
+	    set_standby(fsa_cib_conn, fsa_our_uuid, XML_CIB_TAG_STATUS, "on");
+
+	    // place request here...
+
+	    if (safe_str_neq(join_from, fsa_our_uname)) {
+		    
+	    }
+
     }
 
     fsa_register_cib_callback(call_id, FALSE, NULL, join_update_complete_callback);
