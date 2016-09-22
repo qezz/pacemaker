@@ -497,7 +497,7 @@ do_dc_join_ack(long long action,
 
     const char *start_state = daemon_option("node_start_state");
 
-    crm_log_xml_debug(join_ack->xml, "xml");
+    crm_log_xml_debug(join_ack->msg, "msg");
 
     if (safe_str_neq(op, CRM_OP_JOIN_CONFIRM) || peer == NULL) {
         crm_debug("Ignoring op=%s message from %s", op, join_from);
