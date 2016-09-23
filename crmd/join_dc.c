@@ -285,6 +285,8 @@ do_dc_join_filter_offer(long long action,
 {
     xmlNode *generation = NULL;
 
+    xmlNode *answer = NULL; // nedd to be freed?
+
     int cmp = 0;
     int join_id = -1;
     gboolean ack_nack_bool = TRUE;
@@ -295,6 +297,8 @@ do_dc_join_filter_offer(long long action,
     const char *ref = crm_element_value(join_ack->msg, F_CRM_REFERENCE);
 
     crm_node_t *join_node = crm_get_peer(0, join_from);
+
+//    const char *start_state = daemon_option("node_start_state");
 
     crm_debug("Processing req from %s", join_from);
 
@@ -363,6 +367,19 @@ do_dc_join_filter_offer(long long action,
     }
 
     crm_update_peer_expected(__FUNCTION__, join_node, ack_nack);
+
+    if (safe_str_neq(join_from, fsa_our_uname)) {
+	    set_standby(fsa_cib_conn, join_node->uuid, XML_CIB_TAG_STATUS, "on");
+	    // place request here ...
+
+	    answer = create_xml_node(NULL, XML_CIB_TAG_GENERATION_TUPPLE);
+	    crm_xml_add(answer, "task", "stop-telling-state");
+
+	    crm_log_xml_debug(answer, "answer");
+
+	    send_cluster_message(join_node, crm_msg_crmd, answer, TRUE); // try FALSE
+
+    }
 
     crm_debug("%u nodes have been integrated into join-%d",
               crmd_join_phase_count(crm_join_integrated), join_id);
