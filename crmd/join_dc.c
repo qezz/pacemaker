@@ -286,6 +286,7 @@ do_dc_join_filter_offer(long long action,
     xmlNode *generation = NULL;
 
     xmlNode *answer = NULL; // nedd to be freed?
+    xmlNode *inner_block = NULL;
 
     int cmp = 0;
     int join_id = -1;
@@ -372,7 +373,11 @@ do_dc_join_filter_offer(long long action,
 	    set_standby(fsa_cib_conn, join_node->uuid, XML_CIB_TAG_STATUS, "on");
 	    // place request here ...
 
-	    answer = create_xml_node(NULL, XML_CIB_TAG_GENERATION_TUPPLE);
+	    inner_block = create_xml_node(NULL, "testrequest");
+	    
+
+	    answer = create_request(CRM_OP_NOOP, inner_block, fsa_our_dc,
+			    CRM_SYSTEM_DC, CRM_SYSTEM_CRMD, NULL);
 	    crm_xml_add(answer, "task", "stop-telling-state");
 
 	    crm_log_xml_debug(answer, "answer");
