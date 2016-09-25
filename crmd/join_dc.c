@@ -605,6 +605,10 @@ do_dc_join_ack(long long action,
 
 		}
 
+	} else {
+		crm_debug("mark: EVENTUALLY SET Remote NODE STANDBY IN ACK NACK ");
+		crm_debug("mark: join_from: %s", join_from);
+		set_standby(fsa_cib_conn, join_from, XML_CIB_TAG_STATUS, "on");
 	}
 
 			fsa_register_cib_callback(call_id, FALSE, NULL, join_update_complete_callback);
