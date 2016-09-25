@@ -58,7 +58,7 @@ do_cl_join_query(long long action,
 
     if (safe_str_eq(start_state, "standby")) { 
        crm_debug("Starting standby state");
-       set_standby(fsa_cib_conn, fsa_our_uuid, XML_CIB_TAG_STATUS, "on");
+       // set_standby(fsa_cib_conn, fsa_our_uuid, XML_CIB_TAG_STATUS, "on");
     } 
 */
 
