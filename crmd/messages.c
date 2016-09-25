@@ -688,6 +688,8 @@ handle_request(xmlNode * stored_msg, enum crmd_fsa_cause cause)
 
     /* Optimize this for the DC - it has the most to do */
 
+    crm_log_xml_debug(stored_msg, "input:");
+
     if (op == NULL) {
         crm_log_xml_err(stored_msg, "Bad message");
         return I_NULL;
@@ -1047,4 +1049,3 @@ send_remote_state_message(const char *node_name, gboolean node_up)
                   node_name, (node_up? "coming up" : "going down"));
     }
 }
-
