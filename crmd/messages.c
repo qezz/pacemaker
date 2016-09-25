@@ -797,8 +797,13 @@ handle_request(xmlNode * stored_msg, enum crmd_fsa_cause cause)
         crm_debug("mark: Raising I_JOIN_RESULT: join-%s", crm_element_value(stored_msg, F_CRM_JOIN_ID));
 
         // mark!
-
-        set_daemon_option("node_start_state", 0); // unsetenv
+	crm_debug("mark: ========================");
+	crm_debug("mark: UNSETENV START STATE");
+	crm_debug("mark: ========================");
+	// if (safe_str_eq(fsa_our_uname, )
+	if (!(AM_I_DC)) {
+            set_daemon_option("node_start_state", 0); // unsetenv
+	}
         return I_JOIN_RESULT;
 
     } else if (strcmp(op, CRM_OP_LRM_DELETE) == 0

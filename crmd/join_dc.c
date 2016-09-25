@@ -373,7 +373,8 @@ do_dc_join_filter_offer(long long action,
 	crm_debug("mark: join_from: %s, fsa_our_uname: %s", fsa_our_uname);
 
 	if (safe_str_neq(join_from, fsa_our_uname)) {
-
+		// FIXME
+		// set remote node standby
 		set_standby(fsa_cib_conn, join_node->uuid, XML_CIB_TAG_STATUS, "on");
 		// place request here ...
 
@@ -527,6 +528,9 @@ do_dc_join_ack(long long action,
 
 	const char *start_state = daemon_option("node_start_state");
 
+	crm_debug("mark: START STATE: %s", start_state);
+	crm_debug("mark: GETENV: %s", getenv("PCMK_node_start_state"));
+
 	crm_log_xml_debug(join_ack->msg, "msg");
 
 	if (safe_str_neq(op, CRM_OP_JOIN_CONFIRM) || peer == NULL) {
@@ -581,16 +585,20 @@ do_dc_join_ack(long long action,
 	}
 
 	// SET NODE STANDBY IF THIS NODE IS DC
-
+	crm_debug("mark: JOIN ACK (SET DC NODE STANDBY)");
 	crm_debug("mark: join_from: %s, fsa_our_uname: %s", join_from, fsa_our_uname);
 	
 	if (safe_str_eq(join_from, fsa_our_uname)) {
+
+		crm_debug("mark: start_state: %s", start_state);
 		
 		if (safe_str_eq(start_state, "standby")) {
 			crm_debug("mark: Starting (DC?) standby state");
 			set_standby(fsa_cib_conn, fsa_our_uuid, XML_CIB_TAG_STATUS, "on");
 
+			crm_debug("mark: =================##############");
 			crm_debug("mark: unsetting env var");
+			crm_debug("mark: =================##############");
 			set_daemon_option("node_start_state", 0);
 			
 			// place request here... OR NOT.
