@@ -686,9 +686,11 @@ handle_request(xmlNode * stored_msg, enum crmd_fsa_cause cause)
     xmlNode *msg = NULL;
     const char *op = crm_element_value(stored_msg, F_CRM_TASK);
 
+    crm_debug("mark: HANDLE INPUT REQUEST");
+
     /* Optimize this for the DC - it has the most to do */
 
-    crm_log_xml_debug(stored_msg, "input:");
+    crm_log_xml_debug(stored_msg, "mark: input:");
 
     if (op == NULL) {
         crm_log_xml_err(stored_msg, "Bad message");
@@ -790,7 +792,13 @@ handle_request(xmlNode * stored_msg, enum crmd_fsa_cause cause)
         return I_JOIN_OFFER;
 
     } else if (strcmp(op, CRM_OP_JOIN_ACKNAK) == 0) {
+	    crm_debug("mark: CRM_OP_JOIN_ACKNAK");
         crm_debug("Raising I_JOIN_RESULT: join-%s", crm_element_value(stored_msg, F_CRM_JOIN_ID));
+        crm_debug("mark: Raising I_JOIN_RESULT: join-%s", crm_element_value(stored_msg, F_CRM_JOIN_ID));
+
+        // mark!
+
+        set_daemon_option("node_start_state", 0); // unsetenv
         return I_JOIN_RESULT;
 
     } else if (strcmp(op, CRM_OP_LRM_DELETE) == 0
