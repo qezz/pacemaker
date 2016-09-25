@@ -140,6 +140,7 @@ do_cl_join_offer_respond(long long action,
 void
 join_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+    const char *start_state = daemon_option("node_start_state");
     char *join_id = user_data;
     xmlNode *generation = create_xml_node(NULL, XML_CIB_TAG_GENERATION_TUPPLE);
 
@@ -165,8 +166,19 @@ join_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
         crm_debug("Respond to join offer join-%s from %s", join_id, fsa_our_dc);
         copy_in_properties(generation, output);
 
+        crm_log_xml_debug(generation, "\tgeneration");
+
         reply = create_request(CRM_OP_JOIN_REQUEST, generation, fsa_our_dc,
                                CRM_SYSTEM_DC, CRM_SYSTEM_CRMD, NULL);
+
+        crm_debug("start_state: %s", start_state);
+
+        if (safe_str_eq(start_state, "standby")) {
+            crm_xml_add(reply, "standby", "standby");
+            crm_xml_add(reply, "uuid", fsa_our_uuid);
+        }
+
+        crm_log_xml_debug(reply, "\treply");
 
         crm_xml_add(reply, F_CRM_JOIN_ID, join_id);
         send_cluster_message(crm_get_peer(0, fsa_our_dc), crm_msg_crmd, reply, TRUE);

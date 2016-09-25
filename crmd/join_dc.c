@@ -31,6 +31,9 @@ char *max_epoch = NULL;
 char *max_generation_from = NULL;
 xmlNode *max_generation_xml = NULL;
 
+const char *ss_uuid = NULL;
+const char *start_state = NULL;
+
 void initialize_join(gboolean before);
 void finalize_join_for(gpointer key, gpointer value, gpointer user_data);
 void finalize_sync_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data);
@@ -290,6 +293,7 @@ do_dc_join_filter_offer(long long action,
     const char *ack_nack = CRMD_JOINSTATE_MEMBER;
     ha_msg_input_t *join_ack = fsa_typed_data(fsa_dt_ha_msg);
 
+    const char *s_state = crm_element_value(join_ack->msg, "standby");
     const char *join_from = crm_element_value(join_ack->msg, F_CRM_HOST_FROM);
     const char *ref = crm_element_value(join_ack->msg, F_CRM_REFERENCE);
 
@@ -299,6 +303,12 @@ do_dc_join_filter_offer(long long action,
 
     generation = join_ack->xml;
     crm_element_value_int(join_ack->msg, F_CRM_JOIN_ID, &join_id);
+
+    if (safe_str_eq(s_state, "standby")) {
+        start_state = "standby";
+        ss_uuid = crm_strdup_printf("%s", crm_element_value(join_ack->msg, "uuid"));
+        crm_debug("uuid: %s", ss_uuid);
+    }
 
     if (max_generation_xml != NULL && generation != NULL) {
         int lpc = 0;
@@ -540,6 +550,12 @@ do_dc_join_ack(long long action,
         crm_debug("LRM state is updated from join_ack->xml.(%s)", join_from);
         fsa_cib_update(XML_CIB_TAG_STATUS, join_ack->xml,
            cib_scope_local | cib_quorum_override | cib_can_create, call_id, NULL);
+    }
+
+    if (safe_str_eq(start_state, "standby")) {
+        crm_debug("set %s", start_state);
+        crm_debug("uuid: %s", ss_uuid);
+        set_standby(fsa_cib_conn, ss_uuid, XML_CIB_TAG_STATUS, "on");
     }
 
     fsa_register_cib_callback(call_id, FALSE, NULL, join_update_complete_callback);
