@@ -165,7 +165,6 @@ join_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
         crm_debug("Respond to join offer join-%s from %s", join_id, fsa_our_dc);
         copy_in_properties(generation, output);
 
-
         reply = create_request(CRM_OP_JOIN_REQUEST, generation, fsa_our_dc,
                                CRM_SYSTEM_DC, CRM_SYSTEM_CRMD, NULL);
 
