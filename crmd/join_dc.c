@@ -503,6 +503,7 @@ do_dc_join_ack(long long action,
     int call_id = 0;
     ha_msg_input_t *join_ack = fsa_typed_data(fsa_dt_ha_msg);
     const char *start_state = crm_element_value(join_ack->msg, "start_state");
+    const char *ss_uuid = crm_element_value(join_ack->msg, "ss_uuid");
 
     const char *op = crm_element_value(join_ack->msg, F_CRM_TASK);
     const char *join_from = crm_element_value(join_ack->msg, F_CRM_HOST_FROM);
