@@ -196,6 +196,8 @@ do_cl_join_finalize_respond(long long action,
     const char *ack_nack = crm_element_value(input->msg, CRM_OP_JOIN_ACKNAK);
     const char *welcome_from = crm_element_value(input->msg, F_CRM_HOST_FROM);
 
+    crm_debug("trace");
+
     if (safe_str_neq(op, CRM_OP_JOIN_ACKNAK)) {
         crm_trace("Ignoring op=%s message", op);
         return;
