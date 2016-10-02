@@ -261,10 +261,12 @@ do_cl_join_finalize_respond(long long action,
             if (safe_str_eq(start_state, "standby")) {
                 crm_xml_add(reply, "start_state", "standby");
                 crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
+                crm_debug("standby");
 
             } else if (safe_str_eq(start_state, "online")) {
                 crm_xml_add(reply, "start_state", "online");
                 crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
+                crm_debug("online");
 
             } else if (safe_str_eq(start_state, "default")) {
                 crm_notice("Starting node by default");
