@@ -252,7 +252,7 @@ do_cl_join_finalize_respond(long long action,
          * end up with multiple active instances on the machine.
          */
         
-            if (first_join && is_not_set(fsa_input_register, R_SHUTDOWN)) {
+        /*    if (first_join && is_not_set(fsa_input_register, R_SHUTDOWN)) {
                 first_join = FALSE;
                 erase_status_tag(fsa_our_uname, XML_TAG_TRANSIENT_NODEATTRS, 0);
                 update_attrd(fsa_our_uname, "terminate", NULL, NULL, FALSE);
@@ -276,8 +276,8 @@ do_cl_join_finalize_respond(long long action,
             } else {
                 crm_warn("Unrecognized start state '%s', using 'default'", start_state);
             }
-
- /*       if (first_join) {
+*/
+        if (first_join) {
             first_join = FALSE;
             if (is_not_set(fsa_input_register, R_SHUTDOWN)) {
                 erase_status_tag(fsa_our_uname, XML_TAG_TRANSIENT_NODEATTRS, 0);
@@ -301,7 +301,7 @@ do_cl_join_finalize_respond(long long action,
                 crm_warn("Unrecognized start state '%s', using 'default'", start_state);
             }
         }
-*/
+
         send_cluster_message(crm_get_peer(0, fsa_our_dc), crm_msg_crmd, reply, TRUE);
         free_xml(reply);
 
