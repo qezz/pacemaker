@@ -2029,6 +2029,8 @@ do_lrm_rsc_op(lrm_state_t * lrm_state, lrmd_rsc_info_t * rsc, const char *operat
     gboolean stop_recurring = FALSE;
     bool send_nack = FALSE;
 
+    crm_debug("trace");
+
     CRM_CHECK(rsc != NULL, return);
     CRM_CHECK(operation != NULL, return);
 
