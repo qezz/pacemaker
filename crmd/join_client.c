@@ -237,19 +237,21 @@ do_cl_join_finalize_respond(long long action,
         crm_debug("Confirming join-%d: sending local operation history to %s",
                   join_id, fsa_our_dc);
 
-        if (safe_str_eq(start_state, "standby")) {
-            crm_xml_add(reply, "start_state", "standby");
-            crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
+        if (send_standby) {
+            if (safe_str_eq(start_state, "standby")) {
+                crm_xml_add(reply, "start_state", "standby");
+                crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
 
-        } else if (safe_str_eq(start_state, "online")) {
-            crm_xml_add(reply, "start_state", "online");
-            crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
+            } else if (safe_str_eq(start_state, "online")) {
+                crm_xml_add(reply, "start_state", "online");
+                crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
 
-        } else if (safe_str_eq(start_state, "default")) {
-            crm_notice("Starting node by default");
+            } else if (safe_str_eq(start_state, "default")) {
+                crm_notice("Starting node by default");
 
-        } else {
-            crm_warn("Unrecognized start state '%s', using 'default'", start_state);
+            } else {
+                crm_warn("Unrecognized start state '%s', using 'default'", start_state);
+            }
         }
 
         /*

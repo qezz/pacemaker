@@ -2028,7 +2028,6 @@ do_lrm_rsc_op(lrm_state_t * lrm_state, lrmd_rsc_info_t * rsc, const char *operat
     const char *transition = NULL;
     gboolean stop_recurring = FALSE;
     bool send_nack = FALSE;
-    static gboolean first_join = TRUE;
 
     CRM_CHECK(rsc != NULL, return);
     CRM_CHECK(operation != NULL, return);
@@ -2043,9 +2042,8 @@ do_lrm_rsc_op(lrm_state_t * lrm_state, lrmd_rsc_info_t * rsc, const char *operat
     op = construct_op(lrm_state, msg, rsc->id, operation);
     CRM_CHECK(op != NULL, return);
 
-    if (first_join) {
-        first_join = FALSE;
-        set_daemon_option("node_start_state", NULL);
+    if (send_standby) {
+        send_standby = FALSE;
     }
 
     if (is_remote_lrmd_ra(NULL, NULL, rsc->id)

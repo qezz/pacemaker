@@ -97,6 +97,8 @@ extern GListPtr fsa_message_queue;
 
 extern char *fsa_cluster_name;
 
+extern gboolean send_standby;
+
 extern election_t *fsa_election;   /*  */
 extern fsa_timer_t *election_trigger;   /*  */
 extern fsa_timer_t *election_timeout;   /*  */
