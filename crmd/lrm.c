@@ -2042,10 +2042,10 @@ do_lrm_rsc_op(lrm_state_t * lrm_state, lrmd_rsc_info_t * rsc, const char *operat
     op = construct_op(lrm_state, msg, rsc->id, operation);
     CRM_CHECK(op != NULL, return);
 
-    if (send_standby) {
+ /*   if (send_standby) {
         send_standby = FALSE;
     }
-
+*/
     if (is_remote_lrmd_ra(NULL, NULL, rsc->id)
         && op->interval == 0
         && strcmp(operation, CRMD_ACTION_MIGRATE) == 0) {
