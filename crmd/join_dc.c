@@ -544,9 +544,6 @@ do_dc_join_ack(long long action,
            cib_scope_local | cib_quorum_override | cib_can_create, call_id, NULL);
     }
 
-    fsa_register_cib_callback(call_id, FALSE, NULL, join_update_complete_callback);
-    crm_debug("join-%d: Registered callback for LRM update %d", join_id, call_id);
-
     if (safe_str_eq(start_state, "standby")) {
         crm_notice("Starting node in standby state");
         set_standby(fsa_cib_conn, ss_uuid, XML_CIB_TAG_STATUS, "on");
@@ -555,6 +552,9 @@ do_dc_join_ack(long long action,
         crm_notice("Starting node in online state");
         set_standby(fsa_cib_conn, ss_uuid, XML_CIB_TAG_STATUS, "off");
     }
+
+    fsa_register_cib_callback(call_id, FALSE, NULL, join_update_complete_callback);
+    crm_debug("join-%d: Registered callback for LRM update %d", join_id, call_id);
 }
 
 void

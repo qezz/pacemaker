@@ -237,6 +237,23 @@ do_cl_join_finalize_respond(long long action,
         crm_debug("Confirming join-%d: sending local operation history to %s",
                   join_id, fsa_our_dc);
 
+        if (send_standby) {
+            if (safe_str_eq(start_state, "standby")) {
+                crm_xml_add(reply, "start_state", "standby");
+                crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
+
+            } else if (safe_str_eq(start_state, "online")) {
+                crm_xml_add(reply, "start_state", "online");
+                crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
+
+            } else if (safe_str_eq(start_state, "default")) {
+                crm_notice("Starting node by default");
+
+            } else {
+                crm_warn("Unrecognized start state '%s', using 'default'", start_state);
+            }
+        }
+
         /*
          * If this is the node's first join since the crmd started on it, clear
          * any previous transient node attributes, to handle the case where
@@ -254,23 +271,6 @@ do_cl_join_finalize_respond(long long action,
             erase_status_tag(fsa_our_uname, XML_TAG_TRANSIENT_NODEATTRS, 0);
             update_attrd(fsa_our_uname, "terminate", NULL, NULL, FALSE);
             update_attrd(fsa_our_uname, XML_CIB_ATTR_SHUTDOWN, "0", NULL, FALSE);
-        }   
-
-        if (send_standby) {
-            if (safe_str_eq(start_state, "standby")) {
-                crm_xml_add(reply, "start_state", "standby");
-                crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
-
-            } else if (safe_str_eq(start_state, "online")) {
-                crm_xml_add(reply, "start_state", "online");
-                crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
-
-            } else if (safe_str_eq(start_state, "default")) {
-                crm_notice("Starting node by default");
-
-            } else {
-                crm_warn("Unrecognized start state '%s', using 'default'", start_state);
-            }
         }
 
         send_cluster_message(crm_get_peer(0, fsa_our_dc), crm_msg_crmd, reply, TRUE);
