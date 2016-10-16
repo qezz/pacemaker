@@ -237,6 +237,21 @@ do_cl_join_finalize_respond(long long action,
         crm_debug("Confirming join-%d: sending local operation history to %s",
                   join_id, fsa_our_dc);
 
+        if (safe_str_eq(start_state, "standby")) {
+            crm_xml_add(reply, "start_state", "standby");
+            crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
+
+        } else if (safe_str_eq(start_state, "online")) {
+            crm_xml_add(reply, "start_state", "online");
+            crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
+
+        } else if (safe_str_eq(start_state, "default")) {
+            crm_notice("Starting node by default");
+
+        } else {
+            crm_warn("Unrecognized start state '%s', using 'default'", start_state);
+        }
+
         /*
          * If this is the node's first join since the crmd started on it, clear
          * any previous transient node attributes, to handle the case where
@@ -249,28 +264,12 @@ do_cl_join_finalize_respond(long long action,
          * lucky, we will probe for the "wrong" instance of anonymous clones and
          * end up with multiple active instances on the machine.
          */
-        if (first_join) {
+        if (first_join&&is_not_set(fsa_input_register, R_SHUTDOWN)) {
             first_join = FALSE;
-            if (is_not_set(fsa_input_register, R_SHUTDOWN)) {
-                erase_status_tag(fsa_our_uname, XML_TAG_TRANSIENT_NODEATTRS, 0);
-                update_attrd(fsa_our_uname, "terminate", NULL, NULL, FALSE);
-                update_attrd(fsa_our_uname, XML_CIB_ATTR_SHUTDOWN, "0", NULL, FALSE);
-            }   
-            if (safe_str_eq(start_state, "standby")) {
-                crm_xml_add(reply, "start_state", "standby");
-                crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
-
-            } else if (safe_str_eq(start_state, "online")) {
-                crm_xml_add(reply, "start_state", "online");
-                crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
-
-            } else if (safe_str_eq(start_state, "default")) {
-                crm_notice("Starting node by default");
-
-            } else {
-                crm_warn("Unrecognized start state '%s', using 'default'", start_state);
-            }
-        }
+            erase_status_tag(fsa_our_uname, XML_TAG_TRANSIENT_NODEATTRS, 0);
+            update_attrd(fsa_our_uname, "terminate", NULL, NULL, FALSE);
+            update_attrd(fsa_our_uname, XML_CIB_ATTR_SHUTDOWN, "0", NULL, FALSE);
+        }   
 
         send_cluster_message(crm_get_peer(0, fsa_our_dc), crm_msg_crmd, reply, TRUE);
         free_xml(reply);
@@ -287,5 +286,4 @@ do_cl_join_finalize_respond(long long action,
                 join_id, fsa_our_dc);
         register_fsa_error(C_FSA_INTERNAL, I_FAIL, NULL);
     }
-    crm_debug("end");
 }
