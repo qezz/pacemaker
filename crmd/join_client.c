@@ -287,4 +287,5 @@ do_cl_join_finalize_respond(long long action,
                 join_id, fsa_our_dc);
         register_fsa_error(C_FSA_INTERNAL, I_FAIL, NULL);
     }
+    crm_debug("end");
 }
