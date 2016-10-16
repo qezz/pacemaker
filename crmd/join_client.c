@@ -266,7 +266,7 @@ do_cl_join_finalize_respond(long long action,
          * lucky, we will probe for the "wrong" instance of anonymous clones and
          * end up with multiple active instances on the machine.
          */
-        if (first_join&&is_not_set(fsa_input_register, R_SHUTDOWN)) {
+        if (first_join && is_not_set(fsa_input_register, R_SHUTDOWN)) {
             first_join = FALSE;
             erase_status_tag(fsa_our_uname, XML_TAG_TRANSIENT_NODEATTRS, 0);
             update_attrd(fsa_our_uname, "terminate", NULL, NULL, FALSE);
