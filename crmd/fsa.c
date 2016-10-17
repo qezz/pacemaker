@@ -47,7 +47,7 @@ char *fsa_our_uname = NULL;
 
 char *fsa_cluster_name = NULL;
 
-gboolean send_standby = TRUE;
+gboolean send_standby = daemon_option("node_start_state"); // TRUE;
 
 #if SUPPORT_HEARTBEAT
 ll_cluster_t *fsa_cluster_conn;
