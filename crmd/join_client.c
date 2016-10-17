@@ -240,11 +240,11 @@ do_cl_join_finalize_respond(long long action,
         if (send_standby) {
             if (safe_str_eq(start_state, "standby")) {
                 crm_xml_add(reply, "start_state", "standby");
-                crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
+                // crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
 
             } else if (safe_str_eq(start_state, "online")) {
                 crm_xml_add(reply, "start_state", "online");
-                crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
+                // crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
 
             } else if (safe_str_eq(start_state, "default")) {
                 crm_notice("Starting node by default");
@@ -253,6 +253,9 @@ do_cl_join_finalize_respond(long long action,
                 crm_warn("Unrecognized start state '%s', using 'default'", start_state);
             }
         }
+
+        crm_debug("check reply after adding \"start_state\": )");
+        crm_log_xml_debug(reply, "reply");
 
         /*
          * If this is the node's first join since the crmd started on it, clear
