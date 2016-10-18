@@ -113,4 +113,6 @@ extern ha_msg_input_t *copy_ha_msg_input(ha_msg_input_t * orig);
 
 void send_remote_state_message(const char *node_name, gboolean node_up);
 
+void add_start_state(xmlNode * msg, const char * state);
+
 #endif

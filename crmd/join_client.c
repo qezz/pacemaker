@@ -238,7 +238,7 @@ do_cl_join_finalize_respond(long long action,
                   join_id, fsa_our_dc);
 
         if (send_standby) {
-            if (safe_str_eq(start_state, "standby")) {
+            /*if (safe_str_eq(start_state, "standby")) {
                 crm_xml_add(reply, "start_state", "standby");
                 // crm_xml_add(reply, "ss_uuid", fsa_our_uuid);
 
@@ -251,7 +251,8 @@ do_cl_join_finalize_respond(long long action,
 
             } else {
                 crm_warn("Unrecognized start state '%s', using 'default'", start_state);
-            }
+            }*/
+            add_start_state(reply, start_state);
         }
 
         crm_debug("check reply after adding \"start_state\": )");
