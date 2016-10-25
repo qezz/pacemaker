@@ -49,6 +49,7 @@ static gboolean determine_remote_online_status(pe_working_set_t * data_set, node
 static gboolean
 is_dangling_container_remote_node(node_t *node)
 {
+	crm_info("trace");
     /* we are looking for a remote-node that was supposed to be mapped to a
      * container resource, but all traces of that container have disappeared 
      * from both the config and the status section. */
@@ -65,6 +66,7 @@ is_dangling_container_remote_node(node_t *node)
 void
 pe_fence_node(pe_working_set_t * data_set, node_t * node, const char *reason)
 {
+	crm_info("trace");
     CRM_CHECK(node, return);
 
     /* A guest node is fenced by marking its container as failed */
@@ -107,6 +109,7 @@ pe_fence_node(pe_working_set_t * data_set, node_t * node, const char *reason)
 gboolean
 unpack_config(xmlNode * config, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     const char *value = NULL;
     GHashTable *config_hash =
         g_hash_table_new_full(crm_str_hash, g_str_equal, g_hash_destroy_str, g_hash_destroy_str);
@@ -278,6 +281,7 @@ unpack_config(xmlNode * config, pe_working_set_t * data_set)
 static void
 destroy_digest_cache(gpointer ptr)
 {
+	crm_info("trace");
     op_digest_cache_t *data = ptr;
 
     free_xml(data->params_all);
@@ -294,6 +298,7 @@ destroy_digest_cache(gpointer ptr)
 static node_t *
 create_node(const char *id, const char *uname, const char *type, const char *score, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     node_t *new_node = NULL;
 
     if (pe_find_node(data_set->nodes, uname) != NULL) {
@@ -357,6 +362,7 @@ create_node(const char *id, const char *uname, const char *type, const char *sco
 static const char *
 expand_remote_rsc_meta(xmlNode *xml_obj, xmlNode *parent, GHashTable **rsc_name_check)
 {
+	crm_info("trace");
     xmlNode *xml_rsc = NULL;
     xmlNode *xml_tmp = NULL;
     xmlNode *attr_set = NULL;
@@ -498,6 +504,7 @@ expand_remote_rsc_meta(xmlNode *xml_obj, xmlNode *parent, GHashTable **rsc_name_
 static void
 handle_startup_fencing(pe_working_set_t *data_set, node_t *new_node)
 {
+	crm_info("trace");
     static const char *blind_faith = NULL;
     static gboolean unseen_are_unclean = TRUE;
 
@@ -535,6 +542,7 @@ handle_startup_fencing(pe_working_set_t *data_set, node_t *new_node)
 gboolean
 unpack_nodes(xmlNode * xml_nodes, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     xmlNode *xml_obj = NULL;
     node_t *new_node = NULL;
     const char *id = NULL;
@@ -589,6 +597,7 @@ unpack_nodes(xmlNode * xml_nodes, pe_working_set_t * data_set)
 static void
 setup_container(resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     const char *container_id = NULL;
 
     if (rsc->children) {
@@ -619,6 +628,7 @@ setup_container(resource_t * rsc, pe_working_set_t * data_set)
 gboolean
 unpack_remote_nodes(xmlNode * xml_resources, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     xmlNode *xml_obj = NULL;
     GHashTable *rsc_name_check = NULL;
 
@@ -690,6 +700,7 @@ unpack_remote_nodes(xmlNode * xml_resources, pe_working_set_t * data_set)
 static void
 link_rsc2remotenode(pe_working_set_t *data_set, resource_t *new_rsc)
 {
+	crm_info("trace");
     node_t *remote_node = NULL;
 
     if (new_rsc->is_remote_node == FALSE) {
@@ -722,6 +733,7 @@ link_rsc2remotenode(pe_working_set_t *data_set, resource_t *new_rsc)
 static void
 destroy_tag(gpointer data)
 {
+	crm_info("trace");
     tag_t *tag = data;
 
     if (tag) {
@@ -734,6 +746,7 @@ destroy_tag(gpointer data)
 gboolean
 unpack_resources(xmlNode * xml_resources, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     xmlNode *xml_obj = NULL;
     GListPtr gIter = NULL;
 
@@ -798,6 +811,7 @@ unpack_resources(xmlNode * xml_resources, pe_working_set_t * data_set)
 gboolean
 unpack_tags(xmlNode * xml_tags, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     xmlNode *xml_tag = NULL;
 
     data_set->tags =
@@ -844,6 +858,7 @@ unpack_tags(xmlNode * xml_tags, pe_working_set_t * data_set)
 static gboolean
 unpack_ticket_state(xmlNode * xml_ticket, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     const char *ticket_id = NULL;
     const char *granted = NULL;
     const char *last_granted = NULL;
@@ -909,6 +924,7 @@ unpack_ticket_state(xmlNode * xml_ticket, pe_working_set_t * data_set)
 static gboolean
 unpack_tickets_state(xmlNode * xml_tickets, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     xmlNode *xml_obj = NULL;
 
     for (xml_obj = __xml_first_child(xml_tickets); xml_obj != NULL; xml_obj = __xml_next_element(xml_obj)) {
@@ -926,6 +942,7 @@ unpack_tickets_state(xmlNode * xml_tickets, pe_working_set_t * data_set)
 static void
 get_ticket_state_legacy(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     const char *long_key = key;
     char *state_key = NULL;
 
@@ -1008,6 +1025,7 @@ get_ticket_state_legacy(gpointer key, gpointer value, gpointer user_data)
 gboolean
 unpack_status(xmlNode * status, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     const char *id = NULL;
     const char *uname = NULL;
 
@@ -1148,6 +1166,7 @@ unpack_status(xmlNode * status, pe_working_set_t * data_set)
 gboolean
 unpack_remote_status(xmlNode * status, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     const char *id = NULL;
     const char *uname = NULL;
     const char *shutdown = NULL;
@@ -1259,6 +1278,7 @@ static gboolean
 determine_online_status_no_fencing(pe_working_set_t * data_set, xmlNode * node_state,
                                    node_t * this_node)
 {
+	crm_info("trace");
     gboolean online = FALSE;
     const char *join = crm_element_value(node_state, XML_NODE_JOIN_STATE);
     const char *is_peer = crm_element_value(node_state, XML_NODE_IS_PEER);
@@ -1293,6 +1313,7 @@ static gboolean
 determine_online_status_fencing(pe_working_set_t * data_set, xmlNode * node_state,
                                 node_t * this_node)
 {
+	crm_info("trace");
     gboolean online = FALSE;
     gboolean do_terminate = FALSE;
     const char *join = crm_element_value(node_state, XML_NODE_JOIN_STATE);
@@ -1392,6 +1413,7 @@ determine_online_status_fencing(pe_working_set_t * data_set, xmlNode * node_stat
 static gboolean
 determine_remote_online_status(pe_working_set_t * data_set, node_t * this_node)
 {
+	crm_info("trace");
     resource_t *rsc = this_node->details->remote_rsc;
     resource_t *container = NULL;
 
@@ -1443,6 +1465,7 @@ remote_online_done:
 gboolean
 determine_online_status(xmlNode * node_state, node_t * this_node, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     gboolean online = FALSE;
     const char *shutdown = NULL;
     const char *exp_state = crm_element_value(node_state, XML_NODE_EXPECTED);
@@ -1515,6 +1538,7 @@ determine_online_status(xmlNode * node_state, node_t * this_node, pe_working_set
 char *
 clone_strip(const char *last_rsc_id)
 {
+	crm_info("trace");
     int lpc = 0;
     char *zero = NULL;
 
@@ -1554,6 +1578,7 @@ clone_strip(const char *last_rsc_id)
 char *
 clone_zero(const char *last_rsc_id)
 {
+	crm_info("trace");
     int lpc = 0;
     char *zero = NULL;
 
@@ -1603,6 +1628,7 @@ clone_zero(const char *last_rsc_id)
 static resource_t *
 create_fake_resource(const char *rsc_id, xmlNode * rsc_entry, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     resource_t *rsc = NULL;
     xmlNode *xml_rsc = create_xml_node(NULL, XML_CIB_TAG_RESOURCE);
 
@@ -1647,6 +1673,7 @@ static resource_t *
 find_anonymous_clone(pe_working_set_t * data_set, node_t * node, resource_t * parent,
                      const char *rsc_id)
 {
+	crm_info("trace");
     GListPtr rIter = NULL;
     resource_t *rsc = NULL;
     gboolean skip_inactive = FALSE;
@@ -1740,6 +1767,7 @@ static resource_t *
 unpack_find_resource(pe_working_set_t * data_set, node_t * node, const char *rsc_id,
                      xmlNode * rsc_entry)
 {
+	crm_info("trace");
     resource_t *rsc = NULL;
     resource_t *parent = NULL;
 
@@ -1793,6 +1821,7 @@ unpack_find_resource(pe_working_set_t * data_set, node_t * node, const char *rsc
 static resource_t *
 process_orphan_resource(xmlNode * rsc_entry, node_t * node, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     resource_t *rsc = NULL;
     const char *rsc_id = crm_element_value(rsc_entry, XML_ATTR_ID);
 
@@ -1816,6 +1845,7 @@ process_rsc_state(resource_t * rsc, node_t * node,
                   enum action_fail_response on_fail,
                   xmlNode * migrate_op, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     node_t *tmpnode = NULL;
     CRM_ASSERT(rsc);
     pe_rsc_trace(rsc, "Resource %s is %s on %s: on_fail=%s",
@@ -2029,6 +2059,7 @@ process_recurring(node_t * node, resource_t * rsc,
                   int start_index, int stop_index,
                   GListPtr sorted_op_list, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     int counter = -1;
     const char *task = NULL;
     const char *status = NULL;
@@ -2084,6 +2115,7 @@ process_recurring(node_t * node, resource_t * rsc,
 void
 calculate_active_ops(GListPtr sorted_op_list, int *start_index, int *stop_index)
 {
+	crm_info("trace");
     int counter = -1;
     int implied_monitor_start = -1;
     int implied_master_start = -1;
@@ -2132,6 +2164,7 @@ calculate_active_ops(GListPtr sorted_op_list, int *start_index, int *stop_index)
 static resource_t *
 unpack_lrm_rsc_state(node_t * node, xmlNode * rsc_entry, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     int stop_index = -1;
     int start_index = -1;
@@ -2226,6 +2259,7 @@ unpack_lrm_rsc_state(node_t * node, xmlNode * rsc_entry, pe_working_set_t * data
 static void
 handle_orphaned_container_fillers(xmlNode * lrm_rsc_list, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     xmlNode *rsc_entry = NULL;
     for (rsc_entry = __xml_first_child(lrm_rsc_list); rsc_entry != NULL;
         rsc_entry = __xml_next_element(rsc_entry)) {
@@ -2266,6 +2300,7 @@ handle_orphaned_container_fillers(xmlNode * lrm_rsc_list, pe_working_set_t * dat
 gboolean
 unpack_lrm_resources(node_t * node, xmlNode * lrm_rsc_list, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     xmlNode *rsc_entry = NULL;
     gboolean found_orphaned_container_filler = FALSE;
     GListPtr unexpected_containers = NULL;
@@ -2321,6 +2356,7 @@ unpack_lrm_resources(node_t * node, xmlNode * lrm_rsc_list, pe_working_set_t * d
 static void
 set_active(resource_t * rsc)
 {
+	crm_info("trace");
     resource_t *top = uber_parent(rsc);
 
     if (top && top->variant == pe_master) {
@@ -2333,6 +2369,7 @@ set_active(resource_t * rsc)
 static void
 set_node_score(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     node_t *node = value;
     int *score = user_data;
 
@@ -2344,6 +2381,7 @@ static xmlNode *
 find_lrm_op(const char *resource, const char *op, const char *node, const char *source,
             pe_working_set_t * data_set)
 {
+	crm_info("trace");
     int offset = 0;
     char xpath[STATUS_PATH_MAX];
 
@@ -2376,6 +2414,7 @@ find_lrm_op(const char *resource, const char *op, const char *node, const char *
 static void
 unpack_rsc_migration(resource_t *rsc, node_t *node, xmlNode *xml_op, pe_working_set_t * data_set) 
 {
+	crm_info("trace");
                 
     /*
      * The normal sequence is (now): migrate_to(Src) -> migrate_from(Tgt) -> stop(Src)
@@ -2468,6 +2507,7 @@ unpack_rsc_migration(resource_t *rsc, node_t *node, xmlNode *xml_op, pe_working_
 static void
 unpack_rsc_migration_failure(resource_t *rsc, node_t *node, xmlNode *xml_op, pe_working_set_t * data_set) 
 {
+	crm_info("trace");
     const char *task = crm_element_value(xml_op, XML_LRM_ATTR_TASK);
 
     CRM_ASSERT(rsc);
@@ -2566,6 +2606,7 @@ record_failed_op(xmlNode *op, node_t* node, pe_working_set_t * data_set)
 
 static const char *get_op_key(xmlNode *xml_op)
 {
+	crm_info("trace");
     const char *key = crm_element_value(xml_op, XML_LRM_ATTR_TASK_KEY);
     if(key == NULL) {
         key = ID(xml_op);
@@ -2577,6 +2618,7 @@ static void
 unpack_rsc_op_failure(resource_t * rsc, node_t * node, int rc, xmlNode * xml_op, xmlNode ** last_failure,
                       enum action_fail_response * on_fail, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     int interval = 0;
     bool is_probe = FALSE;
     action_t *action = NULL;
@@ -2818,6 +2860,7 @@ determine_op_status(
 
 static bool check_operation_expiry(resource_t *rsc, node_t *node, int rc, xmlNode *xml_op, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     bool expired = FALSE;
     time_t last_failure = 0;
     int clear_failcount = 0;
@@ -2929,6 +2972,7 @@ static bool check_operation_expiry(resource_t *rsc, node_t *node, int rc, xmlNod
 
 int get_target_rc(xmlNode *xml_op)
 {
+	crm_info("trace");
     int dummy = 0;
     int target_rc = 0;
     char *dummy_string = NULL;
@@ -2946,6 +2990,7 @@ int get_target_rc(xmlNode *xml_op)
 static enum action_fail_response
 get_action_on_fail(resource_t *rsc, const char *key, const char *task, pe_working_set_t * data_set) 
 {
+	crm_info("trace");
     int result = action_fail_recover;
     action_t *action = custom_action(rsc, strdup(key), task, NULL, TRUE, FALSE, data_set);
 
@@ -2959,6 +3004,7 @@ static void
 update_resource_state(resource_t * rsc, node_t * node, xmlNode * xml_op, const char * task, int rc,
                       xmlNode * last_failure, enum action_fail_response * on_fail, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     gboolean clear_past_failure = FALSE;
 
     CRM_ASSERT(rsc);
@@ -3048,6 +3094,7 @@ gboolean
 unpack_rsc_op(resource_t * rsc, node_t * node, xmlNode * xml_op, xmlNode ** last_failure,
               enum action_fail_response * on_fail, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     int task_id = 0;
 
     const char *key = NULL;
@@ -3265,6 +3312,7 @@ unpack_rsc_op(resource_t * rsc, node_t * node, xmlNode * xml_op, xmlNode ** last
 gboolean
 add_node_attrs(xmlNode * xml_obj, node_t * node, gboolean overwrite, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     const char *cluster_name = NULL;
 
     g_hash_table_insert(node->details->attrs,
@@ -3307,6 +3355,7 @@ add_node_attrs(xmlNode * xml_obj, node_t * node, gboolean overwrite, pe_working_
 static GListPtr
 extract_operations(const char *node, const char *rsc, xmlNode * rsc_entry, gboolean active_filter)
 {
+	crm_info("trace");
     int counter = -1;
     int stop_index = -1;
     int start_index = -1;
@@ -3369,6 +3418,7 @@ GListPtr
 find_operations(const char *rsc, const char *node, gboolean active_filter,
                 pe_working_set_t * data_set)
 {
+	crm_info("trace");
     GListPtr output = NULL;
     GListPtr intermediate = NULL;
 

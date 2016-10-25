@@ -38,6 +38,7 @@ int
 cib_process_query(const char *op, int options, const char *section, xmlNode * req, xmlNode * input,
                   xmlNode * existing_cib, xmlNode ** result_cib, xmlNode ** answer)
 {
+	crm_info("trace");
     xmlNode *obj_root = NULL;
     int result = pcmk_ok;
 
@@ -83,6 +84,7 @@ int
 cib_process_erase(const char *op, int options, const char *section, xmlNode * req, xmlNode * input,
                   xmlNode * existing_cib, xmlNode ** result_cib, xmlNode ** answer)
 {
+	crm_info("trace");
     int result = pcmk_ok;
 
     crm_trace("Processing \"%s\" event", op);
@@ -101,6 +103,7 @@ cib_process_upgrade(const char *op, int options, const char *section, xmlNode * 
                     xmlNode * input, xmlNode * existing_cib, xmlNode ** result_cib,
                     xmlNode ** answer)
 {
+	crm_info("trace");
     int rc = 0;
     int new_version = 0;
     int current_version = 0;
@@ -134,6 +137,7 @@ int
 cib_process_bump(const char *op, int options, const char *section, xmlNode * req, xmlNode * input,
                  xmlNode * existing_cib, xmlNode ** result_cib, xmlNode ** answer)
 {
+	crm_info("trace");
     int result = pcmk_ok;
 
     crm_trace("Processing \"%s\" event for epoch=%s",
@@ -148,6 +152,7 @@ cib_process_bump(const char *op, int options, const char *section, xmlNode * req
 int
 cib_update_counter(xmlNode * xml_obj, const char *field, gboolean reset)
 {
+	crm_info("trace");
     char *new_value = NULL;
     char *old_value = NULL;
     int int_value = -1;
@@ -177,6 +182,7 @@ cib_process_replace(const char *op, int options, const char *section, xmlNode * 
                     xmlNode * input, xmlNode * existing_cib, xmlNode ** result_cib,
                     xmlNode ** answer)
 {
+	crm_info("trace");
     const char *tag = NULL;
     int result = pcmk_ok;
 
@@ -288,6 +294,7 @@ int
 cib_process_delete(const char *op, int options, const char *section, xmlNode * req, xmlNode * input,
                    xmlNode * existing_cib, xmlNode ** result_cib, xmlNode ** answer)
 {
+	crm_info("trace");
     xmlNode *obj_root = NULL;
 
     crm_trace("Processing \"%s\" event", op);
@@ -322,6 +329,7 @@ int
 cib_process_modify(const char *op, int options, const char *section, xmlNode * req, xmlNode * input,
                    xmlNode * existing_cib, xmlNode ** result_cib, xmlNode ** answer)
 {
+	crm_info("trace");
     xmlNode *obj_root = NULL;
 
     crm_trace("Processing \"%s\" event", op);
@@ -388,6 +396,7 @@ cib_process_modify(const char *op, int options, const char *section, xmlNode * r
 static int
 update_cib_object(xmlNode * parent, xmlNode * update)
 {
+	crm_info("trace");
     int result = pcmk_ok;
     xmlNode *target = NULL;
     xmlNode *a_child = NULL;
@@ -483,6 +492,7 @@ update_cib_object(xmlNode * parent, xmlNode * update)
 static int
 add_cib_object(xmlNode * parent, xmlNode * new_obj)
 {
+	crm_info("trace");
     int result = pcmk_ok;
     const char *object_name = NULL;
     const char *object_id = NULL;
@@ -526,6 +536,7 @@ int
 cib_process_create(const char *op, int options, const char *section, xmlNode * req, xmlNode * input,
                    xmlNode * existing_cib, xmlNode ** result_cib, xmlNode ** answer)
 {
+	crm_info("trace");
     xmlNode *failed = NULL;
     int result = pcmk_ok;
     xmlNode *update_section = NULL;
@@ -590,6 +601,7 @@ int
 cib_process_diff(const char *op, int options, const char *section, xmlNode * req, xmlNode * input,
                  xmlNode * existing_cib, xmlNode ** result_cib, xmlNode ** answer)
 {
+	crm_info("trace");
     const char *originator = NULL;
 
     if (req != NULL) {
@@ -607,6 +619,7 @@ cib_process_diff(const char *op, int options, const char *section, xmlNode * req
 gboolean
 cib_config_changed(xmlNode * last, xmlNode * next, xmlNode ** diff)
 {
+	crm_info("trace");
     int lpc = 0, max = 0;
     gboolean config_changes = FALSE;
     xmlXPathObject *xpathObj = NULL;
@@ -680,6 +693,7 @@ int
 cib_process_xpath(const char *op, int options, const char *section, xmlNode * req, xmlNode * input,
                   xmlNode * existing_cib, xmlNode ** result_cib, xmlNode ** answer)
 {
+	crm_info("trace");
     int lpc = 0;
     int max = 0;
     int rc = pcmk_ok;
@@ -832,6 +846,7 @@ cib_process_xpath(const char *op, int options, const char *section, xmlNode * re
 gboolean
 update_results(xmlNode * failed, xmlNode * target, const char *operation, int return_code)
 {
+	crm_info("trace");
     xmlNode *xml_node = NULL;
     gboolean was_error = FALSE;
     const char *error_msg = NULL;

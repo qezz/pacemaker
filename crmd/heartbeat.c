@@ -56,6 +56,7 @@ static int max_ccm_register_fails = 30;
 static void
 ccm_connection_destroy(void *userdata)
 {
+	crm_info("trace");
 }
 
 /*	 A_CCM_CONNECT	*/
@@ -65,6 +66,7 @@ do_ccm_control(long long action,
                enum crmd_fsa_state cur_state,
                enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     static struct mainloop_fd_callbacks ccm_fd_callbacks = {
         .dispatch = ccm_dispatch,
         .destroy = ccm_connection_destroy,
@@ -159,6 +161,7 @@ do_ccm_control(long long action,
 void
 ccm_event_detail(const oc_ev_membership_t * oc, oc_ed_t event)
 {
+	crm_info("trace");
     int lpc;
     gboolean member = FALSE;
 
@@ -212,6 +215,7 @@ void
 do_ccm_update_cache(enum crmd_fsa_cause cause, enum crmd_fsa_state cur_state,
                     oc_ed_t event, const oc_ev_membership_t * oc, xmlNode * xml)
 {
+	crm_info("trace");
     unsigned long long instance = 0;
     unsigned int lpc = 0;
 
@@ -272,6 +276,7 @@ do_ccm_update_cache(enum crmd_fsa_cause cause, enum crmd_fsa_state cur_state,
 int
 ccm_dispatch(gpointer user_data)
 {
+	crm_info("trace");
     int rc = 0;
     oc_ev_t *ccm_token = (oc_ev_t *) user_data;
     gboolean was_error = FALSE;
@@ -303,6 +308,7 @@ ccm_dispatch(gpointer user_data)
 void
 crmd_ccm_msg_callback(oc_ed_t event, void *cookie, size_t size, const void *data)
 {
+	crm_info("trace");
     gboolean update_cache = FALSE;
     const oc_ev_membership_t *membership = data;
 
@@ -382,6 +388,7 @@ crmd_ccm_msg_callback(oc_ed_t event, void *cookie, size_t size, const void *data
 void
 crmd_ha_status_callback(const char *node, const char *status, void *private)
 {
+	crm_info("trace");
     xmlNode *update = NULL;
     crm_node_t *peer = NULL;
 
@@ -414,6 +421,7 @@ crmd_ha_status_callback(const char *node, const char *status, void *private)
 void
 crmd_client_status_callback(const char *node, const char *client, const char *status, void *private)
 {
+	crm_info("trace");
     crm_node_t *peer = NULL;
 
     crm_trace("Invoked");
@@ -468,6 +476,7 @@ crmd_client_status_callback(const char *node, const char *client, const char *st
 void
 crmd_ha_msg_callback(HA_Message * hamsg, void *private_data)
 {
+	crm_info("trace");
     int level = LOG_DEBUG;
     crm_node_t *from_node = NULL;
 
@@ -516,6 +525,7 @@ crmd_ha_msg_callback(HA_Message * hamsg, void *private_data)
 gboolean
 crmd_ha_msg_dispatch(ll_cluster_t * cluster_conn, gpointer user_data)
 {
+	crm_info("trace");
     IPC_Channel *channel = NULL;
     gboolean stay_connected = TRUE;
 

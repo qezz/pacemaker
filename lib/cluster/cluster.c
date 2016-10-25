@@ -43,6 +43,7 @@ void *hb_library = NULL;
 static char *
 get_heartbeat_uuid(const char *uname)
 {
+	crm_info("trace");
     char *uuid_calc = NULL;
 
 #if SUPPORT_HEARTBEAT
@@ -78,6 +79,7 @@ get_heartbeat_uuid(const char *uname)
 static gboolean
 uname_is_uuid(void)
 {
+	crm_info("trace");
     static const char *uuid_pref = NULL;
 
     if (uuid_pref == NULL) {
@@ -95,6 +97,7 @@ uname_is_uuid(void)
 int
 get_corosync_id(int id, const char *uuid)
 {
+	crm_info("trace");
     if (id == 0 && !uname_is_uuid() && is_corosync_cluster()) {
         id = crm_atoi(uuid, "0");
     }
@@ -105,6 +108,7 @@ get_corosync_id(int id, const char *uuid)
 char *
 get_corosync_uuid(crm_node_t *node)
 {
+	crm_info("trace");
     if(node == NULL) {
         return NULL;
 
@@ -134,6 +138,7 @@ get_corosync_uuid(crm_node_t *node)
 const char *
 crm_peer_uuid(crm_node_t *peer)
 {
+	crm_info("trace");
     char *uuid = NULL;
     enum cluster_type_e type = get_cluster_type();
 
@@ -174,6 +179,7 @@ crm_peer_uuid(crm_node_t *peer)
 gboolean
 crm_cluster_connect(crm_cluster_t * cluster)
 {
+	crm_info("trace");
     enum cluster_type_e type = get_cluster_type();
 
     crm_notice("Connecting to cluster infrastructure: %s", name_for_cluster_type(type));
@@ -233,6 +239,7 @@ crm_cluster_connect(crm_cluster_t * cluster)
 void
 crm_cluster_disconnect(crm_cluster_t * cluster)
 {
+	crm_info("trace");
     enum cluster_type_e type = get_cluster_type();
     const char *type_str = name_for_cluster_type(type);
 
@@ -271,6 +278,7 @@ gboolean
 send_cluster_message(crm_node_t * node, enum crm_ais_msg_types service, xmlNode * data,
                      gboolean ordered)
 {
+	crm_info("trace");
 
 #if SUPPORT_COROSYNC
     if (is_openais_cluster()) {
@@ -288,6 +296,7 @@ send_cluster_message(crm_node_t * node, enum crm_ais_msg_types service, xmlNode 
 const char *
 get_local_node_name(void)
 {
+	crm_info("trace");
     static char *name = NULL;
 
     if(name) {
@@ -300,6 +309,7 @@ get_local_node_name(void)
 char *
 get_node_name(uint32_t nodeid)
 {
+	crm_info("trace");
     char *name = NULL;
     const char *isolation_host = NULL;
     enum cluster_type_e stack;
@@ -374,6 +384,7 @@ get_node_name(uint32_t nodeid)
 const char *
 crm_peer_uname(const char *uuid)
 {
+	crm_info("trace");
     GHashTableIter iter;
     crm_node_t *node = NULL;
 
@@ -458,6 +469,7 @@ crm_peer_uname(const char *uuid)
 void
 set_uuid(xmlNode *xml, const char *attr, crm_node_t *node)
 {
+	crm_info("trace");
     const char *uuid_calc = crm_peer_uuid(node);
 
     crm_xml_add(xml, attr, uuid_calc);
@@ -467,6 +479,7 @@ set_uuid(xmlNode *xml, const char *attr, crm_node_t *node)
 const char *
 name_for_cluster_type(enum cluster_type_e type)
 {
+	crm_info("trace");
     switch (type) {
         case pcmk_cluster_classic_ais:
             return "classic openais (with plugin)";
@@ -492,6 +505,7 @@ static enum cluster_type_e cluster_type = pcmk_cluster_unknown;
 int
 set_cluster_type(enum cluster_type_e type)
 {
+	crm_info("trace");
     if (cluster_type == pcmk_cluster_unknown) {
         crm_info("Cluster type set to: %s", name_for_cluster_type(type));
         cluster_type = type;
@@ -512,6 +526,7 @@ set_cluster_type(enum cluster_type_e type)
 enum cluster_type_e
 get_cluster_type(void)
 {
+	crm_info("trace");
     bool detected = FALSE;
     const char *cluster = NULL;
 
@@ -611,24 +626,28 @@ get_cluster_type(void)
 gboolean
 is_cman_cluster(void)
 {
+	crm_info("trace");
     return get_cluster_type() == pcmk_cluster_cman;
 }
 
 gboolean
 is_corosync_cluster(void)
 {
+	crm_info("trace");
     return get_cluster_type() == pcmk_cluster_corosync;
 }
 
 gboolean
 is_classic_ais_cluster(void)
 {
+	crm_info("trace");
     return get_cluster_type() == pcmk_cluster_classic_ais;
 }
 
 gboolean
 is_openais_cluster(void)
 {
+	crm_info("trace");
     enum cluster_type_e type = get_cluster_type();
 
     if (type == pcmk_cluster_classic_ais) {
@@ -644,12 +663,14 @@ is_openais_cluster(void)
 gboolean
 is_heartbeat_cluster(void)
 {
+	crm_info("trace");
     return get_cluster_type() == pcmk_cluster_heartbeat;
 }
 
 gboolean
 node_name_is_valid(const char *key, const char *name)
 {
+	crm_info("trace");
     int octet;
 
     if (name == NULL) {

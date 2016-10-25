@@ -48,6 +48,7 @@ enum pcmk_panic_flags
 void
 sysrq_init(void)
 {
+	crm_info("trace");
     static bool need_init = true;
     FILE* procf;
     int c;
@@ -86,6 +87,7 @@ sysrq_init(void)
 static void
 sysrq_trigger(char t)
 {
+	crm_info("trace");
     FILE *procf;
 
     sysrq_init();
@@ -105,6 +107,7 @@ sysrq_trigger(char t)
 static void
 pcmk_panic_local(void) 
 {
+	crm_info("trace");
     int rc = pcmk_ok;
     uid_t uid = geteuid();
     pid_t ppid = getppid();
@@ -163,6 +166,7 @@ pcmk_panic_local(void)
 static void
 pcmk_panic_sbd(void) 
 {
+	crm_info("trace");
     union sigval signal_value;
     pid_t ppid = getppid();
 
@@ -187,6 +191,7 @@ pcmk_panic_sbd(void)
 void
 pcmk_panic(const char *origin) 
 {
+	crm_info("trace");
     static struct qb_log_callsite *panic_cs = NULL;
 
     if (panic_cs == NULL) {
@@ -218,6 +223,7 @@ pcmk_panic(const char *origin)
 pid_t
 pcmk_locate_sbd(void)
 {
+	crm_info("trace");
     char *pidfile = NULL;
     char *sbd_path = NULL;
 
@@ -256,6 +262,7 @@ pcmk_locate_sbd(void)
 long
 crm_get_sbd_timeout(void)
 {
+	crm_info("trace");
     const char *env_value = getenv("SBD_WATCHDOG_TIMEOUT");
     long sbd_timeout = crm_get_msec(env_value);
 
@@ -265,6 +272,7 @@ crm_get_sbd_timeout(void)
 gboolean
 check_sbd_timeout(const char *value)
 {
+	crm_info("trace");
     long sbd_timeout = crm_get_sbd_timeout();
     long st_timeout = crm_get_msec(value);
 

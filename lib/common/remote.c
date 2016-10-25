@@ -110,6 +110,7 @@ struct crm_remote_header_v0
 static struct crm_remote_header_v0 *
 crm_remote_header(crm_remote_t * remote)
 {
+	crm_info("trace");
     struct crm_remote_header_v0 *header = (struct crm_remote_header_v0 *)remote->buffer;
     if(remote->buffer_offset < sizeof(struct crm_remote_header_v0)) {
         return NULL;
@@ -143,6 +144,7 @@ crm_remote_header(crm_remote_t * remote)
 int
 crm_initiate_client_tls_handshake(crm_remote_t * remote, int timeout_ms)
 {
+	crm_info("trace");
     int rc = 0;
     int pollrc = 0;
     time_t start = time(NULL);
@@ -226,6 +228,7 @@ create_psk_tls_session(int csock, int type /* GNUTLS_SERVER, GNUTLS_CLIENT */ , 
 static int
 crm_send_tls(gnutls_session_t * session, const char *buf, size_t len)
 {
+	crm_info("trace");
     const char *unsent = buf;
     int rc = 0;
     int total_send;
@@ -264,6 +267,7 @@ crm_send_tls(gnutls_session_t * session, const char *buf, size_t len)
 static int
 crm_send_plaintext(int sock, const char *buf, size_t len)
 {
+	crm_info("trace");
 
     int rc = 0;
     const char *unsent = buf;
@@ -307,6 +311,7 @@ crm_send_plaintext(int sock, const char *buf, size_t len)
 static int
 crm_remote_sendv(crm_remote_t * remote, struct iovec * iov, int iovs)
 {
+	crm_info("trace");
     int lpc = 0;
     int rc = -ESOCKTNOSUPPORT;
 
@@ -331,6 +336,7 @@ crm_remote_sendv(crm_remote_t * remote, struct iovec * iov, int iovs)
 int
 crm_remote_send(crm_remote_t * remote, xmlNode * msg)
 {
+	crm_info("trace");
     int rc = -1;
     static uint64_t id = 0;
     char *xml_text = dump_xml_unformatted(msg);
@@ -379,6 +385,7 @@ crm_remote_send(crm_remote_t * remote, xmlNode * msg)
 xmlNode *
 crm_remote_parse_buffer(crm_remote_t * remote)
 {
+	crm_info("trace");
     xmlNode *xml = NULL;
     struct crm_remote_header_v0 *header = crm_remote_header(remote);
 
@@ -510,6 +517,7 @@ crm_remote_ready(crm_remote_t * remote, int total_timeout /* ms */ )
 static size_t
 crm_remote_recv_once(crm_remote_t * remote)
 {
+	crm_info("trace");
     int rc = 0;
     size_t read_len = sizeof(struct crm_remote_header_v0);
     struct crm_remote_header_v0 *header = crm_remote_header(remote);
@@ -670,6 +678,7 @@ struct tcp_async_cb_data {
 static gboolean
 check_connect_finished(gpointer userdata)
 {
+	crm_info("trace");
     struct tcp_async_cb_data *cb_data = userdata;
     int rc = 0;
     int sock = cb_data->sock;
@@ -815,6 +824,7 @@ internal_tcp_connect_async(int sock,
 static int
 internal_tcp_connect(int sock, const struct sockaddr *addr, socklen_t addrlen)
 {
+	crm_info("trace");
     int flag = 0;
     int rc = connect(sock, addr, addrlen);
 
@@ -928,6 +938,7 @@ async_cleanup:
 int
 crm_remote_tcp_connect(const char *host, int port)
 {
+	crm_info("trace");
     return crm_remote_tcp_connect_async(host, port, -1, NULL, NULL, NULL);
 }
 
@@ -937,6 +948,7 @@ crm_remote_tcp_connect(const char *host, int port)
 static char *
 get_ip_str(const struct sockaddr_storage * sa, char * s, size_t maxlen)
 {
+	crm_info("trace");
     switch(((struct sockaddr *)sa)->sa_family) {
         case AF_INET:
             inet_ntop(AF_INET, &(((struct sockaddr_in *)sa)->sin_addr),
@@ -959,6 +971,7 @@ get_ip_str(const struct sockaddr_storage * sa, char * s, size_t maxlen)
 int
 crm_remote_accept(int ssock)
 {
+	crm_info("trace");
     int csock = 0;
     int rc = 0;
     int flag = 0;

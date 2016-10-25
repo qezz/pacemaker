@@ -50,6 +50,7 @@
 gboolean
 cluster_status(pe_working_set_t * data_set)
 {
+	crm_info("trace");
     xmlNode *config = get_xpath_object("//"XML_CIB_TAG_CRMCONFIG, data_set->input, LOG_TRACE);
     xmlNode *cib_nodes = get_xpath_object("//"XML_CIB_TAG_NODES, data_set->input, LOG_TRACE);
     xmlNode *cib_resources = get_xpath_object("//"XML_CIB_TAG_RESOURCES, data_set->input, LOG_TRACE);
@@ -114,6 +115,7 @@ cluster_status(pe_working_set_t * data_set)
 static void
 pe_free_resources(GListPtr resources)
 {
+	crm_info("trace");
     resource_t *rsc = NULL;
     GListPtr iterator = resources;
 
@@ -130,6 +132,7 @@ pe_free_resources(GListPtr resources)
 static void
 pe_free_actions(GListPtr actions)
 {
+	crm_info("trace");
     GListPtr iterator = actions;
 
     while (iterator != NULL) {
@@ -144,6 +147,7 @@ pe_free_actions(GListPtr actions)
 static void
 pe_free_nodes(GListPtr nodes)
 {
+	crm_info("trace");
     GListPtr iterator = nodes;
 
     while (iterator != NULL) {
@@ -180,6 +184,7 @@ pe_free_nodes(GListPtr nodes)
 void
 cleanup_calculations(pe_working_set_t * data_set)
 {
+	crm_info("trace");
     pe_dataset = NULL;
     if (data_set == NULL) {
         return;
@@ -233,6 +238,7 @@ cleanup_calculations(pe_working_set_t * data_set)
 void
 set_working_set_defaults(pe_working_set_t * data_set)
 {
+	crm_info("trace");
     pe_dataset = data_set;
     memset(data_set, 0, sizeof(pe_working_set_t));
 
@@ -251,6 +257,7 @@ set_working_set_defaults(pe_working_set_t * data_set)
 resource_t *
 pe_find_resource(GListPtr rsc_list, const char *id)
 {
+	crm_info("trace");
     GListPtr rIter = NULL;
 
     for (rIter = rsc_list; id && rIter; rIter = rIter->next) {
@@ -269,6 +276,7 @@ pe_find_resource(GListPtr rsc_list, const char *id)
 node_t *
 pe_find_node_any(GListPtr nodes, const char *id, const char *uname)
 {
+	crm_info("trace");
     node_t *match = pe_find_node_id(nodes, id);
 
     if (match) {
@@ -281,6 +289,7 @@ pe_find_node_any(GListPtr nodes, const char *id, const char *uname)
 node_t *
 pe_find_node_id(GListPtr nodes, const char *id)
 {
+	crm_info("trace");
     GListPtr gIter = nodes;
 
     for (; gIter != NULL; gIter = gIter->next) {
@@ -297,6 +306,7 @@ pe_find_node_id(GListPtr nodes, const char *id)
 node_t *
 pe_find_node(GListPtr nodes, const char *uname)
 {
+	crm_info("trace");
     GListPtr gIter = nodes;
 
     for (; gIter != NULL; gIter = gIter->next) {

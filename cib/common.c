@@ -51,6 +51,7 @@ extern int cib_perform_command(xmlNode * request, xmlNode ** reply, xmlNode ** c
 static xmlNode *
 cib_prepare_common(xmlNode * root, const char *section)
 {
+	crm_info("trace");
     xmlNode *data = NULL;
 
     /* extract the CIB from the fragment */
@@ -78,6 +79,7 @@ cib_prepare_common(xmlNode * root, const char *section)
 static int
 cib_prepare_none(xmlNode * request, xmlNode ** data, const char **section)
 {
+	crm_info("trace");
     *data = NULL;
     *section = crm_element_value(request, F_CIB_SECTION);
     return pcmk_ok;
@@ -86,6 +88,7 @@ cib_prepare_none(xmlNode * request, xmlNode ** data, const char **section)
 static int
 cib_prepare_data(xmlNode * request, xmlNode ** data, const char **section)
 {
+	crm_info("trace");
     xmlNode *input_fragment = get_message_xml(request, F_CIB_CALLDATA);
 
     *section = crm_element_value(request, F_CIB_SECTION);
@@ -97,6 +100,7 @@ cib_prepare_data(xmlNode * request, xmlNode ** data, const char **section)
 static int
 cib_prepare_sync(xmlNode * request, xmlNode ** data, const char **section)
 {
+	crm_info("trace");
     *data = NULL;
     *section = crm_element_value(request, F_CIB_SECTION);
     return pcmk_ok;
@@ -105,6 +109,7 @@ cib_prepare_sync(xmlNode * request, xmlNode ** data, const char **section)
 static int
 cib_prepare_diff(xmlNode * request, xmlNode ** data, const char **section)
 {
+	crm_info("trace");
     xmlNode *input_fragment = NULL;
     const char *update = crm_element_value(request, F_CIB_GLOBAL_UPDATE);
 
@@ -126,6 +131,7 @@ cib_prepare_diff(xmlNode * request, xmlNode ** data, const char **section)
 static int
 cib_cleanup_query(int options, xmlNode ** data, xmlNode ** output)
 {
+	crm_info("trace");
     CRM_LOG_ASSERT(*data == NULL);
     if ((options & cib_no_children)
         || safe_str_eq(crm_element_name(*output), "xpath-query")) {
@@ -137,6 +143,7 @@ cib_cleanup_query(int options, xmlNode ** data, xmlNode ** output)
 static int
 cib_cleanup_data(int options, xmlNode ** data, xmlNode ** output)
 {
+	crm_info("trace");
     free_xml(*output);
     *data = NULL;
     return pcmk_ok;
@@ -145,6 +152,7 @@ cib_cleanup_data(int options, xmlNode ** data, xmlNode ** output)
 static int
 cib_cleanup_output(int options, xmlNode ** data, xmlNode ** output)
 {
+	crm_info("trace");
     free_xml(*output);
     return pcmk_ok;
 }
@@ -152,6 +160,7 @@ cib_cleanup_output(int options, xmlNode ** data, xmlNode ** output)
 static int
 cib_cleanup_none(int options, xmlNode ** data, xmlNode ** output)
 {
+	crm_info("trace");
     CRM_LOG_ASSERT(*data == NULL);
     CRM_LOG_ASSERT(*output == NULL);
     return pcmk_ok;
@@ -160,6 +169,7 @@ cib_cleanup_none(int options, xmlNode ** data, xmlNode ** output)
 static int
 cib_cleanup_sync(int options, xmlNode ** data, xmlNode ** output)
 {
+	crm_info("trace");
     /* data is non-NULL but doesn't need to be free'd */
     CRM_LOG_ASSERT(*data == NULL);
     CRM_LOG_ASSERT(*output == NULL);
@@ -211,6 +221,7 @@ static cib_operation_t cib_server_ops[] = {
 int
 cib_get_operation_id(const char *op, int *operation)
 {
+	crm_info("trace");
     static GHashTable *operation_hash = NULL;
 
     if (operation_hash == NULL) {
@@ -244,6 +255,7 @@ cib_get_operation_id(const char *op, int *operation)
 xmlNode *
 cib_msg_copy(xmlNode * msg, gboolean with_data)
 {
+	crm_info("trace");
     int lpc = 0;
     const char *field = NULL;
     const char *value = NULL;
@@ -307,18 +319,21 @@ cib_msg_copy(xmlNode * msg, gboolean with_data)
 cib_op_t *
 cib_op_func(int call_type)
 {
+	crm_info("trace");
     return &(cib_server_ops[call_type].fn);
 }
 
 gboolean
 cib_op_modifies(int call_type)
 {
+	crm_info("trace");
     return cib_server_ops[call_type].modifies_cib;
 }
 
 int
 cib_op_can_run(int call_type, int call_options, gboolean privileged, gboolean global_update)
 {
+	crm_info("trace");
     if (privileged == FALSE && cib_server_ops[call_type].needs_privileges) {
         /* abort */
         return -EACCES;
@@ -337,6 +352,7 @@ cib_op_can_run(int call_type, int call_options, gboolean privileged, gboolean gl
 int
 cib_op_prepare(int call_type, xmlNode * request, xmlNode ** input, const char **section)
 {
+	crm_info("trace");
     crm_trace("Prepare %d", call_type);
     return cib_server_ops[call_type].prepare(request, input, section);
 }
@@ -344,6 +360,7 @@ cib_op_prepare(int call_type, xmlNode * request, xmlNode ** input, const char **
 int
 cib_op_cleanup(int call_type, int options, xmlNode ** input, xmlNode ** output)
 {
+	crm_info("trace");
     crm_trace("Cleanup %d", call_type);
     return cib_server_ops[call_type].cleanup(options, input, output);
 }

@@ -31,6 +31,7 @@ CRM_TRACE_INIT_DATA(transitioner);
 static crm_action_t *
 unpack_action(synapse_t * parent, xmlNode * xml_action)
 {
+	crm_info("trace");
     crm_action_t *action = NULL;
     const char *value = crm_element_value(xml_action, XML_ATTR_ID);
 
@@ -93,6 +94,7 @@ unpack_action(synapse_t * parent, xmlNode * xml_action)
 static synapse_t *
 unpack_synapse(crm_graph_t * new_graph, xmlNode * xml_synapse)
 {
+	crm_info("trace");
     const char *value = NULL;
     xmlNode *inputs = NULL;
     xmlNode *action_set = NULL;
@@ -167,6 +169,7 @@ unpack_synapse(crm_graph_t * new_graph, xmlNode * xml_synapse)
 crm_graph_t *
 unpack_graph(xmlNode * xml_graph, const char *reference)
 {
+	crm_info("trace");
 /*
   <transition_graph>
   <synapse>
@@ -241,6 +244,7 @@ unpack_graph(xmlNode * xml_graph, const char *reference)
 static void
 destroy_action(crm_action_t * action)
 {
+	crm_info("trace");
     if (action->timer && action->timer->source_id != 0) {
         crm_warn("Cancelling timer for action %d (src=%d)", action->id, action->timer->source_id);
         g_source_remove(action->timer->source_id);
@@ -256,6 +260,7 @@ destroy_action(crm_action_t * action)
 static void
 destroy_synapse(synapse_t * synapse)
 {
+	crm_info("trace");
     while (g_list_length(synapse->actions) > 0) {
         crm_action_t *action = g_list_nth_data(synapse->actions, 0);
 
@@ -275,6 +280,7 @@ destroy_synapse(synapse_t * synapse)
 void
 destroy_graph(crm_graph_t * graph)
 {
+	crm_info("trace");
     if (graph == NULL) {
         return;
     }
@@ -292,6 +298,7 @@ destroy_graph(crm_graph_t * graph)
 lrmd_event_data_t *
 convert_graph_action(xmlNode * resource, crm_action_t * action, int status, int rc)
 {
+	crm_info("trace");
     xmlNode *xop = NULL;
     lrmd_event_data_t *op = NULL;
     GHashTableIter iter;

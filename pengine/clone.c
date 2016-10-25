@@ -33,6 +33,7 @@ static void append_parent_colocation(resource_t * rsc, resource_t * child, gbool
 static gint
 sort_rsc_id(gconstpointer a, gconstpointer b)
 {
+	crm_info("trace");
     const resource_t *resource1 = (const resource_t *)a;
     const resource_t *resource2 = (const resource_t *)b;
 
@@ -45,6 +46,7 @@ sort_rsc_id(gconstpointer a, gconstpointer b)
 static node_t *
 parent_node_instance(const resource_t * rsc, node_t * node)
 {
+	crm_info("trace");
     node_t *ret = NULL;
 
     if (node != NULL) {
@@ -56,6 +58,7 @@ parent_node_instance(const resource_t * rsc, node_t * node)
 static gboolean
 did_fail(const resource_t * rsc)
 {
+	crm_info("trace");
     GListPtr gIter = rsc->children;
 
     if (is_set(rsc->flags, pe_rsc_failed)) {
@@ -75,6 +78,7 @@ did_fail(const resource_t * rsc)
 gint
 sort_clone_instance(gconstpointer a, gconstpointer b, gpointer data_set)
 {
+	crm_info("trace");
     int rc = 0;
     node_t *node1 = NULL;
     node_t *node2 = NULL;
@@ -357,6 +361,7 @@ sort_clone_instance(gconstpointer a, gconstpointer b, gpointer data_set)
 static node_t *
 can_run_instance(resource_t * rsc, node_t * node)
 {
+	crm_info("trace");
     node_t *local_node = NULL;
     clone_variant_data_t *clone_data = NULL;
 
@@ -397,6 +402,7 @@ can_run_instance(resource_t * rsc, node_t * node)
 static node_t *
 color_instance(resource_t * rsc, node_t * prefer, gboolean all_coloc, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     node_t *chosen = NULL;
     node_t *local_node = NULL;
     GHashTable *backup = NULL;
@@ -471,6 +477,7 @@ color_instance(resource_t * rsc, node_t * prefer, gboolean all_coloc, pe_working
 static void
 append_parent_colocation(resource_t * rsc, resource_t * child, gboolean all)
 {
+	crm_info("trace");
 
     GListPtr gIter = NULL;
 
@@ -496,6 +503,7 @@ append_parent_colocation(resource_t * rsc, resource_t * child, gboolean all)
 node_t *
 clone_color(resource_t * rsc, node_t * prefer, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     GHashTableIter iter;
     GListPtr nIter = NULL;
     GListPtr gIter = NULL;
@@ -650,6 +658,7 @@ static void
 clone_update_pseudo_status(resource_t * rsc, gboolean * stopping, gboolean * starting,
                            gboolean * active)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
 
     if (rsc->children) {
@@ -711,6 +720,7 @@ clone_update_pseudo_status(resource_t * rsc, gboolean * stopping, gboolean * sta
 static action_t *
 find_rsc_action(resource_t * rsc, const char *key, gboolean active_only, GListPtr * list)
 {
+	crm_info("trace");
     action_t *match = NULL;
     GListPtr possible = NULL;
     GListPtr active = NULL;
@@ -759,6 +769,7 @@ find_rsc_action(resource_t * rsc, const char *key, gboolean active_only, GListPt
 static void
 child_ordering_constraints(resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     char *key = NULL;
     action_t *stop = NULL;
     action_t *start = NULL;
@@ -808,6 +819,7 @@ child_ordering_constraints(resource_t * rsc, pe_working_set_t * data_set)
 void
 clone_create_actions(resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     gboolean child_active = FALSE;
     gboolean child_starting = FALSE;
     gboolean child_stopping = FALSE;
@@ -885,6 +897,7 @@ clone_create_actions(resource_t * rsc, pe_working_set_t * data_set)
 void
 clone_internal_constraints(resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     resource_t *last_rsc = NULL;
     GListPtr gIter;
     clone_variant_data_t *clone_data = NULL;
@@ -931,6 +944,7 @@ clone_internal_constraints(resource_t * rsc, pe_working_set_t * data_set)
 static bool
 assign_node(resource_t * rsc, node_t * node, gboolean force)
 {
+	crm_info("trace");
     bool changed = FALSE;
 
     if (rsc->children) {
@@ -957,6 +971,7 @@ static resource_t *
 find_compatible_child_by_node(resource_t * local_child, node_t * local_node, resource_t * rsc,
                               enum rsc_role_e filter, gboolean current)
 {
+	crm_info("trace");
     node_t *node = NULL;
     GListPtr gIter = NULL;
 
@@ -1005,6 +1020,7 @@ resource_t *
 find_compatible_child(resource_t * local_child, resource_t * rsc, enum rsc_role_e filter,
                       gboolean current)
 {
+	crm_info("trace");
     resource_t *pair = NULL;
     GListPtr gIter = NULL;
     GListPtr scratch = NULL;
@@ -1037,6 +1053,7 @@ find_compatible_child(resource_t * local_child, resource_t * rsc, enum rsc_role_
 void
 clone_rsc_colocation_lh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation_t * constraint)
 {
+	crm_info("trace");
     /* -- Never called --
      *
      * Instead we add the colocation constraints to the child and call from there
@@ -1060,6 +1077,7 @@ clone_rsc_colocation_lh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation
 void
 clone_rsc_colocation_rh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation_t * constraint)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     gboolean do_interleave = FALSE;
     clone_variant_data_t *clone_data = NULL;
@@ -1142,6 +1160,7 @@ clone_rsc_colocation_rh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation
 static enum action_tasks
 clone_child_action(action_t * action)
 {
+	crm_info("trace");
     enum action_tasks result = no_action;
     resource_t *child = (resource_t *) action->rsc->children->data;
 
@@ -1181,6 +1200,7 @@ clone_child_action(action_t * action)
 enum pe_action_flags
 clone_action_flags(action_t * action, node_t * node)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     gboolean any_runnable = FALSE;
     gboolean check_runnable = TRUE;
@@ -1240,6 +1260,7 @@ clone_update_actions_interleave(action_t * first, action_t * then, node_t * node
                                 enum pe_action_flags flags, enum pe_action_flags filter,
                                 enum pe_ordering type)
 {
+	crm_info("trace");
     gboolean current = FALSE;
     resource_t *first_child = NULL;
     GListPtr gIter = then->rsc->children;
@@ -1337,6 +1358,7 @@ enum pe_graph_flags
 clone_update_actions(action_t * first, action_t * then, node_t * node, enum pe_action_flags flags,
                      enum pe_action_flags filter, enum pe_ordering type)
 {
+	crm_info("trace");
     const char *rsc = "none";
     gboolean interleave = FALSE;
     enum pe_graph_flags changed = pe_graph_none;
@@ -1399,6 +1421,7 @@ clone_update_actions(action_t * first, action_t * then, node_t * node, enum pe_a
 void
 clone_rsc_location(resource_t * rsc, rsc_to_node_t * constraint)
 {
+	crm_info("trace");
     GListPtr gIter = rsc->children;
 
     pe_rsc_trace(rsc, "Processing location constraint %s for %s", constraint->id, rsc->id);
@@ -1415,6 +1438,7 @@ clone_rsc_location(resource_t * rsc, rsc_to_node_t * constraint)
 void
 clone_expand(resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     clone_variant_data_t *clone_data = NULL;
 
@@ -1476,6 +1500,7 @@ clone_expand(resource_t * rsc, pe_working_set_t * data_set)
 node_t *
 rsc_known_on(resource_t * rsc, GListPtr * list)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     node_t *one = NULL;
     GListPtr result = NULL;
@@ -1517,6 +1542,7 @@ rsc_known_on(resource_t * rsc, GListPtr * list)
 static resource_t *
 find_instance_on(resource_t * rsc, node_t * node)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
 
     gIter = rsc->children;
@@ -1546,6 +1572,7 @@ gboolean
 clone_create_probe(resource_t * rsc, node_t * node, action_t * complete,
                    gboolean force, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     gboolean any_created = FALSE;
     clone_variant_data_t *clone_data = NULL;
@@ -1631,6 +1658,7 @@ clone_create_probe(resource_t * rsc, node_t * node, action_t * complete,
 void
 clone_append_meta(resource_t * rsc, xmlNode * xml)
 {
+	crm_info("trace");
     char *name = NULL;
     clone_variant_data_t *clone_data = NULL;
 
@@ -1657,5 +1685,6 @@ GHashTable *
 clone_merge_weights(resource_t * rsc, const char *rhs, GHashTable * nodes, const char *attr,
                     float factor, enum pe_weights flags)
 {
+	crm_info("trace");
     return rsc_merge_weights(rsc, rhs, nodes, attr, factor, flags);
 }

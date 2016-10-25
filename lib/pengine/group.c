@@ -30,6 +30,7 @@
 gboolean
 group_unpack(resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     xmlNode *xml_obj = rsc->xml;
     xmlNode *xml_native_rsc = NULL;
     group_variant_data_t *group_data = NULL;
@@ -100,6 +101,7 @@ group_unpack(resource_t * rsc, pe_working_set_t * data_set)
 gboolean
 group_active(resource_t * rsc, gboolean all)
 {
+	crm_info("trace");
     gboolean c_all = TRUE;
     gboolean c_any = FALSE;
     GListPtr gIter = rsc->children;
@@ -125,6 +127,7 @@ group_active(resource_t * rsc, gboolean all)
 static void
 group_print_xml(resource_t * rsc, const char *pre_text, long options, void *print_data)
 {
+	crm_info("trace");
     GListPtr gIter = rsc->children;
     char *child_text = crm_concat(pre_text, "    ", ' ');
 
@@ -145,6 +148,7 @@ group_print_xml(resource_t * rsc, const char *pre_text, long options, void *prin
 void
 group_print(resource_t * rsc, const char *pre_text, long options, void *print_data)
 {
+	crm_info("trace");
     char *child_text = NULL;
     GListPtr gIter = rsc->children;
 
@@ -194,6 +198,7 @@ group_print(resource_t * rsc, const char *pre_text, long options, void *print_da
 void
 group_free(resource_t * rsc)
 {
+	crm_info("trace");
     GListPtr gIter = rsc->children;
 
     CRM_CHECK(rsc != NULL, return);
@@ -217,6 +222,7 @@ group_free(resource_t * rsc)
 enum rsc_role_e
 group_resource_state(const resource_t * rsc, gboolean current)
 {
+	crm_info("trace");
     enum rsc_role_e group_role = RSC_ROLE_UNKNOWN;
     GListPtr gIter = rsc->children;
 

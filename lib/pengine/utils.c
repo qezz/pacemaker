@@ -38,6 +38,7 @@ static xmlNode *find_rsc_op_entry_helper(resource_t * rsc, const char *key,
 
 bool pe_can_fence(pe_working_set_t * data_set, node_t *node)
 {
+	crm_info("trace");
     if(is_not_set(data_set->flags, pe_flag_stonith_enabled)) {
         return FALSE; /* Turned off */
 
@@ -65,6 +66,7 @@ bool pe_can_fence(pe_working_set_t * data_set, node_t *node)
 node_t *
 node_copy(const node_t *this_node)
 {
+	crm_info("trace");
     node_t *new_node = NULL;
 
     CRM_CHECK(this_node != NULL, return NULL);
@@ -86,6 +88,7 @@ node_copy(const node_t *this_node)
 void
 node_list_exclude(GHashTable * hash, GListPtr list, gboolean merge_scores)
 {
+	crm_info("trace");
     GHashTable *result = hash;
     node_t *other_node = NULL;
     GListPtr gIter = list;
@@ -121,6 +124,7 @@ node_list_exclude(GHashTable * hash, GListPtr list, gboolean merge_scores)
 GHashTable *
 node_hash_from_list(GListPtr list)
 {
+	crm_info("trace");
     GListPtr gIter = list;
     GHashTable *result = g_hash_table_new_full(crm_str_hash, g_str_equal, NULL, g_hash_destroy_str);
 
@@ -137,6 +141,7 @@ node_hash_from_list(GListPtr list)
 GListPtr
 node_list_dup(GListPtr list1, gboolean reset, gboolean filter)
 {
+	crm_info("trace");
     GListPtr result = NULL;
     GListPtr gIter = list1;
 
@@ -163,6 +168,7 @@ node_list_dup(GListPtr list1, gboolean reset, gboolean filter)
 gint
 sort_node_uname(gconstpointer a, gconstpointer b)
 {
+	crm_info("trace");
     const node_t *node_a = a;
     const node_t *node_b = b;
 
@@ -173,6 +179,7 @@ void
 dump_node_scores_worker(int level, const char *file, const char *function, int line,
                         resource_t * rsc, const char *comment, GHashTable * nodes)
 {
+	crm_info("trace");
     GHashTable *hash = nodes;
     GHashTableIter iter;
     node_t *node = NULL;
@@ -245,6 +252,7 @@ dump_node_scores_worker(int level, const char *file, const char *function, int l
 static void
 append_dump_text(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     char **dump_text = user_data;
     int len = 0;
     char *new_text = NULL;
@@ -260,6 +268,7 @@ append_dump_text(gpointer key, gpointer value, gpointer user_data)
 void
 dump_node_capacity(int level, const char *comment, node_t * node)
 {
+	crm_info("trace");
     int len = 0;
     char *dump_text = NULL;
 
@@ -281,6 +290,7 @@ dump_node_capacity(int level, const char *comment, node_t * node)
 void
 dump_rsc_utilization(int level, const char *comment, resource_t * rsc, node_t * node)
 {
+	crm_info("trace");
     int len = 0;
     char *dump_text = NULL;
 
@@ -303,6 +313,7 @@ dump_rsc_utilization(int level, const char *comment, resource_t * rsc, node_t * 
 gint
 sort_rsc_index(gconstpointer a, gconstpointer b)
 {
+	crm_info("trace");
     const resource_t *resource1 = (const resource_t *)a;
     const resource_t *resource2 = (const resource_t *)b;
 
@@ -330,6 +341,7 @@ sort_rsc_index(gconstpointer a, gconstpointer b)
 gint
 sort_rsc_priority(gconstpointer a, gconstpointer b)
 {
+	crm_info("trace");
     const resource_t *resource1 = (const resource_t *)a;
     const resource_t *resource2 = (const resource_t *)b;
 
@@ -359,6 +371,7 @@ custom_action(resource_t * rsc, char *key, const char *task,
               node_t * on_node, gboolean optional, gboolean save_action,
               pe_working_set_t * data_set)
 {
+	crm_info("trace");
     action_t *action = NULL;
     GListPtr possible_matches = NULL;
 
@@ -565,6 +578,7 @@ custom_action(resource_t * rsc, char *key, const char *task,
 static const char *
 unpack_operation_on_fail(action_t * action)
 {
+	crm_info("trace");
 
     const char *value = g_hash_table_lookup(action->meta, XML_OP_ATTR_ON_FAIL);
 
@@ -613,6 +627,7 @@ unpack_operation_on_fail(action_t * action)
 static xmlNode *
 find_min_interval_mon(resource_t * rsc, gboolean include_disabled)
 {
+	crm_info("trace");
     int number = 0;
     int min_interval = -1;
     const char *name = NULL;
@@ -655,6 +670,7 @@ void
 unpack_operation(action_t * action, xmlNode * xml_obj, resource_t * container,
                  pe_working_set_t * data_set)
 {
+	crm_info("trace");
     int value_i = 0;
     unsigned long long interval = 0;
     unsigned long long start_delay = 0;
@@ -951,6 +967,7 @@ unpack_operation(action_t * action, xmlNode * xml_obj, resource_t * container,
 static xmlNode *
 find_rsc_op_entry_helper(resource_t * rsc, const char *key, gboolean include_disabled)
 {
+	crm_info("trace");
     unsigned long long number = 0;
     gboolean do_retry = TRUE;
     char *local_key = NULL;
@@ -1017,12 +1034,14 @@ find_rsc_op_entry_helper(resource_t * rsc, const char *key, gboolean include_dis
 xmlNode *
 find_rsc_op_entry(resource_t * rsc, const char *key)
 {
+	crm_info("trace");
     return find_rsc_op_entry_helper(rsc, key, FALSE);
 }
 
 void
 print_node(const char *pre_text, node_t * node, gboolean details)
 {
+	crm_info("trace");
     if (node == NULL) {
         crm_trace("%s%s: <NULL>", pre_text == NULL ? "" : pre_text, pre_text == NULL ? "" : ": ");
         return;
@@ -1059,6 +1078,7 @@ print_node(const char *pre_text, node_t * node, gboolean details)
 void
 print_str_str(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     crm_trace("%s%s %s ==> %s",
               user_data == NULL ? "" : (char *)user_data,
               user_data == NULL ? "" : ": ", (char *)key, (char *)value);
@@ -1067,6 +1087,7 @@ print_str_str(gpointer key, gpointer value, gpointer user_data)
 void
 print_resource(int log_level, const char *pre_text, resource_t * rsc, gboolean details)
 {
+	crm_info("trace");
     long options = pe_print_log | pe_print_pending;
 
     if (rsc == NULL) {
@@ -1083,6 +1104,7 @@ print_resource(int log_level, const char *pre_text, resource_t * rsc, gboolean d
 void
 pe_free_action(action_t * action)
 {
+	crm_info("trace");
     if (action == NULL) {
         return;
     }
@@ -1104,6 +1126,7 @@ pe_free_action(action_t * action)
 GListPtr
 find_recurring_actions(GListPtr input, node_t * not_on_node)
 {
+	crm_info("trace");
     const char *value = NULL;
     GListPtr result = NULL;
     GListPtr gIter = input;
@@ -1138,6 +1161,7 @@ find_recurring_actions(GListPtr input, node_t * not_on_node)
 enum action_tasks
 get_complex_task(resource_t * rsc, const char *name, gboolean allow_non_atomic)
 {
+	crm_info("trace");
     enum action_tasks task = text2task(name);
 
     if (rsc == NULL) {
@@ -1162,6 +1186,7 @@ get_complex_task(resource_t * rsc, const char *name, gboolean allow_non_atomic)
 action_t *
 find_first_action(GListPtr input, const char *uuid, const char *task, node_t * on_node)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
 
     CRM_CHECK(uuid || task, return NULL);
@@ -1192,6 +1217,7 @@ find_first_action(GListPtr input, const char *uuid, const char *task, node_t * o
 GListPtr
 find_actions(GListPtr input, const char *key, const node_t *on_node)
 {
+	crm_info("trace");
     GListPtr gIter = input;
     GListPtr result = NULL;
 
@@ -1232,6 +1258,7 @@ find_actions(GListPtr input, const char *key, const node_t *on_node)
 GListPtr
 find_actions_exact(GListPtr input, const char *key, node_t * on_node)
 {
+	crm_info("trace");
     GListPtr gIter = input;
     GListPtr result = NULL;
 
@@ -1261,6 +1288,7 @@ find_actions_exact(GListPtr input, const char *key, node_t * on_node)
 static void
 resource_node_score(resource_t * rsc, node_t * node, int score, const char *tag)
 {
+	crm_info("trace");
     node_t *match = NULL;
 
     if (rsc->children) {
@@ -1287,6 +1315,7 @@ void
 resource_location(resource_t * rsc, node_t * node, int score, const char *tag,
                   pe_working_set_t * data_set)
 {
+	crm_info("trace");
     if (node != NULL) {
         resource_node_score(rsc, node, score, tag);
 
@@ -1330,6 +1359,7 @@ resource_location(resource_t * rsc, node_t * node, int score, const char *tag,
 gint
 sort_op_by_callid(gconstpointer a, gconstpointer b)
 {
+	crm_info("trace");
     int a_call_id = -1;
     int b_call_id = -1;
 
@@ -1445,6 +1475,7 @@ sort_op_by_callid(gconstpointer a, gconstpointer b)
 time_t
 get_effective_time(pe_working_set_t * data_set)
 {
+	crm_info("trace");
     if(data_set) {
         if (data_set->now == NULL) {
             crm_trace("Recording a new 'now'");
@@ -1469,6 +1500,7 @@ struct fail_search {
 static void
 get_failcount_by_prefix(gpointer key_p, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     struct fail_search *search = user_data;
     const char *attr_id = key_p;
     const char *match = strstr(attr_id, search->key);
@@ -1499,12 +1531,14 @@ get_failcount_by_prefix(gpointer key_p, gpointer value, gpointer user_data)
 int
 get_failcount(node_t * node, resource_t * rsc, time_t *last_failure, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     return get_failcount_full(node, rsc, last_failure, TRUE, NULL, data_set);
 }
 
 static gboolean
 is_matched_failure(const char * rsc_id, xmlNode * conf_op_xml, xmlNode * lrm_op_xml)
 {
+	crm_info("trace");
     gboolean matched = FALSE;
     const char *conf_op_name = NULL;
     int conf_op_interval = 0;
@@ -1555,6 +1589,7 @@ is_matched_failure(const char * rsc_id, xmlNode * conf_op_xml, xmlNode * lrm_op_
 static gboolean
 block_failure(node_t * node, resource_t * rsc, xmlNode * xml_op, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     char *xml_name = clone_strip(rsc->id);
     char *xpath = crm_strdup_printf("//primitive[@id='%s']//op[@on-fail='block']", xml_name);
     xmlXPathObject *xpathObj = xpath_search(rsc->xml, xpath);
@@ -1625,6 +1660,7 @@ int
 get_failcount_full(node_t * node, resource_t * rsc, time_t *last_failure,
                    bool effective, xmlNode * xml_op, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     char *key = NULL;
     const char *value = NULL;
     struct fail_search search = { rsc, data_set, 0, 0, NULL };
@@ -1698,6 +1734,7 @@ get_failcount_full(node_t * node, resource_t * rsc, time_t *last_failure,
 int
 get_failcount_all(node_t * node, resource_t * rsc, time_t *last_failure, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     int failcount_all = 0;
 
     failcount_all = get_failcount(node, rsc, last_failure, data_set);
@@ -1731,6 +1768,7 @@ get_failcount_all(node_t * node, resource_t * rsc, time_t *last_failure, pe_work
 gboolean
 get_target_role(resource_t * rsc, enum rsc_role_e * role)
 {
+	crm_info("trace");
     enum rsc_role_e local_role = RSC_ROLE_UNKNOWN;
     const char *value = g_hash_table_lookup(rsc->meta, XML_RSC_ATTR_TARGET_ROLE);
 
@@ -1767,6 +1805,7 @@ get_target_role(resource_t * rsc, enum rsc_role_e * role)
 gboolean
 order_actions(action_t * lh_action, action_t * rh_action, enum pe_ordering order)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     action_wrapper_t *wrapper = NULL;
     GListPtr list = NULL;
@@ -1819,6 +1858,7 @@ order_actions(action_t * lh_action, action_t * rh_action, enum pe_ordering order
 action_t *
 get_pseudo_op(const char *name, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     action_t *op = NULL;
 
     if(data_set->singletons) {
@@ -1836,6 +1876,7 @@ get_pseudo_op(const char *name, pe_working_set_t * data_set)
 void
 destroy_ticket(gpointer data)
 {
+	crm_info("trace");
     ticket_t *ticket = data;
 
     if (ticket->state) {
@@ -1848,6 +1889,7 @@ destroy_ticket(gpointer data)
 ticket_t *
 ticket_new(const char *ticket_id, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     ticket_t *ticket = NULL;
 
     if (ticket_id == NULL || strlen(ticket_id) == 0) {
@@ -1886,6 +1928,7 @@ ticket_new(const char *ticket_id, pe_working_set_t * data_set)
 static void
 filter_parameters(xmlNode * param_set, const char *param_string, bool need_present)
 {
+	crm_info("trace");
     int len = 0;
     char *name = NULL;
     char *match = NULL;
@@ -1928,6 +1971,7 @@ op_digest_cache_t *
 rsc_action_digest_cmp(resource_t * rsc, xmlNode * xml_op, node_t * node,
                       pe_working_set_t * data_set)
 {
+	crm_info("trace");
     op_digest_cache_t *data = NULL;
 
     GHashTable *local_rsc_params = NULL;
@@ -2023,6 +2067,7 @@ rsc_action_digest_cmp(resource_t * rsc, xmlNode * xml_op, node_t * node,
 
 const char *rsc_printable_id(resource_t *rsc)
 {
+	crm_info("trace");
     if (is_not_set(rsc->flags, pe_rsc_unique)) {
         return ID(rsc->xml);
     }
@@ -2032,6 +2077,7 @@ const char *rsc_printable_id(resource_t *rsc)
 void
 clear_bit_recursive(resource_t * rsc, unsigned long long flag)
 {
+	crm_info("trace");
     GListPtr gIter = rsc->children;
 
     clear_bit(rsc->flags, flag);
@@ -2045,6 +2091,7 @@ clear_bit_recursive(resource_t * rsc, unsigned long long flag)
 void
 set_bit_recursive(resource_t * rsc, unsigned long long flag)
 {
+	crm_info("trace");
     GListPtr gIter = rsc->children;
 
     set_bit(rsc->flags, flag);
@@ -2058,6 +2105,7 @@ set_bit_recursive(resource_t * rsc, unsigned long long flag)
 action_t *
 pe_fence_op(node_t * node, const char *op, bool optional, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     char *key = NULL;
     action_t *stonith_op = NULL;
 
@@ -2127,6 +2175,7 @@ trigger_unfencing(
 gboolean
 add_tag_ref(GHashTable * tags, const char * tag_name,  const char * obj_ref)
 {
+	crm_info("trace");
     tag_t *tag = NULL;
     GListPtr gIter = NULL;
     gboolean is_existing = FALSE;

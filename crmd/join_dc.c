@@ -42,6 +42,7 @@ unsigned long long saved_ccm_membership_id = 0;
 void
 crm_update_peer_join(const char *source, crm_node_t * node, enum crm_join_phase phase)
 {
+	crm_info("trace");
     enum crm_join_phase last = 0;
 
     if(node == NULL) {
@@ -81,6 +82,7 @@ crm_update_peer_join(const char *source, crm_node_t * node, enum crm_join_phase 
 void
 initialize_join(gboolean before)
 {
+	crm_info("trace");
     GHashTableIter iter;
     crm_node_t *peer = NULL;
 
@@ -110,6 +112,7 @@ initialize_join(gboolean before)
 static void
 join_make_offer(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     xmlNode *offer = NULL;
     crm_node_t *member = (crm_node_t *)value;
 
@@ -169,6 +172,7 @@ do_dc_join_offer_all(long long action,
                      enum crmd_fsa_state cur_state,
                      enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     /* reset everyone's status back to down or in_ccm in the CIB
      *
      * any nodes that are active in the CIB but not in the CCM list
@@ -196,6 +200,7 @@ do_dc_join_offer_one(long long action,
                      enum crmd_fsa_state cur_state,
                      enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     crm_node_t *member;
     ha_msg_input_t *welcome = NULL;
 
@@ -259,6 +264,7 @@ do_dc_join_offer_one(long long action,
 static int
 compare_int_fields(xmlNode * left, xmlNode * right, const char *field)
 {
+	crm_info("trace");
     const char *elem_l = crm_element_value(left, field);
     const char *elem_r = crm_element_value(right, field);
 
@@ -282,6 +288,7 @@ do_dc_join_filter_offer(long long action,
                         enum crmd_fsa_state cur_state,
                         enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     xmlNode *generation = NULL;
 
     int cmp = 0;
@@ -379,6 +386,7 @@ do_dc_join_finalize(long long action,
                     enum crmd_fsa_state cur_state,
                     enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     char *sync_from = NULL;
     int rc = pcmk_ok;
 
@@ -436,6 +444,7 @@ do_dc_join_finalize(long long action,
 void
 finalize_sync_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("trace");
     CRM_LOG_ASSERT(-EPERM != rc);
     clear_bit(fsa_input_register, R_CIB_ASKED);
     if (rc != pcmk_ok) {
@@ -465,6 +474,7 @@ finalize_sync_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, voi
 static void
 join_update_complete_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("trace");
     fsa_data_t *msg_data = NULL;
 
     if (rc == pcmk_ok) {
@@ -481,6 +491,7 @@ join_update_complete_callback(xmlNode * msg, int call_id, int rc, xmlNode * outp
 void
 crm_set_join_state(crm_node_t *peer, const char *start_state)
 {
+	crm_info("trace");
 	if (safe_str_eq(start_state, "standby")) {
 		set_standby(fsa_cib_conn, peer->uuid, XML_CIB_TAG_STATUS, "on");
 	} else if (safe_str_eq(start_state, "online")) {
@@ -499,6 +510,7 @@ do_dc_join_ack(long long action,
                enum crmd_fsa_state cur_state,
                enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     int join_id = -1;
     int call_id = 0;
     ha_msg_input_t *join_ack = fsa_typed_data(fsa_dt_ha_msg);
@@ -566,6 +578,7 @@ do_dc_join_ack(long long action,
 void
 finalize_join_for(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     xmlNode *acknak = NULL;
     xmlNode *tmp1 = NULL;
     crm_node_t *join_node = value;
@@ -623,6 +636,7 @@ void ghash_print_node(gpointer key, gpointer value, gpointer user_data);
 gboolean
 check_join_state(enum crmd_fsa_state cur_state, const char *source)
 {
+	crm_info("trace");
     static unsigned long long highest_seq = 0;
 
     crm_debug("Invoked by %s in state: %s", source, fsa_state2string(cur_state));
@@ -680,6 +694,7 @@ do_dc_join_final(long long action,
                  enum crmd_fsa_state cur_state,
                  enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     crm_debug("Ensuring DC, quorum and node attributes are up-to-date");
     update_attrd(NULL, NULL, NULL, NULL, FALSE);
     crm_update_quorum(crm_have_quorum, TRUE);
@@ -687,6 +702,7 @@ do_dc_join_final(long long action,
 
 int crmd_join_phase_count(enum crm_join_phase phase)
 {
+	crm_info("trace");
     int count = 0;
     crm_node_t *peer;
     GHashTableIter iter;
@@ -702,6 +718,7 @@ int crmd_join_phase_count(enum crm_join_phase phase)
 
 void crmd_join_phase_log(int level)
 {
+	crm_info("trace");
     crm_node_t *peer;
     GHashTableIter iter;
 

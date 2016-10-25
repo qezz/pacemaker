@@ -46,6 +46,7 @@ extern gboolean check_join_state(enum crmd_fsa_state cur_state, const char *sour
 static void
 reap_dead_nodes(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     crm_node_t *node = value;
 
     if (crm_is_peer_active(node) == FALSE) {
@@ -78,6 +79,7 @@ gboolean ever_had_quorum = FALSE;
 void
 post_cache_update(int instance)
 {
+	crm_info("trace");
     xmlNode *no_op = NULL;
 
     crm_peer_seq = instance;
@@ -109,6 +111,7 @@ post_cache_update(int instance)
 static void
 crmd_node_update_complete(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("trace");
     fsa_data_t *msg_data = NULL;
 
     last_peer_update = 0;
@@ -143,6 +146,7 @@ xmlNode *
 create_node_state_update(crm_node_t *node, int flags, xmlNode *parent,
                          const char *source)
 {
+	crm_info("trace");
     const char *value = NULL;
     xmlNode *node_state;
 
@@ -204,6 +208,7 @@ static void
 remove_conflicting_node_callback(xmlNode * msg, int call_id, int rc,
                                  xmlNode * output, void *user_data)
 {
+	crm_info("trace");
     char *node_uuid = user_data;
 
     do_crm_log_unlikely(rc == 0 ? LOG_DEBUG : LOG_NOTICE,
@@ -215,6 +220,7 @@ static void
 search_conflicting_node_callback(xmlNode * msg, int call_id, int rc,
                                  xmlNode * output, void *user_data)
 {
+	crm_info("trace");
     char *new_node_uuid = user_data;
     xmlNode *node_xml = NULL;
 
@@ -294,6 +300,7 @@ search_conflicting_node_callback(xmlNode * msg, int call_id, int rc,
 static void
 node_list_update_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("trace");
     fsa_data_t *msg_data = NULL;
 
     if(call_id < pcmk_ok) {
@@ -313,6 +320,7 @@ node_list_update_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, 
 void
 populate_cib_nodes(enum node_update_flags flags, const char *source)
 {
+	crm_info("trace");
     int call_id = 0;
     gboolean from_hashtable = TRUE;
     int call_options = cib_scope_local | cib_quorum_override;
@@ -403,6 +411,7 @@ populate_cib_nodes(enum node_update_flags flags, const char *source)
 static void
 cib_quorum_update_complete(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("trace");
     fsa_data_t *msg_data = NULL;
 
     if (rc == pcmk_ok) {
@@ -418,6 +427,7 @@ cib_quorum_update_complete(xmlNode * msg, int call_id, int rc, xmlNode * output,
 void
 crm_update_quorum(gboolean quorum, gboolean force_update)
 {
+	crm_info("trace");
     ever_had_quorum |= quorum;
 
     if(ever_had_quorum && quorum == FALSE && no_quorum_suicide_escalation) {

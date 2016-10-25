@@ -38,6 +38,7 @@ do_cl_join_query(long long action,
                  enum crmd_fsa_state cur_state,
                  enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     xmlNode *req = create_request(CRM_OP_JOIN_ANNOUNCE, NULL, NULL,
                                   CRM_SYSTEM_DC, CRM_SYSTEM_CRMD, NULL);
 
@@ -59,6 +60,7 @@ do_cl_join_announce(long long action,
                     enum crmd_fsa_state cur_state,
                     enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     /* Once we hear from the DC, we can stop the timer
      *
      * This timer was started either on startup or when a node
@@ -99,12 +101,14 @@ do_cl_join_offer_respond(long long action,
                          enum crmd_fsa_state cur_state,
                          enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     ha_msg_input_t *input = fsa_typed_data(fsa_dt_ha_msg);
     const char *welcome_from = crm_element_value(input->msg, F_CRM_HOST_FROM);
     const char *join_id = crm_element_value(input->msg, F_CRM_JOIN_ID);
 
 #if 0
     if (we are sick) {
+	crm_info("trace");
         log error;
 
         /* save the request for later? */
@@ -140,6 +144,7 @@ do_cl_join_offer_respond(long long action,
 void
 join_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("trace");
     char *join_id = user_data;
     xmlNode *generation = create_xml_node(NULL, XML_CIB_TAG_GENERATION_TUPPLE);
 
@@ -185,6 +190,7 @@ do_cl_join_finalize_respond(long long action,
                             enum crmd_fsa_state cur_state,
                             enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     xmlNode *tmp1 = NULL;
     gboolean was_nack = TRUE;
     static gboolean first_join = TRUE;

@@ -43,6 +43,7 @@ ll_cluster_t *heartbeat_cluster = NULL;
 static void
 convert_ha_field(xmlNode * parent, void *msg_v, int lpc)
 {
+	crm_info("trace");
     int type = 0;
     const char *name = NULL;
     const char *value = NULL;
@@ -150,6 +151,7 @@ convert_ha_field(xmlNode * parent, void *msg_v, int lpc)
 xmlNode *
 convert_ha_message(xmlNode * parent, HA_Message * msg, const char *field)
 {
+	crm_info("trace");
     int lpc = 0;
     xmlNode *child = NULL;
     const char *tag = NULL;
@@ -186,6 +188,7 @@ convert_ha_message(xmlNode * parent, HA_Message * msg, const char *field)
 static void
 add_ha_nocopy(HA_Message * parent, HA_Message * child, const char *field)
 {
+	crm_info("trace");
     int next = parent->nfields;
 
     if (parent->nfields >= parent->nalloc && ha_msg_expand(parent) != HA_OK) {
@@ -204,6 +207,7 @@ add_ha_nocopy(HA_Message * parent, HA_Message * child, const char *field)
 static HA_Message *
 convert_xml_message_struct(HA_Message * parent, xmlNode * src_node, const char *field)
 {
+	crm_info("trace");
     xmlNode *child = NULL;
     xmlNode *__crm_xml_iter = src_node->children;
     xmlAttrPtr prop_iter = src_node->properties;
@@ -251,6 +255,7 @@ convert_xml_message_struct(HA_Message * parent, xmlNode * src_node, const char *
 static void
 convert_xml_child(HA_Message * msg, xmlNode * xml)
 {
+	crm_info("trace");
     int orig = 0;
     int rc = BZ_OK;
     unsigned int len = 0;
@@ -311,6 +316,7 @@ convert_xml_child(HA_Message * msg, xmlNode * xml)
 static HA_Message *
 convert_xml_message(xmlNode * xml)
 {
+	crm_info("trace");
     xmlNode *child = NULL;
     xmlAttrPtr pIter = NULL;
     HA_Message *result = NULL;
@@ -337,6 +343,7 @@ convert_xml_message(xmlNode * xml)
 gboolean
 crm_is_heartbeat_peer_active(const crm_node_t * node)
 {
+	crm_info("trace");
     enum crm_proc_flag proc = text2proc(crm_system_name);
 
     if (node == NULL) {
@@ -364,6 +371,7 @@ crm_is_heartbeat_peer_active(const crm_node_t * node)
 crm_node_t *
 crm_update_ccm_node(const oc_ev_membership_t * oc, int offset, const char *state, uint64_t seq)
 {
+	crm_info("trace");
     enum crm_proc_flag this_proc = text2proc(crm_system_name);
     crm_node_t *peer = NULL;
     const char *uuid = NULL;
@@ -404,6 +412,7 @@ crm_update_ccm_node(const oc_ev_membership_t * oc, int offset, const char *state
 gboolean
 send_ha_message(ll_cluster_t * hb_conn, xmlNode * xml, const char *node, gboolean force_ordered)
 {
+	crm_info("trace");
     gboolean all_is_good = TRUE;
     HA_Message *msg = convert_xml_message(xml);
 
@@ -473,6 +482,7 @@ send_ha_message(ll_cluster_t * hb_conn, xmlNode * xml, const char *node, gboolea
 gboolean
 ha_msg_dispatch(ll_cluster_t * cluster_conn, gpointer user_data)
 {
+	crm_info("trace");
     IPC_Channel *channel = NULL;
 
     crm_trace("Invoked");
@@ -523,6 +533,7 @@ ha_msg_dispatch(ll_cluster_t * cluster_conn, gpointer user_data)
 gboolean
 register_heartbeat_conn(crm_cluster_t * cluster)
 {
+	crm_info("trace");
     crm_node_t *peer = NULL;
     const char *const_uuid = NULL;
     const char *const_uname = NULL;
@@ -575,6 +586,7 @@ register_heartbeat_conn(crm_cluster_t * cluster)
 gboolean
 ccm_have_quorum(oc_ed_t event)
 {
+	crm_info("trace");
     if (event == OC_EV_MS_NEW_MEMBERSHIP || event == OC_EV_MS_PRIMARY_RESTORED) {
         return TRUE;
     }
@@ -584,6 +596,7 @@ ccm_have_quorum(oc_ed_t event)
 const char *
 ccm_event_name(oc_ed_t event)
 {
+	crm_info("trace");
 
     if (event == OC_EV_MS_NEW_MEMBERSHIP) {
         return "NEW MEMBERSHIP";
@@ -608,6 +621,7 @@ ccm_event_name(oc_ed_t event)
 gboolean
 heartbeat_initialize_nodelist(void *cluster, gboolean force_member, xmlNode * xml_parent)
 {
+	crm_info("trace");
     const char *ha_node = NULL;
     ll_cluster_t *conn = cluster;
 

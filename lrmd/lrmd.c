@@ -100,6 +100,7 @@ static void cancel_all_recurring(lrmd_rsc_t * rsc, const char *client_id);
 static void
 log_finished(lrmd_cmd_t * cmd, int exec_time, int queue_time)
 {
+	crm_info("trace");
     char pid_str[32] = { 0, };
     int log_level = LOG_INFO;
 
@@ -125,6 +126,7 @@ log_finished(lrmd_cmd_t * cmd, int exec_time, int queue_time)
 static void
 log_execute(lrmd_cmd_t * cmd)
 {
+	crm_info("trace");
     int log_level = LOG_INFO;
 
     if (safe_str_eq(cmd->action, "monitor")) {
@@ -138,6 +140,7 @@ log_execute(lrmd_cmd_t * cmd)
 static const char *
 normalize_action_name(lrmd_rsc_t * rsc, const char *action)
 {
+	crm_info("trace");
     if (safe_str_eq(action, "monitor") &&
         (safe_str_eq(rsc->class, "lsb") ||
          safe_str_eq(rsc->class, "service") || safe_str_eq(rsc->class, "systemd"))) {
@@ -149,6 +152,7 @@ normalize_action_name(lrmd_rsc_t * rsc, const char *action)
 static lrmd_rsc_t *
 build_rsc_from_xml(xmlNode * msg)
 {
+	crm_info("trace");
     xmlNode *rsc_xml = get_xpath_object("//" F_LRMD_RSC, msg, LOG_ERR);
     lrmd_rsc_t *rsc = NULL;
 
@@ -167,12 +171,14 @@ build_rsc_from_xml(xmlNode * msg)
 static void
 dup_attr(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     g_hash_table_replace(user_data, strdup(key), strdup(value));
 }
 
 static gboolean
 valid_version_format(const char *version)
 {
+	crm_info("trace");
     if (version == NULL) {
         return FALSE;
     }
@@ -258,6 +264,7 @@ get_ra_version(const char *class, const char *provider, const char *type, gboole
 static lrmd_cmd_t *
 create_lrmd_cmd(xmlNode * msg, crm_client_t * client, lrmd_rsc_t *rsc)
 {
+	crm_info("trace");
     int call_options = 0;
     xmlNode *rsc_xml = get_xpath_object("//" F_LRMD_RSC, msg, LOG_ERR);
     lrmd_cmd_t *cmd = NULL;
@@ -320,6 +327,7 @@ create_lrmd_cmd(xmlNode * msg, crm_client_t * client, lrmd_rsc_t *rsc)
 static void
 free_lrmd_cmd(lrmd_cmd_t * cmd)
 {
+	crm_info("trace");
     if (cmd->stonith_recurring_id) {
         g_source_remove(cmd->stonith_recurring_id);
     }
@@ -346,6 +354,7 @@ free_lrmd_cmd(lrmd_cmd_t * cmd)
 static gboolean
 stonith_recurring_op_helper(gpointer data)
 {
+	crm_info("trace");
     lrmd_cmd_t *cmd = data;
     lrmd_rsc_t *rsc;
 
@@ -376,6 +385,7 @@ stonith_recurring_op_helper(gpointer data)
 static gboolean
 start_delay_helper(gpointer data)
 {
+	crm_info("trace");
     lrmd_cmd_t *cmd = data;
     lrmd_rsc_t *rsc = NULL;
 
@@ -392,6 +402,7 @@ start_delay_helper(gpointer data)
 static gboolean
 merge_recurring_duplicate(lrmd_rsc_t * rsc, lrmd_cmd_t * cmd)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     lrmd_cmd_t * dup = NULL;
     gboolean dup_pending = FALSE;
@@ -455,6 +466,7 @@ merge_dup:
 static void
 schedule_lrmd_cmd(lrmd_rsc_t * rsc, lrmd_cmd_t * cmd)
 {
+	crm_info("trace");
     gboolean dup_processed = FALSE;
     CRM_CHECK(cmd != NULL, return);
     CRM_CHECK(rsc != NULL, return);
@@ -489,6 +501,7 @@ schedule_lrmd_cmd(lrmd_rsc_t * rsc, lrmd_cmd_t * cmd)
 static void
 send_reply(crm_client_t * client, int rc, uint32_t id, int call_id)
 {
+	crm_info("trace");
     int send_rc = 0;
     xmlNode *reply = NULL;
 
@@ -508,6 +521,7 @@ send_reply(crm_client_t * client, int rc, uint32_t id, int call_id)
 static void
 send_client_notify(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     xmlNode *update_msg = user_data;
     crm_client_t *client = value;
 
@@ -537,6 +551,7 @@ send_client_notify(gpointer key, gpointer value, gpointer user_data)
 static int
 time_diff_ms(struct timeb *now, struct timeb *old)
 {
+	crm_info("trace");
     struct timeb local_now = { 0, };
 
     if (now == NULL) {
@@ -572,6 +587,7 @@ time_diff_ms(struct timeb *now, struct timeb *old)
 static void
 cmd_original_times(lrmd_cmd_t * cmd)
 {
+	crm_info("trace");
     cmd->t_run = cmd->t_first_run;
     cmd->t_queue = cmd->t_first_queue;
 }
@@ -580,6 +596,7 @@ cmd_original_times(lrmd_cmd_t * cmd)
 static void
 send_cmd_complete_notify(lrmd_cmd_t * cmd)
 {
+	crm_info("trace");
     int exec_time = 0;
     int queue_time = 0;
     xmlNode *notify = NULL;
@@ -670,6 +687,7 @@ send_cmd_complete_notify(lrmd_cmd_t * cmd)
 static void
 send_generic_notify(int rc, xmlNode * request)
 {
+	crm_info("trace");
     if (client_connections != NULL) {
         int call_id = 0;
         xmlNode *notify = NULL;
@@ -695,6 +713,7 @@ send_generic_notify(int rc, xmlNode * request)
 static void
 cmd_reset(lrmd_cmd_t * cmd)
 {
+	crm_info("trace");
     cmd->lrmd_op_status = 0;
     cmd->last_pid = 0;
     memset(&cmd->t_run, 0, sizeof(cmd->t_run));
@@ -709,6 +728,7 @@ cmd_reset(lrmd_cmd_t * cmd)
 static void
 cmd_finalize(lrmd_cmd_t * cmd, lrmd_rsc_t * rsc)
 {
+	crm_info("trace");
     crm_trace("Resource operation rsc:%s action:%s completed (%p %p)", cmd->rsc_id, cmd->action,
               rsc ? rsc->active : NULL, cmd);
 
@@ -746,6 +766,7 @@ cmd_finalize(lrmd_cmd_t * cmd, lrmd_rsc_t * rsc)
 #if SUPPORT_HEARTBEAT
 static int pattern_matched(const char *pat, const char *str)
 {
+	crm_info("trace");
     if (g_pattern_match_simple(pat, str)) {
         crm_debug("RA output matched stopped pattern [%s]", pat);
         return TRUE;
@@ -756,6 +777,7 @@ static int pattern_matched(const char *pat, const char *str)
 static int
 hb2uniform_rc(const char *action, int rc, const char *stdout_data)
 {
+	crm_info("trace");
     const char *stop_pattern[] = { "*stopped*", "*not*running*" };
     const char *running_pattern[] = { "*running*", "*OK*" };
     char *lower_std_output = NULL;
@@ -800,6 +822,7 @@ hb2uniform_rc(const char *action, int rc, const char *stdout_data)
 static int
 ocf2uniform_rc(int rc)
 {
+	crm_info("trace");
     if (rc < 0 || rc > PCMK_OCF_FAILED_MASTER) {
         return PCMK_OCF_UNKNOWN_ERROR;
     }
@@ -810,6 +833,7 @@ ocf2uniform_rc(int rc)
 static int
 stonith2uniform_rc(const char *action, int rc)
 {
+	crm_info("trace");
     if (rc == -ENODEV) {
         if (safe_str_eq(action, "stop")) {
             rc = PCMK_OCF_OK;
@@ -828,6 +852,7 @@ stonith2uniform_rc(const char *action, int rc)
 static int
 nagios2uniform_rc(const char *action, int rc)
 {
+	crm_info("trace");
     if (rc < 0) {
         return PCMK_OCF_UNKNOWN_ERROR;
     }
@@ -854,6 +879,7 @@ nagios2uniform_rc(const char *action, int rc)
 static int
 get_uniform_rc(const char *standard, const char *action, int rc)
 {
+	crm_info("trace");
     if (safe_str_eq(standard, "ocf")) {
         return ocf2uniform_rc(rc);
     } else if (safe_str_eq(standard, "stonith")) {
@@ -874,6 +900,7 @@ get_uniform_rc(const char *standard, const char *action, int rc)
 static int
 action_get_uniform_rc(svc_action_t * action)
 {
+	crm_info("trace");
     lrmd_cmd_t *cmd = action->cb_data;
 #if SUPPORT_HEARTBEAT
     if (safe_str_eq(action->standard, "heartbeat")) {
@@ -886,6 +913,7 @@ action_get_uniform_rc(svc_action_t * action)
 void
 notify_of_new_client(crm_client_t *new_client)
 {
+	crm_info("trace");
     crm_client_t *client = NULL;
     GHashTableIter iter;
     xmlNode *notify = NULL;
@@ -910,6 +938,7 @@ notify_of_new_client(crm_client_t *new_client)
 static char *
 parse_exit_reason(const char *output)
 {
+	crm_info("trace");
     const char *cur = NULL;
     const char *last = NULL;
     char *reason = NULL;
@@ -953,6 +982,7 @@ parse_exit_reason(const char *output)
 void
 client_disconnect_cleanup(const char *client_id)
 {
+	crm_info("trace");
     GHashTableIter iter;
     lrmd_rsc_t *rsc = NULL;
     char *key = NULL;
@@ -970,6 +1000,7 @@ client_disconnect_cleanup(const char *client_id)
 static void
 action_complete(svc_action_t * action)
 {
+	crm_info("trace");
     lrmd_rsc_t *rsc;
     lrmd_cmd_t *cmd = action->cb_data;
     const char *rclass = NULL;
@@ -1120,6 +1151,7 @@ action_complete(svc_action_t * action)
 static void
 stonith_action_complete(lrmd_cmd_t * cmd, int rc)
 {
+	crm_info("trace");
     int recurring = cmd->interval;
     lrmd_rsc_t *rsc = NULL;
 
@@ -1170,12 +1202,14 @@ stonith_action_complete(lrmd_cmd_t * cmd, int rc)
 static void
 lrmd_stonith_callback(stonith_t * stonith, stonith_callback_data_t * data)
 {
+	crm_info("trace");
     stonith_action_complete(data->userdata, data->rc);
 }
 
 void
 stonith_connection_failed(void)
 {
+	crm_info("trace");
     GHashTableIter iter;
     GList *cmd_list = NULL;
     GList *cmd_iter = NULL;
@@ -1213,6 +1247,7 @@ stonith_connection_failed(void)
 static int
 lrmd_rsc_execute_stonith(lrmd_rsc_t * rsc, lrmd_cmd_t * cmd)
 {
+	crm_info("trace");
     int rc = 0;
     int do_monitor = 0;
 
@@ -1291,6 +1326,7 @@ lrmd_rsc_execute_stonith(lrmd_rsc_t * rsc, lrmd_cmd_t * cmd)
 static int
 lrmd_rsc_execute_service_lib(lrmd_rsc_t * rsc, lrmd_cmd_t * cmd)
 {
+	crm_info("trace");
     svc_action_t *action = NULL;
     GHashTable *params_copy = NULL;
 
@@ -1375,6 +1411,7 @@ lrmd_rsc_execute_service_lib(lrmd_rsc_t * rsc, lrmd_cmd_t * cmd)
 static gboolean
 lrmd_rsc_execute(lrmd_rsc_t * rsc)
 {
+	crm_info("trace");
     lrmd_cmd_t *cmd = NULL;
 
     CRM_CHECK(rsc != NULL, return FALSE);
@@ -1429,12 +1466,14 @@ lrmd_rsc_execute(lrmd_rsc_t * rsc)
 static gboolean
 lrmd_rsc_dispatch(gpointer user_data)
 {
+	crm_info("trace");
     return lrmd_rsc_execute(user_data);
 }
 
 void
 free_rsc(gpointer data)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     lrmd_rsc_t *rsc = data;
     int is_stonith = safe_str_eq(rsc->class, "stonith");
@@ -1491,6 +1530,7 @@ free_rsc(gpointer data)
 static int
 process_lrmd_signon(crm_client_t * client, uint32_t id, xmlNode * request)
 {
+	crm_info("trace");
     xmlNode *reply = create_xml_node(NULL, "reply");
     const char *is_ipc_provider = crm_element_value(request, F_LRMD_IS_IPC_PROVIDER);
     const char *protocol_version = crm_element_value(request, F_LRMD_PROTOCOL_VERSION);
@@ -1521,6 +1561,7 @@ process_lrmd_signon(crm_client_t * client, uint32_t id, xmlNode * request)
 static int
 process_lrmd_rsc_register(crm_client_t * client, uint32_t id, xmlNode * request)
 {
+	crm_info("trace");
     int rc = pcmk_ok;
     lrmd_rsc_t *rsc = build_rsc_from_xml(request);
     lrmd_rsc_t *dup = g_hash_table_lookup(rsc_list, rsc->rsc_id);
@@ -1546,6 +1587,7 @@ process_lrmd_rsc_register(crm_client_t * client, uint32_t id, xmlNode * request)
 static void
 process_lrmd_get_rsc_info(crm_client_t * client, uint32_t id, xmlNode * request)
 {
+	crm_info("trace");
     int rc = pcmk_ok;
     int send_rc = 0;
     int call_id = 0;
@@ -1594,6 +1636,7 @@ process_lrmd_get_rsc_info(crm_client_t * client, uint32_t id, xmlNode * request)
 static int
 process_lrmd_rsc_unregister(crm_client_t * client, uint32_t id, xmlNode * request)
 {
+	crm_info("trace");
     int rc = pcmk_ok;
     lrmd_rsc_t *rsc = NULL;
     xmlNode *rsc_xml = get_xpath_object("//" F_LRMD_RSC, request, LOG_ERR);
@@ -1623,6 +1666,7 @@ process_lrmd_rsc_unregister(crm_client_t * client, uint32_t id, xmlNode * reques
 static int
 process_lrmd_rsc_exec(crm_client_t * client, uint32_t id, xmlNode * request)
 {
+	crm_info("trace");
     lrmd_rsc_t *rsc = NULL;
     lrmd_cmd_t *cmd = NULL;
     xmlNode *rsc_xml = get_xpath_object("//" F_LRMD_RSC, request, LOG_ERR);
@@ -1651,6 +1695,7 @@ process_lrmd_rsc_exec(crm_client_t * client, uint32_t id, xmlNode * request)
 static int
 cancel_op(const char *rsc_id, const char *action, int interval)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     lrmd_rsc_t *rsc = g_hash_table_lookup(rsc_list, rsc_id);
 
@@ -1707,6 +1752,7 @@ cancel_op(const char *rsc_id, const char *action, int interval)
 static void
 cancel_all_recurring(lrmd_rsc_t * rsc, const char *client_id)
 {
+	crm_info("trace");
     GList *cmd_list = NULL;
     GList *cmd_iter = NULL;
 
@@ -1746,6 +1792,7 @@ cancel_all_recurring(lrmd_rsc_t * rsc, const char *client_id)
 static int
 process_lrmd_rsc_cancel(crm_client_t * client, uint32_t id, xmlNode * request)
 {
+	crm_info("trace");
     xmlNode *rsc_xml = get_xpath_object("//" F_LRMD_RSC, request, LOG_ERR);
     const char *rsc_id = crm_element_value(rsc_xml, F_LRMD_RSC_ID);
     const char *action = crm_element_value(rsc_xml, F_LRMD_RSC_ACTION);
@@ -1763,6 +1810,7 @@ process_lrmd_rsc_cancel(crm_client_t * client, uint32_t id, xmlNode * request)
 void
 process_lrmd_message(crm_client_t * client, uint32_t id, xmlNode * request)
 {
+	crm_info("trace");
     int rc = pcmk_ok;
     int call_id = 0;
     const char *op = crm_element_value(request, F_LRMD_OPERATION);

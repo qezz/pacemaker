@@ -41,6 +41,7 @@ do_election_vote(long long action,
                  enum crmd_fsa_state cur_state,
                  enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     gboolean not_voting = FALSE;
 
     /* don't vote if we're in one of these states or wanting to shut down */
@@ -87,6 +88,7 @@ do_election_check(long long action,
                   enum crmd_fsa_state cur_state,
                   enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     if (fsa_state != S_ELECTION) {
         crm_debug("Ignoring election check because we are not in an election");
 
@@ -106,6 +108,7 @@ do_election_count_vote(long long action,
                        enum crmd_fsa_state cur_state,
                        enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     enum election_result rc = 0;
     ha_msg_input_t *vote = fsa_typed_data(fsa_dt_ha_msg);
 
@@ -150,11 +153,13 @@ do_election_timer_ctrl(long long action,
                        enum crmd_fsa_state cur_state,
                        enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
 }
 
 static void
 feature_update_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("trace");
     if (rc != pcmk_ok) {
         fsa_data_t *msg_data = NULL;
 
@@ -171,6 +176,7 @@ do_dc_takeover(long long action,
                enum crmd_fsa_state cur_state,
                enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     int rc = pcmk_ok;
     xmlNode *cib = NULL;
     const char *cluster_type = name_for_cluster_type(get_cluster_type());
@@ -231,6 +237,7 @@ do_dc_release(long long action,
               enum crmd_fsa_state cur_state,
               enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     if (action & A_DC_RELEASE) {
         crm_debug("Releasing the role of DC");
         clear_bit(fsa_input_register, R_THE_DC);
@@ -239,6 +246,7 @@ do_dc_release(long long action,
         crm_info("DC role released");
 #if 0
         if (are there errors) {
+	crm_info("trace");
             /* we can't stay up if not healthy */
             /* or perhaps I_ERROR and go to S_RECOVER? */
             result = I_SHUTDOWN;

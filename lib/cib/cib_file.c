@@ -58,6 +58,7 @@ int cib_file_free(cib_t * cib);
 static int
 cib_file_inputfd(cib_t * cib)
 {
+	crm_info("trace");
     return -EPROTONOSUPPORT;
 }
 
@@ -70,6 +71,7 @@ cib_file_set_connection_dnotify(cib_t * cib, void (*dnotify) (gpointer user_data
 static int
 cib_file_register_notification(cib_t * cib, const char *callback, int enabled)
 {
+	crm_info("trace");
     return -EPROTONOSUPPORT;
 }
 
@@ -85,6 +87,7 @@ cib_file_register_notification(cib_t * cib, const char *callback, int enabled)
 static gboolean
 cib_file_verify_digest(xmlNode *root, const char *sigfile)
 {
+	crm_info("trace");
     gboolean passed = FALSE;
     char *expected = crm_read_contents(sigfile);
 
@@ -124,6 +127,7 @@ cib_file_verify_digest(xmlNode *root, const char *sigfile)
 int
 cib_file_read_and_verify(const char *filename, const char *sigfile, xmlNode **root)
 {
+	crm_info("trace");
     int s_res;
     struct stat buf;
     char *local_sigfile = NULL;
@@ -191,6 +195,7 @@ cib_file_read_and_verify(const char *filename, const char *sigfile, xmlNode **ro
 static gboolean
 cib_file_is_live(const char *filename)
 {
+	crm_info("trace");
     if (filename != NULL) {
         /* Canonicalize all file names for true comparison */
         char *real_filename = crm_compat_realpath(filename);
@@ -238,6 +243,7 @@ static gboolean cib_do_chown = FALSE;
 static int
 cib_file_backup(const char *cib_dirname, const char *cib_filename)
 {
+	crm_info("trace");
     int rc = 0;
     char *cib_path = crm_concat(cib_dirname, cib_filename, '/');
     char *cib_digest = crm_concat(cib_path, "sig", '.');
@@ -314,6 +320,7 @@ cib_file_backup(const char *cib_dirname, const char *cib_filename)
 static void
 cib_file_prepare_xml(xmlNode *root)
 {
+	crm_info("trace");
     xmlNode *cib_status_root = NULL;
 
     /* Always write out with num_updates=0 and current last-written timestamp */
@@ -346,6 +353,7 @@ int
 cib_file_write_with_digest(xmlNode *cib_root, const char *cib_dirname,
                            const char *cib_filename)
 {
+	crm_info("trace");
     int exit_rc = pcmk_ok;
     int rc, fd;
     char *digest = NULL;
@@ -476,6 +484,7 @@ cib_file_write_with_digest(xmlNode *cib_root, const char *cib_dirname,
 cib_t *
 cib_file_new(const char *cib_location)
 {
+	crm_info("trace");
     cib_file_opaque_t *private = NULL;
     cib_t *cib = cib_new_variant();
 
@@ -527,6 +536,7 @@ static xmlNode *in_mem_cib = NULL;
 static int
 load_file_cib(const char *filename)
 {
+	crm_info("trace");
     struct stat buf;
     xmlNode *root = NULL;
     const char *ignore_dtd = NULL;
@@ -563,6 +573,7 @@ load_file_cib(const char *filename)
 int
 cib_file_signon(cib_t * cib, const char *name, enum cib_conn_type type)
 {
+	crm_info("trace");
     int rc = pcmk_ok;
     cib_file_opaque_t *private = cib->variant_opaque;
 
@@ -596,6 +607,7 @@ cib_file_signon(cib_t * cib, const char *name, enum cib_conn_type type)
 static int
 cib_file_write_live(char *path)
 {
+	crm_info("trace");
     uid_t uid = geteuid();
     struct passwd *daemon_pwent;
     char *sep = strrchr(path, '/');
@@ -678,6 +690,7 @@ cib_file_write_live(char *path)
 int
 cib_file_signoff(cib_t * cib)
 {
+	crm_info("trace");
     int rc = pcmk_ok;
     cib_file_opaque_t *private = cib->variant_opaque;
 
@@ -720,6 +733,7 @@ cib_file_signoff(cib_t * cib)
 int
 cib_file_free(cib_t * cib)
 {
+	crm_info("trace");
     int rc = pcmk_ok;
 
     if (cib->state != cib_disconnected) {
@@ -765,6 +779,7 @@ int
 cib_file_perform_op(cib_t * cib, const char *op, const char *host, const char *section,
                     xmlNode * data, xmlNode ** output_data, int call_options)
 {
+	crm_info("trace");
     return cib_file_perform_op_delegate(cib, op, host, section, data, output_data, call_options,
                                         NULL);
 }
@@ -774,6 +789,7 @@ cib_file_perform_op_delegate(cib_t * cib, const char *op, const char *host, cons
                              xmlNode * data, xmlNode ** output_data, int call_options,
                              const char *user_name)
 {
+	crm_info("trace");
     int rc = pcmk_ok;
     char *effective_user = NULL;
     gboolean query = FALSE;

@@ -46,6 +46,7 @@ crmd_cs_dispatch(cpg_handle_t handle,
                          const struct cpg_name *groupName,
                          uint32_t nodeid, uint32_t pid, void *msg, size_t msg_len)
 {
+	crm_info("trace");
     int seq = 0;
     xmlNode *xml = NULL;
     const char *seq_s = NULL;
@@ -140,6 +141,7 @@ crmd_cs_dispatch(cpg_handle_t handle,
 static gboolean
 crmd_cman_dispatch(unsigned long long seq, gboolean quorate)
 {
+	crm_info("trace");
     crm_update_quorum(quorate, FALSE);
     post_cache_update(seq);
     return TRUE;
@@ -148,6 +150,7 @@ crmd_cman_dispatch(unsigned long long seq, gboolean quorate)
 static void
 crmd_quorum_destroy(gpointer user_data)
 {
+	crm_info("trace");
     if (is_not_set(fsa_input_register, R_HA_DISCONNECTED)) {
         crm_err("connection terminated");
         crmd_exit(ENOLINK);
@@ -160,6 +163,7 @@ crmd_quorum_destroy(gpointer user_data)
 static void
 crmd_cs_destroy(gpointer user_data)
 {
+	crm_info("trace");
     if (is_not_set(fsa_input_register, R_HA_DISCONNECTED)) {
         crm_err("connection terminated");
         crmd_exit(ENOLINK);
@@ -173,6 +177,7 @@ crmd_cs_destroy(gpointer user_data)
 static void
 crmd_cman_destroy(gpointer user_data)
 {
+	crm_info("trace");
     if (is_not_set(fsa_input_register, R_HA_DISCONNECTED)) {
         crm_err("connection terminated");
         crmd_exit(ENOLINK);
@@ -188,6 +193,7 @@ extern gboolean crm_connect_corosync(crm_cluster_t * cluster);
 gboolean
 crm_connect_corosync(crm_cluster_t * cluster)
 {
+	crm_info("trace");
     gboolean rc = FALSE;
 
     if (is_openais_cluster()) {

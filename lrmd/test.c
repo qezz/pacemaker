@@ -96,6 +96,7 @@ static char event_buf_v0[1024];
 static void
 test_exit(int rc)
 {
+	crm_info("trace");
     lrmd_api_delete(lrmd_conn);
     crm_exit(rc);
 }
@@ -117,6 +118,7 @@ test_exit(int rc)
 static void
 test_shutdown(int nsig)
 {
+	crm_info("trace");
     lrmd_api_delete(lrmd_conn);
     lrmd_conn = NULL;
 }
@@ -124,6 +126,7 @@ test_shutdown(int nsig)
 static void
 read_events(lrmd_event_data_t * event)
 {
+	crm_info("trace");
     report_event(event);
     if (options.listen) {
         if (safe_str_eq(options.listen, event_buf_v0)) {
@@ -150,6 +153,7 @@ read_events(lrmd_event_data_t * event)
 static gboolean
 timeout_err(gpointer data)
 {
+	crm_info("trace");
     print_result(printf("LISTEN EVENT FAILURE - timeout occurred, never found.\n"));
     test_exit(-1);
 
@@ -159,6 +163,7 @@ timeout_err(gpointer data)
 static void
 connection_events(lrmd_event_data_t * event)
 {
+	crm_info("trace");
     int rc = event->connection_rc;
 
     if (event->type != lrmd_event_connect) {
@@ -180,6 +185,7 @@ connection_events(lrmd_event_data_t * event)
 static void
 try_connect(void)
 {
+	crm_info("trace");
     int tries = 10;
     static int num_tries = 0;
     int rc = 0;
@@ -201,6 +207,7 @@ try_connect(void)
 static gboolean
 start_test(gpointer user_data)
 {
+	crm_info("trace");
     int rc = 0;
 
     if (!options.no_connect) {
@@ -348,6 +355,7 @@ start_test(gpointer user_data)
 static resource_t *
 find_rsc_or_clone(const char *rsc, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     resource_t *the_rsc = pe_find_resource(data_set->resources, rsc);
 
     if (the_rsc == NULL) {
@@ -362,6 +370,7 @@ find_rsc_or_clone(const char *rsc, pe_working_set_t * data_set)
 static int
 generate_params(void)
 {
+	crm_info("trace");
     int rc = 0;
     pe_working_set_t data_set;
     xmlNode *cib_xml_copy = NULL;
@@ -456,6 +465,7 @@ generate_params(void)
 int
 main(int argc, char **argv)
 {
+	crm_info("trace");
     int option_index = 0;
     int argerr = 0;
     int flag;

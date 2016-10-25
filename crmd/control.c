@@ -57,6 +57,7 @@ bool no_quorum_suicide_escalation = FALSE;
 static gboolean
 election_timeout_popped(gpointer data)
 {
+	crm_info("trace");
     /* Not everyone voted */
     crm_info("Election failed: Declaring ourselves the winner");
     register_fsa_input(C_TIMER_POPPED, I_ELECTION_DC, NULL);
@@ -70,6 +71,7 @@ do_ha_control(long long action,
               enum crmd_fsa_state cur_state,
               enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     gboolean registered = FALSE;
     static crm_cluster_t *cluster = NULL;
 
@@ -156,6 +158,7 @@ do_ha_control(long long action,
 static bool
 need_spawn_pengine_from_crmd(void)
 {
+	crm_info("trace");
 	static int result = -1;
 
 	if (result != -1)
@@ -177,6 +180,7 @@ do_shutdown(long long action,
             enum crmd_fsa_cause cause,
             enum crmd_fsa_state cur_state, enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     /* just in case */
     set_bit(fsa_input_register, R_SHUTDOWN);
 
@@ -211,6 +215,7 @@ do_shutdown_req(long long action,
                 enum crmd_fsa_state cur_state,
                 enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     xmlNode *msg = NULL;
 
     set_bit(fsa_input_register, R_SHUTDOWN);
@@ -238,6 +243,7 @@ void log_connected_client(gpointer key, gpointer value, gpointer user_data);
 void
 log_connected_client(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     crm_client_t *client = value;
 
     crm_err("%s is still connected at exit", crm_client_name(client));
@@ -246,6 +252,7 @@ log_connected_client(gpointer key, gpointer value, gpointer user_data)
 int
 crmd_fast_exit(int rc) 
 {
+	crm_info("trace");
     if (is_set(fsa_input_register, R_STAYDOWN)) {
         crm_warn("Inhibiting respawn "CRM_XS" remapping exit code %d to %d",
                  rc, DAEMON_RESPAWN_STOP);
@@ -262,6 +269,7 @@ crmd_fast_exit(int rc)
 int
 crmd_exit(int rc)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     GMainLoop *mloop = crmd_mainloop;
 
@@ -495,6 +503,7 @@ do_exit(long long action,
         enum crmd_fsa_cause cause,
         enum crmd_fsa_state cur_state, enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     int exit_code = pcmk_ok;
     int log_level = LOG_INFO;
     const char *exit_type = "gracefully";
@@ -514,7 +523,8 @@ do_exit(long long action,
     crmd_exit(exit_code);
 }
 
-static void sigpipe_ignore(int nsig) { return; }
+static void sigpipe_ignore(int nsig) {
+	crm_info("trace"); return; }
 
 /*	 A_STARTUP	*/
 void
@@ -522,6 +532,7 @@ do_startup(long long action,
            enum crmd_fsa_cause cause,
            enum crmd_fsa_state cur_state, enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     int was_error = 0;
 
     crm_debug("Registering Signal Handlers");
@@ -683,6 +694,7 @@ do_startup(long long action,
 static int32_t
 crmd_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
+	crm_info("trace");
     crm_trace("Connection %p", c);
     if (crm_client_new(c, uid, gid) == NULL) {
         return -EIO;
@@ -693,12 +705,14 @@ crmd_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 static void
 crmd_ipc_created(qb_ipcs_connection_t * c)
 {
+	crm_info("trace");
     crm_trace("Connection %p", c);
 }
 
 static int32_t
 crmd_ipc_dispatch(qb_ipcs_connection_t * c, void *data, size_t size)
 {
+	crm_info("trace");
     uint32_t id = 0;
     uint32_t flags = 0;
     crm_client_t *client = crm_client_get(c);
@@ -733,6 +747,7 @@ crmd_ipc_dispatch(qb_ipcs_connection_t * c, void *data, size_t size)
 static int32_t
 crmd_ipc_closed(qb_ipcs_connection_t * c)
 {
+	crm_info("trace");
     crm_client_t *client = crm_client_get(c);
     struct crm_subsystem_s *the_subsystem = NULL;
 
@@ -776,6 +791,7 @@ crmd_ipc_closed(qb_ipcs_connection_t * c)
 static void
 crmd_ipc_destroy(qb_ipcs_connection_t * c)
 {
+	crm_info("trace");
     crm_trace("Connection %p", c);
     crmd_ipc_closed(c);
 }
@@ -786,6 +802,7 @@ do_stop(long long action,
         enum crmd_fsa_cause cause,
         enum crmd_fsa_state cur_state, enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     crm_trace("Closing IPC server");
     mainloop_del_ipc_server(ipcs); ipcs = NULL;
     register_fsa_input(C_FSA_INTERNAL, I_TERMINATE, NULL);
@@ -797,6 +814,7 @@ do_started(long long action,
            enum crmd_fsa_cause cause,
            enum crmd_fsa_state cur_state, enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     static struct qb_ipcs_service_handlers crmd_callbacks = {
         .connection_accept = crmd_ipc_accept,
         .connection_created = crmd_ipc_created,
@@ -880,6 +898,7 @@ do_recover(long long action,
            enum crmd_fsa_cause cause,
            enum crmd_fsa_state cur_state, enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     set_bit(fsa_input_register, R_IN_RECOVERY);
     crm_warn("Fast-tracking shutdown in response to errors");
 
@@ -963,6 +982,7 @@ pe_cluster_option crmd_opts[] = {
 void
 crmd_metadata(void)
 {
+	crm_info("trace");
     config_metadata("CRM Daemon", "1.0",
                     "CRM Daemon Options",
                     "This is a fake resource that details the options that can be configured for the CRM Daemon.",
@@ -972,18 +992,21 @@ crmd_metadata(void)
 static void
 verify_crmd_options(GHashTable * options)
 {
+	crm_info("trace");
     verify_all_options(options, crmd_opts, DIMOF(crmd_opts));
 }
 
 static const char *
 crmd_pref(GHashTable * options, const char *name)
 {
+	crm_info("trace");
     return get_cluster_pref(options, crmd_opts, DIMOF(crmd_opts), name);
 }
 
 static void
 config_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("trace");
 #ifdef RHEL7_COMPAT
     const char *script = NULL;
 #endif
@@ -1103,6 +1126,7 @@ config_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void
 gboolean
 crm_read_options(gpointer user_data)
 {
+	crm_info("trace");
     int call_id =
         fsa_cib_conn->cmds->query(fsa_cib_conn,
             "//" XML_CIB_TAG_CRMCONFIG " | //" XML_CIB_TAG_ALERTS,
@@ -1120,6 +1144,7 @@ do_read_config(long long action,
                enum crmd_fsa_state cur_state,
                enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     throttle_init();
     mainloop_set_trigger(config_read);
 }
@@ -1127,6 +1152,7 @@ do_read_config(long long action,
 void
 crm_shutdown(int nsig)
 {
+	crm_info("trace");
     if (crmd_mainloop != NULL && g_main_is_running(crmd_mainloop)) {
         if (is_set(fsa_input_register, R_SHUTDOWN)) {
             crm_err("Escalating the shutdown");

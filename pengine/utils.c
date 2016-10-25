@@ -24,6 +24,7 @@
 void
 pe_free_ordering(GListPtr constraints)
 {
+	crm_info("trace");
     GListPtr iterator = constraints;
 
     while (iterator != NULL) {
@@ -43,6 +44,7 @@ pe_free_ordering(GListPtr constraints)
 void
 pe_free_rsc_to_node(GListPtr constraints)
 {
+	crm_info("trace");
     GListPtr iterator = constraints;
 
     while (iterator != NULL) {
@@ -64,6 +66,7 @@ rsc2node_new(const char *id, resource_t * rsc,
              int node_weight, const char *discover_mode,
              node_t * foo_node, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     rsc_to_node_t *new_con = NULL;
 
     if (rsc == NULL || id == NULL) {
@@ -110,6 +113,7 @@ rsc2node_new(const char *id, resource_t * rsc,
 gboolean
 can_run_resources(const node_t * node)
 {
+	crm_info("trace");
     if (node == NULL) {
         return FALSE;
     }
@@ -137,6 +141,7 @@ can_run_resources(const node_t * node)
 gint
 sort_node_weight(gconstpointer a, gconstpointer b, gpointer data)
 {
+	crm_info("trace");
     const node_t *node1 = (const node_t *)a;
     const node_t *node2 = (const node_t *)b;
     const node_t *active = (node_t *) data;
@@ -222,6 +227,7 @@ sort_node_weight(gconstpointer a, gconstpointer b, gpointer data)
 void
 native_deallocate(resource_t * rsc)
 {
+	crm_info("trace");
     if (rsc->allocated_to) {
         node_t *old = rsc->allocated_to;
 
@@ -240,6 +246,7 @@ native_deallocate(resource_t * rsc)
 gboolean
 native_assign_node(resource_t * rsc, GListPtr nodes, node_t * chosen, gboolean force)
 {
+	crm_info("trace");
     CRM_ASSERT(rsc->variant == pe_native);
 
     if (force == FALSE
@@ -307,6 +314,7 @@ native_assign_node(resource_t * rsc, GListPtr nodes, node_t * chosen, gboolean f
 void
 log_action(unsigned int log_level, const char *pre_text, action_t * action, gboolean details)
 {
+	crm_info("trace");
     const char *node_uname = NULL;
     const char *node_uuid = NULL;
 
@@ -395,6 +403,7 @@ log_action(unsigned int log_level, const char *pre_text, action_t * action, gboo
 gboolean
 can_run_any(GHashTable * nodes)
 {
+	crm_info("trace");
     GHashTableIter iter;
     node_t *node = NULL;
 

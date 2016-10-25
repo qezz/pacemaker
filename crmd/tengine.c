@@ -54,11 +54,13 @@ stonith_t *stonith_api = NULL;
 static void
 global_cib_callback(const xmlNode * msg, int callid, int rc, xmlNode * output)
 {
+	crm_info("trace");
 }
 
 static crm_graph_t *
 create_blank_graph(void)
 {
+	crm_info("trace");
     crm_graph_t *a_graph = unpack_graph(NULL, NULL);
 
     a_graph->complete = TRUE;
@@ -74,6 +76,7 @@ do_te_control(long long action,
               enum crmd_fsa_state cur_state,
               enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
     gboolean init_ok = TRUE;
 
     if (action & A_TE_STOP) {
@@ -148,6 +151,7 @@ do_te_invoke(long long action,
              enum crmd_fsa_state cur_state,
              enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("trace");
 
     if (AM_I_DC == FALSE || (fsa_state != S_TRANSITION_ENGINE && (action & A_TE_INVOKE))) {
         crm_notice("No need to invoke the TE (%s) in state %s",

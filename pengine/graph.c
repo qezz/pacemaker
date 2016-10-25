@@ -35,6 +35,7 @@ gboolean rsc_update_action(action_t * first, action_t * then, enum pe_ordering t
 static enum pe_action_flags
 get_action_flags(action_t * action, node_t * node)
 {
+	crm_info("trace");
     enum pe_action_flags flags = action->flags;
 
     if (action->rsc) {
@@ -70,6 +71,7 @@ static char *
 convert_non_atomic_uuid(char *old_uuid, resource_t * rsc, gboolean allow_notify,
                         gboolean free_original)
 {
+	crm_info("trace");
     int interval = 0;
     char *uuid = NULL;
     char *rid = NULL;
@@ -146,6 +148,7 @@ convert_non_atomic_uuid(char *old_uuid, resource_t * rsc, gboolean allow_notify,
 static action_t *
 rsc_expand_action(action_t * action)
 {
+	crm_info("trace");
     action_t *result = action;
 
     if (action->rsc && action->rsc->variant >= pe_group) {
@@ -177,6 +180,7 @@ static enum pe_graph_flags
 graph_update_action(action_t * first, action_t * then, node_t * node, enum pe_action_flags flags,
                     enum pe_ordering type)
 {
+	crm_info("trace");
     enum pe_graph_flags changed = pe_graph_none;
     gboolean processed = FALSE;
 
@@ -402,6 +406,7 @@ graph_update_action(action_t * first, action_t * then, node_t * node, enum pe_ac
 static void
 mark_start_blocked(resource_t *rsc)
 {
+	crm_info("trace");
     GListPtr gIter = rsc->actions;
 
     for (; gIter != NULL; gIter = gIter->next) {
@@ -421,6 +426,7 @@ mark_start_blocked(resource_t *rsc)
 void
 update_colo_start_chain(action_t *action)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     resource_t *rsc = NULL;
 
@@ -453,6 +459,7 @@ update_colo_start_chain(action_t *action)
 gboolean
 update_action(action_t * then)
 {
+	crm_info("trace");
     GListPtr lpc = NULL;
     enum pe_graph_flags changed = pe_graph_none;
     int last_flags = then->flags;
@@ -655,6 +662,7 @@ update_action(action_t * then)
 gboolean
 shutdown_constraints(node_t * node, action_t * shutdown_op, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     /* add the stop to the before lists so it counts as a pre-req
      * for the shutdown
      */
@@ -711,6 +719,7 @@ shutdown_constraints(node_t * node, action_t * shutdown_op, pe_working_set_t * d
 gboolean
 stonith_constraints(node_t * node, action_t * stonith_op, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     GListPtr r = NULL;
 
     CRM_CHECK(stonith_op != NULL, return FALSE);
@@ -729,6 +738,7 @@ stonith_constraints(node_t * node, action_t * stonith_op, pe_working_set_t * dat
 static node_t *
 get_router_node(action_t *action)
 {
+	crm_info("trace");
     node_t *began_on = NULL;
     node_t *ended_on = NULL;
     node_t *router_node = NULL;
@@ -797,6 +807,7 @@ get_router_node(action_t *action)
 static void
 add_node_to_xml_by_id(const char *id, xmlNode *xml)
 {
+	crm_info("trace");
     xmlNode *node_xml;
 
     node_xml = create_xml_node(xml, XML_CIB_TAG_NODE);
@@ -813,6 +824,7 @@ add_node_to_xml_by_id(const char *id, xmlNode *xml)
 static void
 add_node_to_xml(const node_t *node, void *xml)
 {
+	crm_info("trace");
     add_node_to_xml_by_id(node->details->id, (xmlNode *) xml);
 }
 
@@ -832,6 +844,7 @@ static void
 add_downed_nodes(xmlNode *xml, const action_t *action,
                  const pe_working_set_t *data_set)
 {
+	crm_info("trace");
     CRM_CHECK(xml && action && action->node && data_set, return);
 
     if (safe_str_eq(action->task, CRM_OP_SHUTDOWN)) {
@@ -879,6 +892,7 @@ add_downed_nodes(xmlNode *xml, const action_t *action,
 static xmlNode *
 action2xml(action_t * action, gboolean as_input, pe_working_set_t *data_set)
 {
+	crm_info("trace");
     gboolean needs_node_info = TRUE;
     xmlNode *action_xml = NULL;
     xmlNode *args_xml = NULL;
@@ -1088,6 +1102,7 @@ action2xml(action_t * action, gboolean as_input, pe_working_set_t *data_set)
 static gboolean
 should_dump_action(action_t * action)
 {
+	crm_info("trace");
     CRM_CHECK(action != NULL, return FALSE);
 
     if (is_set(action->flags, pe_action_dumped)) {
@@ -1187,6 +1202,7 @@ should_dump_action(action_t * action)
 static gint
 sort_action_id(gconstpointer a, gconstpointer b)
 {
+	crm_info("trace");
     const action_wrapper_t *action_wrapper2 = (const action_wrapper_t *)a;
     const action_wrapper_t *action_wrapper1 = (const action_wrapper_t *)b;
 
@@ -1210,6 +1226,7 @@ sort_action_id(gconstpointer a, gconstpointer b)
 static gboolean
 check_dump_input(int last_action, action_t * action, action_wrapper_t * wrapper)
 {
+	crm_info("trace");
     int type = wrapper->type;
 
     if (wrapper->state == pe_link_dumped) {
@@ -1393,6 +1410,7 @@ check_dump_input(int last_action, action_t * action, action_wrapper_t * wrapper)
 static gboolean
 graph_has_loop(action_t * init_action, action_t * action, action_wrapper_t * wrapper)
 {
+	crm_info("trace");
     GListPtr lpc = NULL;
     gboolean has_loop = FALSE;
 
@@ -1455,6 +1473,7 @@ done:
 static gboolean
 should_dump_input(int last_action, action_t * action, action_wrapper_t * wrapper)
 {
+	crm_info("trace");
     wrapper->state = pe_link_not_dumped;
 
     if (check_dump_input(last_action, action, wrapper) == FALSE) {
@@ -1501,6 +1520,7 @@ should_dump_input(int last_action, action_t * action, action_wrapper_t * wrapper
 void
 graph_element_from_action(action_t * action, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     GListPtr lpc = NULL;
     int last_action = -1;
     int synapse_priority = 0;

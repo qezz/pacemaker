@@ -48,12 +48,14 @@ static char *read_local_file(char *local_file);
 static int
 is_magic_value(char *p)
 {
+	crm_info("trace");
     return !strcmp(p, MAGIC);
 }
 
 static int
 check_md5_hash(char *hash, char *value)
 {
+	crm_info("trace");
     int rc = FALSE;
     char *hash2 = NULL;
 
@@ -70,6 +72,7 @@ check_md5_hash(char *hash, char *value)
 static char *
 read_local_file(char *local_file)
 {
+	crm_info("trace");
     FILE *fp = fopen(local_file, "r");
     char buf[MAX_VALUE_LEN+1];
     char *p;
@@ -101,6 +104,7 @@ read_local_file(char *local_file)
 int
 replace_secret_params(char *rsc_id, GHashTable *params)
 {
+	crm_info("trace");
     if (do_replace_secret_params(rsc_id, params, FALSE) < 0
         && do_replace_secret_params(rsc_id, params, TRUE) < 0) {
         return -1;
@@ -112,6 +116,7 @@ replace_secret_params(char *rsc_id, GHashTable *params)
 static int
 do_replace_secret_params(char *rsc_id, GHashTable *params, gboolean from_legacy_dir)
 {
+	crm_info("trace");
     char local_file[FILENAME_MAX+1], *start_pname;
     char hash_file[FILENAME_MAX+1], *hash;
     GList *secret_params = NULL, *l;
@@ -214,6 +219,7 @@ do_replace_secret_params(char *rsc_id, GHashTable *params, gboolean from_legacy_
 static void
 add_secret_params(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     GList **lp = (GList **)user_data;
 
     if (is_magic_value((char *)value)) {

@@ -88,6 +88,7 @@ lrmd_t *lrmd_conn = NULL;
 static void
 client_exit(int rc)
 {
+	crm_info("trace");
     lrmd_api_delete(lrmd_conn);
     if (proxy_table) {
         g_hash_table_destroy(proxy_table); proxy_table = NULL;
@@ -98,6 +99,7 @@ client_exit(int rc)
 static void
 client_shutdown(int nsig)
 {
+	crm_info("trace");
     lrmd_api_delete(lrmd_conn);
     lrmd_conn = NULL;
 }
@@ -105,6 +107,7 @@ client_shutdown(int nsig)
 static void
 read_events(lrmd_event_data_t * event)
 {
+	crm_info("trace");
     if (wait_poke && event->type == lrmd_event_poke) {
         client_exit(PCMK_OCF_OK);
     }
@@ -122,6 +125,7 @@ read_events(lrmd_event_data_t * event)
 static gboolean
 timeout_err(gpointer data)
 {
+	crm_info("trace");
     crm_err("timed out in remote_client");
     client_exit(PCMK_OCF_TIMEOUT);
 
@@ -131,6 +135,7 @@ timeout_err(gpointer data)
 static void
 connection_events(lrmd_event_data_t * event)
 {
+	crm_info("trace");
     int rc = event->connection_rc;
 
     if (event->type != lrmd_event_connect) {
@@ -150,6 +155,7 @@ connection_events(lrmd_event_data_t * event)
 static void
 try_connect(void)
 {
+	crm_info("trace");
     int tries = 10;
     static int num_tries = 0;
     int rc = 0;
@@ -172,6 +178,7 @@ try_connect(void)
 static gboolean
 client_start(gpointer user_data)
 {
+	crm_info("trace");
     int rc = 0;
 
     if (!lrmd_conn->cmds->is_connected(lrmd_conn)) {
@@ -247,6 +254,7 @@ client_start(gpointer user_data)
 static int
 remote_proxy_dispatch_internal(const char *buffer, ssize_t length, gpointer userdata)
 {
+	crm_info("trace");
     /* Async responses from cib and friends back to clients via pacemaker_remoted */
     xmlNode *xml = NULL;
     remote_proxy_t *proxy = userdata;
@@ -275,6 +283,7 @@ remote_proxy_dispatch_internal(const char *buffer, ssize_t length, gpointer user
 static void
 remote_proxy_disconnected(void *userdata)
 {
+	crm_info("trace");
     remote_proxy_t *proxy = userdata;
 
     crm_trace("destroying %p", userdata);
@@ -289,6 +298,7 @@ remote_proxy_disconnected(void *userdata)
 static remote_proxy_t *
 remote_proxy_new(const char *node_name, const char *session_id, const char *channel)
 {
+	crm_info("trace");
     static struct ipc_client_callbacks proxy_callbacks = {
         .dispatch = remote_proxy_dispatch_internal,
         .destroy = remote_proxy_disconnected
@@ -319,6 +329,7 @@ remote_proxy_new(const char *node_name, const char *session_id, const char *chan
 static void
 remote_proxy_cb(lrmd_t *lrmd, void *userdata, xmlNode *msg)
 {
+	crm_info("trace");
     const char *op = crm_element_value(msg, F_LRMD_IPC_OP);
     const char *session = crm_element_value(msg, F_LRMD_IPC_SESSION);
     int msg_id = 0;
@@ -400,6 +411,7 @@ remote_proxy_cb(lrmd_t *lrmd, void *userdata, xmlNode *msg)
 int
 main(int argc, char **argv)
 {
+	crm_info("trace");
     int option_index = 0;
     int argerr = 0;
     int flag;

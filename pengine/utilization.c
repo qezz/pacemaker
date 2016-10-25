@@ -39,6 +39,7 @@ struct compare_data {
 static void
 do_compare_capacity1(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     int node1_capacity = 0;
     int node2_capacity = 0;
     struct compare_data *data = user_data;
@@ -57,6 +58,7 @@ do_compare_capacity1(gpointer key, gpointer value, gpointer user_data)
 static void
 do_compare_capacity2(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     int node1_capacity = 0;
     int node2_capacity = 0;
     struct compare_data *data = user_data;
@@ -81,6 +83,7 @@ do_compare_capacity2(gpointer key, gpointer value, gpointer user_data)
 int
 compare_capacity(const node_t * node1, const node_t * node2)
 {
+	crm_info("trace");
     struct compare_data data;
 
     data.node1 = node1;
@@ -101,6 +104,7 @@ struct calculate_data {
 static void
 do_calculate_utilization(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     const char *current = NULL;
     char *result = NULL;
     struct calculate_data *data = user_data;
@@ -123,6 +127,7 @@ void
 calculate_utilization(GHashTable * current_utilization,
                       GHashTable * utilization, gboolean plus)
 {
+	crm_info("trace");
     struct calculate_data data;
 
     data.current_utilization = current_utilization;
@@ -141,6 +146,7 @@ struct capacity_data {
 static void
 check_capacity(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("trace");
     int required = 0;
     int remaining = 0;
     struct capacity_data *data = user_data;
@@ -161,6 +167,7 @@ check_capacity(gpointer key, gpointer value, gpointer user_data)
 static gboolean
 have_enough_capacity(node_t * node, const char * rsc_id, GHashTable * utilization)
 {
+	crm_info("trace");
     struct capacity_data data;
 
     data.node = node;
@@ -176,6 +183,7 @@ have_enough_capacity(node_t * node, const char * rsc_id, GHashTable * utilizatio
 static void
 native_add_unallocated_utilization(GHashTable * all_utilization, resource_t * rsc)
 {
+	crm_info("trace");
     if(is_set(rsc->flags, pe_rsc_provisional) == FALSE) {
         return;
     }
@@ -187,6 +195,7 @@ static void
 add_unallocated_utilization(GHashTable * all_utilization, resource_t * rsc,
                     GListPtr all_rscs, resource_t * orig_rsc)
 {
+	crm_info("trace");
     if(is_set(rsc->flags, pe_rsc_provisional) == FALSE) {
         return;
     }
@@ -245,6 +254,7 @@ add_unallocated_utilization(GHashTable * all_utilization, resource_t * rsc,
 static GHashTable *
 sum_unallocated_utilization(resource_t * rsc, GListPtr colocated_rscs)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
     GListPtr all_rscs = NULL;
     GHashTable *all_utilization = g_hash_table_new_full(crm_str_hash, g_str_equal,
@@ -274,6 +284,7 @@ sum_unallocated_utilization(resource_t * rsc, GListPtr colocated_rscs)
 static GListPtr
 find_colocated_rscs(GListPtr colocated_rscs, resource_t * rsc, resource_t * orig_rsc)
 {
+	crm_info("trace");
     GListPtr gIter = NULL;
 
     if (rsc == NULL) {
@@ -341,6 +352,7 @@ find_colocated_rscs(GListPtr colocated_rscs, resource_t * rsc, resource_t * orig
 void
 process_utilization(resource_t * rsc, node_t ** prefer, pe_working_set_t * data_set)
 {
+	crm_info("trace");
     int alloc_details = scores_log_level + 1;
 
     if (safe_str_neq(data_set->placement_strategy, "default")) {
@@ -424,6 +436,7 @@ process_utilization(resource_t * rsc, node_t ** prefer, pe_working_set_t * data_
 GListPtr
 group_find_colocated_rscs(GListPtr colocated_rscs, resource_t * rsc, resource_t * orig_rsc)
 {
+	crm_info("trace");
     group_variant_data_t *group_data = NULL;
 
     get_group_variant_data(group_data, rsc);
@@ -453,6 +466,7 @@ static void
 group_add_unallocated_utilization(GHashTable * all_utilization, resource_t * rsc,
                                   GListPtr all_rscs)
 {
+	crm_info("trace");
     group_variant_data_t *group_data = NULL;
 
     get_group_variant_data(group_data, rsc);

@@ -48,6 +48,7 @@
 void
 crm_build_path(const char *path_c, mode_t mode)
 {
+	crm_info("trace");
     int offset = 1, len = 0;
     char *path = strdup(path_c);
 
@@ -84,6 +85,7 @@ crm_build_path(const char *path_c, mode_t mode)
 char *
 generate_series_filename(const char *directory, const char *series, int sequence, gboolean bzip)
 {
+	crm_info("trace");
     int len = 40;
     char *filename = NULL;
     const char *ext = "raw";
@@ -120,6 +122,7 @@ generate_series_filename(const char *directory, const char *series, int sequence
 int
 get_last_sequence(const char *directory, const char *series)
 {
+	crm_info("trace");
     FILE *file_strm = NULL;
     int start = 0, length = 0, read_len = 0;
     char *series_file = NULL;
@@ -192,6 +195,7 @@ get_last_sequence(const char *directory, const char *series)
 void
 write_last_sequence(const char *directory, const char *series, int sequence, int max)
 {
+	crm_info("trace");
     int rc = 0;
     int len = 36;
     FILE *file_strm = NULL;
@@ -249,6 +253,7 @@ write_last_sequence(const char *directory, const char *series, int sequence, int
 int
 crm_chown_last_sequence(const char *directory, const char *series, uid_t uid, gid_t gid)
 {
+	crm_info("trace");
     char *series_file = NULL;
     int rc;
 
@@ -278,6 +283,7 @@ gboolean
 crm_is_writable(const char *dir, const char *file,
                 const char *user, const char *group, gboolean need_both)
 {
+	crm_info("trace");
     int s_res = -1;
     struct stat buf;
     char *full_file = NULL;
@@ -356,6 +362,7 @@ crm_is_writable(const char *dir, const char *file,
 void
 crm_sync_directory(const char *name)
 {
+	crm_info("trace");
     int fd;
     DIR *directory;
 
@@ -393,6 +400,7 @@ crm_sync_directory(const char *name)
 char *
 crm_read_contents(const char *filename)
 {
+	crm_info("trace");
     char *contents = NULL;
     FILE *fp;
     int length, read_len;
@@ -439,6 +447,7 @@ crm_read_contents(const char *filename)
 int
 crm_write_sync(int fd, const char *contents)
 {
+	crm_info("trace");
     int rc = 0;
     FILE *fp = fdopen(fd, "w");
 
