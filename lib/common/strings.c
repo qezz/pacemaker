@@ -222,7 +222,6 @@ crm_strip_trailing_newline(char *str)
 gboolean
 crm_str_eq(const char *a, const char *b, gboolean use_case)
 {
-	crm_info("trace");
     if (use_case) {
         return g_strcmp0(a, b) == 0;
 

@@ -321,6 +321,21 @@ cib_perform_op(const char *op, int call_options, cib_op_t * fn, gboolean is_quer
     CRM_CHECK(result_cib != NULL, return -ENOMSG);
     CRM_CHECK(config_changed != NULL, return -ENOMSG);
 
+    crm_debug("mark: cib_perform_op");
+
+    crm_debug("op: %s", op);
+    crm_debug("section: %s", section);
+
+    crm_debug("xmlNode * req");
+    crm_log_xml_debug(req, "\t");
+
+    crm_debug("xmlNode * input:");
+    crm_log_xml_debug(req, "\t");
+
+    crm_debug("xmlNode * current_cib:");
+    crm_log_xml_debug(current_cib, "cib");
+
+
     if(output) {
         *output = NULL;
     }
