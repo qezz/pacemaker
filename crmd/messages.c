@@ -1053,10 +1053,8 @@ add_start_state(xmlNode * msg, const char * state)
 {
     if (safe_str_eq(state, "standby")) {
         crm_xml_add(msg, "start_state", "standby");
-        // crm_xml_add(msg, "ss_uuid", fsa_our_uuid);
     } else if (safe_str_eq(state, "online")) {
         crm_xml_add(msg, "start_state", "online");
-        // crm_xml_add(msg, "ss_uuid", fsa_our_uuid);
     } else if (safe_str_eq(state, "default")) {
         crm_notice("Starting node by default");
     } else {
