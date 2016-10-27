@@ -345,8 +345,8 @@ cib_process_modify(const char *op, int options, const char *section, xmlNode * r
     crm_debug("xmlNode * input:");
     crm_log_xml_debug(input, "\t");
 
-    crm_debug("xmlNode * current_cib:");
-    crm_log_xml_debug(current_cib, "\t");
+    crm_debug("xmlNode * existing_cib:");
+    crm_log_xml_debug(existing_cib, "\t");
 
     if (options & cib_xpath) {
         return cib_process_xpath(op, options, section, req, input,
