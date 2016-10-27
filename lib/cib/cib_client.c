@@ -189,6 +189,11 @@ cib_client_delete(cib_t * cib, const char *section, xmlNode * data, int call_opt
 {
 	crm_info("trace");
     op_common(cib);
+    crm_debug("ATTEMPT TO CIB_OP_DELETE");
+    crm_debug("section: %s", section);
+
+    // i can't remember how to print cib from `cib_t`
+    // crm_log_xml_debug(cib, "old cib: ");
     return cib_internal_op(cib, CIB_OP_DELETE, NULL, section, data, NULL, call_options, NULL);
 }
 
@@ -197,6 +202,10 @@ cib_client_delete_absolute(cib_t * cib, const char *section, xmlNode * data, int
 {
 	crm_info("trace");
     op_common(cib);
+    crm_debug("ATTEMPT TO CIB_OP_DELETE_ALT");
+    crm_debug("section: %s", section);
+
+    // crm_log_xml_debug(cib, "old cib: ");
     return cib_internal_op(cib, CIB_OP_DELETE_ALT, NULL, section, data, NULL, call_options, NULL);
 }
 

@@ -394,6 +394,13 @@ delete_attr_delegate(cib_t * the_cib, int options,
     crm_xml_add(xml_obj, XML_NVPAIR_ATTR_NAME, attr_name);
     crm_xml_add(xml_obj, XML_NVPAIR_ATTR_VALUE, attr_value);
 
+    crm_debug("ATTEMPT TO PERFORM CIB_OP_DELETE");
+
+    //crm_debug("the old cib:");
+    //crm_log_xml_debug(the_cib, "cib");
+
+    crm_debug("section: %s", section);
+
     rc = cib_internal_op(the_cib, CIB_OP_DELETE, NULL, section, xml_obj, NULL,
                          options | cib_quorum_override, user_name);
 

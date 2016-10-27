@@ -1029,6 +1029,8 @@ delete_rsc_status(lrm_state_t * lrm_state, const char *rsc_id, int call_options,
     rsc_xpath = calloc(1, max);
     snprintf(rsc_xpath, max, rsc_template, lrm_state->node_name, rsc_id);
 
+    crm_debug("ATTEMPT TO PERF CIB_OP_DELETE");
+
     rc = cib_internal_op(fsa_cib_conn, CIB_OP_DELETE, NULL, rsc_xpath,
                          NULL, NULL, call_options | cib_xpath, user_name);
 

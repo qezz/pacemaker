@@ -364,6 +364,10 @@ cib_perform_op(const char *op, int call_options, cib_op_t * fn, gboolean is_quer
 
         rc = (*fn) (op, call_options, section, req, input, cib_ro, result_cib, output);
 
+        crm_debug("rc = (*fn)(...., output);");
+        crm_debug("xmlNode ** output");
+        crm_log_xml_debug(*output, "output ");
+
         if(output == NULL || *output == NULL) {
             /* nothing */
 

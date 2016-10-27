@@ -111,6 +111,13 @@ create_request_adv(const char *task, xmlNode * msg_data,
     xmlNode *request = NULL;
     char *reference = generateReference(task, sys_from);
 
+    crm_debug("mark: create_request_adv");
+
+    crm_debug("const char *task: %s", task);
+
+    crm_debug("xmlNode * msg_data:");
+    crm_log_xml_debug(msg_data, "msg_data ");
+
     if (uuid_from != NULL) {
         true_from = generate_hash_key(sys_from, uuid_from);
     } else if (sys_from != NULL) {
