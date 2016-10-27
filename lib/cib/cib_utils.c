@@ -382,6 +382,9 @@ cib_perform_op(const char *op, int call_options, cib_op_t * fn, gboolean is_quer
             *output = copy_xml(*output);
         }
 
+        crm_debug("mark: resulting cib");
+	crm_log_xml_debug(*result_cib, "result cib: ");
+
         free_xml(cib_filtered);
         return rc;
     }
