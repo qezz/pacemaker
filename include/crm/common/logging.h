@@ -251,7 +251,8 @@ unsigned int get_crm_log_level(void);
 #  define crm_info(fmt, args...)    qb_logt(LOG_INFO,    0, fmt , ##args)
 
 #  define crm_debug(fmt, args...)   do_crm_log_unlikely(LOG_DEBUG, fmt , ##args)
-#  define crm_trace(fmt, args...)   do_crm_log_unlikely(LOG_TRACE, fmt , ##args)
+#  define crm_trace(fmt, args...)   do_crm_log_unlikely(LOG_DEBUG, fmt , ##args) // define to crm_debug()
+//do_crm_log_unlikely(LOG_TRACE, fmt , ##args)
 
 #  define crm_log_xml_crit(xml, text)    do_crm_log_xml(LOG_CRIT,    text, xml)
 #  define crm_log_xml_err(xml, text)     do_crm_log_xml(LOG_ERR,     text, xml)
@@ -259,7 +260,7 @@ unsigned int get_crm_log_level(void);
 #  define crm_log_xml_notice(xml, text)  do_crm_log_xml(LOG_NOTICE,  text, xml)
 #  define crm_log_xml_info(xml, text)    do_crm_log_xml(LOG_INFO,    text, xml)
 #  define crm_log_xml_debug(xml, text)   do_crm_log_xml(LOG_DEBUG,   text, xml)
-#  define crm_log_xml_trace(xml, text)   do_crm_log_xml(LOG_TRACE,   text, xml)
+#  define crm_log_xml_trace(xml, text)   do_crm_log_xml(LOG_DEBUG,   text, xml) // define to crm_log_xml_debug()
 
 #  define crm_log_xml_explicit(xml, text)  do {                 \
         static struct qb_log_callsite *digest_cs = NULL;        \

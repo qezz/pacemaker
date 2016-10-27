@@ -334,6 +334,20 @@ cib_process_modify(const char *op, int options, const char *section, xmlNode * r
 
     crm_trace("Processing \"%s\" event", op);
 
+    crm_debug("mark: cib_process_modify");
+
+    crm_debug("op: %s", op);
+    crm_debug("section: %s", section);
+
+    crm_debug("xmlNode * req:");
+    crm_log_xml_debug(req, "\t");
+
+    crm_debug("xmlNode * input:");
+    crm_log_xml_debug(input, "\t");
+
+    crm_debug("xmlNode * current_cib:");
+    crm_log_xml_debug(current_cib, "\t");
+
     if (options & cib_xpath) {
         return cib_process_xpath(op, options, section, req, input,
                                  existing_cib, result_cib, answer);
