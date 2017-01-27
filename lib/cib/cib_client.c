@@ -58,7 +58,6 @@ gint ciblib_GCompareFunc(gconstpointer a, gconstpointer b);
 static int
 cib_client_noop(cib_t * cib, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CRM_OP_NOOP, NULL, NULL, NULL, NULL, call_options, NULL);
 }
@@ -66,7 +65,6 @@ cib_client_noop(cib_t * cib, int call_options)
 static int
 cib_client_ping(cib_t * cib, xmlNode ** output_data, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CRM_OP_PING, NULL, NULL, NULL, output_data, call_options, NULL);
 }
@@ -74,7 +72,6 @@ cib_client_ping(cib_t * cib, xmlNode ** output_data, int call_options)
 static int
 cib_client_query(cib_t * cib, const char *section, xmlNode ** output_data, int call_options)
 {
-	crm_info("trace");
     return cib->cmds->query_from(cib, NULL, section, output_data, call_options);
 }
 
@@ -82,7 +79,6 @@ static int
 cib_client_query_from(cib_t * cib, const char *host, const char *section,
                       xmlNode ** output_data, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CIB_OP_QUERY, host, section, NULL, output_data, call_options, NULL);
 }
@@ -90,7 +86,6 @@ cib_client_query_from(cib_t * cib, const char *host, const char *section,
 static int
 cib_client_is_master(cib_t * cib)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CIB_OP_ISMASTER, NULL, NULL, NULL, NULL,
                            cib_scope_local | cib_sync_call, NULL);
@@ -99,7 +94,6 @@ cib_client_is_master(cib_t * cib)
 static int
 cib_client_set_slave(cib_t * cib, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CIB_OP_SLAVE, NULL, NULL, NULL, NULL, call_options, NULL);
 }
@@ -107,14 +101,12 @@ cib_client_set_slave(cib_t * cib, int call_options)
 static int
 cib_client_set_slave_all(cib_t * cib, int call_options)
 {
-	crm_info("trace");
     return -EPROTONOSUPPORT;
 }
 
 static int
 cib_client_set_master(cib_t * cib, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     crm_trace("Adding cib_scope_local to options");
     return cib_internal_op(cib, CIB_OP_MASTER, NULL, NULL, NULL, NULL,
@@ -124,7 +116,6 @@ cib_client_set_master(cib_t * cib, int call_options)
 static int
 cib_client_bump_epoch(cib_t * cib, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CIB_OP_BUMP, NULL, NULL, NULL, NULL, call_options, NULL);
 }
@@ -132,7 +123,6 @@ cib_client_bump_epoch(cib_t * cib, int call_options)
 static int
 cib_client_upgrade(cib_t * cib, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CIB_OP_UPGRADE, NULL, NULL, NULL, NULL, call_options, NULL);
 }
@@ -140,14 +130,12 @@ cib_client_upgrade(cib_t * cib, int call_options)
 static int
 cib_client_sync(cib_t * cib, const char *section, int call_options)
 {
-	crm_info("trace");
     return cib->cmds->sync_from(cib, NULL, section, call_options);
 }
 
 static int
 cib_client_sync_from(cib_t * cib, const char *host, const char *section, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CIB_OP_SYNC, host, section, NULL, NULL, call_options, NULL);
 }
@@ -155,7 +143,6 @@ cib_client_sync_from(cib_t * cib, const char *host, const char *section, int cal
 static int
 cib_client_create(cib_t * cib, const char *section, xmlNode * data, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CIB_OP_CREATE, NULL, section, data, NULL, call_options, NULL);
 }
@@ -163,7 +150,6 @@ cib_client_create(cib_t * cib, const char *section, xmlNode * data, int call_opt
 static int
 cib_client_modify(cib_t * cib, const char *section, xmlNode * data, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CIB_OP_MODIFY, NULL, section, data, NULL, call_options, NULL);
 }
@@ -171,7 +157,6 @@ cib_client_modify(cib_t * cib, const char *section, xmlNode * data, int call_opt
 static int
 cib_client_update(cib_t * cib, const char *section, xmlNode * data, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CIB_OP_MODIFY, NULL, section, data, NULL, call_options, NULL);
 }
@@ -179,7 +164,6 @@ cib_client_update(cib_t * cib, const char *section, xmlNode * data, int call_opt
 static int
 cib_client_replace(cib_t * cib, const char *section, xmlNode * data, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CIB_OP_REPLACE, NULL, section, data, NULL, call_options, NULL);
 }
@@ -187,7 +171,6 @@ cib_client_replace(cib_t * cib, const char *section, xmlNode * data, int call_op
 static int
 cib_client_delete(cib_t * cib, const char *section, xmlNode * data, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     crm_debug("ATTEMPT TO CIB_OP_DELETE");
     crm_debug("section: %s", section);
@@ -200,7 +183,6 @@ cib_client_delete(cib_t * cib, const char *section, xmlNode * data, int call_opt
 static int
 cib_client_delete_absolute(cib_t * cib, const char *section, xmlNode * data, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     crm_debug("ATTEMPT TO CIB_OP_DELETE_ALT");
     crm_debug("section: %s", section);
@@ -212,7 +194,6 @@ cib_client_delete_absolute(cib_t * cib, const char *section, xmlNode * data, int
 static int
 cib_client_erase(cib_t * cib, xmlNode ** output_data, int call_options)
 {
-	crm_info("trace");
     op_common(cib);
     return cib_internal_op(cib, CIB_OP_ERASE, NULL, NULL, NULL, output_data, call_options, NULL);
 }
@@ -220,7 +201,6 @@ cib_client_erase(cib_t * cib, xmlNode ** output_data, int call_options)
 static void
 cib_destroy_op_callback(gpointer data)
 {
-	crm_info("trace");
     cib_callback_client_t *blob = data;
 
     if (blob->timer && blob->timer->ref > 0) {
@@ -238,7 +218,6 @@ cib_destroy_op_callback(gpointer data)
 char *
 get_shadow_file(const char *suffix)
 {
-	crm_info("trace");
     char *cib_home = NULL;
     char *fullname = NULL;
     char *name = crm_concat("shadow", suffix, '.');
@@ -299,7 +278,6 @@ get_shadow_file(const char *suffix)
 cib_t *
 cib_shadow_new(const char *shadow)
 {
-	crm_info("trace");
     cib_t *new_cib = NULL;
     char *shadow_file = NULL;
 
@@ -315,7 +293,6 @@ cib_shadow_new(const char *shadow)
 cib_t *
 cib_new_no_shadow(void)
 {
-	crm_info("trace");
     unsetenv("CIB_shadow");
     return cib_new();
 }
@@ -323,7 +300,6 @@ cib_new_no_shadow(void)
 cib_t *
 cib_new(void)
 {
-	crm_info("trace");
     const char *value = getenv("CIB_shadow");
 
     if (value && value[0] != 0) {
@@ -377,7 +353,6 @@ cib_new(void)
 cib_t *
 cib_new_variant(void)
 {
-	crm_info("trace");
     cib_t *new_cib = NULL;
 
     new_cib = calloc(1, sizeof(cib_t));
@@ -441,7 +416,6 @@ cib_new_variant(void)
 void
 cib_delete(cib_t * cib)
 {
-	crm_info("trace");
     GList *list = NULL;
     if(cib) {
         list = cib->notify_list;
@@ -515,7 +489,6 @@ cib_client_add_notify_callback(cib_t * cib, const char *event,
 static int 
 get_notify_list_event_count(cib_t * cib, const char *event)
 {
-	crm_info("trace");
     GList *l = NULL;
     int count = 0;
 
@@ -578,7 +551,6 @@ cib_client_del_notify_callback(cib_t * cib, const char *event,
 gint
 ciblib_GCompareFunc(gconstpointer a, gconstpointer b)
 {
-	crm_info("trace");
     int rc = 0;
     const cib_notify_client_t *a_client = a;
     const cib_notify_client_t *b_client = b;
@@ -603,7 +575,6 @@ ciblib_GCompareFunc(gconstpointer a, gconstpointer b)
 static gboolean
 cib_async_timeout_handler(gpointer data)
 {
-	crm_info("trace");
     struct timer_rec_s *timer = data;
 
     crm_debug("Async call %d timed out after %ds", timer->call_id, timer->timeout);
@@ -676,7 +647,6 @@ cib_client_register_callback_full(cib_t *cib, int call_id, int timeout,
 void
 remove_cib_op_callback(int call_id, gboolean all_callbacks)
 {
-	crm_info("trace");
     if (all_callbacks) {
         if (cib_op_callback_table != NULL) {
             g_hash_table_destroy(cib_op_callback_table);
@@ -693,7 +663,6 @@ remove_cib_op_callback(int call_id, gboolean all_callbacks)
 int
 num_cib_op_callbacks(void)
 {
-	crm_info("trace");
     if (cib_op_callback_table == NULL) {
         return 0;
     }
@@ -703,7 +672,6 @@ num_cib_op_callbacks(void)
 static void
 cib_dump_pending_op(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     int call = GPOINTER_TO_INT(key);
     cib_callback_client_t *blob = value;
 
@@ -713,7 +681,6 @@ cib_dump_pending_op(gpointer key, gpointer value, gpointer user_data)
 void
 cib_dump_pending_callbacks(void)
 {
-	crm_info("trace");
     if (cib_op_callback_table == NULL) {
         return;
     }

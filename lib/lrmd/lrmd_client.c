@@ -115,7 +115,6 @@ typedef struct lrmd_private_s {
 static lrmd_list_t *
 lrmd_list_add(lrmd_list_t * head, const char *value)
 {
-	crm_info("trace");
     lrmd_list_t *p, *end;
 
     p = calloc(1, sizeof(lrmd_list_t));
@@ -138,7 +137,6 @@ lrmd_list_add(lrmd_list_t * head, const char *value)
 void
 lrmd_list_freeall(lrmd_list_t * head)
 {
-	crm_info("trace");
     lrmd_list_t *p;
 
     while (head) {
@@ -154,7 +152,6 @@ lrmd_list_freeall(lrmd_list_t * head)
 lrmd_key_value_t *
 lrmd_key_value_add(lrmd_key_value_t * head, const char *key, const char *value)
 {
-	crm_info("trace");
     lrmd_key_value_t *p, *end;
 
     p = calloc(1, sizeof(lrmd_key_value_t));
@@ -178,7 +175,6 @@ lrmd_key_value_add(lrmd_key_value_t * head, const char *key, const char *value)
 void
 lrmd_key_value_freeall(lrmd_key_value_t * head)
 {
-	crm_info("trace");
     lrmd_key_value_t *p;
 
     while (head) {
@@ -193,14 +189,12 @@ lrmd_key_value_freeall(lrmd_key_value_t * head)
 static void
 dup_attr(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     g_hash_table_replace(user_data, strdup(key), strdup(value));
 }
 
 lrmd_event_data_t *
 lrmd_copy_event(lrmd_event_data_t * event)
 {
-	crm_info("trace");
     lrmd_event_data_t *copy = NULL;
 
     copy = calloc(1, sizeof(lrmd_event_data_t));
@@ -236,7 +230,6 @@ lrmd_copy_event(lrmd_event_data_t * event)
 void
 lrmd_free_event(lrmd_event_data_t * event)
 {
-	crm_info("trace");
     if (!event) {
         return;
     }
@@ -260,7 +253,6 @@ lrmd_free_event(lrmd_event_data_t * event)
 static int
 lrmd_dispatch_internal(lrmd_t * lrmd, xmlNode * msg)
 {
-	crm_info("trace");
     const char *type;
     const char *proxy_session = crm_element_value(msg, F_LRMD_IPC_SESSION);
     lrmd_private_t *native = lrmd->private;
@@ -326,7 +318,6 @@ lrmd_dispatch_internal(lrmd_t * lrmd, xmlNode * msg)
 static int
 lrmd_ipc_dispatch(const char *buffer, ssize_t length, gpointer userdata)
 {
-	crm_info("trace");
     lrmd_t *lrmd = userdata;
     lrmd_private_t *native = lrmd->private;
     xmlNode *msg;
@@ -347,14 +338,12 @@ lrmd_ipc_dispatch(const char *buffer, ssize_t length, gpointer userdata)
 static void
 lrmd_free_xml(gpointer userdata)
 {
-	crm_info("trace");
     free_xml((xmlNode *) userdata);
 }
 
 static int
 lrmd_tls_connected(lrmd_t * lrmd)
 {
-	crm_info("trace");
     lrmd_private_t *native = lrmd->private;
 
     if (native->remote->tls_session) {
@@ -367,7 +356,6 @@ lrmd_tls_connected(lrmd_t * lrmd)
 static int
 lrmd_tls_dispatch(gpointer userdata)
 {
-	crm_info("trace");
     lrmd_t *lrmd = userdata;
     lrmd_private_t *native = lrmd->private;
     xmlNode *xml = NULL;
@@ -436,7 +424,6 @@ lrmd_tls_dispatch(gpointer userdata)
 int
 lrmd_poll(lrmd_t * lrmd, int timeout)
 {
-	crm_info("trace");
     lrmd_private_t *native = lrmd->private;
 
     switch (native->type) {
@@ -462,7 +449,6 @@ lrmd_poll(lrmd_t * lrmd, int timeout)
 bool
 lrmd_dispatch(lrmd_t * lrmd)
 {
-	crm_info("trace");
     lrmd_private_t *private = NULL;
 
     CRM_ASSERT(lrmd != NULL);
@@ -498,7 +484,6 @@ lrmd_dispatch(lrmd_t * lrmd)
 static xmlNode *
 lrmd_create_op(const char *token, const char *op, xmlNode * data, enum lrmd_call_options options)
 {
-	crm_info("trace");
     xmlNode *op_msg = create_xml_node(NULL, "lrmd_command");
 
     CRM_CHECK(op_msg != NULL, return NULL);
@@ -522,7 +507,6 @@ lrmd_create_op(const char *token, const char *op, xmlNode * data, enum lrmd_call
 static void
 lrmd_ipc_connection_destroy(gpointer userdata)
 {
-	crm_info("trace");
     lrmd_t *lrmd = userdata;
     lrmd_private_t *native = lrmd->private;
 
@@ -544,7 +528,6 @@ lrmd_ipc_connection_destroy(gpointer userdata)
 static void
 lrmd_tls_connection_destroy(gpointer userdata)
 {
-	crm_info("trace");
     lrmd_t *lrmd = userdata;
     lrmd_private_t *native = lrmd->private;
 
@@ -590,7 +573,6 @@ lrmd_tls_connection_destroy(gpointer userdata)
 int
 lrmd_tls_send_msg(crm_remote_t * session, xmlNode * msg, uint32_t id, const char *msg_type)
 {
-	crm_info("trace");
     int rc = -1;
 
     crm_xml_add_int(msg, F_LRMD_REMOTE_MSG_ID, id);
@@ -609,7 +591,6 @@ lrmd_tls_send_msg(crm_remote_t * session, xmlNode * msg, uint32_t id, const char
 static xmlNode *
 lrmd_tls_recv_reply(lrmd_t * lrmd, int total_timeout, int expected_reply_id, int *disconnected)
 {
-	crm_info("trace");
     lrmd_private_t *native = lrmd->private;
     xmlNode *xml = NULL;
     time_t start = time(NULL);
@@ -694,7 +675,6 @@ lrmd_tls_recv_reply(lrmd_t * lrmd, int total_timeout, int expected_reply_id, int
 static int
 lrmd_tls_send(lrmd_t * lrmd, xmlNode * msg)
 {
-	crm_info("trace");
     int rc = 0;
     lrmd_private_t *native = lrmd->private;
 
@@ -715,7 +695,6 @@ lrmd_tls_send(lrmd_t * lrmd, xmlNode * msg)
 static int
 lrmd_tls_send_recv(lrmd_t * lrmd, xmlNode * msg, int timeout, xmlNode ** reply)
 {
-	crm_info("trace");
     int rc = 0;
     int disconnected = 0;
     xmlNode *xml = NULL;
@@ -755,7 +734,6 @@ lrmd_tls_send_recv(lrmd_t * lrmd, xmlNode * msg, int timeout, xmlNode ** reply)
 static int
 lrmd_send_xml(lrmd_t * lrmd, xmlNode * msg, int timeout, xmlNode ** reply)
 {
-	crm_info("trace");
     int rc = -1;
     lrmd_private_t *native = lrmd->private;
 
@@ -778,7 +756,6 @@ lrmd_send_xml(lrmd_t * lrmd, xmlNode * msg, int timeout, xmlNode ** reply)
 static int
 lrmd_send_xml_no_reply(lrmd_t * lrmd, xmlNode * msg)
 {
-	crm_info("trace");
     int rc = -1;
     lrmd_private_t *native = lrmd->private;
 
@@ -807,7 +784,6 @@ lrmd_send_xml_no_reply(lrmd_t * lrmd, xmlNode * msg)
 static int
 lrmd_api_is_connected(lrmd_t * lrmd)
 {
-	crm_info("trace");
     lrmd_private_t *native = lrmd->private;
 
     switch (native->type) {
@@ -902,7 +878,6 @@ lrmd_send_command(lrmd_t * lrmd, const char *op, xmlNode * data, xmlNode ** outp
 static int
 lrmd_api_poke_connection(lrmd_t * lrmd)
 {
-	crm_info("trace");
     int rc;
     lrmd_private_t *native = lrmd->private;
     xmlNode *data = create_xml_node(NULL, F_LRMD_RSC);
@@ -917,7 +892,6 @@ lrmd_api_poke_connection(lrmd_t * lrmd)
 int
 remote_proxy_check(lrmd_t * lrmd, GHashTable *hash)
 {
-	crm_info("trace");
     int rc;
     const char *value;
     lrmd_private_t *native = lrmd->private;
@@ -937,7 +911,6 @@ remote_proxy_check(lrmd_t * lrmd, GHashTable *hash)
 static int
 lrmd_handshake(lrmd_t * lrmd, const char *name)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     lrmd_private_t *native = lrmd->private;
     xmlNode *reply = NULL;
@@ -1001,7 +974,6 @@ lrmd_handshake(lrmd_t * lrmd, const char *name)
 static int
 lrmd_ipc_connect(lrmd_t * lrmd, int *fd)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     lrmd_private_t *native = lrmd->private;
 
@@ -1038,7 +1010,6 @@ lrmd_ipc_connect(lrmd_t * lrmd, int *fd)
 static int
 set_key(gnutls_datum_t * key, const char *location)
 {
-	crm_info("trace");
     FILE *stream;
     int read_len = 256;
     int cur_len = 0;
@@ -1114,7 +1085,6 @@ set_key(gnutls_datum_t * key, const char *location)
 int
 lrmd_tls_set_key(gnutls_datum_t * key)
 {
-	crm_info("trace");
     int rc = 0;
     const char *specific_location = getenv("PCMK_authkey_location");
 
@@ -1141,7 +1111,6 @@ lrmd_tls_set_key(gnutls_datum_t * key)
 static void
 lrmd_gnutls_global_init(void)
 {
-	crm_info("trace");
     static int gnutls_init = 0;
 
     if (!gnutls_init) {
@@ -1154,7 +1123,6 @@ lrmd_gnutls_global_init(void)
 static void
 report_async_connection_result(lrmd_t * lrmd, int rc)
 {
-	crm_info("trace");
     lrmd_private_t *native = lrmd->private;
 
     if (native->callback) {
@@ -1170,7 +1138,6 @@ report_async_connection_result(lrmd_t * lrmd, int rc)
 static void
 lrmd_tcp_connect_cb(void *userdata, int sock)
 {
-	crm_info("trace");
     lrmd_t *lrmd = userdata;
     lrmd_private_t *native = lrmd->private;
     char name[256] = { 0, };
@@ -1257,7 +1224,6 @@ lrmd_tls_connect_async(lrmd_t * lrmd, int timeout /*ms */ )
 static int
 lrmd_tls_connect(lrmd_t * lrmd, int *fd)
 {
-	crm_info("trace");
     static struct mainloop_fd_callbacks lrmd_tls_callbacks = {
         .dispatch = lrmd_tls_dispatch,
         .destroy = lrmd_tls_connection_destroy,
@@ -1318,7 +1284,6 @@ lrmd_tls_connect(lrmd_t * lrmd, int *fd)
 static int
 lrmd_api_connect(lrmd_t * lrmd, const char *name, int *fd)
 {
-	crm_info("trace");
     int rc = -ENOTCONN;
     lrmd_private_t *native = lrmd->private;
 
@@ -1345,7 +1310,6 @@ lrmd_api_connect(lrmd_t * lrmd, const char *name, int *fd)
 static int
 lrmd_api_connect_async(lrmd_t * lrmd, const char *name, int timeout)
 {
-	crm_info("trace");
     int rc = 0;
     lrmd_private_t *native = lrmd->private;
 
@@ -1382,7 +1346,6 @@ lrmd_api_connect_async(lrmd_t * lrmd, const char *name, int timeout)
 static void
 lrmd_ipc_disconnect(lrmd_t * lrmd)
 {
-	crm_info("trace");
     lrmd_private_t *native = lrmd->private;
 
     if (native->source != NULL) {
@@ -1405,7 +1368,6 @@ lrmd_ipc_disconnect(lrmd_t * lrmd)
 static void
 lrmd_tls_disconnect(lrmd_t * lrmd)
 {
-	crm_info("trace");
     lrmd_private_t *native = lrmd->private;
 
     if (native->remote->tls_session) {
@@ -1440,7 +1402,6 @@ lrmd_tls_disconnect(lrmd_t * lrmd)
 static int
 lrmd_api_disconnect(lrmd_t * lrmd)
 {
-	crm_info("trace");
     lrmd_private_t *native = lrmd->private;
 
     crm_info("Disconnecting from %d lrmd service", native->type);
@@ -1471,7 +1432,6 @@ lrmd_api_register_rsc(lrmd_t * lrmd,
                       const char *class,
                       const char *provider, const char *type, enum lrmd_call_options options)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     xmlNode *data = NULL;
 
@@ -1498,7 +1458,6 @@ lrmd_api_register_rsc(lrmd_t * lrmd,
 static int
 lrmd_api_unregister_rsc(lrmd_t * lrmd, const char *rsc_id, enum lrmd_call_options options)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     xmlNode *data = create_xml_node(NULL, F_LRMD_RSC);
 
@@ -1513,7 +1472,6 @@ lrmd_api_unregister_rsc(lrmd_t * lrmd, const char *rsc_id, enum lrmd_call_option
 lrmd_rsc_info_t *
 lrmd_copy_rsc_info(lrmd_rsc_info_t * rsc_info)
 {
-	crm_info("trace");
     lrmd_rsc_info_t *copy = NULL;
 
     copy = calloc(1, sizeof(lrmd_rsc_info_t));
@@ -1531,7 +1489,6 @@ lrmd_copy_rsc_info(lrmd_rsc_info_t * rsc_info)
 void
 lrmd_free_rsc_info(lrmd_rsc_info_t * rsc_info)
 {
-	crm_info("trace");
     if (!rsc_info) {
         return;
     }
@@ -1545,7 +1502,6 @@ lrmd_free_rsc_info(lrmd_rsc_info_t * rsc_info)
 static lrmd_rsc_info_t *
 lrmd_api_get_rsc_info(lrmd_t * lrmd, const char *rsc_id, enum lrmd_call_options options)
 {
-	crm_info("trace");
     lrmd_rsc_info_t *rsc_info = NULL;
     xmlNode *data = create_xml_node(NULL, F_LRMD_RSC);
     xmlNode *output = NULL;
@@ -1589,7 +1545,6 @@ lrmd_api_get_rsc_info(lrmd_t * lrmd, const char *rsc_id, enum lrmd_call_options 
 static void
 lrmd_api_set_callback(lrmd_t * lrmd, lrmd_event_callback callback)
 {
-	crm_info("trace");
     lrmd_private_t *native = lrmd->private;
 
     native->callback = callback;
@@ -1607,7 +1562,6 @@ lrmd_internal_set_proxy_callback(lrmd_t * lrmd, void *userdata, void (*callback)
 void
 lrmd_internal_proxy_dispatch(lrmd_t *lrmd, xmlNode *msg)
 {
-	crm_info("trace");
     lrmd_private_t *native = lrmd->private;
 
     if (native->proxy_callback) {
@@ -1619,7 +1573,6 @@ lrmd_internal_proxy_dispatch(lrmd_t *lrmd, xmlNode *msg)
 int
 lrmd_internal_proxy_send(lrmd_t * lrmd, xmlNode *msg)
 {
-	crm_info("trace");
     if (lrmd == NULL) {
         return -ENOTCONN;
     }
@@ -1632,7 +1585,6 @@ lrmd_internal_proxy_send(lrmd_t * lrmd, xmlNode *msg)
 static int
 stonith_get_metadata(const char *provider, const char *type, char **output)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     stonith_t *stonith_api = stonith_api_new();
 
@@ -1710,7 +1662,6 @@ stonith_get_metadata(const char *provider, const char *type, char **output)
 static inline gboolean
 lsb_meta_helper_get_value(const char *line, char **value, const char *prefix)
 {
-	crm_info("trace");
     if (!*value && !strncasecmp(line, prefix, strlen(prefix))) {
         *value = (char *)xmlEncodeEntitiesReentrant(NULL, BAD_CAST line+strlen(prefix));
         return TRUE;
@@ -1721,7 +1672,6 @@ lsb_meta_helper_get_value(const char *line, char **value, const char *prefix)
 static int
 lsb_get_metadata(const char *type, char **output)
 {
-	crm_info("trace");
     char ra_pathname[PATH_MAX] = { 0, };
     FILE *fp;
     char buffer[1024];
@@ -1838,7 +1788,6 @@ lsb_get_metadata(const char *type, char **output)
 static int
 nagios_get_metadata(const char *type, char **output)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     FILE *file_strm = NULL;
     int start = 0, length = 0, read_len = 0;
@@ -1972,7 +1921,6 @@ static const char hb_metadata_template[] =
 static int
 heartbeat_get_metadata(const char *type, char **output)
 {
-	crm_info("trace");
 	*output = crm_strdup_printf(hb_metadata_template, type, type, type);
 	crm_trace("Created fake metadata: %llu",
               (unsigned long long) strlen(*output));
@@ -1983,7 +1931,6 @@ heartbeat_get_metadata(const char *type, char **output)
 static int
 generic_get_metadata(const char *standard, const char *provider, const char *type, char **output)
 {
-	crm_info("trace");
     svc_action_t *action;
 
     action = resources_action_create(type, standard, provider, type,
@@ -2018,7 +1965,6 @@ lrmd_api_get_metadata(lrmd_t * lrmd,
                       const char *provider,
                       const char *type, char **output, enum lrmd_call_options options)
 {
-	crm_info("trace");
     if (!class || !type) {
         return -EINVAL;
     }
@@ -2085,7 +2031,6 @@ lrmd_api_exec(lrmd_t * lrmd, const char *rsc_id, const char *action, const char 
 static int
 lrmd_api_cancel(lrmd_t * lrmd, const char *rsc_id, const char *action, int interval)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     xmlNode *data = create_xml_node(NULL, F_LRMD_RSC);
 
@@ -2101,7 +2046,6 @@ lrmd_api_cancel(lrmd_t * lrmd, const char *rsc_id, const char *action, int inter
 static int
 list_stonith_agents(lrmd_list_t ** resources)
 {
-	crm_info("trace");
     int rc = 0;
     stonith_t *stonith_api = stonith_api_new();
     stonith_key_value_t *stonith_resources = NULL;
@@ -2127,7 +2071,6 @@ static int
 lrmd_api_list_agents(lrmd_t * lrmd, lrmd_list_t ** resources, const char *class,
                      const char *provider)
 {
-	crm_info("trace");
     int rc = 0;
 
     if (safe_str_eq(class, "stonith")) {
@@ -2158,7 +2101,6 @@ lrmd_api_list_agents(lrmd_t * lrmd, lrmd_list_t ** resources, const char *class,
 static int
 does_provider_have_agent(const char *agent, const char *provider, const char *class)
 {
-	crm_info("trace");
     int found = 0;
     GList *agents = NULL;
     GListPtr gIter2 = NULL;
@@ -2177,7 +2119,6 @@ does_provider_have_agent(const char *agent, const char *provider, const char *cl
 static int
 lrmd_api_list_ocf_providers(lrmd_t * lrmd, const char *agent, lrmd_list_t ** providers)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     char *provider = NULL;
     GList *ocf_providers = NULL;
@@ -2200,7 +2141,6 @@ lrmd_api_list_ocf_providers(lrmd_t * lrmd, const char *agent, lrmd_list_t ** pro
 static int
 lrmd_api_list_standards(lrmd_t * lrmd, lrmd_list_t ** supported)
 {
-	crm_info("trace");
     int rc = 0;
     GList *standards = NULL;
     GListPtr gIter = NULL;
@@ -2224,7 +2164,6 @@ lrmd_api_list_standards(lrmd_t * lrmd, lrmd_list_t ** supported)
 lrmd_t *
 lrmd_api_new(void)
 {
-	crm_info("trace");
     lrmd_t *new_lrmd = NULL;
     lrmd_private_t *pvt = NULL;
 
@@ -2258,7 +2197,6 @@ lrmd_api_new(void)
 lrmd_t *
 lrmd_remote_api_new(const char *nodename, const char *server, int port)
 {
-	crm_info("trace");
 #ifdef HAVE_GNUTLS_GNUTLS_H
     lrmd_t *new_lrmd = lrmd_api_new();
     lrmd_private_t *native = new_lrmd->private;
@@ -2288,7 +2226,6 @@ lrmd_remote_api_new(const char *nodename, const char *server, int port)
 void
 lrmd_api_delete(lrmd_t * lrmd)
 {
-	crm_info("trace");
     if (!lrmd) {
         return;
     }

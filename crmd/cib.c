@@ -54,7 +54,6 @@ int cib_retries = 0;
 static void
 do_cib_updated(const char *event, xmlNode * msg)
 {
-	crm_info("trace");
     int rc = -1;
     int format= 1;
     xmlNode *patchset = get_message_xml(msg, F_CIB_UPDATE_RESULT);
@@ -113,7 +112,6 @@ do_cib_updated(const char *event, xmlNode * msg)
 static void
 revision_check_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
-	crm_info("trace");
     int cmp = -1;
     xmlNode *generation = NULL;
     const char *revision = NULL;
@@ -147,7 +145,6 @@ revision_check_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, vo
 static void
 do_cib_replaced(const char *event, xmlNode * msg)
 {
-	crm_info("trace");
     crm_debug("Updating the CIB after a replace: DC=%s", AM_I_DC ? "true" : "false");
     if (AM_I_DC == FALSE) {
         return;
@@ -169,7 +166,6 @@ do_cib_control(long long action,
                enum crmd_fsa_state cur_state,
                enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
-	crm_info("trace");
     struct crm_subsystem_s *this_subsys = cib_subsystem;
 
     long long stop_actions = A_CIB_STOP;
@@ -271,7 +267,6 @@ do_cib_control(long long action,
  */
 int crmd_cib_smart_opt()
 {
-	crm_info("trace");
     int call_opt = cib_quorum_override;
 
     if (fsa_state == S_ELECTION || fsa_state == S_PENDING) {

@@ -86,7 +86,6 @@ int cib_remote_perform_op(cib_t * cib, const char *op, const char *host, const c
 static int
 cib_remote_inputfd(cib_t * cib)
 {
-	crm_info("trace");
     cib_remote_opaque_t *private = cib->variant_opaque;
 
     return private->callback.tcp_socket;
@@ -101,7 +100,6 @@ cib_remote_set_connection_dnotify(cib_t * cib, void (*dnotify) (gpointer user_da
 static int
 cib_remote_register_notification(cib_t * cib, const char *callback, int enabled)
 {
-	crm_info("trace");
     xmlNode *notify_msg = create_xml_node(NULL, "cib_command");
     cib_remote_opaque_t *private = cib->variant_opaque;
 
@@ -117,7 +115,6 @@ cib_t *
 cib_remote_new(const char *server, const char *user, const char *passwd, int port,
                gboolean encrypted)
 {
-	crm_info("trace");
     cib_remote_opaque_t *private = NULL;
     cib_t *cib = cib_new_variant();
 
@@ -157,7 +154,6 @@ cib_remote_new(const char *server, const char *user, const char *passwd, int por
 static int
 cib_tls_close(cib_t * cib)
 {
-	crm_info("trace");
     cib_remote_opaque_t *private = cib->variant_opaque;
 
 #ifdef HAVE_GNUTLS_GNUTLS_H
@@ -205,7 +201,6 @@ cib_tls_close(cib_t * cib)
 static int
 cib_tls_signon(cib_t * cib, crm_remote_t * connection, gboolean event_channel)
 {
-	crm_info("trace");
     int sock;
     cib_remote_opaque_t *private = cib->variant_opaque;
     int rc = 0;
@@ -315,7 +310,6 @@ cib_tls_signon(cib_t * cib, crm_remote_t * connection, gboolean event_channel)
 void
 cib_remote_connection_destroy(gpointer user_data)
 {
-	crm_info("trace");
     crm_err("Connection destroyed");
 #ifdef HAVE_GNUTLS_GNUTLS_H
     cib_tls_close(user_data);
@@ -326,7 +320,6 @@ cib_remote_connection_destroy(gpointer user_data)
 int
 cib_remote_command_dispatch(gpointer user_data)
 {
-	crm_info("trace");
     int disconnected = 0;
     cib_t *cib = user_data;
     cib_remote_opaque_t *private = cib->variant_opaque;
@@ -346,7 +339,6 @@ cib_remote_command_dispatch(gpointer user_data)
 int
 cib_remote_callback_dispatch(gpointer user_data)
 {
-	crm_info("trace");
     cib_t *cib = user_data;
     cib_remote_opaque_t *private = cib->variant_opaque;
 
@@ -387,7 +379,6 @@ cib_remote_callback_dispatch(gpointer user_data)
 int
 cib_remote_signon(cib_t * cib, const char *name, enum cib_conn_type type)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     cib_remote_opaque_t *private = cib->variant_opaque;
 
@@ -452,7 +443,6 @@ cib_remote_signon(cib_t * cib, const char *name, enum cib_conn_type type)
 int
 cib_remote_signoff(cib_t * cib)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
 
     /* cib_remote_opaque_t *private = cib->variant_opaque; */
@@ -471,7 +461,6 @@ cib_remote_signoff(cib_t * cib)
 int
 cib_remote_free(cib_t * cib)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
 
     crm_warn("Freeing CIB");
@@ -496,7 +485,6 @@ int
 cib_remote_perform_op(cib_t * cib, const char *op, const char *host, const char *section,
                       xmlNode * data, xmlNode ** output_data, int call_options, const char *name)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     int disconnected = 0;
     int remaining_time = 0;

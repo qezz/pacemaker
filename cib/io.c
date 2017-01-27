@@ -53,7 +53,6 @@ int write_cib_contents(gpointer p);
 static void
 cib_rename(const char *old)
 {
-	crm_info("trace");
     int new_fd;
     char *new = crm_strdup_printf("%s/cib.auto.XXXXXX", cib_root);
 
@@ -77,7 +76,6 @@ cib_rename(const char *old)
 static xmlNode *
 retrieveCib(const char *filename, const char *sigfile)
 {
-	crm_info("trace");
     xmlNode *root = NULL;
 
     crm_info("Reading cluster configuration file %s (digest: %s)",
@@ -114,7 +112,6 @@ retrieveCib(const char *filename, const char *sigfile)
 
 static int cib_archive_filter(const struct dirent * a)
 {
-	crm_info("trace");
     int rc = 0;
     /* Looking for regular files (d_type = 8) starting with 'cib-' and not ending in .sig */
     struct stat s;
@@ -160,7 +157,6 @@ static int cib_archive_filter(const struct dirent * a)
 
 static int cib_archive_sort(const struct dirent ** a, const struct dirent **b)
 {
-	crm_info("trace");
     /* Order by creation date - most recently created file first */
     int rc = 0;
     struct stat buf;
@@ -196,7 +192,6 @@ static int cib_archive_sort(const struct dirent ** a, const struct dirent **b)
 xmlNode *
 readCibXmlFile(const char *dir, const char *file, gboolean discard_status)
 {
-	crm_info("trace");
     struct dirent **namelist = NULL;
 
     int lpc = 0;
@@ -336,14 +331,12 @@ readCibXmlFile(const char *dir, const char *file, gboolean discard_status)
 xmlNode *
 get_the_CIB(void)
 {
-	crm_info("trace");
     return the_cib;
 }
 
 gboolean
 uninitializeCib(void)
 {
-	crm_info("trace");
     xmlNode *tmp_cib = the_cib;
 
     if (tmp_cib == NULL) {
@@ -371,7 +364,6 @@ uninitializeCib(void)
 gboolean
 initializeCib(xmlNode * new_cib)
 {
-	crm_info("trace");
     if (new_cib == NULL) {
         return FALSE;
     }
@@ -388,7 +380,6 @@ initializeCib(xmlNode * new_cib)
 int
 activateCibXml(xmlNode * new_cib, gboolean to_disk, const char *op)
 {
-	crm_info("trace");
     xmlNode *saved_cib = the_cib;
 
     CRM_ASSERT(new_cib != saved_cib);
@@ -422,7 +413,6 @@ activateCibXml(xmlNode * new_cib, gboolean to_disk, const char *op)
 static void
 cib_diskwrite_complete(mainloop_child_t * p, pid_t pid, int core, int signo, int exitcode)
 {
-	crm_info("trace");
     if (signo) {
         crm_notice("Disk write process terminated with signal %d (pid=%d, core=%d)", signo, pid,
                    core);
@@ -443,7 +433,6 @@ cib_diskwrite_complete(mainloop_child_t * p, pid_t pid, int core, int signo, int
 int
 write_cib_contents(gpointer p)
 {
-	crm_info("trace");
     int exit_rc = pcmk_ok;
     xmlNode *cib_local = NULL;
 

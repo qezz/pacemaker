@@ -66,7 +66,6 @@ static gboolean crm_autoreap  = TRUE;
 int
 crm_remote_peer_cache_size(void)
 {
-	crm_info("trace");
     if (crm_remote_peer_cache == NULL) {
         return 0;
     }
@@ -87,7 +86,6 @@ crm_remote_peer_cache_size(void)
 crm_node_t *
 crm_remote_peer_get(const char *node_name)
 {
-	crm_info("trace");
     crm_node_t *node;
 
     if (node_name == NULL) {
@@ -136,14 +134,12 @@ crm_remote_peer_get(const char *node_name)
 void
 crm_remote_peer_cache_add(const char *node_name)
 {
-	crm_info("trace");
     CRM_ASSERT(crm_remote_peer_get(node_name) != NULL);
 }
 
 void
 crm_remote_peer_cache_remove(const char *node_name)
 {
-	crm_info("trace");
     if (g_hash_table_remove(crm_remote_peer_cache, node_name)) {
         crm_trace("removed %s from remote peer cache", node_name);
     }
@@ -163,7 +159,6 @@ crm_remote_peer_cache_remove(const char *node_name)
 static const char *
 remote_state_from_cib(xmlNode *node_state)
 {
-	crm_info("trace");
     const char *status;
 
     status = crm_element_value(node_state, XML_NODE_IN_CLUSTER);
@@ -191,7 +186,6 @@ struct refresh_data {
 static void
 remote_cache_refresh_helper(xmlNode *result, void *user_data)
 {
-	crm_info("trace");
     struct refresh_data *data = user_data;
     const char *remote = crm_element_value(result, data->field);
     const char *state = NULL;
@@ -227,14 +221,12 @@ remote_cache_refresh_helper(xmlNode *result, void *user_data)
 static void
 mark_dirty(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     set_bit(((crm_node_t*)value)->flags, crm_node_dirty);
 }
 
 static gboolean
 is_dirty(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     return is_set(((crm_node_t*)value)->flags, crm_node_dirty);
 }
 
@@ -262,7 +254,6 @@ is_dirty(gpointer key, gpointer value, gpointer user_data)
 void
 crm_remote_peer_cache_refresh(xmlNode *cib)
 {
-	crm_info("trace");
     struct refresh_data data;
 
     crm_peer_init();
@@ -301,7 +292,6 @@ crm_remote_peer_cache_refresh(xmlNode *cib)
 gboolean
 crm_is_peer_active(const crm_node_t * node)
 {
-	crm_info("trace");
     if(node == NULL) {
         return FALSE;
     }
@@ -328,7 +318,6 @@ crm_is_peer_active(const crm_node_t * node)
 static gboolean
 crm_reap_dead_member(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     crm_node_t *node = value;
     crm_node_t *search = user_data;
 
@@ -360,7 +349,6 @@ crm_reap_dead_member(gpointer key, gpointer value, gpointer user_data)
 guint
 reap_crm_member(uint32_t id, const char *name)
 {
-	crm_info("trace");
     int matches = 0;
     crm_node_t search;
 
@@ -391,7 +379,6 @@ reap_crm_member(uint32_t id, const char *name)
 static void
 crm_count_peer(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     guint *count = user_data;
     crm_node_t *node = value;
 
@@ -403,7 +390,6 @@ crm_count_peer(gpointer key, gpointer value, gpointer user_data)
 guint
 crm_active_peers(void)
 {
-	crm_info("trace");
     guint count = 0;
 
     if (crm_peer_cache) {
@@ -415,7 +401,6 @@ crm_active_peers(void)
 static void
 destroy_crm_node(gpointer data)
 {
-	crm_info("trace");
     crm_node_t *node = data;
 
     crm_trace("Destroying entry for node %u: %s", node->id, node->uname);
@@ -431,7 +416,6 @@ destroy_crm_node(gpointer data)
 void
 crm_peer_init(void)
 {
-	crm_info("trace");
     if (crm_peer_cache == NULL) {
         crm_peer_cache = g_hash_table_new_full(crm_strcase_hash, crm_strcase_equal, free, destroy_crm_node);
     }
@@ -444,7 +428,6 @@ crm_peer_init(void)
 void
 crm_peer_destroy(void)
 {
-	crm_info("trace");
     if (crm_peer_cache != NULL) {
         crm_trace("Destroying peer cache with %d members", g_hash_table_size(crm_peer_cache));
         g_hash_table_destroy(crm_peer_cache);
@@ -490,13 +473,11 @@ crm_set_status_callback(void (*dispatch) (enum crm_status_type, crm_node_t *, co
 void
 crm_set_autoreap(gboolean autoreap)
 {
-	crm_info("trace");
     crm_autoreap = autoreap;
 }
 
 static void crm_dump_peer_hash(int level, const char *caller)
 {
-	crm_info("trace");
     GHashTableIter iter;
     const char *id = NULL;
     crm_node_t *node = NULL;
@@ -509,7 +490,6 @@ static void crm_dump_peer_hash(int level, const char *caller)
 
 static gboolean crm_hash_find_by_data(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     if(value == user_data) {
         return TRUE;
     }
@@ -519,7 +499,6 @@ static gboolean crm_hash_find_by_data(gpointer key, gpointer value, gpointer use
 crm_node_t *
 crm_find_peer_full(unsigned int id, const char *uname, int flags)
 {
-	crm_info("trace");
     crm_node_t *node = NULL;
 
     CRM_ASSERT(id > 0 || uname != NULL);
@@ -539,7 +518,6 @@ crm_find_peer_full(unsigned int id, const char *uname, int flags)
 crm_node_t *
 crm_get_peer_full(unsigned int id, const char *uname, int flags)
 {
-	crm_info("trace");
     crm_node_t *node = NULL;
 
     CRM_ASSERT(id > 0 || uname != NULL);
@@ -559,7 +537,6 @@ crm_get_peer_full(unsigned int id, const char *uname, int flags)
 crm_node_t *
 crm_find_peer(unsigned int id, const char *uname)
 {
-	crm_info("trace");
     GHashTableIter iter;
     crm_node_t *node = NULL;
     crm_node_t *by_id = NULL;
@@ -655,7 +632,6 @@ crm_find_peer(unsigned int id, const char *uname)
 static guint
 crm_remove_conflicting_peer(crm_node_t *node)
 {
-	crm_info("trace");
     int matches = 0;
     GHashTableIter iter;
     crm_node_t *existing_node = NULL;
@@ -697,7 +673,6 @@ crm_remove_conflicting_peer(crm_node_t *node)
 crm_node_t *
 crm_get_peer(unsigned int id, const char *uname)
 {
-	crm_info("trace");
     crm_node_t *node = NULL;
     char *uname_lookup = NULL;
 
@@ -779,7 +754,6 @@ crm_update_peer(const char *source, unsigned int id, uint64_t born, uint64_t see
                 uint32_t children, const char *uuid, const char *uname, const char *addr,
                 const char *state)
 {
-	crm_info("trace");
 #if SUPPORT_PLUGIN
     gboolean addr_changed = FALSE;
     gboolean votes_changed = FALSE;
@@ -861,7 +835,6 @@ crm_update_peer(const char *source, unsigned int id, uint64_t born, uint64_t see
 void
 crm_update_peer_uname(crm_node_t *node, const char *uname)
 {
-	crm_info("trace");
     int i, len = strlen(uname);
 
     for (i = 0; i < len; i++) {
@@ -904,7 +877,6 @@ crm_update_peer_uname(crm_node_t *node, const char *uname)
 crm_node_t *
 crm_update_peer_proc(const char *source, crm_node_t * node, uint32_t flag, const char *status)
 {
-	crm_info("trace");
     uint32_t last = 0;
     gboolean changed = FALSE;
 
@@ -979,7 +951,6 @@ crm_update_peer_proc(const char *source, crm_node_t * node, uint32_t flag, const
 void
 crm_update_peer_expected(const char *source, crm_node_t * node, const char *expected)
 {
-	crm_info("trace");
     char *last = NULL;
     gboolean changed = FALSE;
 
@@ -1026,7 +997,6 @@ crm_update_peer_expected(const char *source, crm_node_t * node, const char *expe
 static crm_node_t *
 crm_update_peer_state_iter(const char *source, crm_node_t * node, const char *state, int membership, GHashTableIter *iter)
 {
-	crm_info("trace");
     gboolean is_member;
 
     CRM_CHECK(node != NULL,
@@ -1093,7 +1063,6 @@ crm_update_peer_state_iter(const char *source, crm_node_t * node, const char *st
 crm_node_t *
 crm_update_peer_state(const char *source, crm_node_t * node, const char *state, int membership)
 {
-	crm_info("trace");
     return crm_update_peer_state_iter(source, node, state, membership, NULL);
 }
 
@@ -1106,7 +1075,6 @@ crm_update_peer_state(const char *source, crm_node_t * node, const char *state, 
 void
 crm_reap_unseen_nodes(uint64_t membership)
 {
-	crm_info("trace");
     GHashTableIter iter;
     crm_node_t *node = NULL;
 
@@ -1133,7 +1101,6 @@ crm_reap_unseen_nodes(uint64_t membership)
 int
 crm_terminate_member(int nodeid, const char *uname, void *unused)
 {
-	crm_info("trace");
     /* Always use the synchronous, non-mainloop version */
     return stonith_api_kick(nodeid, uname, 120, TRUE);
 }
@@ -1141,6 +1108,5 @@ crm_terminate_member(int nodeid, const char *uname, void *unused)
 int
 crm_terminate_member_no_mainloop(int nodeid, const char *uname, int *connection)
 {
-	crm_info("trace");
     return stonith_api_kick(nodeid, uname, 120, TRUE);
 }

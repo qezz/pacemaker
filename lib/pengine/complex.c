@@ -66,7 +66,6 @@ resource_object_functions_t resource_class_functions[] = {
 enum pe_obj_types
 get_resource_type(const char *name)
 {
-	crm_info("trace");
     if (safe_str_eq(name, XML_CIB_TAG_RESOURCE)) {
         return pe_native;
 
@@ -86,7 +85,6 @@ get_resource_type(const char *name)
 const char *
 get_resource_typename(enum pe_obj_types type)
 {
-	crm_info("trace");
     switch (type) {
         case pe_native:
             return XML_CIB_TAG_RESOURCE;
@@ -105,7 +103,6 @@ get_resource_typename(enum pe_obj_types type)
 static void
 dup_attr(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     add_hash_param(user_data, key, value);
 }
 
@@ -113,7 +110,6 @@ void
 get_meta_attributes(GHashTable * meta_hash, resource_t * rsc,
                     node_t * node, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     GHashTable *node_hash = NULL;
     const char *version = crm_element_value(data_set->input, XML_ATTR_CRM_VERSION);
 
@@ -157,7 +153,6 @@ void
 get_rsc_attributes(GHashTable * meta_hash, resource_t * rsc,
                    node_t * node, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     GHashTable *node_hash = NULL;
 
     if (node) {
@@ -182,7 +177,6 @@ void
 pe_get_versioned_attributes(xmlNode * meta_hash, resource_t * rsc,
                             node_t * node, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     GHashTable *node_hash = NULL;
 
     if (node) {
@@ -206,7 +200,6 @@ pe_get_versioned_attributes(xmlNode * meta_hash, resource_t * rsc,
 static char *
 template_op_key(xmlNode * op)
 {
-	crm_info("trace");
     const char *name = crm_element_value(op, "name");
     const char *role = crm_element_value(op, "role");
     char *key = NULL;
@@ -223,7 +216,6 @@ template_op_key(xmlNode * op)
 static gboolean
 unpack_template(xmlNode * xml_obj, xmlNode ** expanded_xml, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     xmlNode *cib_resources = NULL;
     xmlNode *template = NULL;
     xmlNode *new_xml = NULL;
@@ -334,7 +326,6 @@ unpack_template(xmlNode * xml_obj, xmlNode ** expanded_xml, pe_working_set_t * d
 static gboolean
 add_template_rsc(xmlNode * xml_obj, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     const char *template_ref = NULL;
     const char *id = NULL;
 
@@ -369,7 +360,6 @@ add_template_rsc(xmlNode * xml_obj, pe_working_set_t * data_set)
 static void
 handle_rsc_isolation(resource_t *rsc)
 {
-	crm_info("trace");
     resource_t *top = uber_parent(rsc);
     resource_t *iso = rsc;
     const char *wrapper = NULL;
@@ -415,7 +405,6 @@ gboolean
 common_unpack(xmlNode * xml_obj, resource_t ** rsc,
               resource_t * parent, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     bool isdefault = FALSE;
     xmlNode *expanded_xml = NULL;
     xmlNode *ops = NULL;
@@ -783,7 +772,6 @@ common_unpack(xmlNode * xml_obj, resource_t ** rsc,
 void
 common_update_score(resource_t * rsc, const char *id, int score)
 {
-	crm_info("trace");
     node_t *node = NULL;
 
     node = pe_hash_table_lookup(rsc->allowed_nodes, id);
@@ -806,7 +794,6 @@ common_update_score(resource_t * rsc, const char *id, int score)
 gboolean
 is_parent(resource_t *child, resource_t *rsc)
 {
-	crm_info("trace");
     resource_t *parent = child;
 
     if (parent == NULL || rsc == NULL) {
@@ -824,7 +811,6 @@ is_parent(resource_t *child, resource_t *rsc)
 resource_t *
 uber_parent(resource_t * rsc)
 {
-	crm_info("trace");
     resource_t *parent = rsc;
 
     if (parent == NULL) {
@@ -839,7 +825,6 @@ uber_parent(resource_t * rsc)
 void
 common_free(resource_t * rsc)
 {
-	crm_info("trace");
     if (rsc == NULL) {
         return;
     }

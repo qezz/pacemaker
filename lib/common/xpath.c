@@ -44,7 +44,6 @@
 void
 freeXpathObject(xmlXPathObjectPtr xpathObj)
 {
-	crm_info("trace");
     int lpc, max = numXpathResults(xpathObj);
 
     if (xpathObj == NULL) {
@@ -64,7 +63,6 @@ freeXpathObject(xmlXPathObjectPtr xpathObj)
 xmlNode *
 getXpathResult(xmlXPathObjectPtr xpathObj, int index)
 {
-	crm_info("trace");
     xmlNode *match = NULL;
     int max = numXpathResults(xpathObj);
 
@@ -108,7 +106,6 @@ getXpathResult(xmlXPathObjectPtr xpathObj, int index)
 void
 dedupXpathResults(xmlXPathObjectPtr xpathObj)
 {
-	crm_info("trace");
     int lpc, max = numXpathResults(xpathObj);
 
     if (xpathObj == NULL) {
@@ -147,7 +144,6 @@ dedupXpathResults(xmlXPathObjectPtr xpathObj)
 xmlXPathObjectPtr
 xpath_search(xmlNode * xml_top, const char *path)
 {
-	crm_info("trace");
     xmlDocPtr doc = NULL;
     xmlXPathObjectPtr xpathObj = NULL;
     xmlXPathContextPtr xpathCtx = NULL;
@@ -201,7 +197,6 @@ crm_foreach_xpath_result(xmlNode *xml, const char *xpath,
 xmlNode *
 get_xpath_object_relative(const char *xpath, xmlNode * xml_obj, int error_level)
 {
-	crm_info("trace");
     int len = 0;
     xmlNode *result = NULL;
     char *xpath_full = NULL;
@@ -228,7 +223,6 @@ get_xpath_object_relative(const char *xpath, xmlNode * xml_obj, int error_level)
 xmlNode *
 get_xpath_object(const char *xpath, xmlNode * xml_obj, int error_level)
 {
-	crm_info("trace");
     int max;
     xmlNode *result = NULL;
     xmlXPathObjectPtr xpathObj = NULL;

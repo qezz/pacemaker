@@ -61,7 +61,6 @@ gboolean process_pe_message(xmlNode * msg, xmlNode * xml_data, crm_client_t * se
 gboolean
 process_pe_message(xmlNode * msg, xmlNode * xml_data, crm_client_t * sender)
 {
-	crm_info("trace");
     static char *last_digest = NULL;
     static char *filename = NULL;
 
@@ -206,7 +205,6 @@ process_pe_message(xmlNode * msg, xmlNode * xml_data, crm_client_t * sender)
 xmlNode *
 do_calculations(pe_working_set_t * data_set, xmlNode * xml_input, crm_time_t * now)
 {
-	crm_info("trace");
     GListPtr gIter = NULL;
     int rsc_log_level = LOG_INFO;
 

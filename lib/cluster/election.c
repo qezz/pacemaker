@@ -44,7 +44,6 @@ struct election_s
 
 static void election_complete(election_t *e)
 {
-	crm_info("trace");
     crm_info("Election %s complete", e->name);
     e->state = election_won;
 
@@ -57,7 +56,6 @@ static void election_complete(election_t *e)
 
 static gboolean election_timer_cb(gpointer user_data)
 {
-	crm_info("trace");
     election_t *e = user_data;
 
     crm_info("Election %s %p timed out", e->name, e);
@@ -68,7 +66,6 @@ static gboolean election_timer_cb(gpointer user_data)
 enum election_result
 election_state(election_t *e)
 {
-	crm_info("trace");
     if(e) {
         return e->state;
     }
@@ -78,7 +75,6 @@ election_state(election_t *e)
 election_t *
 election_init(const char *name, const char *uname, guint period_ms, GSourceFunc cb)
 {
-	crm_info("trace");
     static guint count = 0;
     election_t *e = calloc(1, sizeof(election_t));
 
@@ -100,7 +96,6 @@ election_init(const char *name, const char *uname, guint period_ms, GSourceFunc 
 void
 election_remove(election_t *e, const char *uname)
 {
-	crm_info("trace");
     if(e && uname && e->voted) {
         g_hash_table_remove(e->voted, uname);
     }
@@ -109,7 +104,6 @@ election_remove(election_t *e, const char *uname)
 void
 election_reset(election_t *e)
 {
-	crm_info("trace");
     crm_trace("Resetting election %s", e->name);
     if(e) {
         mainloop_timer_stop(e->timeout);
@@ -124,7 +118,6 @@ election_reset(election_t *e)
 void
 election_fini(election_t *e)
 {
-	crm_info("trace");
     if(e) {
         election_reset(e);
         crm_trace("Destroying %s", e->name);
@@ -138,7 +131,6 @@ election_fini(election_t *e)
 static void
 election_timeout_start(election_t *e)
 {
-	crm_info("trace");
     if(e) {
         mainloop_timer_start(e->timeout);
     }
@@ -147,7 +139,6 @@ election_timeout_start(election_t *e)
 void
 election_timeout_stop(election_t *e)
 {
-	crm_info("trace");
     if(e) {
         mainloop_timer_stop(e->timeout);
     }
@@ -156,7 +147,6 @@ election_timeout_stop(election_t *e)
 void
 election_timeout_set_period(election_t *e, guint period)
 {
-	crm_info("trace");
     if(e) {
         mainloop_timer_set_period(e->timeout, period);
     } else {
@@ -167,7 +157,6 @@ election_timeout_set_period(election_t *e, guint period)
 static int
 crm_uptime(struct timeval *output)
 {
-	crm_info("trace");
     static time_t expires = 0;
     static struct rusage info;
 
@@ -203,7 +192,6 @@ crm_uptime(struct timeval *output)
 static int
 crm_compare_age(struct timeval your_age)
 {
-	crm_info("trace");
     struct timeval our_age;
 
     crm_uptime(&our_age); /* If an error occurred, our_age will be compared as {0,0} */
@@ -230,7 +218,6 @@ crm_compare_age(struct timeval your_age)
 void
 election_vote(election_t *e)
 {
-	crm_info("trace");
     struct timeval age;
     xmlNode *vote = NULL;
     crm_node_t *our_node;
@@ -273,7 +260,6 @@ election_vote(election_t *e)
 bool
 election_check(election_t *e)
 {
-	crm_info("trace");
     int voted_size = 0;
     int num_members = crm_active_peers();
 
@@ -328,7 +314,6 @@ election_check(election_t *e)
 enum election_result
 election_count_vote(election_t *e, xmlNode *vote, bool can_win)
 {
-	crm_info("trace");
     int age = 0;
     int election_id = -1;
     int log_level = LOG_INFO;

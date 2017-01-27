@@ -55,7 +55,6 @@ static DBusConnection *upstart_proxy = NULL;
 static gboolean
 upstart_init(void)
 {
-	crm_info("trace");
     static int need_init = 1;
 
     if (need_init) {
@@ -71,7 +70,6 @@ upstart_init(void)
 void
 upstart_cleanup(void)
 {
-	crm_info("trace");
     if (upstart_proxy) {
         pcmk_dbus_disconnect(upstart_proxy);
         upstart_proxy = NULL;
@@ -81,7 +79,6 @@ upstart_cleanup(void)
 static gboolean
 upstart_job_by_name(const gchar * arg_name, gchar ** out_unit, int timeout)
 {
-	crm_info("trace");
 /*
   com.ubuntu.Upstart0_6.GetJobByName (in String name, out ObjectPath job)
 */
@@ -133,7 +130,6 @@ upstart_job_by_name(const gchar * arg_name, gchar ** out_unit, int timeout)
 static void
 fix(char *input, const char *search, char replace)
 {
-	crm_info("trace");
     char *match = NULL;
     int shuffle = strlen(search) - 1;
 
@@ -156,7 +152,6 @@ fix(char *input, const char *search, char replace)
 static char *
 fix_upstart_name(const char *input)
 {
-	crm_info("trace");
     char *output = strdup(input);
 
     fix(output, "_2b", '+');
@@ -171,7 +166,6 @@ fix_upstart_name(const char *input)
 GList *
 upstart_job_listall(void)
 {
-	crm_info("trace");
     GList *units = NULL;
     DBusMessageIter args;
     DBusMessageIter unit;
@@ -252,14 +246,12 @@ upstart_job_listall(void)
 gboolean
 upstart_job_exists(const char *name)
 {
-	crm_info("trace");
     return upstart_job_by_name(name, NULL, DBUS_TIMEOUT_USE_DEFAULT);
 }
 
 static char *
 get_first_instance(const gchar * job, int timeout)
 {
-	crm_info("trace");
     char *instance = NULL;
     const char *method = "GetAllInstances";
     DBusError error;
@@ -319,7 +311,6 @@ get_first_instance(const gchar * job, int timeout)
 static void
 upstart_job_check(const char *name, const char *state, void *userdata)
 {
-	crm_info("trace");
     svc_action_t * op = userdata;
 
     if (state && g_strcmp0(state, "running") == 0) {
@@ -339,7 +330,6 @@ upstart_job_check(const char *name, const char *state, void *userdata)
 static char *
 upstart_job_metadata(const char *name)
 {
-	crm_info("trace");
     return crm_strdup_printf("<?xml version=\"1.0\"?>\n"
                            "<!DOCTYPE resource-agent SYSTEM \"ra-api-1.dtd\">\n"
                            "<resource-agent name=\"%s\" version=\"0.1\">\n"
@@ -365,7 +355,6 @@ upstart_job_metadata(const char *name)
 static bool
 upstart_mask_error(svc_action_t *op, const char *error)
 {
-	crm_info("trace");
     crm_trace("Could not issue %s for %s: %s", op->action, op->rsc, error);
     if(strstr(error, UPSTART_06_API ".Error.UnknownInstance")) {
         if(safe_str_eq(op->action, "stop")) {
@@ -392,7 +381,6 @@ upstart_mask_error(svc_action_t *op, const char *error)
 static void
 upstart_async_dispatch(DBusPendingCall *pending, void *user_data)
 {
-	crm_info("trace");
     DBusError error;
     DBusMessage *reply = NULL;
     svc_action_t *op = user_data;
@@ -443,7 +431,6 @@ upstart_async_dispatch(DBusPendingCall *pending, void *user_data)
 gboolean
 upstart_job_exec(svc_action_t * op, gboolean synchronous)
 {
-	crm_info("trace");
     char *job = NULL;
     int arg_wait = TRUE;
     const char *arg_env = "pacemaker=1";

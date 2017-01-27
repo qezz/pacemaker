@@ -52,7 +52,6 @@ static unsigned int pick_ipc_buffer(unsigned int max);
 static inline void
 crm_ipc_init(void)
 {
-	crm_info("trace");
     if (hdr_offset == 0) {
         hdr_offset = sizeof(struct crm_ipc_response_header);
     }
@@ -64,14 +63,12 @@ crm_ipc_init(void)
 unsigned int
 crm_ipc_default_buffer_size(void)
 {
-	crm_info("trace");
     return pick_ipc_buffer(0);
 }
 
 static char *
 generateReference(const char *custom1, const char *custom2)
 {
-	crm_info("trace");
     static uint ref_counter = 0;
     const char *local_cust1 = custom1;
     const char *local_cust2 = custom2;
@@ -106,7 +103,6 @@ create_request_adv(const char *task, xmlNode * msg_data,
                    const char *host_to, const char *sys_to,
                    const char *sys_from, const char *uuid_from, const char *origin)
 {
-	crm_info("trace");
     char *true_from = NULL;
     xmlNode *request = NULL;
     char *reference = generateReference(task, sys_from);
@@ -157,7 +153,6 @@ create_request_adv(const char *task, xmlNode * msg_data,
 xmlNode *
 create_reply_adv(xmlNode * original_request, xmlNode * xml_response_data, const char *origin)
 {
-	crm_info("trace");
     xmlNode *reply = NULL;
 
     const char *host_from = crm_element_value(original_request, F_CRM_HOST_FROM);
@@ -215,7 +210,6 @@ GHashTable *client_connections = NULL;
 crm_client_t *
 crm_client_get(qb_ipcs_connection_t * c)
 {
-	crm_info("trace");
     if (client_connections) {
         return g_hash_table_lookup(client_connections, c);
     }
@@ -227,7 +221,6 @@ crm_client_get(qb_ipcs_connection_t * c)
 crm_client_t *
 crm_client_get_by_id(const char *id)
 {
-	crm_info("trace");
     gpointer key;
     crm_client_t *client;
     GHashTableIter iter;
@@ -248,7 +241,6 @@ crm_client_get_by_id(const char *id)
 const char *
 crm_client_name(crm_client_t * c)
 {
-	crm_info("trace");
     if (c == NULL) {
         return "null";
     } else if (c->name == NULL && c->id == NULL) {
@@ -263,7 +255,6 @@ crm_client_name(crm_client_t * c)
 void
 crm_client_init(void)
 {
-	crm_info("trace");
     if (client_connections == NULL) {
         crm_trace("Creating client hash table");
         client_connections = g_hash_table_new(g_direct_hash, g_direct_equal);
@@ -273,7 +264,6 @@ crm_client_init(void)
 void
 crm_client_cleanup(void)
 {
-	crm_info("trace");
     if (client_connections != NULL) {
         int active = g_hash_table_size(client_connections);
 
@@ -287,7 +277,6 @@ crm_client_cleanup(void)
 void
 crm_client_disconnect_all(qb_ipcs_service_t *service)
 {
-	crm_info("trace");
     qb_ipcs_connection_t *c = NULL;
 
     if (service == NULL) {
@@ -311,7 +300,6 @@ crm_client_disconnect_all(qb_ipcs_service_t *service)
 crm_client_t *
 crm_client_new(qb_ipcs_connection_t * c, uid_t uid_client, gid_t gid_client)
 {
-	crm_info("trace");
     static uid_t uid_server = 0;
     static gid_t gid_cluster = 0;
 
@@ -369,7 +357,6 @@ crm_client_new(qb_ipcs_connection_t * c, uid_t uid_client, gid_t gid_client)
 void
 crm_client_destroy(crm_client_t * c)
 {
-	crm_info("trace");
     if (c == NULL) {
         return;
     }
@@ -417,7 +404,6 @@ crm_client_destroy(crm_client_t * c)
 int
 crm_ipcs_client_pid(qb_ipcs_connection_t * c)
 {
-	crm_info("trace");
     struct qb_ipcs_connection_stats stats;
 
     stats.client_pid = 0;
@@ -428,7 +414,6 @@ crm_ipcs_client_pid(qb_ipcs_connection_t * c)
 xmlNode *
 crm_ipcs_recv(crm_client_t * c, void *data, size_t size, uint32_t * id, uint32_t * flags)
 {
-	crm_info("trace");
     xmlNode *xml = NULL;
     char *uncompressed = NULL;
     char *text = ((char *)data) + sizeof(struct crm_ipc_response_header);
@@ -486,7 +471,6 @@ ssize_t crm_ipcs_flush_events(crm_client_t * c);
 static gboolean
 crm_ipcs_flush_events_cb(gpointer data)
 {
-	crm_info("trace");
     crm_client_t *c = data;
 
     c->event_timer = 0;
@@ -497,7 +481,6 @@ crm_ipcs_flush_events_cb(gpointer data)
 ssize_t
 crm_ipcs_flush_events(crm_client_t * c)
 {
-	crm_info("trace");
     int sent = 0;
     ssize_t rc = 0;
     int queue_len = 0;
@@ -565,7 +548,6 @@ crm_ipcs_flush_events(crm_client_t * c)
 ssize_t
 crm_ipc_prepare(uint32_t request, xmlNode * message, struct iovec ** result, uint32_t max_send_size)
 {
-	crm_info("trace");
     static unsigned int biggest = 0;
     struct iovec *iov;
     unsigned int total = 0;
@@ -645,7 +627,6 @@ crm_ipc_prepare(uint32_t request, xmlNode * message, struct iovec ** result, uin
 ssize_t
 crm_ipcs_sendv(crm_client_t * c, struct iovec * iov, enum crm_ipc_flags flags)
 {
-	crm_info("trace");
     ssize_t rc;
     static uint32_t id = 1;
     struct crm_ipc_response_header *header = iov[0].iov_base;
@@ -720,7 +701,6 @@ ssize_t
 crm_ipcs_send(crm_client_t * c, uint32_t request, xmlNode * message,
               enum crm_ipc_flags flags)
 {
-	crm_info("trace");
     struct iovec *iov = NULL;
     ssize_t rc = 0;
 
@@ -746,7 +726,6 @@ void
 crm_ipcs_send_ack(crm_client_t * c, uint32_t request, uint32_t flags, const char *tag, const char *function,
                   int line)
 {
-	crm_info("trace");
     if (flags & crm_ipc_client_response) {
         xmlNode *ack = create_xml_node(NULL, tag);
 
@@ -784,7 +763,6 @@ struct crm_ipc_s {
 static unsigned int
 pick_ipc_buffer(unsigned int max)
 {
-	crm_info("trace");
     static unsigned int global_max = 0;
 
     if (global_max == 0) {
@@ -806,7 +784,6 @@ pick_ipc_buffer(unsigned int max)
 crm_ipc_t *
 crm_ipc_new(const char *name, size_t max_size)
 {
-	crm_info("trace");
     crm_ipc_t *client = NULL;
 
     client = calloc(1, sizeof(crm_ipc_t));
@@ -835,7 +812,6 @@ crm_ipc_new(const char *name, size_t max_size)
 bool
 crm_ipc_connect(crm_ipc_t * client)
 {
-	crm_info("trace");
     client->need_reply = FALSE;
     client->ipc = qb_ipcc_connect(client->name, client->buf_size);
 
@@ -867,7 +843,6 @@ crm_ipc_connect(crm_ipc_t * client)
 void
 crm_ipc_close(crm_ipc_t * client)
 {
-	crm_info("trace");
     if (client) {
         crm_trace("Disconnecting %s IPC connection %p (%p)", client->name, client, client->ipc);
 
@@ -883,7 +858,6 @@ crm_ipc_close(crm_ipc_t * client)
 void
 crm_ipc_destroy(crm_ipc_t * client)
 {
-	crm_info("trace");
     if (client) {
         if (client->ipc && qb_ipcc_is_connected(client->ipc)) {
             crm_notice("Destroying an active IPC connection to %s", client->name);
@@ -907,7 +881,6 @@ crm_ipc_destroy(crm_ipc_t * client)
 int
 crm_ipc_get_fd(crm_ipc_t * client)
 {
-	crm_info("trace");
     int fd = 0;
 
     if (client && client->ipc && (qb_ipcc_fd_get(client->ipc, &fd) == 0)) {
@@ -922,7 +895,6 @@ crm_ipc_get_fd(crm_ipc_t * client)
 bool
 crm_ipc_connected(crm_ipc_t * client)
 {
-	crm_info("trace");
     bool rc = FALSE;
 
     if (client == NULL) {
@@ -948,7 +920,6 @@ crm_ipc_connected(crm_ipc_t * client)
 int
 crm_ipc_ready(crm_ipc_t * client)
 {
-	crm_info("trace");
     CRM_ASSERT(client != NULL);
 
     if (crm_ipc_connected(client) == FALSE) {
@@ -962,7 +933,6 @@ crm_ipc_ready(crm_ipc_t * client)
 static int
 crm_ipc_decompress(crm_ipc_t * client)
 {
-	crm_info("trace");
     struct crm_ipc_response_header *header = (struct crm_ipc_response_header *)(void*)client->buffer;
 
     if (header->size_compressed) {
@@ -1009,7 +979,6 @@ crm_ipc_decompress(crm_ipc_t * client)
 long
 crm_ipc_read(crm_ipc_t * client)
 {
-	crm_info("trace");
     struct crm_ipc_response_header *header = NULL;
 
     CRM_ASSERT(client != NULL);
@@ -1056,7 +1025,6 @@ crm_ipc_read(crm_ipc_t * client)
 const char *
 crm_ipc_buffer(crm_ipc_t * client)
 {
-	crm_info("trace");
     CRM_ASSERT(client != NULL);
     return client->buffer + sizeof(struct crm_ipc_response_header);
 }
@@ -1064,7 +1032,6 @@ crm_ipc_buffer(crm_ipc_t * client)
 uint32_t
 crm_ipc_buffer_flags(crm_ipc_t * client)
 {
-	crm_info("trace");
     struct crm_ipc_response_header *header = NULL;
 
     CRM_ASSERT(client != NULL);
@@ -1079,7 +1046,6 @@ crm_ipc_buffer_flags(crm_ipc_t * client)
 const char *
 crm_ipc_name(crm_ipc_t * client)
 {
-	crm_info("trace");
     CRM_ASSERT(client != NULL);
     return client->name;
 }
@@ -1087,7 +1053,6 @@ crm_ipc_name(crm_ipc_t * client)
 static int
 internal_ipc_send_recv(crm_ipc_t * client, const void *iov)
 {
-	crm_info("trace");
     int rc = 0;
 
     do {
@@ -1100,7 +1065,6 @@ internal_ipc_send_recv(crm_ipc_t * client, const void *iov)
 static int
 internal_ipc_send_request(crm_ipc_t * client, const void *iov, int ms_timeout)
 {
-	crm_info("trace");
     int rc = 0;
     time_t timeout = time(NULL) + 1 + (ms_timeout / 1000);
 
@@ -1114,7 +1078,6 @@ internal_ipc_send_request(crm_ipc_t * client, const void *iov, int ms_timeout)
 static int
 internal_ipc_get_reply(crm_ipc_t * client, int request_id, int ms_timeout)
 {
-	crm_info("trace");
     time_t timeout = time(NULL) + 1 + (ms_timeout / 1000);
     int rc = 0;
 
@@ -1166,7 +1129,6 @@ int
 crm_ipc_send(crm_ipc_t * client, xmlNode * message, enum crm_ipc_flags flags, int32_t ms_timeout,
              xmlNode ** reply)
 {
-	crm_info("trace");
     long rc = 0;
     struct iovec *iov;
     static uint32_t id = 0;
@@ -1303,7 +1265,6 @@ xmlNode *
 create_hello_message(const char *uuid,
                      const char *client_name, const char *major_version, const char *minor_version)
 {
-	crm_info("trace");
     xmlNode *hello_node = NULL;
     xmlNode *hello = NULL;
 

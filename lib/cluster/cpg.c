@@ -57,7 +57,6 @@ gboolean(*pcmk_cpg_dispatch_fn) (int kind, const char *from, const char *data) =
 void
 cluster_disconnect_cpg(crm_cluster_t *cluster)
 {
-	crm_info("trace");
     pcmk_cpg_handle = 0;
     if (cluster->cpg_handle) {
         crm_trace("Disconnecting CPG");
@@ -72,7 +71,6 @@ cluster_disconnect_cpg(crm_cluster_t *cluster)
 
 uint32_t get_local_nodeid(cpg_handle_t handle)
 {
-	crm_info("trace");
     int rc = CS_OK;
     int retries = 0;
     static uint32_t local_nodeid = 0;
@@ -122,7 +120,6 @@ static ssize_t crm_cs_flush(gpointer data);
 static gboolean
 crm_cs_flush_cb(gpointer data)
 {
-	crm_info("trace");
     cs_message_timer = 0;
     crm_cs_flush(data);
     return FALSE;
@@ -132,7 +129,6 @@ crm_cs_flush_cb(gpointer data)
 static ssize_t
 crm_cs_flush(gpointer data)
 {
-	crm_info("trace");
     int sent = 0;
     ssize_t rc = 0;
     int queue_len = 0;
@@ -204,7 +200,6 @@ crm_cs_flush(gpointer data)
 gboolean
 send_cpg_iov(struct iovec * iov)
 {
-	crm_info("trace");
     static unsigned int queued = 0;
 
     queued++;
@@ -218,7 +213,6 @@ send_cpg_iov(struct iovec * iov)
 static int
 pcmk_cpg_dispatch(gpointer user_data)
 {
-	crm_info("trace");
     int rc = 0;
     crm_cluster_t *cluster = (crm_cluster_t*) user_data;
 
@@ -239,7 +233,6 @@ char *
 pcmk_message_common_cs(cpg_handle_t handle, uint32_t nodeid, uint32_t pid, void *content,
                         uint32_t *kind, const char **from)
 {
-	crm_info("trace");
     char *data = NULL;
     AIS_Message *msg = (AIS_Message *) content;
 
@@ -374,7 +367,6 @@ pcmk_cpg_membership(cpg_handle_t handle,
                     const struct cpg_address *left_list, size_t left_list_entries,
                     const struct cpg_address *joined_list, size_t joined_list_entries)
 {
-	crm_info("trace");
     int i;
     gboolean found = FALSE;
     static int counter = 0;
@@ -444,7 +436,6 @@ pcmk_cpg_membership(cpg_handle_t handle,
 gboolean
 cluster_connect_cpg(crm_cluster_t *cluster)
 {
-	crm_info("trace");
     int rc = -1;
     int fd = 0;
     int retries = 0;
@@ -518,7 +509,6 @@ cluster_connect_cpg(crm_cluster_t *cluster)
 gboolean
 send_cluster_message_cs(xmlNode * msg, gboolean local, crm_node_t * node, enum crm_ais_msg_types dest)
 {
-	crm_info("trace");
     gboolean rc = TRUE;
     char *data = NULL;
 
@@ -532,7 +522,6 @@ gboolean
 send_cluster_text(int class, const char *data,
               gboolean local, crm_node_t * node, enum crm_ais_msg_types dest)
 {
-	crm_info("trace");
     static int msg_id = 0;
     static int local_pid = 0;
     static int local_name_len = 0;
@@ -663,7 +652,6 @@ send_cluster_text(int class, const char *data,
 enum crm_ais_msg_types
 text2msg_type(const char *text)
 {
-	crm_info("trace");
     int type = crm_msg_none;
 
     CRM_CHECK(text != NULL, return type);

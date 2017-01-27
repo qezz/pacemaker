@@ -53,7 +53,6 @@ void do_pe_invoke_callback(xmlNode * msg, int call_id, int rc, xmlNode * output,
 static void
 save_cib_contents(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
-	crm_info("trace");
     char *id = user_data;
 
     register_fsa_error_adv(C_FSA_INTERNAL, I_ERROR, NULL, NULL, __FUNCTION__);
@@ -85,7 +84,6 @@ save_cib_contents(xmlNode * msg, int call_id, int rc, xmlNode * output, void *us
 static void
 pe_ipc_destroy(gpointer user_data)
 {
-	crm_info("trace");
     if (is_set(fsa_input_register, pe_subsystem->flag_required)) {
         int rc = pcmk_ok;
         char *uuid_str = crm_generate_uuid();
@@ -125,7 +123,6 @@ pe_ipc_destroy(gpointer user_data)
 static int
 pe_ipc_dispatch(const char *buffer, ssize_t length, gpointer userdata)
 {
-	crm_info("trace");
     xmlNode *msg = string2xml(buffer);
 
     if (msg) {
@@ -143,7 +140,6 @@ do_pe_control(long long action,
               enum crmd_fsa_state cur_state,
               enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
-	crm_info("trace");
     struct crm_subsystem_s *this_subsys = pe_subsystem;
 
     long long stop_actions = A_PE_STOP;
@@ -199,7 +195,6 @@ do_pe_invoke(long long action,
              enum crmd_fsa_state cur_state,
              enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
-	crm_info("trace");
     if (AM_I_DC == FALSE) {
         crm_err("Not invoking Policy Engine because not DC: %s",
                 fsa_action2string(action));
@@ -247,7 +242,6 @@ do_pe_invoke(long long action,
 static void
 force_local_option(xmlNode *xml, const char *attr_name, const char *attr_value)
 {
-	crm_info("trace");
     int max = 0;
     int lpc = 0;
     int xpath_max = 1024;
@@ -307,7 +301,6 @@ force_local_option(xmlNode *xml, const char *attr_name, const char *attr_value)
 void
 do_pe_invoke_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
-	crm_info("trace");
     int sent;
     xmlNode *cmd = NULL;
     pid_t watchdog = pcmk_locate_sbd();

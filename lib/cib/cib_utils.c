@@ -65,7 +65,6 @@ struct config_root_s known_paths[] = {
 int
 cib_compare_generation(xmlNode * left, xmlNode * right)
 {
-	crm_info("trace");
     int lpc = 0;
 
     const char *attributes[] = {
@@ -111,7 +110,6 @@ cib_compare_generation(xmlNode * left, xmlNode * right)
 xmlNode *
 get_cib_copy(cib_t * cib)
 {
-	crm_info("trace");
     xmlNode *xml_cib;
     int options = cib_scope_local | cib_sync_call;
     int rc = pcmk_ok;
@@ -145,7 +143,6 @@ get_cib_copy(cib_t * cib)
 xmlNode *
 cib_get_generation(cib_t * cib)
 {
-	crm_info("trace");
     xmlNode *the_cib = NULL;
     xmlNode *generation = create_xml_node(NULL, XML_CIB_TAG_GENERATION_TUPPLE);
 
@@ -161,7 +158,6 @@ cib_get_generation(cib_t * cib)
 gboolean
 cib_version_details(xmlNode * cib, int *admin_epoch, int *epoch, int *updates)
 {
-	crm_info("trace");
     *epoch = -1;
     *updates = -1;
     *admin_epoch = -1;
@@ -181,7 +177,6 @@ gboolean
 cib_diff_version_details(xmlNode * diff, int *admin_epoch, int *epoch, int *updates,
                          int *_admin_epoch, int *_epoch, int *_updates)
 {
-	crm_info("trace");
     int add[] = { 0, 0, 0 };
     int del[] = { 0, 0, 0 };
 
@@ -205,7 +200,6 @@ cib_diff_version_details(xmlNode * diff, int *admin_epoch, int *epoch, int *upda
 const char *
 get_object_path(const char *object_type)
 {
-	crm_info("trace");
     int lpc = 0;
     int max = DIMOF(known_paths);
 
@@ -221,7 +215,6 @@ get_object_path(const char *object_type)
 const char *
 get_object_parent(const char *object_type)
 {
-	crm_info("trace");
     int lpc = 0;
     int max = DIMOF(known_paths);
 
@@ -236,7 +229,6 @@ get_object_parent(const char *object_type)
 xmlNode *
 get_object_root(const char *object_type, xmlNode * the_root)
 {
-	crm_info("trace");
     const char *xpath = get_object_path(object_type);
 
     if (xpath == NULL) {
@@ -253,7 +245,6 @@ get_object_root(const char *object_type, xmlNode * the_root)
 xmlNode *
 createEmptyCib(int admin_epoch)
 {
-	crm_info("trace");
     xmlNode *cib_root = NULL, *config = NULL;
 
     cib_root = create_xml_node(NULL, XML_TAG_CIB);
@@ -278,7 +269,6 @@ createEmptyCib(int admin_epoch)
 static bool
 cib_acl_enabled(xmlNode *xml, const char *user)
 {
-	crm_info("trace");
     bool rc = FALSE;
 
 #if ENABLE_ACL
@@ -303,7 +293,6 @@ cib_perform_op(const char *op, int call_options, cib_op_t * fn, gboolean is_quer
                gboolean manage_counters, gboolean * config_changed,
                xmlNode * current_cib, xmlNode ** result_cib, xmlNode ** diff, xmlNode ** output)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     gboolean check_dtd = TRUE;
     xmlNode *top = NULL;
@@ -621,7 +610,6 @@ xmlNode *
 cib_create_op(int call_id, const char *token, const char *op, const char *host, const char *section,
               xmlNode * data, int call_options, const char *user_name)
 {
-	crm_info("trace");
     xmlNode *op_msg = create_xml_node(NULL, "cib_command");
 
     CRM_CHECK(op_msg != NULL, return NULL);
@@ -656,7 +644,6 @@ cib_create_op(int call_id, const char *token, const char *op, const char *host, 
 void
 cib_native_callback(cib_t * cib, xmlNode * msg, int call_id, int rc)
 {
-	crm_info("trace");
     xmlNode *output = NULL;
     cib_callback_client_t *blob = NULL;
 
@@ -704,7 +691,6 @@ cib_native_callback(cib_t * cib, xmlNode * msg, int call_id, int rc)
 void
 cib_native_notify(gpointer data, gpointer user_data)
 {
-	crm_info("trace");
     xmlNode *msg = user_data;
     cib_notify_client_t *entry = data;
     const char *event = NULL;
@@ -744,7 +730,6 @@ pe_cluster_option cib_opts[] = {
 void
 cib_metadata(void)
 {
-	crm_info("trace");
     config_metadata("Cluster Information Base", "1.0",
                     "Cluster Information Base Options",
                     "This is a fake resource that details the options that can be configured for the Cluster Information Base.",
@@ -754,21 +739,18 @@ cib_metadata(void)
 void
 verify_cib_options(GHashTable * options)
 {
-	crm_info("trace");
     verify_all_options(options, cib_opts, DIMOF(cib_opts));
 }
 
 const char *
 cib_pref(GHashTable * options, const char *name)
 {
-	crm_info("trace");
     return get_cluster_pref(options, cib_opts, DIMOF(cib_opts), name);
 }
 
 gboolean
 cib_read_config(GHashTable * options, xmlNode * current_cib)
 {
-	crm_info("trace");
     xmlNode *config = NULL;
     crm_time_t *now = NULL;
 
@@ -796,7 +778,6 @@ cib_read_config(GHashTable * options, xmlNode * current_cib)
 int
 cib_apply_patch_event(xmlNode * event, xmlNode * input, xmlNode ** output, int level)
 {
-	crm_info("trace");
     int rc = pcmk_err_generic;
 
     xmlNode *diff = NULL;
@@ -838,7 +819,6 @@ cib_apply_patch_event(xmlNode * event, xmlNode * input, xmlNode ** output, int l
 gboolean
 cib_internal_config_changed(xmlNode * diff)
 {
-	crm_info("trace");
     gboolean changed = FALSE;
     xmlXPathObject *xpathObj = NULL;
 
@@ -861,7 +841,6 @@ cib_internal_op(cib_t * cib, const char *op, const char *host,
                 const char *section, xmlNode * data,
                 xmlNode ** output_data, int call_options, const char *user_name)
 {
-	crm_info("trace");
     int (*delegate) (cib_t * cib, const char *op, const char *host,
                      const char *section, xmlNode * data,
                      xmlNode ** output_data, int call_options, const char *user_name) =

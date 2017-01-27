@@ -33,7 +33,6 @@ resource_t *create_child_clone(resource_t * rsc, int sub_id, pe_working_set_t * 
 static void
 mark_as_orphan(resource_t * rsc)
 {
-	crm_info("trace");
     GListPtr gIter = rsc->children;
 
     set_bit(rsc->flags, pe_rsc_orphan);
@@ -48,7 +47,6 @@ mark_as_orphan(resource_t * rsc)
 void
 force_non_unique_clone(resource_t * rsc, const char *rid, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     if (rsc->variant == pe_clone || rsc->variant == pe_master) {
         clone_variant_data_t *clone_data = NULL;
 
@@ -67,7 +65,6 @@ force_non_unique_clone(resource_t * rsc, const char *rid, pe_working_set_t * dat
 resource_t *
 find_clone_instance(resource_t * rsc, const char *sub_id, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     char *child_id = NULL;
     resource_t *child = NULL;
     const char *child_base = NULL;
@@ -86,7 +83,6 @@ find_clone_instance(resource_t * rsc, const char *sub_id, pe_working_set_t * dat
 resource_t *
 create_child_clone(resource_t * rsc, int sub_id, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     gboolean as_orphan = FALSE;
     char *inc_num = NULL;
     char *inc_max = NULL;
@@ -138,7 +134,6 @@ create_child_clone(resource_t * rsc, int sub_id, pe_working_set_t * data_set)
 gboolean
 master_unpack(resource_t * rsc, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     const char *master_max = g_hash_table_lookup(rsc->meta, XML_RSC_ATTR_MASTER_MAX);
     const char *master_node_max = g_hash_table_lookup(rsc->meta, XML_RSC_ATTR_MASTER_NODEMAX);
 
@@ -157,7 +152,6 @@ master_unpack(resource_t * rsc, pe_working_set_t * data_set)
 gboolean
 clone_unpack(resource_t * rsc, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     int lpc = 0;
     const char *type = NULL;
     int num_xml_children = 0;
@@ -273,7 +267,6 @@ clone_unpack(resource_t * rsc, pe_working_set_t * data_set)
 gboolean
 clone_active(resource_t * rsc, gboolean all)
 {
-	crm_info("trace");
     GListPtr gIter = rsc->children;
 
     for (; gIter != NULL; gIter = gIter->next) {
@@ -297,7 +290,6 @@ clone_active(resource_t * rsc, gboolean all)
 static void
 short_print(char *list, const char *prefix, const char *type, const char *suffix, long options, void *print_data)
 {
-	crm_info("trace");
     if(suffix == NULL) {
         suffix = "";
     }
@@ -323,7 +315,6 @@ short_print(char *list, const char *prefix, const char *type, const char *suffix
 static const char *
 configured_role_str(resource_t * rsc)
 {
-	crm_info("trace");
     const char *target_role = g_hash_table_lookup(rsc->meta,
                                                   XML_RSC_ATTR_TARGET_ROLE);
 
@@ -337,7 +328,6 @@ configured_role_str(resource_t * rsc)
 static enum rsc_role_e
 configured_role(resource_t * rsc)
 {
-	crm_info("trace");
     const char *target_role = configured_role_str(rsc);
 
     if (target_role) {
@@ -349,7 +339,6 @@ configured_role(resource_t * rsc)
 static void
 clone_print_xml(resource_t * rsc, const char *pre_text, long options, void *print_data)
 {
-	crm_info("trace");
     int is_master_slave = rsc->variant == pe_master ? 1 : 0;
     char *child_text = crm_concat(pre_text, "   ", ' ');
     const char *target_role = configured_role_str(rsc);
@@ -380,7 +369,6 @@ clone_print_xml(resource_t * rsc, const char *pre_text, long options, void *prin
 
 bool is_set_recursive(resource_t * rsc, long long flag, bool any)
 {
-	crm_info("trace");
     GListPtr gIter;
     bool all = !any;
 
@@ -412,7 +400,6 @@ bool is_set_recursive(resource_t * rsc, long long flag, bool any)
 void
 clone_print(resource_t * rsc, const char *pre_text, long options, void *print_data)
 {
-	crm_info("trace");
     char *list_text = NULL;
     char *child_text = NULL;
     char *stopped_list = NULL;
@@ -615,7 +602,6 @@ clone_print(resource_t * rsc, const char *pre_text, long options, void *print_da
 void
 clone_free(resource_t * rsc)
 {
-	crm_info("trace");
     GListPtr gIter = rsc->children;
     clone_variant_data_t *clone_data = NULL;
 
@@ -651,7 +637,6 @@ clone_free(resource_t * rsc)
 enum rsc_role_e
 clone_resource_state(const resource_t * rsc, gboolean current)
 {
-	crm_info("trace");
     enum rsc_role_e clone_role = RSC_ROLE_UNKNOWN;
     GListPtr gIter = rsc->children;
 

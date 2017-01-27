@@ -44,7 +44,6 @@ extern gboolean check_join_state(enum crmd_fsa_state cur_state, const char *sour
 void
 crmd_ha_connection_destroy(gpointer user_data)
 {
-	crm_info("trace");
     crm_trace("Invoked");
     if (is_set(fsa_input_register, R_HA_DISCONNECTED)) {
         /* we signed out, so this is expected */
@@ -60,7 +59,6 @@ crmd_ha_connection_destroy(gpointer user_data)
 void
 crmd_ha_msg_filter(xmlNode * msg)
 {
-	crm_info("trace");
     if (AM_I_DC) {
         const char *sys_from = crm_element_value(msg, F_CRM_SYS_FROM);
 
@@ -106,7 +104,6 @@ crmd_ha_msg_filter(xmlNode * msg)
 void
 peer_update_callback(enum crm_status_type type, crm_node_t * node, const void *data)
 {
-	crm_info("trace");
     uint32_t old = 0;
     uint32_t changed = 0;
     bool appeared = FALSE;
@@ -290,7 +287,6 @@ peer_update_callback(enum crm_status_type type, crm_node_t * node, const void *d
 void
 crmd_cib_connection_destroy(gpointer user_data)
 {
-	crm_info("trace");
     CRM_CHECK(user_data == fsa_cib_conn,;);
 
     crm_trace("Invoked");
@@ -313,7 +309,6 @@ crmd_cib_connection_destroy(gpointer user_data)
 gboolean
 crm_fsa_trigger(gpointer user_data)
 {
-	crm_info("trace");
     crm_trace("Invoked (queue len: %d)", g_list_length(fsa_message_queue));
     s_crmd_fsa(C_FSA_INTERNAL);
     crm_trace("Exited  (queue len: %d)", g_list_length(fsa_message_queue));

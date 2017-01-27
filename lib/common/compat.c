@@ -39,7 +39,6 @@
 char *
 crm_compat_realpath(const char *path)
 {
-	crm_info("trace");
 #if _POSIX_VERSION >= 200809L
     /* Recent C libraries can dynamically allocate memory as needed */
     return realpath(path, NULL);

@@ -39,7 +39,6 @@ static void te_update_job_count(crm_action_t * action, int offset);
 static void
 te_start_action_timer(crm_graph_t * graph, crm_action_t * action)
 {
-	crm_info("trace");
     action->timer = calloc(1, sizeof(crm_action_timer_t));
     action->timer->timeout = action->timeout;
     action->timer->reason = timeout_action;
@@ -53,7 +52,6 @@ te_start_action_timer(crm_graph_t * graph, crm_action_t * action)
 static gboolean
 te_pseudo_action(crm_graph_t * graph, crm_action_t * pseudo)
 {
-	crm_info("trace");
     crm_debug("Pseudo-action %d (%s) fired and confirmed", pseudo->id,
               crm_element_value(pseudo->xml, XML_LRM_ATTR_TASK_KEY));
     te_action_confirmed(pseudo);
@@ -65,7 +63,6 @@ te_pseudo_action(crm_graph_t * graph, crm_action_t * pseudo)
 void
 send_stonith_update(crm_action_t * action, const char *target, const char *uuid)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     crm_node_t *peer = NULL;
 
@@ -135,7 +132,6 @@ send_stonith_update(crm_action_t * action, const char *target, const char *uuid)
 static gboolean
 te_fence_node(crm_graph_t * graph, crm_action_t * action)
 {
-	crm_info("trace");
     int rc = 0;
     const char *id = NULL;
     const char *uuid = NULL;
@@ -185,7 +181,6 @@ te_fence_node(crm_graph_t * graph, crm_action_t * action)
 static int
 get_target_rc(crm_action_t * action)
 {
-	crm_info("trace");
     const char *target_rc_s = crm_meta_value(action->params, XML_ATTR_TE_TARGET_RC);
 
     if (target_rc_s != NULL) {
@@ -197,7 +192,6 @@ get_target_rc(crm_action_t * action)
 static gboolean
 te_crm_command(crm_graph_t * graph, crm_action_t * action)
 {
-	crm_info("trace");
     char *counter = NULL;
     xmlNode *cmd = NULL;
     gboolean is_local = FALSE;
@@ -286,7 +280,6 @@ te_crm_command(crm_graph_t * graph, crm_action_t * action)
 gboolean
 cib_action_update(crm_action_t * action, int status, int op_rc)
 {
-	crm_info("trace");
     lrmd_event_data_t *op = NULL;
     xmlNode *state = NULL;
     xmlNode *rsc = NULL;
@@ -386,7 +379,6 @@ cib_action_update(crm_action_t * action, int status, int op_rc)
 static gboolean
 te_rsc_command(crm_graph_t * graph, crm_action_t * action)
 {
-	crm_info("trace");
     /* never overwrite stop actions in the CIB with
      *   anything other than completed results
      *
@@ -520,7 +512,6 @@ struct te_peer_s
 
 static void te_peer_free(gpointer p)
 {
-	crm_info("trace");
     struct te_peer_s *peer = p;
 
     free(peer->name);
@@ -529,7 +520,6 @@ static void te_peer_free(gpointer p)
 
 void te_reset_job_counts(void)
 {
-	crm_info("trace");
     GHashTableIter iter;
     struct te_peer_s *peer = NULL;
 
@@ -547,7 +537,6 @@ void te_reset_job_counts(void)
 static void
 te_update_job_count_on(const char *target, int offset, bool migrate)
 {
-	crm_info("trace");
     struct te_peer_s *r = NULL;
 
     if(target == NULL || te_targets == NULL) {
@@ -571,7 +560,6 @@ te_update_job_count_on(const char *target, int offset, bool migrate)
 static void
 te_update_job_count(crm_action_t * action, int offset)
 {
-	crm_info("trace");
     const char *task = crm_element_value(action->xml, XML_LRM_ATTR_TASK);
     const char *target = crm_element_value(action->xml, XML_LRM_ATTR_TARGET);
 
@@ -605,7 +593,6 @@ te_update_job_count(crm_action_t * action, int offset)
 static gboolean
 te_should_perform_action_on(crm_graph_t * graph, crm_action_t * action, const char *target)
 {
-	crm_info("trace");
     int limit = 0;
     struct te_peer_s *r = NULL;
     const char *task = crm_element_value(action->xml, XML_LRM_ATTR_TASK);
@@ -649,7 +636,6 @@ te_should_perform_action_on(crm_graph_t * graph, crm_action_t * action, const ch
 static gboolean
 te_should_perform_action(crm_graph_t * graph, crm_action_t * action)
 {
-	crm_info("trace");
     const char *target = NULL;
     const char *task = crm_element_value(action->xml, XML_LRM_ATTR_TASK);
 
@@ -684,7 +670,6 @@ te_should_perform_action(crm_graph_t * graph, crm_action_t * action)
 void
 te_action_confirmed(crm_action_t * action)
 {
-	crm_info("trace");
     const char *target = crm_element_value(action->xml, XML_LRM_ATTR_TARGET);
 
     if (action->confirmed == FALSE && action->type == action_type_rsc && target != NULL) {
@@ -705,7 +690,6 @@ crm_graph_functions_t te_graph_fns = {
 void
 notify_crmd(crm_graph_t * graph)
 {
-	crm_info("trace");
     const char *type = "unknown";
     enum crmd_fsa_input event = I_NULL;
 

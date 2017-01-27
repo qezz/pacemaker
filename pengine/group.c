@@ -30,7 +30,6 @@
 node_t *
 group_color(resource_t * rsc, node_t * prefer, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     node_t *node = NULL;
     node_t *group_node = NULL;
     GListPtr gIter = NULL;
@@ -92,7 +91,6 @@ void group_update_pseudo_status(resource_t * parent, resource_t * child);
 void
 group_create_actions(resource_t * rsc, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     action_t *op = NULL;
     const char *value = NULL;
     GListPtr gIter = rsc->children;
@@ -141,7 +139,6 @@ group_create_actions(resource_t * rsc, pe_working_set_t * data_set)
 void
 group_update_pseudo_status(resource_t * parent, resource_t * child)
 {
-	crm_info("trace");
     GListPtr gIter = child->actions;
     group_variant_data_t *group_data = NULL;
 
@@ -177,7 +174,6 @@ group_update_pseudo_status(resource_t * parent, resource_t * child)
 void
 group_internal_constraints(resource_t * rsc, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     GListPtr gIter = rsc->children;
     resource_t *last_rsc = NULL;
     resource_t *last_active = NULL;
@@ -298,7 +294,6 @@ group_internal_constraints(resource_t * rsc, pe_working_set_t * data_set)
 void
 group_rsc_colocation_lh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation_t * constraint)
 {
-	crm_info("trace");
     GListPtr gIter = NULL;
     group_variant_data_t *group_data = NULL;
 
@@ -337,7 +332,6 @@ group_rsc_colocation_lh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation
 void
 group_rsc_colocation_rh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation_t * constraint)
 {
-	crm_info("trace");
     GListPtr gIter = rsc_rh->children;
     group_variant_data_t *group_data = NULL;
 
@@ -379,7 +373,6 @@ group_rsc_colocation_rh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation
 enum pe_action_flags
 group_action_flags(action_t * action, node_t * node)
 {
-	crm_info("trace");
     GListPtr gIter = NULL;
     enum pe_action_flags flags = (pe_action_optional | pe_action_runnable | pe_action_pseudo);
 
@@ -422,7 +415,6 @@ enum pe_graph_flags
 group_update_actions(action_t * first, action_t * then, node_t * node, enum pe_action_flags flags,
                      enum pe_action_flags filter, enum pe_ordering type)
 {
-	crm_info("trace");
     GListPtr gIter = then->rsc->children;
     enum pe_graph_flags changed = pe_graph_none;
 
@@ -444,7 +436,6 @@ group_update_actions(action_t * first, action_t * then, node_t * node, enum pe_a
 void
 group_rsc_location(resource_t * rsc, rsc_to_node_t * constraint)
 {
-	crm_info("trace");
     GListPtr gIter = rsc->children;
     GListPtr saved = constraint->node_list_rh;
     GListPtr zero = node_list_dup(constraint->node_list_rh, TRUE, FALSE);
@@ -474,7 +465,6 @@ group_rsc_location(resource_t * rsc, rsc_to_node_t * constraint)
 void
 group_expand(resource_t * rsc, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     GListPtr gIter = rsc->children;
 
     pe_rsc_trace(rsc, "Processing actions from %s", rsc->id);
@@ -493,7 +483,6 @@ GHashTable *
 group_merge_weights(resource_t * rsc, const char *rhs, GHashTable * nodes, const char *attr,
                     float factor, enum pe_weights flags)
 {
-	crm_info("trace");
     GListPtr gIter = rsc->rsc_cons_lhs;
     group_variant_data_t *group_data = NULL;
 
@@ -525,5 +514,4 @@ group_merge_weights(resource_t * rsc, const char *rhs, GHashTable * nodes, const
 void
 group_append_meta(resource_t * rsc, xmlNode * xml)
 {
-	crm_info("trace");
 }

@@ -36,7 +36,6 @@ void lrmd_internal_set_proxy_callback(lrmd_t * lrmd, void *userdata, void (*call
 static void
 free_rsc_info(gpointer value)
 {
-	crm_info("trace");
     lrmd_rsc_info_t *rsc_info = value;
 
     lrmd_free_rsc_info(rsc_info);
@@ -45,7 +44,6 @@ free_rsc_info(gpointer value)
 static void
 free_deletion_op(gpointer value)
 {
-	crm_info("trace");
     struct pending_deletion_op_s *op = value;
 
     free(op->rsc);
@@ -56,7 +54,6 @@ free_deletion_op(gpointer value)
 static void
 free_recurring_op(gpointer value)
 {
-	crm_info("trace");
     struct recurring_op_s *op = (struct recurring_op_s *)value;
 
     free(op->user_data);
@@ -72,7 +69,6 @@ free_recurring_op(gpointer value)
 static gboolean
 fail_pending_op(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     lrmd_event_data_t event = { 0, };
     lrm_state_t *lrm_state = user_data;
     struct recurring_op_s *op = (struct recurring_op_s *)value;
@@ -103,7 +99,6 @@ fail_pending_op(gpointer key, gpointer value, gpointer user_data)
 gboolean
 lrm_state_is_local(lrm_state_t *lrm_state)
 {
-	crm_info("trace");
     if (lrm_state == NULL || fsa_our_uname == NULL) {
         return FALSE;
     }
@@ -119,7 +114,6 @@ lrm_state_is_local(lrm_state_t *lrm_state)
 lrm_state_t *
 lrm_state_create(const char *node_name)
 {
-	crm_info("trace");
     lrm_state_t *state = NULL;
 
     if (!node_name) {
@@ -154,14 +148,12 @@ lrm_state_create(const char *node_name)
 void
 lrm_state_destroy(const char *node_name)
 {
-	crm_info("trace");
     g_hash_table_remove(lrm_state_table, node_name);
 }
 
 static gboolean
 remote_proxy_remove_by_node(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     remote_proxy_t *proxy = value;
     const char *node_name = user_data;
 
@@ -175,7 +167,6 @@ remote_proxy_remove_by_node(gpointer key, gpointer value, gpointer user_data)
 static void
 internal_lrm_state_destroy(gpointer data)
 {
-	crm_info("trace");
     lrm_state_t *lrm_state = data;
 
     if (!lrm_state) {
@@ -211,7 +202,6 @@ internal_lrm_state_destroy(gpointer data)
 void
 lrm_state_reset_tables(lrm_state_t * lrm_state)
 {
-	crm_info("trace");
     if (lrm_state->resource_history) {
         crm_trace("Re-setting history op cache with %d members",
                   g_hash_table_size(lrm_state->resource_history));
@@ -237,7 +227,6 @@ lrm_state_reset_tables(lrm_state_t * lrm_state)
 gboolean
 lrm_state_init_local(void)
 {
-	crm_info("trace");
     if (lrm_state_table) {
         return TRUE;
     }
@@ -262,7 +251,6 @@ lrm_state_init_local(void)
 void
 lrm_state_destroy_all(void)
 {
-	crm_info("trace");
     if (lrm_state_table) {
         crm_trace("Destroying state table with %d members", g_hash_table_size(lrm_state_table));
         g_hash_table_destroy(lrm_state_table); lrm_state_table = NULL;
@@ -276,7 +264,6 @@ lrm_state_destroy_all(void)
 lrm_state_t *
 lrm_state_find(const char *node_name)
 {
-	crm_info("trace");
     if (!node_name) {
         return NULL;
     }
@@ -286,7 +273,6 @@ lrm_state_find(const char *node_name)
 lrm_state_t *
 lrm_state_find_or_create(const char *node_name)
 {
-	crm_info("trace");
     lrm_state_t *lrm_state;
 
     lrm_state = g_hash_table_lookup(lrm_state_table, node_name);
@@ -300,14 +286,12 @@ lrm_state_find_or_create(const char *node_name)
 GList *
 lrm_state_get_list(void)
 {
-	crm_info("trace");
     return g_hash_table_get_values(lrm_state_table);
 }
 
 static remote_proxy_t *
 find_connected_proxy_by_node(const char * node_name)
 {
-	crm_info("trace");
     GHashTableIter gIter;
     remote_proxy_t *proxy = NULL;
 
@@ -328,7 +312,6 @@ find_connected_proxy_by_node(const char * node_name)
 static void
 remote_proxy_disconnect_by_node(const char * node_name)
 {
-	crm_info("trace");
     remote_proxy_t *proxy = NULL;
 
     CRM_CHECK(proxy_table != NULL, return);
@@ -348,7 +331,6 @@ remote_proxy_disconnect_by_node(const char * node_name)
 void
 lrm_state_disconnect_only(lrm_state_t * lrm_state)
 {
-	crm_info("trace");
     int removed = 0;
 
     if (!lrm_state->conn) {
@@ -369,7 +351,6 @@ lrm_state_disconnect_only(lrm_state_t * lrm_state)
 void
 lrm_state_disconnect(lrm_state_t * lrm_state)
 {
-	crm_info("trace");
     if (!lrm_state->conn) {
         return;
     }
@@ -383,7 +364,6 @@ lrm_state_disconnect(lrm_state_t * lrm_state)
 int
 lrm_state_is_connected(lrm_state_t * lrm_state)
 {
-	crm_info("trace");
     if (!lrm_state->conn) {
         return FALSE;
     }
@@ -393,7 +373,6 @@ lrm_state_is_connected(lrm_state_t * lrm_state)
 int
 lrm_state_poke_connection(lrm_state_t * lrm_state)
 {
-	crm_info("trace");
 
     if (!lrm_state->conn) {
         return -1;
@@ -404,7 +383,6 @@ lrm_state_poke_connection(lrm_state_t * lrm_state)
 int
 lrm_state_ipc_connect(lrm_state_t * lrm_state)
 {
-	crm_info("trace");
     int ret;
 
     if (!lrm_state->conn) {
@@ -426,7 +404,6 @@ lrm_state_ipc_connect(lrm_state_t * lrm_state)
 static int
 remote_proxy_dispatch_internal(const char *buffer, ssize_t length, gpointer userdata)
 {
-	crm_info("trace");
     /* Async responses from cib and friends back to clients via pacemaker_remoted */
     xmlNode *xml = NULL;
     remote_proxy_t *proxy = userdata;
@@ -460,7 +437,6 @@ remote_proxy_dispatch_internal(const char *buffer, ssize_t length, gpointer user
 static void
 remote_proxy_disconnected(void *userdata)
 {
-	crm_info("trace");
     remote_proxy_t *proxy = userdata;
     lrm_state_t *lrm_state = lrm_state_find(proxy->node_name);
 
@@ -478,7 +454,6 @@ remote_proxy_disconnected(void *userdata)
 static remote_proxy_t *
 remote_proxy_new(const char *node_name, const char *session_id, const char *channel)
 {
-	crm_info("trace");
     static struct ipc_client_callbacks proxy_callbacks = {
         .dispatch = remote_proxy_dispatch_internal,
         .destroy = remote_proxy_disconnected
@@ -509,14 +484,12 @@ remote_proxy_new(const char *node_name, const char *session_id, const char *chan
 gboolean
 crmd_is_proxy_session(const char *session)
 {
-	crm_info("trace");
     return g_hash_table_lookup(proxy_table, session) ? TRUE : FALSE;
 }
 
 void
 crmd_proxy_send(const char *session, xmlNode *msg)
 {
-	crm_info("trace");
     remote_proxy_t *proxy = g_hash_table_lookup(proxy_table, session);
     lrm_state_t *lrm_state = NULL;
 
@@ -534,7 +507,6 @@ crmd_proxy_send(const char *session, xmlNode *msg)
 static void
 crmd_proxy_dispatch(const char *session, xmlNode *msg)
 {
-	crm_info("trace");
 
     crm_log_xml_trace(msg, "CRMd-PROXY[inbound]");
 
@@ -549,7 +521,6 @@ crmd_proxy_dispatch(const char *session, xmlNode *msg)
 static void
 remote_config_check(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
-	crm_info("trace");
     if (rc != pcmk_ok) {
         crm_err("Query resulted in an error: %s", pcmk_strerror(rc));
 
@@ -579,7 +550,6 @@ remote_config_check(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
 static void
 remote_proxy_cb(lrmd_t *lrmd, void *userdata, xmlNode *msg)
 {
-	crm_info("trace");
     lrm_state_t *lrm_state = userdata;
     const char *op = crm_element_value(msg, F_LRMD_IPC_OP);
     const char *session = crm_element_value(msg, F_LRMD_IPC_SESSION);
@@ -730,7 +700,6 @@ int
 lrm_state_remote_connect_async(lrm_state_t * lrm_state, const char *server, int port,
                                int timeout_ms)
 {
-	crm_info("trace");
     int ret;
 
     if (!lrm_state->conn) {
@@ -762,7 +731,6 @@ lrm_state_get_metadata(lrm_state_t * lrm_state,
                        const char *provider,
                        const char *agent, char **output, enum lrmd_call_options options)
 {
-	crm_info("trace");
     if (!lrm_state->conn) {
         return -ENOTCONN;
     }
@@ -776,7 +744,6 @@ lrm_state_get_metadata(lrm_state_t * lrm_state,
 int
 lrm_state_cancel(lrm_state_t * lrm_state, const char *rsc_id, const char *action, int interval)
 {
-	crm_info("trace");
     if (!lrm_state->conn) {
         return -ENOTCONN;
     }
@@ -792,7 +759,6 @@ lrm_state_cancel(lrm_state_t * lrm_state, const char *rsc_id, const char *action
 lrmd_rsc_info_t *
 lrm_state_get_rsc_info(lrm_state_t * lrm_state, const char *rsc_id, enum lrmd_call_options options)
 {
-	crm_info("trace");
     lrmd_rsc_info_t *rsc = NULL;
 
     if (!lrm_state->conn) {
@@ -850,7 +816,6 @@ lrm_state_register_rsc(lrm_state_t * lrm_state,
                        const char *class,
                        const char *provider, const char *agent, enum lrmd_call_options options)
 {
-	crm_info("trace");
     if (!lrm_state->conn) {
         return -ENOTCONN;
     }
@@ -871,7 +836,6 @@ int
 lrm_state_unregister_rsc(lrm_state_t * lrm_state,
                          const char *rsc_id, enum lrmd_call_options options)
 {
-	crm_info("trace");
     if (!lrm_state->conn) {
         return -ENOTCONN;
     }

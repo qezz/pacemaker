@@ -59,7 +59,6 @@ static rsc_to_node_t *generate_location_rule(resource_t * rsc, xmlNode * rule_xm
 gboolean
 unpack_constraints(xmlNode * xml_constraints, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     xmlNode *xml_obj = NULL;
     xmlNode *lifetime = NULL;
 
@@ -108,7 +107,6 @@ unpack_constraints(xmlNode * xml_constraints, pe_working_set_t * data_set)
 static const char *
 invert_action(const char *action)
 {
-	crm_info("trace");
     if (safe_str_eq(action, RSC_START)) {
         return RSC_STOP;
 
@@ -140,7 +138,6 @@ invert_action(const char *action)
 static enum pe_order_kind
 get_ordering_type(xmlNode * xml_obj)
 {
-	crm_info("trace");
     enum pe_order_kind kind_e = pe_order_kind_mandatory;
     const char *kind = crm_element_value(xml_obj, XML_ORDER_ATTR_KIND);
 
@@ -180,7 +177,6 @@ get_ordering_type(xmlNode * xml_obj)
 static resource_t *
 pe_find_constraint_resource(GListPtr rsc_list, const char *id)
 {
-	crm_info("trace");
     GListPtr rIter = NULL;
 
     for (rIter = rsc_list; id && rIter; rIter = rIter->next) {
@@ -205,7 +201,6 @@ pe_find_constraint_resource(GListPtr rsc_list, const char *id)
 static gboolean
 pe_find_constraint_tag(pe_working_set_t * data_set, const char * id, tag_t ** tag)
 {
-	crm_info("trace");
     gboolean rc = FALSE;
 
     *tag = NULL;
@@ -237,7 +232,6 @@ static gboolean
 valid_resource_or_tag(pe_working_set_t * data_set, const char * id,
                       resource_t ** rsc, tag_t ** tag)
 {
-	crm_info("trace");
     gboolean rc = FALSE;
 
     if (rsc) {
@@ -259,7 +253,6 @@ valid_resource_or_tag(pe_working_set_t * data_set, const char * id,
 static gboolean
 unpack_simple_rsc_order(xmlNode * xml_obj, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     int order_id = 0;
     resource_t *rsc_then = NULL;
     resource_t *rsc_first = NULL;
@@ -457,7 +450,6 @@ unpack_simple_rsc_order(xmlNode * xml_obj, pe_working_set_t * data_set)
 static gboolean
 expand_tags_in_sets(xmlNode * xml_obj, xmlNode ** expanded_xml, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     xmlNode *new_xml = NULL;
     xmlNode *set = NULL;
     gboolean any_refs = FALSE;
@@ -578,7 +570,6 @@ static gboolean
 tag_to_set(xmlNode * xml_obj, xmlNode ** rsc_set, const char * attr,
                 gboolean convert_rsc, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     const char *cons_id = NULL;
     const char *id = NULL;
 
@@ -661,7 +652,6 @@ static gboolean unpack_rsc_location(xmlNode * xml_obj, resource_t * rsc_lh, cons
 static gboolean
 unpack_simple_location(xmlNode * xml_obj, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     const char *id = crm_element_value(xml_obj, XML_ATTR_ID);
     const char *value = crm_element_value(xml_obj, XML_COLOC_ATTR_SOURCE);
 
@@ -735,7 +725,6 @@ static gboolean
 unpack_rsc_location(xmlNode * xml_obj, resource_t * rsc_lh, const char * role,
                     const char * score, pe_working_set_t * data_set, pe_re_match_data_t * match_data)
 {
-	crm_info("trace");
     gboolean empty = TRUE;
     rsc_to_node_t *location = NULL;
     const char *id_lh = crm_element_value(xml_obj, XML_COLOC_ATTR_SOURCE);
@@ -811,7 +800,6 @@ unpack_rsc_location(xmlNode * xml_obj, resource_t * rsc_lh, const char * role,
 static gboolean
 unpack_location_tags(xmlNode * xml_obj, xmlNode ** expanded_xml, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     const char *id = NULL;
     const char *id_lh = NULL;
     const char *state_lh = NULL;
@@ -890,7 +878,6 @@ unpack_location_tags(xmlNode * xml_obj, xmlNode ** expanded_xml, pe_working_set_
 static gboolean
 unpack_location_set(xmlNode * location, xmlNode * set, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     xmlNode *xml_rsc = NULL;
     resource_t *resource = NULL;
     const char *set_id;
@@ -924,7 +911,6 @@ unpack_location_set(xmlNode * location, xmlNode * set, pe_working_set_t * data_s
 gboolean
 unpack_location(xmlNode * xml_obj, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     xmlNode *set = NULL;
     gboolean any_sets = FALSE;
 
@@ -968,7 +954,6 @@ unpack_location(xmlNode * xml_obj, pe_working_set_t * data_set)
 static int
 get_node_score(const char *rule, const char *score, gboolean raw, node_t * node)
 {
-	crm_info("trace");
     int score_f = 0;
 
     if (score == NULL) {
@@ -998,7 +983,6 @@ static rsc_to_node_t *
 generate_location_rule(resource_t * rsc, xmlNode * rule_xml, const char *discovery, pe_working_set_t * data_set,
                        pe_re_match_data_t * match_data)
 {
-	crm_info("trace");
     const char *rule_id = NULL;
     const char *score = NULL;
     const char *boolean = NULL;
@@ -1134,7 +1118,6 @@ generate_location_rule(resource_t * rsc, xmlNode * rule_xml, const char *discove
 static gint
 sort_cons_priority_lh(gconstpointer a, gconstpointer b)
 {
-	crm_info("trace");
     const rsc_colocation_t *rsc_constraint1 = (const rsc_colocation_t *)a;
     const rsc_colocation_t *rsc_constraint2 = (const rsc_colocation_t *)b;
 
@@ -1169,7 +1152,6 @@ sort_cons_priority_lh(gconstpointer a, gconstpointer b)
 static gint
 sort_cons_priority_rh(gconstpointer a, gconstpointer b)
 {
-	crm_info("trace");
     const rsc_colocation_t *rsc_constraint1 = (const rsc_colocation_t *)a;
     const rsc_colocation_t *rsc_constraint2 = (const rsc_colocation_t *)b;
 
@@ -1206,7 +1188,6 @@ anti_colocation_order(resource_t * first_rsc, int first_role,
                       resource_t * then_rsc, int then_role,
                       pe_working_set_t * data_set)
 {
-	crm_info("trace");
     const char *first_tasks[] = { NULL, NULL };
     const char *then_tasks[] = { NULL, NULL };
     int first_lpc = 0;
@@ -1249,7 +1230,6 @@ rsc_colocation_new(const char *id, const char *node_attr, int score,
                    resource_t * rsc_lh, resource_t * rsc_rh,
                    const char *state_lh, const char *state_rh, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     rsc_colocation_t *new_con = NULL;
 
     if (rsc_lh == NULL) {
@@ -1309,7 +1289,6 @@ new_rsc_order(resource_t * lh_rsc, const char *lh_task,
               resource_t * rh_rsc, const char *rh_task,
               enum pe_ordering type, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     char *lh_key = NULL;
     char *rh_key = NULL;
 
@@ -1335,7 +1314,6 @@ new_rsc_order(resource_t * lh_rsc, const char *lh_task,
 static char *
 task_from_action_or_key(action_t *action, const char *key)
 {
-	crm_info("trace");
     char *res = NULL;
     char *rsc_id = NULL;
     char *op_type = NULL;
@@ -1364,7 +1342,6 @@ task_from_action_or_key(action_t *action, const char *key)
 static void
 handle_migration_ordering(order_constraint_t *order, pe_working_set_t *data_set)
 {
-	crm_info("trace");
     char *lh_task = NULL;
     char *rh_task = NULL;
     gboolean rh_migratable;
@@ -1488,7 +1465,6 @@ custom_action_order(resource_t * lh_rsc, char *lh_action_task, action_t * lh_act
                     resource_t * rh_rsc, char *rh_action_task, action_t * rh_action,
                     enum pe_ordering type, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     order_constraint_t *order = NULL;
 
     if (lh_rsc == NULL && lh_action) {
@@ -1548,7 +1524,6 @@ custom_action_order(resource_t * lh_rsc, char *lh_action_task, action_t * lh_act
 enum pe_ordering
 get_asymmetrical_flags(enum pe_order_kind kind)
 {
-	crm_info("trace");
     enum pe_ordering flags = pe_order_optional;
 
     if (kind == pe_order_kind_mandatory) {
@@ -1563,7 +1538,6 @@ enum pe_ordering
 get_flags(const char *id, enum pe_order_kind kind,
           const char *action_first, const char *action_then, gboolean invert)
 {
-	crm_info("trace");
     enum pe_ordering flags = pe_order_optional;
 
     if (invert && kind == pe_order_kind_mandatory) {
@@ -1591,7 +1565,6 @@ unpack_order_set(xmlNode * set, enum pe_order_kind kind, resource_t ** rsc,
                  action_t ** begin, action_t ** end, action_t ** inv_begin, action_t ** inv_end,
                  const char *symmetrical, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     xmlNode *xml_rsc = NULL;
     GListPtr set_iter = NULL;
     GListPtr resources = NULL;
@@ -1764,7 +1737,6 @@ static gboolean
 order_rsc_sets(const char *id, xmlNode * set1, xmlNode * set2, enum pe_order_kind kind,
                pe_working_set_t * data_set, gboolean invert, gboolean symmetrical)
 {
-	crm_info("trace");
 
     xmlNode *xml_rsc = NULL;
     xmlNode *xml_rsc_2 = NULL;
@@ -1939,7 +1911,6 @@ order_rsc_sets(const char *id, xmlNode * set1, xmlNode * set2, enum pe_order_kin
 static gboolean
 unpack_order_tags(xmlNode * xml_obj, xmlNode ** expanded_xml, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     const char *id = NULL;
     const char *id_first = NULL;
     const char *id_then = NULL;
@@ -2049,7 +2020,6 @@ unpack_order_tags(xmlNode * xml_obj, xmlNode ** expanded_xml, pe_working_set_t *
 gboolean
 unpack_rsc_order(xmlNode * xml_obj, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     gboolean any_sets = FALSE;
 
     resource_t *rsc = NULL;
@@ -2181,7 +2151,6 @@ unpack_rsc_order(xmlNode * xml_obj, pe_working_set_t * data_set)
 static gboolean
 unpack_colocation_set(xmlNode * set, int score, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     xmlNode *xml_rsc = NULL;
     resource_t *with = NULL;
     resource_t *resource = NULL;
@@ -2273,7 +2242,6 @@ static gboolean
 colocate_rsc_sets(const char *id, xmlNode * set1, xmlNode * set2, int score,
                   pe_working_set_t * data_set)
 {
-	crm_info("trace");
     xmlNode *xml_rsc = NULL;
     resource_t *rsc_1 = NULL;
     resource_t *rsc_2 = NULL;
@@ -2349,7 +2317,6 @@ colocate_rsc_sets(const char *id, xmlNode * set1, xmlNode * set2, int score,
 static gboolean
 unpack_simple_colocation(xmlNode * xml_obj, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     int score_i = 0;
 
     const char *id = crm_element_value(xml_obj, XML_ATTR_ID);
@@ -2423,7 +2390,6 @@ unpack_simple_colocation(xmlNode * xml_obj, pe_working_set_t * data_set)
 static gboolean
 unpack_colocation_tags(xmlNode * xml_obj, xmlNode ** expanded_xml, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     const char *id = NULL;
     const char *id_lh = NULL;
     const char *id_rh = NULL;
@@ -2541,7 +2507,6 @@ unpack_colocation_tags(xmlNode * xml_obj, xmlNode ** expanded_xml, pe_working_se
 gboolean
 unpack_rsc_colocation(xmlNode * xml_obj, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     int score_i = 0;
     xmlNode *set = NULL;
     xmlNode *last = NULL;
@@ -2598,7 +2563,6 @@ gboolean
 rsc_ticket_new(const char *id, resource_t * rsc_lh, ticket_t * ticket,
                const char *state_lh, const char *loss_policy, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     rsc_ticket_t *new_rsc_ticket = NULL;
 
     if (rsc_lh == NULL) {
@@ -2677,7 +2641,6 @@ static gboolean
 unpack_rsc_ticket_set(xmlNode * set, ticket_t * ticket, const char *loss_policy,
                       pe_working_set_t * data_set)
 {
-	crm_info("trace");
     xmlNode *xml_rsc = NULL;
     resource_t *resource = NULL;
     const char *set_id = ID(set);
@@ -2713,7 +2676,6 @@ unpack_rsc_ticket_set(xmlNode * set, ticket_t * ticket, const char *loss_policy,
 static gboolean
 unpack_simple_rsc_ticket(xmlNode * xml_obj, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     const char *id = crm_element_value(xml_obj, XML_ATTR_ID);
     const char *ticket_str = crm_element_value(xml_obj, XML_TICKET_ATTR_TICKET);
     const char *loss_policy = crm_element_value(xml_obj, XML_TICKET_ATTR_LOSS_POLICY);
@@ -2782,7 +2744,6 @@ unpack_simple_rsc_ticket(xmlNode * xml_obj, pe_working_set_t * data_set)
 static gboolean
 unpack_rsc_ticket_tags(xmlNode * xml_obj, xmlNode ** expanded_xml, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     const char *id = NULL;
     const char *id_lh = NULL;
     const char *state_lh = NULL;
@@ -2863,7 +2824,6 @@ unpack_rsc_ticket_tags(xmlNode * xml_obj, xmlNode ** expanded_xml, pe_working_se
 gboolean
 unpack_rsc_ticket(xmlNode * xml_obj, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     xmlNode *set = NULL;
     gboolean any_sets = FALSE;
 
@@ -2941,6 +2901,5 @@ unpack_rsc_ticket(xmlNode * xml_obj, pe_working_set_t * data_set)
 gboolean
 is_active(rsc_to_node_t * cons)
 {
-	crm_info("trace");
     return TRUE;
 }

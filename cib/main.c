@@ -99,7 +99,6 @@ void cib_cleanup(void);
 static void
 cib_enable_writes(int nsig)
 {
-	crm_info("trace");
     crm_info("(Re)enabling disk writes");
     cib_writes_enabled = TRUE;
 }
@@ -107,7 +106,6 @@ cib_enable_writes(int nsig)
 static void
 log_cib_client(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     crm_info("Client %s", crm_client_name(value));
 }
 
@@ -129,7 +127,6 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
-	crm_info("trace");
     int flag;
     int rc = 0;
     int index = 0;
@@ -266,7 +263,6 @@ main(int argc, char **argv)
 void
 cib_cleanup(void)
 {
-	crm_info("trace");
     crm_peer_destroy();
     if (local_notify_queue) {
         g_hash_table_destroy(local_notify_queue);
@@ -292,7 +288,6 @@ gboolean ccm_connect(void);
 static void
 ccm_connection_destroy(gpointer user_data)
 {
-	crm_info("trace");
     crm_err("CCM connection failed... blocking while we reconnect");
     CRM_ASSERT(ccm_connect());
     return;
@@ -303,7 +298,6 @@ static void *ccm_library = NULL;
 gboolean
 ccm_connect(void)
 {
-	crm_info("trace");
     gboolean did_fail = TRUE;
     int num_ccm_fails = 0;
     int max_ccm_fails = 30;
@@ -387,7 +381,6 @@ cib_cs_dispatch(cpg_handle_t handle,
                  const struct cpg_name *groupName,
                  uint32_t nodeid, uint32_t pid, void *msg, size_t msg_len)
 {
-	crm_info("trace");
     uint32_t kind = 0;
     xmlNode *xml = NULL;
     const char *from = NULL;
@@ -415,7 +408,6 @@ cib_cs_dispatch(cpg_handle_t handle,
 static void
 cib_cs_destroy(gpointer user_data)
 {
-	crm_info("trace");
     if (cib_shutdown_flag) {
         crm_info("Corosync disconnection complete");
     } else {
@@ -428,7 +420,6 @@ cib_cs_destroy(gpointer user_data)
 static void
 cib_peer_update_callback(enum crm_status_type type, crm_node_t * node, const void *data)
 {
-	crm_info("trace");
     switch (type) {
         case crm_status_processes:
             if (legacy_mode && is_not_set(node->processes, crm_get_cluster_proc())) {
@@ -459,7 +450,6 @@ cib_peer_update_callback(enum crm_status_type type, crm_node_t * node, const voi
 static void
 cib_ha_connection_destroy(gpointer user_data)
 {
-	crm_info("trace");
     if (cib_shutdown_flag) {
         crm_info("Heartbeat disconnection complete... exiting");
         terminate_cib(__FUNCTION__, 0);
@@ -473,7 +463,6 @@ cib_ha_connection_destroy(gpointer user_data)
 int
 cib_init(void)
 {
-	crm_info("trace");
     if (is_openais_cluster()) {
 #if SUPPORT_COROSYNC
         crm_cluster.destroy = cib_cs_destroy;
@@ -565,7 +554,6 @@ cib_init(void)
 gboolean
 startCib(const char *filename)
 {
-	crm_info("trace");
     gboolean active = FALSE;
     xmlNode *cib = readCibXmlFile(cib_root, filename, !preserve_status);
 

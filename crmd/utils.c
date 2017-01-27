@@ -46,7 +46,6 @@ do_timer_control(long long action,
                  enum crmd_fsa_state cur_state,
                  enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
-	crm_info("trace");
     gboolean timer_op_ok = TRUE;
 
     if (action & A_DC_TIMER_STOP) {
@@ -84,7 +83,6 @@ do_timer_control(long long action,
 const char *
 get_timer_desc(fsa_timer_t * timer)
 {
-	crm_info("trace");
     if (timer == election_trigger) {
         return "Election Trigger";
 
@@ -113,7 +111,6 @@ get_timer_desc(fsa_timer_t * timer)
 gboolean
 crm_timer_popped(gpointer data)
 {
-	crm_info("trace");
     fsa_timer_t *timer = (fsa_timer_t *) data;
 
     if (timer == wait_timer
@@ -172,7 +169,6 @@ crm_timer_popped(gpointer data)
 gboolean
 is_timer_started(fsa_timer_t * timer)
 {
-	crm_info("trace");
     if (timer->period_ms > 0) {
         if (transition_timer->source_id == 0) {
             return FALSE;
@@ -186,7 +182,6 @@ is_timer_started(fsa_timer_t * timer)
 gboolean
 crm_timer_start(fsa_timer_t * timer)
 {
-	crm_info("trace");
     const char *timer_desc = get_timer_desc(timer);
 
     if (timer->source_id == 0 && timer->period_ms > 0) {
@@ -212,7 +207,6 @@ crm_timer_start(fsa_timer_t * timer)
 gboolean
 crm_timer_stop(fsa_timer_t * timer)
 {
-	crm_info("trace");
     const char *timer_desc = get_timer_desc(timer);
 
     if (timer == NULL) {
@@ -237,7 +231,6 @@ crm_timer_stop(fsa_timer_t * timer)
 const char *
 fsa_input2string(enum crmd_fsa_input input)
 {
-	crm_info("trace");
     const char *inputAsText = NULL;
 
     switch (input) {
@@ -356,7 +349,6 @@ fsa_input2string(enum crmd_fsa_input input)
 const char *
 fsa_state2string(enum crmd_fsa_state state)
 {
-	crm_info("trace");
     const char *stateAsText = NULL;
 
     switch (state) {
@@ -418,7 +410,6 @@ fsa_state2string(enum crmd_fsa_state state)
 const char *
 fsa_cause2string(enum crmd_fsa_cause cause)
 {
-	crm_info("trace");
     const char *causeAsText = NULL;
 
     switch (cause) {
@@ -480,7 +471,6 @@ fsa_cause2string(enum crmd_fsa_cause cause)
 const char *
 fsa_action2string(long long action)
 {
-	crm_info("trace");
     const char *actionAsText = NULL;
 
     switch (action) {
@@ -691,7 +681,6 @@ fsa_action2string(long long action)
 void
 fsa_dump_inputs(int log_level, const char *text, long long input_register)
 {
-	crm_info("trace");
     if (input_register == A_NOTHING) {
         return;
     }
@@ -776,7 +765,6 @@ fsa_dump_inputs(int log_level, const char *text, long long input_register)
 void
 fsa_dump_actions(long long action, const char *text)
 {
-	crm_info("trace");
     if (is_set(action, A_READCONFIG)) {
         crm_trace("Action %.16llx (A_READCONFIG) %s", A_READCONFIG, text);
     }
@@ -941,7 +929,6 @@ fsa_dump_actions(long long action, const char *text)
 gboolean
 update_dc(xmlNode * msg)
 {
-	crm_info("trace");
     char *last_dc = fsa_our_dc;
     const char *dc_version = NULL;
     const char *welcome_from = NULL;
@@ -1008,7 +995,6 @@ update_dc(xmlNode * msg)
 static void
 erase_xpath_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
-	crm_info("trace");
     char *xpath = user_data;
 
     do_crm_log_unlikely(rc == 0 ? LOG_DEBUG : LOG_NOTICE,
@@ -1018,7 +1004,6 @@ erase_xpath_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void 
 void
 erase_status_tag(const char *uname, const char *tag, int options)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     char xpath[STATUS_PATH_MAX];
     int cib_opts = cib_quorum_override | cib_xpath | options;
@@ -1038,7 +1023,6 @@ static int
 update_without_attrd(const char * host_uuid, const char * name, const char * value,
                      const char * user_name, gboolean is_remote_node, char command)
 {
-	crm_info("trace");
     int call_opt = cib_none;
 
     if (fsa_cib_conn == NULL) {
@@ -1067,7 +1051,6 @@ static void
 log_attrd_error(const char *host, const char *name, const char *value,
                 gboolean is_remote, char command, int rc)
 {
-	crm_info("trace");
     const char *display_command; /* for commands without name/value */
     const char *node_type = (is_remote? "Pacemaker Remote" : "cluster");
     gboolean shutting_down = is_set(fsa_input_register, R_SHUTDOWN);
@@ -1101,7 +1084,6 @@ log_attrd_error(const char *host, const char *name, const char *value,
 static void
 update_attrd_helper(const char *host, const char *name, const char *value, const char *user_name, gboolean is_remote_node, char command)
 {
-	crm_info("trace");
     gboolean rc;
     int max = 5;
 
@@ -1157,21 +1139,18 @@ update_attrd_helper(const char *host, const char *name, const char *value, const
 void
 update_attrd(const char *host, const char *name, const char *value, const char *user_name, gboolean is_remote_node)
 {
-	crm_info("trace");
     update_attrd_helper(host, name, value, user_name, is_remote_node, 'U');
 }
 
 void
 update_attrd_remote_node_removed(const char *host, const char *user_name)
 {
-	crm_info("trace");
     crm_trace("Asking attrd to purge Pacemaker Remote node %s", host);
     update_attrd_helper(host, NULL, NULL, user_name, TRUE, 'C');
 }
 
 void crmd_peer_down(crm_node_t *peer, bool full) 
 {
-	crm_info("trace");
     if(full && peer->state == NULL) {
         crm_update_peer_state(__FUNCTION__, peer, CRM_NODE_LOST, 0);
         crm_update_peer_proc(__FUNCTION__, peer, crm_proc_none, NULL);

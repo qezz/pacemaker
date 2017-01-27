@@ -47,7 +47,6 @@
 static void
 crmd_child_exit(mainloop_child_t * p, pid_t pid, int core, int signo, int exitcode)
 {
-	crm_info("trace");
     /* struct crm_subsystem_s *the_subsystem = mainloop_child_userdata(p); */
     const char *name = mainloop_child_name(p);
 
@@ -65,7 +64,6 @@ crmd_child_exit(mainloop_child_t * p, pid_t pid, int core, int signo, int exitco
 gboolean
 stop_subsystem(struct crm_subsystem_s *the_subsystem, gboolean force_quit)
 {
-	crm_info("trace");
     int quit_signal = SIGTERM;
 
     crm_trace("Stopping sub-system \"%s\"", the_subsystem->name);
@@ -105,7 +103,6 @@ stop_subsystem(struct crm_subsystem_s *the_subsystem, gboolean force_quit)
 gboolean
 start_subsystem(struct crm_subsystem_s * the_subsystem)
 {
-	crm_info("trace");
     pid_t pid;
     struct stat buf;
     int s_res;

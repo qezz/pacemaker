@@ -51,7 +51,6 @@ static GListPtr stonith_cleanup_list = NULL;
  */
 void
 add_stonith_cleanup(const char *target) {
-	crm_info("trace");
     stonith_cleanup_list = g_list_append(stonith_cleanup_list, strdup(target));
 }
 
@@ -64,7 +63,6 @@ add_stonith_cleanup(const char *target) {
 void
 remove_stonith_cleanup(const char *target)
 {
-	crm_info("trace");
     GListPtr iter = stonith_cleanup_list;
 
     while (iter != NULL) {
@@ -87,7 +85,6 @@ remove_stonith_cleanup(const char *target)
 void
 purge_stonith_cleanup()
 {
-	crm_info("trace");
     if (stonith_cleanup_list) {
         GListPtr iter = NULL;
 
@@ -109,7 +106,6 @@ purge_stonith_cleanup()
 void
 execute_stonith_cleanup()
 {
-	crm_info("trace");
     GListPtr iter;
 
     for (iter = stonith_cleanup_list; iter != NULL; iter = iter->next) {
@@ -130,7 +126,6 @@ execute_stonith_cleanup()
 static gboolean
 fail_incompletable_stonith(crm_graph_t * graph)
 {
-	crm_info("trace");
     GListPtr lpc = NULL;
     const char *task = NULL;
     xmlNode *last_action = NULL;
@@ -177,7 +172,6 @@ fail_incompletable_stonith(crm_graph_t * graph)
 static void
 tengine_stonith_connection_destroy(stonith_t * st, stonith_event_t * e)
 {
-	crm_info("trace");
     if (is_set(fsa_input_register, R_ST_REQUIRED)) {
         crm_crit("Fencing daemon connection failed");
         mainloop_set_trigger(stonith_reconnect);
@@ -211,7 +205,6 @@ char *te_client_id = NULL;
 static void
 tengine_stonith_notify(stonith_t * st, stonith_event_t * st_event)
 {
-	crm_info("trace");
     if(te_client_id == NULL) {
         te_client_id = crm_strdup_printf("%s.%d", crm_system_name, getpid());
     }
@@ -381,7 +374,6 @@ tengine_stonith_notify(stonith_t * st, stonith_event_t * st_event)
 gboolean
 te_connect_stonith(gpointer user_data)
 {
-	crm_info("trace");
     int lpc = 0;
     int rc = pcmk_ok;
 
@@ -432,7 +424,6 @@ te_connect_stonith(gpointer user_data)
 gboolean
 stop_te_timer(crm_action_timer_t * timer)
 {
-	crm_info("trace");
     const char *timer_desc = "action timer";
 
     if (timer == NULL) {
@@ -459,7 +450,6 @@ stop_te_timer(crm_action_timer_t * timer)
 gboolean
 te_graph_trigger(gpointer user_data)
 {
-	crm_info("trace");
     enum transition_status graph_rc = -1;
 
     if (transition_graph == NULL) {
@@ -518,7 +508,6 @@ te_graph_trigger(gpointer user_data)
 void
 trigger_graph_processing(const char *fn, int line)
 {
-	crm_info("trace");
     crm_trace("%s:%d - Triggered graph processing", fn, line);
     mainloop_set_trigger(transition_trigger);
 }
@@ -527,7 +516,6 @@ void
 abort_transition_graph(int abort_priority, enum transition_action abort_action,
                        const char *abort_text, xmlNode * reason, const char *fn, int line)
 {
-	crm_info("trace");
     int add[] = { 0, 0, 0 };
     int del[] = { 0, 0, 0 };
     int level = LOG_INFO;

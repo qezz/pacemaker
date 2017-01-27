@@ -56,7 +56,6 @@ find_nvpair_attr_delegate(cib_t * the_cib, const char *attr, const char *section
                           const char *attr_id, const char *attr_name, gboolean to_console,
                           char **value, const char *user_name)
 {
-	crm_info("trace");
     int offset = 0;
     static int xpath_max = 1024;
     int rc = pcmk_ok;
@@ -179,7 +178,6 @@ update_attr_delegate(cib_t * the_cib, int call_options,
                      const char *attr_value, gboolean to_console, const char *user_name,
                      const char *node_type)
 {
-	crm_info("trace");
     const char *tag = NULL;
     int rc = pcmk_ok;
     xmlNode *xml_top = NULL;
@@ -347,7 +345,6 @@ read_attr_delegate(cib_t * the_cib,
                    const char *set_name, const char *attr_id, const char *attr_name,
                    char **attr_value, gboolean to_console, const char *user_name)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
 
     CRM_ASSERT(attr_value != NULL);
@@ -371,7 +368,6 @@ delete_attr_delegate(cib_t * the_cib, int options,
                      const char *set_name, const char *attr_id, const char *attr_name,
                      const char *attr_value, gboolean to_console, const char *user_name)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     xmlNode *xml_obj = NULL;
     char *local_attr_id = NULL;
@@ -419,7 +415,6 @@ delete_attr_delegate(cib_t * the_cib, int options,
 static gboolean
 found_remote_node_xpath(cib_t *the_cib, const char *xpath)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     xmlNode *xml_search = NULL;
 
@@ -433,7 +428,6 @@ found_remote_node_xpath(cib_t *the_cib, const char *xpath)
 static int
 get_remote_node_uuid(cib_t * the_cib, const char *uname, char **uuid)
 {
-	crm_info("trace");
 #define CONTAINER_REMOTE_NODE_XPATH "//" XML_CIB_TAG_NVPAIR \
     "[@name='" XML_RSC_ATTR_REMOTE_NODE "'][@value='%s']"
 
@@ -478,7 +472,6 @@ found_remote:
 static int
 get_cluster_node_uuid(cib_t * the_cib, const char *uname, char **uuid)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     xmlNode *a_child = NULL;
     xmlNode *xml_obj = NULL;
@@ -526,7 +519,6 @@ get_cluster_node_uuid(cib_t * the_cib, const char *uname, char **uuid)
 int
 query_node_uuid(cib_t * the_cib, const char *uname, char **uuid, int *is_remote_node)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
 
     CRM_ASSERT(uname != NULL);
@@ -560,7 +552,6 @@ query_node_uuid(cib_t * the_cib, const char *uname, char **uuid, int *is_remote_
 int
 query_node_uname(cib_t * the_cib, const char *uuid, char **uname)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     xmlNode *a_child = NULL;
     xmlNode *xml_obj = NULL;
@@ -605,7 +596,6 @@ query_node_uname(cib_t * the_cib, const char *uuid, char **uname)
 int
 set_standby(cib_t * the_cib, const char *uuid, const char *scope, const char *standby_value)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     char *attr_id = NULL;
 

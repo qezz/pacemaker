@@ -59,7 +59,6 @@ static GHashTable *ipc_clients = NULL;
 crm_client_t *
 ipc_proxy_get_provider()
 {
-	crm_info("trace");
     if (ipc_providers) {
         GHashTableIter iter;
         gpointer key = NULL;
@@ -76,7 +75,6 @@ ipc_proxy_get_provider()
 static int32_t
 ipc_proxy_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid, const char *ipc_channel)
 {
-	crm_info("trace");
     crm_client_t *client;
     crm_client_t *ipc_proxy = ipc_proxy_get_provider();
     xmlNode *msg;
@@ -115,49 +113,42 @@ ipc_proxy_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid, const char *ipc
 static int32_t
 crmd_proxy_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
-	crm_info("trace");
     return ipc_proxy_accept(c, uid, gid, CRM_SYSTEM_CRMD);
 }
 
 static int32_t
 attrd_proxy_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
-	crm_info("trace");
     return ipc_proxy_accept(c, uid, gid, T_ATTRD);
 }
 
 static int32_t
 stonith_proxy_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
-	crm_info("trace");
     return ipc_proxy_accept(c, uid, gid, "stonith-ng");
 }
 
 static int32_t
 cib_proxy_accept_rw(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
-	crm_info("trace");
     return ipc_proxy_accept(c, uid, gid, cib_channel_rw);
 }
 
 static int32_t
 cib_proxy_accept_ro(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
-	crm_info("trace");
     return ipc_proxy_accept(c, uid, gid, cib_channel_ro);
 }
 
 static void
 ipc_proxy_created(qb_ipcs_connection_t * c)
 {
-	crm_info("trace");
     crm_trace("Connection %p", c);
 }
 
 void
 ipc_proxy_forward_client(crm_client_t *ipc_proxy, xmlNode *xml)
 {
-	crm_info("trace");
     const char *session = crm_element_value(xml, F_LRMD_IPC_SESSION);
     const char *msg_type = crm_element_value(xml, F_LRMD_IPC_OP);
     xmlNode *msg = get_message_xml(xml, F_LRMD_IPC_MSG);
@@ -224,7 +215,6 @@ ipc_proxy_forward_client(crm_client_t *ipc_proxy, xmlNode *xml)
 static int32_t
 ipc_proxy_dispatch(qb_ipcs_connection_t * c, void *data, size_t size)
 {
-	crm_info("trace");
     uint32_t id = 0;
     uint32_t flags = 0;
     crm_client_t *client = crm_client_get(c);
@@ -288,7 +278,6 @@ ipc_proxy_dispatch(qb_ipcs_connection_t * c, void *data, size_t size)
 int
 ipc_proxy_shutdown_req(crm_client_t *ipc_proxy)
 {
-	crm_info("trace");
     xmlNode *msg = create_xml_node(NULL, T_LRMD_IPC_PROXY);
     int rc;
 
@@ -307,7 +296,6 @@ ipc_proxy_shutdown_req(crm_client_t *ipc_proxy)
 static int32_t
 ipc_proxy_closed(qb_ipcs_connection_t * c)
 {
-	crm_info("trace");
     crm_client_t *client = crm_client_get(c);
     crm_client_t *ipc_proxy;
 
@@ -338,7 +326,6 @@ ipc_proxy_closed(qb_ipcs_connection_t * c)
 static void
 ipc_proxy_destroy(qb_ipcs_connection_t * c)
 {
-	crm_info("trace");
     crm_trace("Connection %p", c);
     ipc_proxy_closed(c);
 }
@@ -386,7 +373,6 @@ static struct qb_ipcs_service_handlers cib_proxy_callbacks_rw = {
 void
 ipc_proxy_add_provider(crm_client_t *ipc_proxy)
 {
-	crm_info("trace");
     if (ipc_providers == NULL) {
         return;
     }
@@ -396,7 +382,6 @@ ipc_proxy_add_provider(crm_client_t *ipc_proxy)
 void
 ipc_proxy_remove_provider(crm_client_t *ipc_proxy)
 {
-	crm_info("trace");
     GHashTableIter iter;
     crm_client_t *ipc_client = NULL;
     char *key = NULL;
@@ -433,7 +418,6 @@ ipc_proxy_remove_provider(crm_client_t *ipc_proxy)
 void
 ipc_proxy_init(void)
 {
-	crm_info("trace");
     ipc_clients = g_hash_table_new_full(crm_str_hash, g_str_equal, NULL, NULL);
     ipc_providers = g_hash_table_new_full(crm_str_hash, g_str_equal, NULL, NULL);
 
@@ -456,7 +440,6 @@ ipc_proxy_init(void)
 void
 ipc_proxy_cleanup(void)
 {
-	crm_info("trace");
     if (ipc_providers) {
         g_hash_table_destroy(ipc_providers);
     }

@@ -24,7 +24,6 @@
 gboolean
 is_rsc_baremetal_remote_node(resource_t *rsc, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     node_t *node;
 
     if (rsc == NULL) {
@@ -44,7 +43,6 @@ is_rsc_baremetal_remote_node(resource_t *rsc, pe_working_set_t * data_set)
 gboolean
 is_baremetal_remote_node(node_t *node)
 {
-	crm_info("trace");
     if (is_remote_node(node) && (node->details->remote_rsc == FALSE || node->details->remote_rsc->container == FALSE)) {
         return TRUE;
     }
@@ -54,7 +52,6 @@ is_baremetal_remote_node(node_t *node)
 gboolean
 is_container_remote_node(node_t *node)
 {
-	crm_info("trace");
     if (is_remote_node(node) && (node->details->remote_rsc && node->details->remote_rsc->container)) {
         return TRUE;
     }
@@ -64,7 +61,6 @@ is_container_remote_node(node_t *node)
 gboolean
 is_remote_node(node_t *node)
 {
-	crm_info("trace");
     if (node && node->details->type == node_remote) {
         return TRUE;
     }
@@ -74,7 +70,6 @@ is_remote_node(node_t *node)
 resource_t *
 rsc_contains_remote_node(pe_working_set_t * data_set, resource_t *rsc)
 {
-	crm_info("trace");
     if (is_set(data_set->flags, pe_flag_have_remote_nodes) == FALSE) {
         return NULL;
     }
@@ -95,7 +90,6 @@ rsc_contains_remote_node(pe_working_set_t * data_set, resource_t *rsc)
 gboolean
 xml_contains_remote_node(xmlNode *xml)
 {
-	crm_info("trace");
     const char *class = crm_element_value(xml, XML_AGENT_ATTR_CLASS);
     const char *provider = crm_element_value(xml, XML_AGENT_ATTR_PROVIDER);
     const char *agent = crm_element_value(xml, XML_ATTR_TYPE);

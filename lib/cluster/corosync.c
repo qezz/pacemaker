@@ -139,7 +139,6 @@ corosync_node_name(uint64_t /*cmap_handle_t */ cmap_handle, uint32_t nodeid)
 void
 terminate_cs_connection(crm_cluster_t *cluster)
 {
-	crm_info("trace");
     crm_info("Disconnecting from Corosync");
 
     cluster_disconnect_cpg(cluster);
@@ -163,7 +162,6 @@ gboolean ais_membership_force = FALSE;
 static int
 pcmk_quorum_dispatch(gpointer user_data)
 {
-	crm_info("trace");
     int rc = 0;
 
     rc = quorum_dispatch(pcmk_quorum_handle, CS_DISPATCH_ALL);
@@ -180,7 +178,6 @@ pcmk_quorum_notification(quorum_handle_t handle,
                          uint32_t quorate,
                          uint64_t ring_id, uint32_t view_list_entries, uint32_t * view_list)
 {
-	crm_info("trace");
     int i;
     GHashTableIter iter;
     crm_node_t *node = NULL;
@@ -314,7 +311,6 @@ cluster_connect_quorum(gboolean(*dispatch) (unsigned long long, gboolean),
 gboolean
 init_cs_connection(crm_cluster_t * cluster)
 {
-	crm_info("trace");
     int retries = 0;
 
     while (retries < 5) {
@@ -342,7 +338,6 @@ init_cs_connection(crm_cluster_t * cluster)
 gboolean
 init_cs_connection_once(crm_cluster_t * cluster)
 {
-	crm_info("trace");
     crm_node_t *peer = NULL;
     enum cluster_type_e stack = get_cluster_type();
 
@@ -381,7 +376,6 @@ init_cs_connection_once(crm_cluster_t * cluster)
 gboolean
 check_message_sanity(const AIS_Message * msg, const char *data)
 {
-	crm_info("trace");
     gboolean sane = TRUE;
     int dest = msg->host.type;
     int tmp_size = msg->header.size - sizeof(AIS_Message);
@@ -445,7 +439,6 @@ check_message_sanity(const AIS_Message * msg, const char *data)
 enum cluster_type_e
 find_corosync_variant(void)
 {
-	crm_info("trace");
     int rc = CS_OK;
     cmap_handle_t handle;
 
@@ -474,7 +467,6 @@ find_corosync_variant(void)
 gboolean
 crm_is_corosync_peer_active(const crm_node_t * node)
 {
-	crm_info("trace");
     if (node == NULL) {
         crm_trace("NULL");
         return FALSE;
@@ -493,7 +485,6 @@ crm_is_corosync_peer_active(const crm_node_t * node)
 gboolean
 corosync_initialize_nodelist(void *cluster, gboolean force_member, xmlNode * xml_parent)
 {
-	crm_info("trace");
     int lpc = 0;
     int rc = CS_OK;
     int retries = 0;
@@ -579,7 +570,6 @@ corosync_initialize_nodelist(void *cluster, gboolean force_member, xmlNode * xml
 char *
 corosync_cluster_name(void)
 {
-	crm_info("trace");
     cmap_handle_t handle;
     char *cluster_name = NULL;
     int rc = CS_OK;
@@ -606,7 +596,6 @@ corosync_cluster_name(void)
 int
 corosync_cmap_has_config(const char *prefix)
 {
-	crm_info("trace");
     int rc = CS_OK;
     int retries = 0;
     static int found = -1;

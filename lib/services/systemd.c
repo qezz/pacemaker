@@ -64,7 +64,6 @@ struct pcmk_dbus_data
 
 static DBusMessage *systemd_new_method(const char *iface, const char *method)
 {
-	crm_info("trace");
     crm_trace("Calling: %s on %s", method, iface);
     return dbus_message_new_method_call(BUS_NAME, // target for the method call
                                         BUS_PATH, // object to call on
@@ -77,7 +76,6 @@ static DBusConnection* systemd_proxy = NULL;
 static gboolean
 systemd_init(void)
 {
-	crm_info("trace");
     static int need_init = 1;
     /* http://dbus.freedesktop.org/doc/api/html/group__DBusConnection.html */
 
@@ -102,7 +100,6 @@ systemd_init(void)
 void
 systemd_cleanup(void)
 {
-	crm_info("trace");
     if (systemd_proxy) {
         pcmk_dbus_disconnect(systemd_proxy);
         systemd_proxy = NULL;
@@ -120,7 +117,6 @@ systemd_cleanup(void)
 static const char *
 systemd_unit_extension(const char *name)
 {
-	crm_info("trace");
     if (name) {
         const char *dot = strrchr(name, '.');
 
@@ -134,7 +130,6 @@ systemd_unit_extension(const char *name)
 static char *
 systemd_service_name(const char *name)
 {
-	crm_info("trace");
     if (name == NULL) {
         return NULL;
     }
@@ -149,7 +144,6 @@ systemd_service_name(const char *name)
 static void
 systemd_daemon_reload_complete(DBusPendingCall *pending, void *user_data)
 {
-	crm_info("trace");
     DBusError error;
     DBusMessage *reply = NULL;
     unsigned int reload_count = GPOINTER_TO_UINT(user_data);
@@ -177,7 +171,6 @@ systemd_daemon_reload_complete(DBusPendingCall *pending, void *user_data)
 static bool
 systemd_daemon_reload(int timeout)
 {
-	crm_info("trace");
     static unsigned int reload_count = 0;
     const char *method = "Reload";
     DBusMessage *msg = systemd_new_method(BUS_NAME".Manager", method);
@@ -193,7 +186,6 @@ systemd_daemon_reload(int timeout)
 static bool
 systemd_mask_error(svc_action_t *op, const char *error)
 {
-	crm_info("trace");
     crm_trace("Could not issue %s for %s: %s", op->action, op->rsc, error);
     if(strstr(error, "org.freedesktop.systemd1.InvalidName")
        || strstr(error, "org.freedesktop.systemd1.LoadFailed")
@@ -218,7 +210,6 @@ systemd_mask_error(svc_action_t *op, const char *error)
 static const char *
 systemd_loadunit_result(DBusMessage *reply, svc_action_t * op)
 {
-	crm_info("trace");
     const char *path = NULL;
     DBusError error;
 
@@ -250,7 +241,6 @@ systemd_loadunit_result(DBusMessage *reply, svc_action_t * op)
 static void
 systemd_loadunit_cb(DBusPendingCall *pending, void *user_data)
 {
-	crm_info("trace");
     DBusMessage *reply = NULL;
     svc_action_t * op = user_data;
 
@@ -273,7 +263,6 @@ systemd_loadunit_cb(DBusPendingCall *pending, void *user_data)
 static char *
 systemd_unit_by_name(const gchar * arg_name, svc_action_t *op)
 {
-	crm_info("trace");
     DBusMessage *msg;
     DBusMessage *reply = NULL;
     DBusPendingCall* pending = NULL;
@@ -329,7 +318,6 @@ systemd_unit_by_name(const gchar * arg_name, svc_action_t *op)
 GList *
 systemd_unit_listall(void)
 {
-	crm_info("trace");
     int lpc = 0;
     GList *units = NULL;
     DBusMessageIter args;
@@ -420,7 +408,6 @@ systemd_unit_listall(void)
 gboolean
 systemd_unit_exists(const char *name)
 {
-	crm_info("trace");
     char *unit = NULL;
 
     /* Note: Makes a blocking dbus calls
@@ -437,7 +424,6 @@ systemd_unit_exists(const char *name)
 static char *
 systemd_unit_metadata(const char *name, int timeout)
 {
-	crm_info("trace");
     char *meta = NULL;
     char *desc = NULL;
     char *path = systemd_unit_by_name(name, NULL);
@@ -476,7 +462,6 @@ systemd_unit_metadata(const char *name, int timeout)
 static void
 systemd_exec_result(DBusMessage *reply, svc_action_t *op)
 {
-	crm_info("trace");
     DBusError error;
 
     if(pcmk_dbus_find_error(op->action, (void*)&error, reply, &error)) {
@@ -508,7 +493,6 @@ systemd_exec_result(DBusMessage *reply, svc_action_t *op)
 static void
 systemd_async_dispatch(DBusPendingCall *pending, void *user_data)
 {
-	crm_info("trace");
     DBusError error;
     DBusMessage *reply = NULL;
     svc_action_t *op = user_data;
@@ -534,7 +518,6 @@ systemd_async_dispatch(DBusPendingCall *pending, void *user_data)
 static void
 systemd_unit_check(const char *name, const char *state, void *userdata)
 {
-	crm_info("trace");
     svc_action_t * op = userdata;
 
     crm_trace("Resource %s has %s='%s'", op->rsc, name, state);
@@ -561,7 +544,6 @@ systemd_unit_check(const char *name, const char *state, void *userdata)
 gboolean
 systemd_unit_exec_with_unit(svc_action_t * op, const char *unit)
 {
-	crm_info("trace");
     const char *method = op->action;
     DBusMessage *msg = NULL;
     DBusMessage *reply = NULL;
@@ -702,7 +684,6 @@ systemd_unit_exec_with_unit(svc_action_t * op, const char *unit)
 static gboolean
 systemd_timeout_callback(gpointer p)
 {
-	crm_info("trace");
     svc_action_t * op = p;
 
     op->opaque->timerid = 0;
@@ -717,7 +698,6 @@ systemd_timeout_callback(gpointer p)
 gboolean
 systemd_unit_exec(svc_action_t * op)
 {
-	crm_info("trace");
     char *unit = NULL;
 
     CRM_ASSERT(op);

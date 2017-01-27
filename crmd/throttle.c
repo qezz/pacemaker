@@ -61,7 +61,6 @@ mainloop_timer_t *throttle_timer = NULL;
 
 int throttle_num_cores(void)
 {
-	crm_info("trace");
     static int cores = 0;
     char buffer[256];
     FILE *stream = NULL;
@@ -105,7 +104,6 @@ int throttle_num_cores(void)
  */
 static char *find_cib_loadfile(void) 
 {
-	crm_info("trace");
     int pid = crm_procfs_pid_of("cib");
 
     return pid? crm_strdup_printf("/proc/%d/stat", pid) : NULL;
@@ -113,7 +111,6 @@ static char *find_cib_loadfile(void)
 
 static bool throttle_cib_load(float *load) 
 {
-	crm_info("trace");
 /*
        /proc/[pid]/stat
               Status information about the process.  This is used by ps(1).  It is defined in /usr/src/linux/fs/proc/array.c.
@@ -238,7 +235,6 @@ static bool throttle_cib_load(float *load)
 
 static bool throttle_load_avg(float *load)
 {
-	crm_info("trace");
     char buffer[256];
     FILE *stream = NULL;
     const char *loadfile = "/proc/loadavg";
@@ -272,7 +268,6 @@ static bool throttle_load_avg(float *load)
 
 static bool throttle_io_load(float *load, unsigned int *blocked)
 {
-	crm_info("trace");
     char buffer[64*1024];
     FILE *stream = NULL;
     const char *loadfile = "/proc/stat";
@@ -355,7 +350,6 @@ static bool throttle_io_load(float *load, unsigned int *blocked)
 static enum throttle_state_e
 throttle_handle_load(float load, const char *desc, int cores)
 {
-	crm_info("trace");
     float adjusted_load = load;
 
     if(cores <= 0) {
@@ -390,7 +384,6 @@ throttle_handle_load(float load, const char *desc, int cores)
 static enum throttle_state_e
 throttle_mode(void)
 {
-	crm_info("trace");
     int cores;
     float load;
     unsigned int blocked = 0;
@@ -473,7 +466,6 @@ throttle_mode(void)
 static void
 throttle_send_command(enum throttle_state_e mode)
 {
-	crm_info("trace");
     xmlNode *xml = NULL;
     static enum throttle_state_e last = -1;
 
@@ -493,7 +485,6 @@ throttle_send_command(enum throttle_state_e mode)
 static gboolean
 throttle_timer_cb(gpointer data)
 {
-	crm_info("trace");
     static bool send_updates = FALSE;
     enum throttle_state_e now = throttle_none;
 
@@ -517,7 +508,6 @@ throttle_timer_cb(gpointer data)
 static void
 throttle_record_free(gpointer p)
 {
-	crm_info("trace");
     struct throttle_record_s *r = p;
     free(r->node);
     free(r);
@@ -526,7 +516,6 @@ throttle_record_free(gpointer p)
 void
 throttle_update_job_max(const char *preference) 
 {
-	crm_info("trace");
     int max = 0;
 
     throttle_job_max = 2 * throttle_num_cores();
@@ -562,7 +551,6 @@ throttle_update_job_max(const char *preference)
 void
 throttle_init(void)
 {
-	crm_info("trace");
     if(throttle_records == NULL) {
         throttle_records = g_hash_table_new_full(
             crm_str_hash, g_str_equal, NULL, throttle_record_free);
@@ -576,7 +564,6 @@ throttle_init(void)
 void
 throttle_fini(void)
 {
-	crm_info("trace");
     mainloop_timer_del(throttle_timer); throttle_timer = NULL;
     g_hash_table_destroy(throttle_records); throttle_records = NULL;
 }
@@ -585,7 +572,6 @@ throttle_fini(void)
 int
 throttle_get_total_job_limit(int l)
 {
-	crm_info("trace");
     /* Cluster-wide limit */
     GHashTableIter iter;
     int limit = l;
@@ -627,7 +613,6 @@ throttle_get_total_job_limit(int l)
 int
 throttle_get_job_limit(const char *node)
 {
-	crm_info("trace");
     int jobs = 1;
     struct throttle_record_s *r = NULL;
 
@@ -666,7 +651,6 @@ throttle_get_job_limit(const char *node)
 void
 throttle_update(xmlNode *xml)
 {
-	crm_info("trace");
     int max = 0;
     enum throttle_state_e mode = 0;
     struct throttle_record_s *r = NULL;

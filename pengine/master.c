@@ -35,7 +35,6 @@ child_promoting_constraints(clone_variant_data_t * clone_data, enum pe_ordering 
                             resource_t * rsc, resource_t * child, resource_t * last,
                             pe_working_set_t * data_set)
 {
-	crm_info("trace");
     if (child == NULL) {
         if (clone_data->ordered && last != NULL) {
             pe_rsc_trace(rsc, "Ordered version (last node)");
@@ -72,7 +71,6 @@ child_demoting_constraints(clone_variant_data_t * clone_data, enum pe_ordering t
                            resource_t * rsc, resource_t * child, resource_t * last,
                            pe_working_set_t * data_set)
 {
-	crm_info("trace");
     if (child == NULL) {
         if (clone_data->ordered && last != NULL) {
             pe_rsc_trace(rsc, "Ordered version (last node)");
@@ -107,7 +105,6 @@ child_demoting_constraints(clone_variant_data_t * clone_data, enum pe_ordering t
 static void
 master_update_pseudo_status(resource_t * rsc, gboolean * demoting, gboolean * promoting)
 {
-	crm_info("trace");
     GListPtr gIter = NULL;
 
     if (rsc->children) {
@@ -167,7 +164,6 @@ master_update_pseudo_status(resource_t * rsc, gboolean * demoting, gboolean * pr
 static node_t *
 can_be_master(resource_t * rsc)
 {
-	crm_info("trace");
     node_t *node = NULL;
     node_t *local_node = NULL;
     resource_t *parent = uber_parent(rsc);
@@ -237,7 +233,6 @@ can_be_master(resource_t * rsc)
 static gint
 sort_master_instance(gconstpointer a, gconstpointer b, gpointer data_set)
 {
-	crm_info("trace");
     int rc;
     enum rsc_role_e role1 = RSC_ROLE_UNKNOWN;
     enum rsc_role_e role2 = RSC_ROLE_UNKNOWN;
@@ -273,14 +268,12 @@ GHashTable *
 master_merge_weights(resource_t * rsc, const char *rhs, GHashTable * nodes, const char *attr,
                      float factor, enum pe_weights flags)
 {
-	crm_info("trace");
     return rsc_merge_weights(rsc, rhs, nodes, attr, factor, flags);
 }
 
 static void
 master_promotion_order(resource_t * rsc, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     GListPtr gIter = NULL;
     node_t *node = NULL;
     node_t *chosen = NULL;
@@ -407,7 +400,6 @@ master_promotion_order(resource_t * rsc, pe_working_set_t * data_set)
 static gboolean
 filter_anonymous_instance(resource_t * rsc, node_t * node)
 {
-	crm_info("trace");
     GListPtr rIter = NULL;
     char *key = clone_strip(rsc->id);
     resource_t *parent = uber_parent(rsc);
@@ -461,7 +453,6 @@ filter_anonymous_instance(resource_t * rsc, node_t * node)
 static int
 master_score(resource_t * rsc, node_t * node, int not_set_value)
 {
-	crm_info("trace");
     char *attr_name;
     char *name = rsc->id;
     const char *attr_value = NULL;
@@ -543,7 +534,6 @@ master_score(resource_t * rsc, node_t * node, int not_set_value)
 static void
 apply_master_prefs(resource_t * rsc)
 {
-	crm_info("trace");
     int score, new_score;
     GListPtr gIter = rsc->children;
     clone_variant_data_t *clone_data = NULL;
@@ -595,7 +585,6 @@ apply_master_prefs(resource_t * rsc)
 static void
 set_role_slave(resource_t * rsc, gboolean current)
 {
-	crm_info("trace");
     GListPtr gIter = rsc->children;
 
     if (current) {
@@ -627,7 +616,6 @@ set_role_slave(resource_t * rsc, gboolean current)
 static void
 set_role_master(resource_t * rsc)
 {
-	crm_info("trace");
     GListPtr gIter = rsc->children;
 
     if (rsc->next_role == RSC_ROLE_UNKNOWN) {
@@ -644,7 +632,6 @@ set_role_master(resource_t * rsc)
 node_t *
 master_color(resource_t * rsc, node_t * prefer, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     int promoted = 0;
     GListPtr gIter = NULL;
     GListPtr gIter2 = NULL;
@@ -820,7 +807,6 @@ master_color(resource_t * rsc, node_t * prefer, pe_working_set_t * data_set)
 void
 master_create_actions(resource_t * rsc, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     action_t *action = NULL;
     GListPtr gIter = rsc->children;
     action_t *action_complete = NULL;
@@ -924,7 +910,6 @@ master_create_actions(resource_t * rsc, pe_working_set_t * data_set)
 void
 master_internal_constraints(resource_t * rsc, pe_working_set_t * data_set)
 {
-	crm_info("trace");
     GListPtr gIter = rsc->children;
     resource_t *last_rsc = NULL;
     clone_variant_data_t *clone_data = NULL;
@@ -973,7 +958,6 @@ master_internal_constraints(resource_t * rsc, pe_working_set_t * data_set)
 static void
 node_hash_update_one(GHashTable * hash, node_t * other, const char *attr, int score)
 {
-	crm_info("trace");
     GHashTableIter iter;
     node_t *node = NULL;
     const char *value = NULL;
@@ -1000,7 +984,6 @@ node_hash_update_one(GHashTable * hash, node_t * other, const char *attr, int sc
 void
 master_rsc_colocation_rh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation_t * constraint)
 {
-	crm_info("trace");
     GListPtr gIter = NULL;
 
     CRM_CHECK(rsc_rh != NULL, return);
@@ -1079,7 +1062,6 @@ master_rsc_colocation_rh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocatio
 void
 master_append_meta(resource_t * rsc, xmlNode * xml)
 {
-	crm_info("trace");
     char *name = NULL;
     clone_variant_data_t *clone_data = NULL;
 

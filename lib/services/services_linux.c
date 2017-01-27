@@ -53,7 +53,6 @@ extern GList *inflight_ops;
 static inline void
 set_fd_opts(int fd, int opts)
 {
-	crm_info("trace");
     int flag;
 
     if ((flag = fcntl(fd, F_GETFL)) >= 0) {
@@ -68,7 +67,6 @@ set_fd_opts(int fd, int opts)
 static gboolean
 svc_read_output(int fd, svc_action_t * op, bool is_stderr)
 {
-	crm_info("trace");
     char *data = NULL;
     int rc = 0, len = 0;
     char buf[500];
@@ -124,7 +122,6 @@ svc_read_output(int fd, svc_action_t * op, bool is_stderr)
 static int
 dispatch_stdout(gpointer userdata)
 {
-	crm_info("trace");
     svc_action_t *op = (svc_action_t *) userdata;
 
     return svc_read_output(op->opaque->stdout_fd, op, FALSE);
@@ -133,7 +130,6 @@ dispatch_stdout(gpointer userdata)
 static int
 dispatch_stderr(gpointer userdata)
 {
-	crm_info("trace");
     svc_action_t *op = (svc_action_t *) userdata;
 
     return svc_read_output(op->opaque->stderr_fd, op, TRUE);
@@ -142,7 +138,6 @@ dispatch_stderr(gpointer userdata)
 static void
 pipe_out_done(gpointer user_data)
 {
-	crm_info("trace");
     svc_action_t *op = (svc_action_t *) user_data;
 
     crm_trace("%p", op);
@@ -157,7 +152,6 @@ pipe_out_done(gpointer user_data)
 static void
 pipe_err_done(gpointer user_data)
 {
-	crm_info("trace");
     svc_action_t *op = (svc_action_t *) user_data;
 
     op->opaque->stderr_gsource = NULL;
@@ -180,7 +174,6 @@ static struct mainloop_fd_callbacks stderr_callbacks = {
 static void
 set_ocf_env(const char *key, const char *value, gpointer user_data)
 {
-	crm_info("trace");
     if (setenv(key, value, 1) != 0) {
         crm_perror(LOG_ERR, "setenv failed for key:%s and value:%s", key, value);
     }
@@ -189,7 +182,6 @@ set_ocf_env(const char *key, const char *value, gpointer user_data)
 static void
 set_ocf_env_with_prefix(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     char buffer[500];
 
     snprintf(buffer, sizeof(buffer), "OCF_RESKEY_%s", (char *)key);
@@ -199,7 +191,6 @@ set_ocf_env_with_prefix(gpointer key, gpointer value, gpointer user_data)
 static void
 add_OCF_env_vars(svc_action_t * op)
 {
-	crm_info("trace");
     if (!op->standard || strcasecmp("ocf", op->standard) != 0) {
         return;
     }
@@ -230,7 +221,6 @@ add_OCF_env_vars(svc_action_t * op)
 gboolean
 recurring_action_timer(gpointer data)
 {
-	crm_info("trace");
     svc_action_t *op = data;
 
     crm_debug("Scheduling another invocation of %s", op->id);
@@ -250,7 +240,6 @@ recurring_action_timer(gpointer data)
 gboolean
 operation_finalize(svc_action_t * op)
 {
-	crm_info("trace");
     int recurring = 0;
 
     if (op->interval) {
@@ -290,7 +279,6 @@ operation_finalize(svc_action_t * op)
 static void
 operation_finished(mainloop_child_t * p, pid_t pid, int core, int signo, int exitcode)
 {
-	crm_info("trace");
     svc_action_t *op = mainloop_child_userdata(p);
     char *prefix = crm_strdup_printf("%s:%d", op->id, op->pid);
 
@@ -363,7 +351,6 @@ operation_finished(mainloop_child_t * p, pid_t pid, int core, int signo, int exi
 static void
 services_handle_exec_error(svc_action_t * op, int error)
 {
-	crm_info("trace");
     int rc_not_installed, rc_insufficient_priv, rc_exec_error;
 
     /* Mimic the return codes for each standard as that's what we'll convert back from in get_uniform_rc() */
@@ -408,7 +395,6 @@ services_handle_exec_error(svc_action_t * op, int error)
 static void
 action_launch_child(svc_action_t *op)
 {
-	crm_info("trace");
     int lpc;
 
     /* SIGPIPE is ignored (which is different from signal blocking) by the gnutls library.
@@ -477,7 +463,6 @@ static int sigchld_pipe[2] = { -1, -1 };
 static void
 sigchld_handler()
 {
-	crm_info("trace");
     if ((sigchld_pipe[1] >= 0) && (write(sigchld_pipe[1], "", 1) == -1)) {
         crm_perror(LOG_TRACE, "Could not poke SIGCHLD self-pipe");
     }
@@ -487,7 +472,6 @@ sigchld_handler()
 static void
 action_synced_wait(svc_action_t * op, sigset_t *mask)
 {
-	crm_info("trace");
     int status = 0;
     int timeout = op->timeout;
     int sfd = -1;
@@ -629,7 +613,6 @@ action_synced_wait(svc_action_t * op, sigset_t *mask)
 gboolean
 services_os_action_execute(svc_action_t * op, gboolean synchronous)
 {
-	crm_info("trace");
     int stdout_fd[2];
     int stderr_fd[2];
     struct stat st;
@@ -811,7 +794,6 @@ services_os_action_execute(svc_action_t * op, gboolean synchronous)
 GList *
 services_os_get_directory_list(const char *root, gboolean files, gboolean executable)
 {
-	crm_info("trace");
     GList *list = NULL;
     struct dirent **namelist;
     int entries = 0, lpc = 0;
@@ -867,21 +849,18 @@ services_os_get_directory_list(const char *root, gboolean files, gboolean execut
 GList *
 resources_os_list_lsb_agents(void)
 {
-	crm_info("trace");
     return get_directory_list(LSB_ROOT_DIR, TRUE, TRUE);
 }
 
 GList *
 resources_os_list_ocf_providers(void)
 {
-	crm_info("trace");
     return get_directory_list(OCF_ROOT_DIR "/resource.d", FALSE, TRUE);
 }
 
 GList *
 resources_os_list_ocf_agents(const char *provider)
 {
-	crm_info("trace");
     GList *gIter = NULL;
     GList *result = NULL;
     GList *providers = NULL;
@@ -910,7 +889,6 @@ resources_os_list_ocf_agents(const char *provider)
 GList *
 resources_os_list_nagios_agents(void)
 {
-	crm_info("trace");
     GList *plugin_list = NULL;
     GList *result = NULL;
     GList *gIter = NULL;

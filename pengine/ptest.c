@@ -65,7 +65,6 @@ FILE *dot_strm = NULL;
 static void
 init_dotfile(void)
 {
-	crm_info("trace");
     dot_write(" digraph \"g\" {");
 /* 	dot_write("	size = \"30,30\""); */
 /* 	dot_write("	graph ["); */
@@ -93,7 +92,6 @@ init_dotfile(void)
 static char *
 create_action_name(action_t * action)
 {
-	crm_info("trace");
     char *action_name = NULL;
     const char *action_host = NULL;
 
@@ -147,7 +145,6 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
-	crm_info("trace");
     GListPtr lpc = NULL;
     gboolean process = TRUE;
     gboolean all_good = TRUE;

@@ -146,7 +146,6 @@ ha_get_tm_time( struct tm *target, crm_time_t *source)
 crm_time_hr_t *
 crm_time_hr_convert(crm_time_hr_t *target, crm_time_t *dt)
 {
-	crm_info("trace");
     crm_time_hr_t *hr_dt = NULL;
 
     if (dt) {
@@ -169,7 +168,6 @@ crm_time_hr_convert(crm_time_hr_t *target, crm_time_t *dt)
 void
 crm_time_set_hr_dt(crm_time_t *target, crm_time_hr_t *hr_dt)
 {
-	crm_info("trace");
     CRM_ASSERT((hr_dt) && (target));
     *target = (crm_time_t) {
         .years = hr_dt->years,
@@ -184,7 +182,6 @@ crm_time_set_hr_dt(crm_time_t *target, crm_time_hr_t *hr_dt)
 crm_time_hr_t *
 crm_time_timeval_hr_convert(crm_time_hr_t *target, struct timeval *tv)
 {
-	crm_info("trace");
     crm_time_t dt;
     crm_time_hr_t *ret;
 
@@ -199,7 +196,6 @@ crm_time_timeval_hr_convert(crm_time_hr_t *target, struct timeval *tv)
 crm_time_hr_t *
 crm_time_hr_new(const char *date_time)
 {
-	crm_info("trace");
     crm_time_hr_t *hr_dt = NULL;
     struct timeval tv_now;
 
@@ -220,14 +216,12 @@ crm_time_hr_new(const char *date_time)
 void
 crm_time_hr_free(crm_time_hr_t * hr_dt)
 {
-	crm_info("trace");
     free(hr_dt);
 }
 
 char *
 crm_time_format_hr(const char *format, crm_time_hr_t * hr_dt)
 {
-	crm_info("trace");
     const char *mark_s;
     int max = 128, scanned_pos = 0, printed_pos = 0, fmt_pos = 0,
         date_len = 0, nano_digits = 0, fmt_len;
@@ -309,7 +303,6 @@ crm_time_format_hr(const char *format, crm_time_hr_t * hr_dt)
 static void
 free_envvar_entry(envvar_t *entry)
 {
-	crm_info("trace");
     free(entry->name);
     free(entry->value);
     free(entry);
@@ -318,7 +311,6 @@ free_envvar_entry(envvar_t *entry)
 static void
 free_notify_list_entry(notify_entry_t *entry)
 {
-	crm_info("trace");
     free(entry->id);
     free(entry->path);
     free(entry->tstamp_format);
@@ -333,7 +325,6 @@ free_notify_list_entry(notify_entry_t *entry)
 static void
 free_notify_list()
 {
-	crm_info("trace");
     if (notify_list) {
         g_list_free_full(notify_list, (GDestroyNotify) free_notify_list_entry);
         notify_list = NULL;
@@ -344,7 +335,6 @@ static gpointer
 copy_envvar_entry(envvar_t * src,
                   gpointer data)
 {
-	crm_info("trace");
     envvar_t *dst = calloc(1, sizeof(envvar_t));
 
     CRM_ASSERT(dst);
@@ -357,14 +347,12 @@ static GListPtr
 add_dup_envvar(GListPtr envvar_list,
                envvar_t *entry)
 {
-	crm_info("trace");
     return g_list_prepend(envvar_list, copy_envvar_entry(entry, NULL));
 }
 
 static GListPtr
 drop_envvars(GListPtr envvar_list, int count)
 {
-	crm_info("trace");
     int i;
 
     for (i = 0;
@@ -380,7 +368,6 @@ drop_envvars(GListPtr envvar_list, int count)
 static GListPtr
 copy_envvar_list_remove_dupes(GListPtr src)
 {
-	crm_info("trace");
     GListPtr dst = NULL, ls, ld;
 
     /* we are adding to the front so variable dupes coming via
@@ -410,7 +397,6 @@ copy_envvar_list_remove_dupes(GListPtr src)
 static void
 add_dup_notify_list_entry(notify_entry_t *entry)
 {
-	crm_info("trace");
     notify_entry_t *new_entry =
         (notify_entry_t *) calloc(1, sizeof(notify_entry_t));
 
@@ -431,7 +417,6 @@ add_dup_notify_list_entry(notify_entry_t *entry)
 static GListPtr
 get_envvars_from_cib(xmlNode *basenode, GListPtr list, int *count)
 {
-	crm_info("trace");
     xmlNode *envvar;
     xmlNode *pair;
 
@@ -460,7 +445,6 @@ static GHashTable *
 get_meta_attrs_from_cib(xmlNode *basenode, notify_entry_t *entry,
                         guint *max_timeout)
 {
-	crm_info("trace");
     GHashTable *config_hash =
         g_hash_table_new_full(crm_str_hash, g_str_equal,
                               g_hash_destroy_str, g_hash_destroy_str);
@@ -505,7 +489,6 @@ get_meta_attrs_from_cib(xmlNode *basenode, notify_entry_t *entry,
 void
 parse_notifications(xmlNode *notifications)
 {
-	crm_info("trace");
     xmlNode *notify;
     notify_entry_t entry;
     guint max_timeout = 0;
@@ -618,7 +601,6 @@ parse_notifications(xmlNode *notifications)
 void
 crmd_enable_notifications(const char *script, const char *target)
 {
-	crm_info("trace");
     free(notify_script);
     notify_script = ((script) &&
                      (strcmp(script,"/dev/null")))?strdup(script):NULL;
@@ -630,7 +612,6 @@ crmd_enable_notifications(const char *script, const char *target)
 static void
 set_alert_key(enum notify_keys_e name, const char *value)
 {
-	crm_info("trace");
     const char **key;
 
     for (key = notify_keys[name]; *key; key++) {
@@ -646,7 +627,6 @@ set_alert_key(enum notify_keys_e name, const char *value)
 static void
 set_alert_key_int(enum notify_keys_e name, int value)
 {
-	crm_info("trace");
     char *s = crm_itoa(value);
 
     set_alert_key(name, s);
@@ -656,7 +636,6 @@ set_alert_key_int(enum notify_keys_e name, int value)
 static void
 unset_alert_keys()
 {
-	crm_info("trace");
     const char **key;
     enum notify_keys_e name;
 
@@ -671,7 +650,6 @@ unset_alert_keys()
 static void
 set_envvar_list(GListPtr envvars)
 {
-	crm_info("trace");
     GListPtr l;
 
     for (l = g_list_first(envvars); l; l = g_list_next(l)) {
@@ -690,7 +668,6 @@ set_envvar_list(GListPtr envvars)
 static void
 unset_envvar_list(GListPtr envvars)
 {
-	crm_info("trace");
     GListPtr l;
 
     for (l = g_list_first(envvars); l; l = g_list_next(l)) {
@@ -704,7 +681,6 @@ unset_envvar_list(GListPtr envvars)
 static void
 crmd_notify_complete(svc_action_t *op)
 {
-	crm_info("trace");
     alerts_inflight--;
     if(op->rc == 0) {
         crm_info("Alert %d (%s) complete", op->sequence, op->agent);
@@ -717,7 +693,6 @@ crmd_notify_complete(svc_action_t *op)
 static void
 send_notifications(const char *kind)
 {
-	crm_info("trace");
     svc_action_t *notify = NULL;
     static int operations = 0;
     GListPtr l;
@@ -774,7 +749,6 @@ send_notifications(const char *kind)
 void
 crmd_notify_node_event(crm_node_t *node)
 {
-	crm_info("trace");
     if(!notify_list) {
         return;
     }
@@ -789,7 +763,6 @@ crmd_notify_node_event(crm_node_t *node)
 void
 crmd_notify_fencing_op(stonith_event_t * e)
 {
-	crm_info("trace");
     char *desc = NULL;
 
     if (!notify_list) {
@@ -813,7 +786,6 @@ crmd_notify_fencing_op(stonith_event_t * e)
 void
 crmd_notify_resource_op(const char *node, lrmd_event_data_t * op)
 {
-	crm_info("trace");
     int target_rc = 0;
 
     if(!notify_list) {
@@ -855,7 +827,6 @@ crmd_notify_resource_op(const char *node, lrmd_event_data_t * op)
 static gboolean
 alert_drain_timeout_callback(gpointer user_data)
 {
-	crm_info("trace");
     gboolean *timeout_popped = (gboolean *) user_data;
 
     *timeout_popped = TRUE;
@@ -865,7 +836,6 @@ alert_drain_timeout_callback(gpointer user_data)
 void
 crmd_drain_alerts(GMainContext *ctx)
 {
-	crm_info("trace");
     guint timer;
     gboolean timeout_popped = FALSE;
 

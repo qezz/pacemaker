@@ -31,7 +31,6 @@ gboolean was_processing_warning = FALSE;
 static gboolean
 check_health(const char *value)
 {
-	crm_info("trace");
     if (safe_str_eq(value, "none")) {
         return TRUE;
 
@@ -53,7 +52,6 @@ check_health(const char *value)
 static gboolean
 check_stonith_action(const char *value)
 {
-	crm_info("trace");
     if (safe_str_eq(value, "reboot")) {
         return TRUE;
 
@@ -69,7 +67,6 @@ check_stonith_action(const char *value)
 static gboolean
 check_placement_strategy(const char *value)
 {
-	crm_info("trace");
     if (safe_str_eq(value, "default")) {
         return TRUE;
 
@@ -174,7 +171,6 @@ pe_cluster_option pe_opts[] = {
 void
 pe_metadata(void)
 {
-	crm_info("trace");
     config_metadata("Policy Engine", "1.0",
                     "Policy Engine Options",
                     "This is a fake resource that details the options that can be configured for the Policy Engine.",
@@ -184,21 +180,18 @@ pe_metadata(void)
 void
 verify_pe_options(GHashTable * options)
 {
-	crm_info("trace");
     verify_all_options(options, pe_opts, DIMOF(pe_opts));
 }
 
 const char *
 pe_pref(GHashTable * options, const char *name)
 {
-	crm_info("trace");
     return get_cluster_pref(options, pe_opts, DIMOF(pe_opts), name);
 }
 
 const char *
 fail2text(enum action_fail_response fail)
 {
-	crm_info("trace");
     const char *result = "<unknown>";
 
     switch (fail) {
@@ -236,7 +229,6 @@ fail2text(enum action_fail_response fail)
 enum action_tasks
 text2task(const char *task)
 {
-	crm_info("trace");
     if (safe_str_eq(task, CRMD_ACTION_STOP)) {
         return stop_rsc;
     } else if (safe_str_eq(task, CRMD_ACTION_STOPPED)) {
@@ -297,7 +289,6 @@ text2task(const char *task)
 const char *
 task2text(enum action_tasks task)
 {
-	crm_info("trace");
     const char *result = "<unknown>";
 
     switch (task) {
@@ -351,7 +342,6 @@ task2text(enum action_tasks task)
 const char *
 role2text(enum rsc_role_e role)
 {
-	crm_info("trace");
     switch (role) {
         case RSC_ROLE_UNKNOWN:
             return RSC_ROLE_UNKNOWN_S;
@@ -372,7 +362,6 @@ role2text(enum rsc_role_e role)
 enum rsc_role_e
 text2role(const char *role)
 {
-	crm_info("trace");
     CRM_ASSERT(role != NULL);
     if (safe_str_eq(role, RSC_ROLE_STOPPED_S)) {
         return RSC_ROLE_STOPPED;
@@ -392,7 +381,6 @@ text2role(const char *role)
 int
 merge_weights(int w1, int w2)
 {
-	crm_info("trace");
     int result = w1 + w2;
 
     if (w1 <= -INFINITY || w2 <= -INFINITY) {
@@ -430,7 +418,6 @@ merge_weights(int w1, int w2)
 void
 add_hash_param(GHashTable * hash, const char *name, const char *value)
 {
-	crm_info("trace");
     CRM_CHECK(hash != NULL, return);
 
     crm_trace("adding: name=%s value=%s", crm_str(name), crm_str(value));

@@ -39,7 +39,6 @@
 static char *
 dump_xml_for_digest(xmlNode * an_xml_node)
 {
-	crm_info("trace");
     char *buffer = NULL;
     int offset = 0, max = 0;
 
@@ -64,7 +63,6 @@ dump_xml_for_digest(xmlNode * an_xml_node)
 static char *
 calculate_xml_digest_v1(xmlNode * input, gboolean sort, gboolean ignored)
 {
-	crm_info("trace");
     char *digest = NULL;
     char *buffer = NULL;
     xmlNode *copy = NULL;
@@ -100,7 +98,6 @@ calculate_xml_digest_v1(xmlNode * input, gboolean sort, gboolean ignored)
 static char *
 calculate_xml_digest_v2(xmlNode * source, gboolean do_filter)
 {
-	crm_info("trace");
     char *digest = NULL;
     char *buffer = NULL;
     int offset, max;
@@ -158,7 +155,6 @@ calculate_xml_digest_v2(xmlNode * source, gboolean do_filter)
 char *
 calculate_on_disk_digest(xmlNode * input)
 {
-	crm_info("trace");
     /* Always use the v1 format for on-disk digests
      * a) it's a compatibility nightmare
      * b) we only use this once at startup, all other
@@ -178,7 +174,6 @@ calculate_on_disk_digest(xmlNode * input)
 char *
 calculate_operation_digest(xmlNode *input, const char *version)
 {
-	crm_info("trace");
     /* We still need the sorting for operation digests */
     return calculate_xml_digest_v1(input, TRUE, FALSE);
 }
@@ -197,7 +192,6 @@ char *
 calculate_xml_versioned_digest(xmlNode * input, gboolean sort, gboolean do_filter,
                                const char *version)
 {
-	crm_info("trace");
     /*
      * The sorting associated with v1 digest creation accounted for 23% of
      * the CIB's CPU usage on the server. v2 drops this.
@@ -227,7 +221,6 @@ calculate_xml_versioned_digest(xmlNode * input, gboolean sort, gboolean do_filte
 gboolean
 crm_digest_verify(xmlNode *input, const char *expected)
 {
-	crm_info("trace");
     char *calculated = NULL;
     gboolean passed;
 
@@ -295,7 +288,6 @@ crm_versioned_param_summary(xmlNode *versioned_params, const char *name)
 void
 crm_summarize_versioned_params(xmlNode *param_set, xmlNode *versioned_params)
 {
-	crm_info("trace");
     xmlNode *attrs = NULL;
     xmlNode *attr = NULL;
 

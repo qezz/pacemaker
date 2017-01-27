@@ -46,14 +46,12 @@ extern int lrmd_call_id;
 static void
 debug_log(int level, const char *str)
 {
-	crm_info("trace");
     fputs(str, stderr);
 }
 
 static int
 lrmd_remote_client_msg(gpointer data)
 {
-	crm_info("trace");
     int id = 0;
     int rc = 0;
     int disconnected = 0;
@@ -138,7 +136,6 @@ lrmd_remote_client_msg(gpointer data)
 static void
 lrmd_remote_client_destroy(gpointer user_data)
 {
-	crm_info("trace");
     crm_client_t *client = user_data;
 
     if (client == NULL) {
@@ -176,7 +173,6 @@ lrmd_remote_client_destroy(gpointer user_data)
 static gboolean
 lrmd_auth_timeout_cb(gpointer data)
 {
-	crm_info("trace");
     crm_client_t *client = data;
 
     client->remote->auth_timeout = 0;
@@ -195,7 +191,6 @@ lrmd_auth_timeout_cb(gpointer data)
 static int
 lrmd_remote_listen(gpointer data)
 {
-	crm_info("trace");
     int csock = 0;
     gnutls_session_t *session = NULL;
     crm_client_t *new_client = NULL;
@@ -237,7 +232,6 @@ lrmd_remote_listen(gpointer data)
 static void
 lrmd_remote_connection_destroy(gpointer user_data)
 {
-	crm_info("trace");
     crm_notice("Remote tls server disconnected");
     return;
 }
@@ -245,14 +239,12 @@ lrmd_remote_connection_destroy(gpointer user_data)
 static int
 lrmd_tls_server_key_cb(gnutls_session_t session, const char *username, gnutls_datum_t * key)
 {
-	crm_info("trace");
     return lrmd_tls_set_key(key);
 }
 
 static int
 bind_and_listen(struct addrinfo *addr)
 {
-	crm_info("trace");
     int optval;
     int fd;
     int rc;
@@ -312,7 +304,6 @@ bind_and_listen(struct addrinfo *addr)
 int
 lrmd_init_remote_tls_server(int port)
 {
-	crm_info("trace");
     int rc;
     int filter;
     struct addrinfo hints, *res = NULL, *iter;
@@ -385,7 +376,6 @@ lrmd_init_remote_tls_server(int port)
 void
 lrmd_tls_server_destroy(void)
 {
-	crm_info("trace");
     if (psk_cred_s) {
         gnutls_psk_free_server_credentials(psk_cred_s);
         psk_cred_s = 0;

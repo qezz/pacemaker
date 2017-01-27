@@ -43,7 +43,6 @@ crm_trigger_t *transition_trigger = NULL;
 static const char *
 get_node_id(xmlNode * rsc_op)
 {
-	crm_info("trace");
     xmlNode *node = rsc_op;
 
     while (node != NULL && safe_str_neq(XML_CIB_TAG_STATE, TYPE(node))) {
@@ -57,7 +56,6 @@ get_node_id(xmlNode * rsc_op)
 static void
 te_legacy_update_diff(const char *event, xmlNode * diff)
 {
-	crm_info("trace");
     int lpc, max;
     xmlXPathObject *xpathObj = NULL;
 
@@ -281,7 +279,6 @@ static void process_resource_updates(
 #define NODE_PATT "/lrm[@id="
 static char *get_node_from_xpath(const char *xpath) 
 {
-	crm_info("trace");
     char *nodeid = NULL;
     char *tmp = strstr(xpath, NODE_PATT);
 
@@ -299,7 +296,6 @@ static char *get_node_from_xpath(const char *xpath)
 
 static char *extract_node_uuid(const char *xpath) 
 {
-	crm_info("trace");
     char *mutable_path = strdup(xpath);
     char *node_uuid = NULL;
     char *search = NULL;
@@ -328,7 +324,6 @@ static void
 abort_unless_down(const char *xpath, const char *op, xmlNode *change,
                   const char *reason)
 {
-	crm_info("trace");
     char *node_uuid = NULL;
     crm_action_t *down = NULL;
 
@@ -357,7 +352,6 @@ abort_unless_down(const char *xpath, const char *op, xmlNode *change,
 void
 te_update_diff(const char *event, xmlNode * msg)
 {
-	crm_info("trace");
     int rc = -EINVAL;
     int format = 1;
     xmlNode *change = NULL;
@@ -571,7 +565,6 @@ te_update_diff(const char *event, xmlNode * msg)
 gboolean
 process_te_message(xmlNode * msg, xmlNode * xml_data)
 {
-	crm_info("trace");
     const char *from = crm_element_value(msg, F_ORIG);
     const char *sys_to = crm_element_value(msg, F_CRM_SYS_TO);
     const char *sys_from = crm_element_value(msg, F_CRM_SYS_FROM);
@@ -634,7 +627,6 @@ struct st_fail_rec {
 gboolean
 too_many_st_failures(void)
 {
-	crm_info("trace");
     GHashTableIter iter;
     const char *key = NULL;
     struct st_fail_rec *value = NULL;
@@ -659,7 +651,6 @@ too_many_st_failures(void)
 void
 st_fail_count_reset(const char *target)
 {
-	crm_info("trace");
     struct st_fail_rec *rec = NULL;
 
     if (stonith_failures) {
@@ -675,7 +666,6 @@ st_fail_count_reset(const char *target)
 static void
 st_fail_count_increment(const char *target, int rc)
 {
-	crm_info("trace");
     struct st_fail_rec *rec = NULL;
 
     if (stonith_failures == NULL) {
@@ -702,7 +692,6 @@ st_fail_count_increment(const char *target, int rc)
 void
 tengine_stonith_callback(stonith_t * stonith, stonith_callback_data_t * data)
 {
-	crm_info("trace");
     char *uuid = NULL;
     int target_rc = -1;
     int stonith_id = -1;
@@ -781,7 +770,6 @@ tengine_stonith_callback(stonith_t * stonith, stonith_callback_data_t * data)
 void
 cib_fencing_updated(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
-	crm_info("trace");
     if (rc < pcmk_ok) {
         crm_err("Fencing update %d for %s: failed - %s (%d)",
                 call_id, (char *)user_data, pcmk_strerror(rc), rc);
@@ -796,7 +784,6 @@ cib_fencing_updated(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
 void
 cib_action_updated(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
-	crm_info("trace");
     if (rc < pcmk_ok) {
         crm_err("Update %d FAILED: %s", call_id, pcmk_strerror(rc));
     }
@@ -805,7 +792,6 @@ cib_action_updated(xmlNode * msg, int call_id, int rc, xmlNode * output, void *u
 gboolean
 action_timer_callback(gpointer data)
 {
-	crm_info("trace");
     crm_action_timer_t *timer = NULL;
 
     CRM_CHECK(data != NULL, return FALSE);

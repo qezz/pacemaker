@@ -30,7 +30,6 @@ extern crm_graph_functions_t *graph_fns;
 static gboolean
 pseudo_action_dummy(crm_graph_t * graph, crm_action_t * action)
 {
-	crm_info("trace");
     static int fail = -1;
 
     if (fail < 0) {
@@ -64,14 +63,12 @@ crm_graph_functions_t default_fns = {
 void
 set_default_graph_functions(void)
 {
-	crm_info("trace");
     graph_fns = &default_fns;
 }
 
 void
 set_graph_functions(crm_graph_functions_t * fns)
 {
-	crm_info("trace");
     crm_info("Setting custom graph functions");
     graph_fns = fns;
 
@@ -85,7 +82,6 @@ set_graph_functions(crm_graph_functions_t * fns)
 const char *
 transition_status(enum transition_status state)
 {
-	crm_info("trace");
     switch (state) {
         case transition_active:
             return "active";
@@ -108,7 +104,6 @@ transition_status(enum transition_status state)
 const char *
 actiontype2text(action_type_e type)
 {
-	crm_info("trace");
     switch (type) {
         case action_type_pseudo:
             return "pseudo";
@@ -124,7 +119,6 @@ actiontype2text(action_type_e type)
 static crm_action_t *
 find_action(crm_graph_t * graph, int id)
 {
-	crm_info("trace");
     GListPtr sIter = NULL;
 
     if (graph == NULL) {
@@ -149,7 +143,6 @@ find_action(crm_graph_t * graph, int id)
 static void
 print_synapse(unsigned int log_level, crm_graph_t * graph, synapse_t * synapse)
 {
-	crm_info("trace");
     GListPtr lpc = NULL;
     char *pending = NULL;
     const char *state = "Pending";
@@ -223,14 +216,12 @@ print_synapse(unsigned int log_level, crm_graph_t * graph, synapse_t * synapse)
 void
 print_action(int log_level, const char *prefix, crm_action_t * action)
 {
-	crm_info("trace");
     print_synapse(log_level, NULL, action->synapse);
 }
 
 void
 print_graph(unsigned int log_level, crm_graph_t * graph)
 {
-	crm_info("trace");
     GListPtr lpc = NULL;
 
     if (graph == NULL || graph->num_actions == 0) {
@@ -255,7 +246,6 @@ print_graph(unsigned int log_level, crm_graph_t * graph)
 static const char *
 abort2text(enum transition_action abort_action)
 {
-	crm_info("trace");
     switch (abort_action) {
         case tg_done:
             return "done";
@@ -273,7 +263,6 @@ bool
 update_abort_priority(crm_graph_t * graph, int priority,
                       enum transition_action action, const char *abort_reason)
 {
-	crm_info("trace");
     bool change = FALSE;
 
     if (graph == NULL) {

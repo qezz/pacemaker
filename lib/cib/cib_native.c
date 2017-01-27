@@ -58,7 +58,6 @@ int cib_native_set_connection_dnotify(cib_t * cib, void (*dnotify) (gpointer use
 cib_t *
 cib_native_new(void)
 {
-	crm_info("trace");
     cib_native_opaque_t *native = NULL;
     cib_t *cib = cib_new_variant();
 
@@ -87,14 +86,12 @@ cib_native_new(void)
 int
 cib_native_signon(cib_t * cib, const char *name, enum cib_conn_type type)
 {
-	crm_info("trace");
     return cib_native_signon_raw(cib, name, type, NULL);
 }
 
 static int
 cib_native_dispatch_internal(const char *buffer, ssize_t length, gpointer userdata)
 {
-	crm_info("trace");
     const char *type = NULL;
     xmlNode *msg = NULL;
 
@@ -136,7 +133,6 @@ cib_native_dispatch_internal(const char *buffer, ssize_t length, gpointer userda
 bool
 cib_native_dispatch(cib_t * cib)
 {
-	crm_info("trace");
     gboolean stay_connected = TRUE;
     cib_native_opaque_t *native;
 
@@ -167,7 +163,6 @@ cib_native_dispatch(cib_t * cib)
 static void
 cib_native_destroy(void *userdata)
 {
-	crm_info("trace");
     cib_t *cib = userdata;
     cib_native_opaque_t *native = cib->variant_opaque;
 
@@ -184,7 +179,6 @@ cib_native_destroy(void *userdata)
 int
 cib_native_signon_raw(cib_t * cib, const char *name, enum cib_conn_type type, int *async_fd)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     const char *channel = NULL;
     cib_native_opaque_t *native = cib->variant_opaque;
@@ -284,7 +278,6 @@ cib_native_signon_raw(cib_t * cib, const char *name, enum cib_conn_type type, in
 int
 cib_native_signoff(cib_t * cib)
 {
-	crm_info("trace");
     cib_native_opaque_t *native = cib->variant_opaque;
 
     crm_debug("Signing out of the CIB Service");
@@ -313,7 +306,6 @@ cib_native_signoff(cib_t * cib)
 int
 cib_native_free(cib_t * cib)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
 
     if (cib->state != cib_disconnected) {
@@ -336,7 +328,6 @@ int
 cib_native_perform_op(cib_t * cib, const char *op, const char *host, const char *section,
                       xmlNode * data, xmlNode ** output_data, int call_options)
 {
-	crm_info("trace");
     return cib_native_perform_op_delegate(cib, op, host, section,
                                           data, output_data, call_options, NULL);
 }
@@ -346,7 +337,6 @@ cib_native_perform_op_delegate(cib_t * cib, const char *op, const char *host, co
                                xmlNode * data, xmlNode ** output_data, int call_options,
                                const char *user_name)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     int reply_id = 0;
     enum crm_ipc_flags ipc_flags = crm_ipc_flags_none;
@@ -502,7 +492,6 @@ cib_native_set_connection_dnotify(cib_t * cib, void (*dnotify) (gpointer user_da
 int
 cib_native_register_notification(cib_t * cib, const char *callback, int enabled)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     xmlNode *notify_msg = create_xml_node(NULL, "cib-callback");
     cib_native_opaque_t *native = cib->variant_opaque;

@@ -46,7 +46,6 @@ void pengine_shutdown(int nsig);
 static int32_t
 pe_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
-	crm_info("trace");
     crm_trace("Connection %p", c);
     if (crm_client_new(c, uid, gid) == NULL) {
         return -EIO;
@@ -57,7 +56,6 @@ pe_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 static void
 pe_ipc_created(qb_ipcs_connection_t * c)
 {
-	crm_info("trace");
     crm_trace("Connection %p", c);
 }
 
@@ -66,7 +64,6 @@ gboolean process_pe_message(xmlNode * msg, xmlNode * xml_data, crm_client_t * se
 static int32_t
 pe_ipc_dispatch(qb_ipcs_connection_t * qbc, void *data, size_t size)
 {
-	crm_info("trace");
     uint32_t id = 0;
     uint32_t flags = 0;
     crm_client_t *c = crm_client_get(qbc);
@@ -86,7 +83,6 @@ pe_ipc_dispatch(qb_ipcs_connection_t * qbc, void *data, size_t size)
 static int32_t
 pe_ipc_closed(qb_ipcs_connection_t * c)
 {
-	crm_info("trace");
     crm_client_t *client = crm_client_get(c);
 
     if (client == NULL) {
@@ -100,7 +96,6 @@ pe_ipc_closed(qb_ipcs_connection_t * c)
 static void
 pe_ipc_destroy(qb_ipcs_connection_t * c)
 {
-	crm_info("trace");
     crm_trace("Connection %p", c);
     pe_ipc_closed(c);
 }
@@ -126,7 +121,6 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
-	crm_info("trace");
     int flag;
     int index = 0;
     int argerr = 0;
@@ -196,7 +190,6 @@ main(int argc, char **argv)
 void
 pengine_shutdown(int nsig)
 {
-	crm_info("trace");
     mainloop_del_ipc_server(ipcs);
     crm_exit(pcmk_ok);
 }

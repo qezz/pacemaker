@@ -34,7 +34,6 @@ char *failed_start_offset = NULL;
 gboolean
 fail_incompletable_actions(crm_graph_t * graph, const char *down_node)
 {
-	crm_info("trace");
     const char *target_uuid = NULL;
     const char *router = NULL;
     const char *router_uuid = NULL;
@@ -123,7 +122,6 @@ static gboolean
 update_failcount(xmlNode * event, const char *event_node_uuid, int rc,
                  int target_rc, gboolean do_update, gboolean ignore_failures)
 {
-	crm_info("trace");
     int interval = 0;
 
     char *task = NULL;
@@ -230,7 +228,6 @@ update_failcount(xmlNode * event, const char *event_node_uuid, int rc,
 static int
 status_from_rc(crm_action_t * action, int orig_status, int rc, int target_rc)
 {
-	crm_info("trace");
     if (target_rc == rc) {
         crm_trace("Target rc: == %d", rc);
         if (orig_status != PCMK_LRM_OP_DONE) {
@@ -268,7 +265,6 @@ static void
 match_graph_event(crm_action_t *action, xmlNode *event, int op_status,
                   int op_rc, int target_rc, gboolean ignore_failures)
 {
-	crm_info("trace");
     const char *target = NULL;
     const char *this_event = NULL;
     const char *ignore_s = "";
@@ -323,7 +319,6 @@ match_graph_event(crm_action_t *action, xmlNode *event, int op_status,
 crm_action_t *
 get_action(int id, gboolean confirmed)
 {
-	crm_info("trace");
     GListPtr gIter = NULL;
     GListPtr gIter2 = NULL;
 
@@ -351,7 +346,6 @@ get_action(int id, gboolean confirmed)
 crm_action_t *
 get_cancel_action(const char *id, const char *node)
 {
-	crm_info("trace");
     GListPtr gIter = NULL;
     GListPtr gIter2 = NULL;
 
@@ -405,7 +399,6 @@ get_cancel_action(const char *id, const char *node)
 crm_action_t *
 match_down_event(const char *target, bool quiet)
 {
-	crm_info("trace");
     crm_action_t *match = NULL;
     xmlXPathObjectPtr xpath_ret = NULL;
     GListPtr gIter, gIter2;
@@ -446,7 +439,6 @@ match_down_event(const char *target, bool quiet)
 gboolean
 process_graph_event(xmlNode * event, const char *event_node)
 {
-	crm_info("trace");
     int rc = -1;
     int status = -1;
     int callid = -1;

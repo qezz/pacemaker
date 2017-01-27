@@ -161,7 +161,6 @@ static void log_action(stonith_action_t *action, pid_t pid);
 static void
 log_action(stonith_action_t *action, pid_t pid)
 {
-	crm_info("trace");
     if (action->output) {
         /* Logging the whole string confuses syslog when the string is xml */
         char *prefix = crm_strdup_printf("%s[%d] stdout:", action->agent, pid);
@@ -182,7 +181,6 @@ log_action(stonith_action_t *action, pid_t pid)
 static void
 stonith_connection_destroy(gpointer user_data)
 {
-	crm_info("trace");
     stonith_t *stonith = user_data;
     stonith_private_t *native = NULL;
     struct notify_blob_s blob;
@@ -207,7 +205,6 @@ xmlNode *
 create_device_registration_xml(const char *id, const char *namespace, const char *agent,
                                stonith_key_value_t * params, const char *rsc_provides)
 {
-	crm_info("trace");
     xmlNode *data = create_xml_node(NULL, F_STONITH_DEVICE);
     xmlNode *args = create_xml_node(data, XML_TAG_ATTRS);
 
@@ -239,7 +236,6 @@ stonith_api_register_device(stonith_t * st, int call_options,
                             const char *id, const char *namespace, const char *agent,
                             stonith_key_value_t * params)
 {
-	crm_info("trace");
     int rc = 0;
     xmlNode *data = NULL;
 
@@ -254,7 +250,6 @@ stonith_api_register_device(stonith_t * st, int call_options,
 static int
 stonith_api_remove_device(stonith_t * st, int call_options, const char *name)
 {
-	crm_info("trace");
     int rc = 0;
     xmlNode *data = NULL;
 
@@ -272,7 +267,6 @@ stonith_api_remove_level_full(stonith_t *st, int options,
                               const char *node, const char *pattern,
                               const char *attr, const char *value, int level)
 {
-	crm_info("trace");
     int rc = 0;
     xmlNode *data = NULL;
 
@@ -302,7 +296,6 @@ stonith_api_remove_level_full(stonith_t *st, int options,
 static int
 stonith_api_remove_level(stonith_t * st, int options, const char *node, int level)
 {
-	crm_info("trace");
     return stonith_api_remove_level_full(st, options, node,
                                          NULL, NULL, NULL, level);
 }
@@ -327,7 +320,6 @@ create_level_registration_xml(const char *node, const char *pattern,
                               const char *attr, const char *value,
                               int level, stonith_key_value_t *device_list)
 {
-	crm_info("trace");
     int len = 0;
     char *list = NULL;
     xmlNode *data;
@@ -382,7 +374,6 @@ stonith_api_register_level_full(stonith_t * st, int options, const char *node,
                                 const char *attr, const char *value,
                                 int level, stonith_key_value_t *device_list)
 {
-	crm_info("trace");
     int rc = 0;
     xmlNode *data = create_level_registration_xml(node, pattern, attr, value,
                                                   level, device_list);
@@ -398,7 +389,6 @@ static int
 stonith_api_register_level(stonith_t * st, int options, const char *node, int level,
                            stonith_key_value_t * device_list)
 {
-	crm_info("trace");
     return stonith_api_register_level_full(st, options, node, NULL, NULL, NULL,
                                            level, device_list);
 }
@@ -406,7 +396,6 @@ stonith_api_register_level(stonith_t * st, int options, const char *node, int le
 static void
 append_arg(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     int len = 3;                /* =, \n, \0 */
     int last = 0;
     char **args = user_data;
@@ -436,7 +425,6 @@ append_arg(gpointer key, gpointer value, gpointer user_data)
 static void
 append_const_arg(const char *key, const char *value, char **arg_list)
 {
-	crm_info("trace");
     CRM_LOG_ASSERT(key && value);
     if(key && value) {
         char *glib_sucks_key = strdup(key);
@@ -452,7 +440,6 @@ append_const_arg(const char *key, const char *value, char **arg_list)
 static void
 append_host_specific_args(const char *victim, const char *map, GHashTable * params, char **arg_list)
 {
-	crm_info("trace");
     char *name = NULL;
     int last = 0, lpc = 0, max = 0;
 
@@ -526,7 +513,6 @@ static char *
 make_args(const char *agent, const char *action, const char *victim, uint32_t victim_nodeid, GHashTable * device_args,
           GHashTable * port_map)
 {
-	crm_info("trace");
     char buffer[512];
     char *arg_list = NULL;
     const char *value = NULL;
@@ -632,7 +618,6 @@ make_args(const char *agent, const char *action, const char *victim, uint32_t vi
 static gboolean
 st_child_term(gpointer data)
 {
-	crm_info("trace");
     int rc = 0;
     stonith_action_t *track = data;
 
@@ -649,7 +634,6 @@ st_child_term(gpointer data)
 static gboolean
 st_child_kill(gpointer data)
 {
-	crm_info("trace");
     int rc = 0;
     stonith_action_t *track = data;
 
@@ -666,7 +650,6 @@ st_child_kill(gpointer data)
 static void
 stonith_action_clear_tracking_data(stonith_action_t * action)
 {
-	crm_info("trace");
     if (action->timer_sigterm > 0) {
         g_source_remove(action->timer_sigterm);
         action->timer_sigterm = 0;
@@ -695,7 +678,6 @@ stonith_action_clear_tracking_data(stonith_action_t * action)
 static void
 stonith_action_destroy(stonith_action_t * action)
 {
-	crm_info("trace");
     stonith_action_clear_tracking_data(action);
     free(action->agent);
     free(action->args);
@@ -712,7 +694,6 @@ stonith_action_create(const char *agent,
                       uint32_t victim_nodeid,
                       int timeout, GHashTable * device_args, GHashTable * port_map)
 {
-	crm_info("trace");
     stonith_action_t *action;
 
     action = calloc(1, sizeof(stonith_action_t));
@@ -745,7 +726,6 @@ stonith_action_create(const char *agent,
 static char *
 read_output(int fd)
 {
-	crm_info("trace");
     char buffer[READ_MAX];
     char *output = NULL;
     int len = 0;
@@ -777,7 +757,6 @@ read_output(int fd)
 static gboolean
 update_remaining_timeout(stonith_action_t * action)
 {
-	crm_info("trace");
     int diff = time(NULL) - action->initial_start_time;
 
     if (action->tries >= action->max_retries) {
@@ -797,7 +776,6 @@ update_remaining_timeout(stonith_action_t * action)
 static void
 stonith_action_async_done(mainloop_child_t * p, pid_t pid, int core, int signo, int exitcode)
 {
-	crm_info("trace");
     stonith_action_t *action = mainloop_child_userdata(p);
 
     if (action->timer_sigterm > 0) {
@@ -865,7 +843,6 @@ stonith_action_async_done(mainloop_child_t * p, pid_t pid, int core, int signo, 
 static int
 internal_stonith_action_execute(stonith_action_t * action)
 {
-	crm_info("trace");
     int pid, status = 0, len, rc = -EPROTO;
     int ret;
     int total = 0;
@@ -1116,7 +1093,6 @@ stonith_action_execute_async(stonith_action_t * action,
 int
 stonith_action_execute(stonith_action_t * action, int *agent_result, char **output)
 {
-	crm_info("trace");
     int rc = 0;
 
     if (!action) {
@@ -1153,7 +1129,6 @@ static int
 stonith_api_device_list(stonith_t * stonith, int call_options, const char *namespace,
                         stonith_key_value_t ** devices, int timeout)
 {
-	crm_info("trace");
     int count = 0;
 
     if (devices == NULL) {
@@ -1238,7 +1213,6 @@ stonith_api_device_list(stonith_t * stonith, int call_options, const char *names
 static inline char *
 strdup_null(const char *val)
 {
-	crm_info("trace");
     if (val) {
         return strdup(val);
     }
@@ -1273,7 +1247,6 @@ static int
 stonith_api_device_metadata(stonith_t * stonith, int call_options, const char *agent,
                             const char *namespace, char **output, int timeout)
 {
-	crm_info("trace");
     int rc = 0;
     char *buffer = NULL;
     const char *provider = get_stonith_provider(agent, namespace);
@@ -1446,7 +1419,6 @@ static int
 stonith_api_query(stonith_t * stonith, int call_options, const char *target,
                   stonith_key_value_t ** devices, int timeout)
 {
-	crm_info("trace");
     int rc = 0, lpc = 0, max = 0;
 
     xmlNode *data = NULL;
@@ -1496,7 +1468,6 @@ stonith_api_call(stonith_t * stonith,
                  const char *id,
                  const char *action, const char *victim, int timeout, xmlNode ** output)
 {
-	crm_info("trace");
     int rc = 0;
     xmlNode *data = NULL;
 
@@ -1516,7 +1487,6 @@ static int
 stonith_api_list(stonith_t * stonith, int call_options, const char *id, char **list_info,
                  int timeout)
 {
-	crm_info("trace");
     int rc;
     xmlNode *output = NULL;
 
@@ -1542,7 +1512,6 @@ stonith_api_list(stonith_t * stonith, int call_options, const char *id, char **l
 static int
 stonith_api_monitor(stonith_t * stonith, int call_options, const char *id, int timeout)
 {
-	crm_info("trace");
     return stonith_api_call(stonith, call_options, id, "monitor", NULL, timeout, NULL);
 }
 
@@ -1550,7 +1519,6 @@ static int
 stonith_api_status(stonith_t * stonith, int call_options, const char *id, const char *port,
                    int timeout)
 {
-	crm_info("trace");
     return stonith_api_call(stonith, call_options, id, "status", port, timeout, NULL);
 }
 
@@ -1558,7 +1526,6 @@ static int
 stonith_api_fence(stonith_t * stonith, int call_options, const char *node, const char *action,
                   int timeout, int tolerance)
 {
-	crm_info("trace");
     int rc = 0;
     xmlNode *data = NULL;
 
@@ -1577,7 +1544,6 @@ stonith_api_fence(stonith_t * stonith, int call_options, const char *node, const
 static int
 stonith_api_confirm(stonith_t * stonith, int call_options, const char *target)
 {
-	crm_info("trace");
     return stonith_api_fence(stonith, call_options | st_opt_manual_ack, target, "off", 0, 0);
 }
 
@@ -1585,7 +1551,6 @@ static int
 stonith_api_history(stonith_t * stonith, int call_options, const char *node,
                     stonith_history_t ** history, int timeout)
 {
-	crm_info("trace");
     int rc = 0;
     xmlNode *data = NULL;
     xmlNode *output = NULL;
@@ -1632,7 +1597,6 @@ stonith_api_history(stonith_t * stonith, int call_options, const char *node,
 gboolean
 is_redhat_agent(const char *agent)
 {
-	crm_info("trace");
     int rc = 0;
     struct stat prop;
     char buffer[FILENAME_MAX + 1];
@@ -1648,7 +1612,6 @@ is_redhat_agent(const char *agent)
 const char *
 get_stonith_provider(const char *agent, const char *provider)
 {
-	crm_info("trace");
     /* This function sucks */
     if (is_redhat_agent(agent)) {
         return "redhat";
@@ -1692,7 +1655,6 @@ get_stonith_provider(const char *agent, const char *provider)
 static gint
 stonithlib_GCompareFunc(gconstpointer a, gconstpointer b)
 {
-	crm_info("trace");
     int rc = 0;
     const stonith_notify_client_t *a_client = a;
     const stonith_notify_client_t *b_client = b;
@@ -1721,7 +1683,6 @@ stonithlib_GCompareFunc(gconstpointer a, gconstpointer b)
 xmlNode *
 stonith_create_op(int call_id, const char *token, const char *op, xmlNode * data, int call_options)
 {
-	crm_info("trace");
     xmlNode *op_msg = create_xml_node(NULL, "stonith_command");
 
     CRM_CHECK(op_msg != NULL, return NULL);
@@ -1746,7 +1707,6 @@ stonith_create_op(int call_id, const char *token, const char *op, xmlNode * data
 static void
 stonith_destroy_op_callback(gpointer data)
 {
-	crm_info("trace");
     stonith_callback_client_t *blob = data;
 
     if (blob->timer && blob->timer->ref > 0) {
@@ -1759,7 +1719,6 @@ stonith_destroy_op_callback(gpointer data)
 static int
 stonith_api_signoff(stonith_t * stonith)
 {
-	crm_info("trace");
     stonith_private_t *native = stonith->private;
 
     crm_debug("Signing out of the STONITH Service");
@@ -1787,7 +1746,6 @@ stonith_api_signoff(stonith_t * stonith)
 static int
 stonith_api_signon(stonith_t * stonith, const char *name, int *stonith_fd)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     stonith_private_t *native = stonith->private;
 
@@ -1880,7 +1838,6 @@ stonith_api_signon(stonith_t * stonith, const char *name, int *stonith_fd)
 static int
 stonith_set_notification(stonith_t * stonith, const char *callback, int enabled)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
     xmlNode *notify_msg = create_xml_node(NULL, __FUNCTION__);
     stonith_private_t *native = stonith->private;
@@ -1942,7 +1899,6 @@ stonith_api_add_notification(stonith_t * stonith, const char *event,
 static int
 stonith_api_del_notification(stonith_t * stonith, const char *event)
 {
-	crm_info("trace");
     GList *list_item = NULL;
     stonith_notify_client_t *new_client = NULL;
     stonith_private_t *private = NULL;
@@ -1976,7 +1932,6 @@ stonith_api_del_notification(stonith_t * stonith, const char *event)
 static gboolean
 stonith_async_timeout_handler(gpointer data)
 {
-	crm_info("trace");
     struct timer_rec_s *timer = data;
 
     crm_err("Async call %d timed out after %dms", timer->call_id, timer->timeout);
@@ -1992,7 +1947,6 @@ static void
 set_callback_timeout(stonith_callback_client_t * callback, stonith_t * stonith, int call_id,
                      int timeout)
 {
-	crm_info("trace");
     struct timer_rec_s *async_timer = callback->timer;
 
     if (timeout <= 0) {
@@ -2020,7 +1974,6 @@ set_callback_timeout(stonith_callback_client_t * callback, stonith_t * stonith, 
 static void
 update_callback_timeout(int call_id, int timeout, stonith_t * st)
 {
-	crm_info("trace");
     stonith_callback_client_t *callback = NULL;
     stonith_private_t *private = st->private;
 
@@ -2090,7 +2043,6 @@ stonith_api_add_callback(stonith_t * stonith, int call_id, int timeout, int opti
 static int
 stonith_api_del_callback(stonith_t * stonith, int call_id, bool all_callbacks)
 {
-	crm_info("trace");
     stonith_private_t *private = stonith->private;
 
     if (all_callbacks) {
@@ -2112,7 +2064,6 @@ stonith_api_del_callback(stonith_t * stonith, int call_id, bool all_callbacks)
 static void
 stonith_dump_pending_op(gpointer key, gpointer value, gpointer user_data)
 {
-	crm_info("trace");
     int call = GPOINTER_TO_INT(key);
     stonith_callback_client_t *blob = value;
 
@@ -2122,7 +2073,6 @@ stonith_dump_pending_op(gpointer key, gpointer value, gpointer user_data)
 void
 stonith_dump_pending_callbacks(stonith_t * stonith)
 {
-	crm_info("trace");
     stonith_private_t *private = stonith->private;
 
     if (private->stonith_op_callback_table == NULL) {
@@ -2134,7 +2084,6 @@ stonith_dump_pending_callbacks(stonith_t * stonith)
 void
 stonith_perform_callback(stonith_t * stonith, xmlNode * msg, int call_id, int rc)
 {
-	crm_info("trace");
     stonith_private_t *private = NULL;
     stonith_callback_client_t *blob = NULL;
     stonith_callback_client_t local_blob;
@@ -2207,7 +2156,6 @@ stonith_perform_callback(stonith_t * stonith, xmlNode * msg, int call_id, int rc
 static stonith_event_t *
 xml_to_event(xmlNode * msg)
 {
-	crm_info("trace");
     stonith_event_t *event = calloc(1, sizeof(stonith_event_t));
     const char *ntype = crm_element_value(msg, F_SUBTYPE);
     char *data_addr = crm_strdup_printf("//%s", ntype);
@@ -2242,7 +2190,6 @@ xml_to_event(xmlNode * msg)
 static void
 event_free(stonith_event_t * event)
 {
-	crm_info("trace");
     free(event->id);
     free(event->type);
     free(event->message);
@@ -2259,7 +2206,6 @@ event_free(stonith_event_t * event)
 static void
 stonith_send_notification(gpointer data, gpointer user_data)
 {
-	crm_info("trace");
     struct notify_blob_s *blob = user_data;
     stonith_notify_client_t *entry = data;
     stonith_event_t *st_event = NULL;
@@ -2298,7 +2244,6 @@ int
 stonith_send_command(stonith_t * stonith, const char *op, xmlNode * data, xmlNode ** output_data,
                      int call_options, int timeout)
 {
-	crm_info("trace");
     int rc = 0;
     int reply_id = -1;
     enum crm_ipc_flags ipc_flags = crm_ipc_flags_none;
@@ -2408,7 +2353,6 @@ stonith_send_command(stonith_t * stonith, const char *op, xmlNode * data, xmlNod
 bool
 stonith_dispatch(stonith_t * st)
 {
-	crm_info("trace");
     gboolean stay_connected = TRUE;
     stonith_private_t *private = NULL;
 
@@ -2435,7 +2379,6 @@ stonith_dispatch(stonith_t * st)
 int
 stonith_dispatch_internal(const char *buffer, ssize_t length, gpointer userdata)
 {
-	crm_info("trace");
     const char *type = NULL;
     struct notify_blob_s blob;
 
@@ -2481,7 +2424,6 @@ stonith_dispatch_internal(const char *buffer, ssize_t length, gpointer userdata)
 static int
 stonith_api_free(stonith_t * stonith)
 {
-	crm_info("trace");
     int rc = pcmk_ok;
 
     crm_trace("Destroying %p", stonith);
@@ -2514,7 +2456,6 @@ stonith_api_free(stonith_t * stonith)
 void
 stonith_api_delete(stonith_t * stonith)
 {
-	crm_info("trace");
     crm_trace("Destroying %p", stonith);
     if(stonith) {
         stonith->cmds->free(stonith);
@@ -2524,7 +2465,6 @@ stonith_api_delete(stonith_t * stonith)
 stonith_t *
 stonith_api_new(void)
 {
-	crm_info("trace");
     stonith_t *new_stonith = NULL;
     stonith_private_t *private = NULL;
 
@@ -2577,7 +2517,6 @@ stonith_api_new(void)
 stonith_key_value_t *
 stonith_key_value_add(stonith_key_value_t * head, const char *key, const char *value)
 {
-	crm_info("trace");
     stonith_key_value_t *p, *end;
 
     p = calloc(1, sizeof(stonith_key_value_t));
@@ -2605,7 +2544,6 @@ stonith_key_value_add(stonith_key_value_t * head, const char *key, const char *v
 void
 stonith_key_value_freeall(stonith_key_value_t * head, int keys, int values)
 {
-	crm_info("trace");
     stonith_key_value_t *p;
 
     while (head) {
@@ -2627,7 +2565,6 @@ stonith_key_value_freeall(stonith_key_value_t * head, int keys, int values)
 int
 stonith_api_kick(uint32_t nodeid, const char *uname, int timeout, bool off)
 {
-	crm_info("trace");
     char *name = NULL;
     const char *action = "reboot";
 
@@ -2677,7 +2614,6 @@ stonith_api_kick(uint32_t nodeid, const char *uname, int timeout, bool off)
 time_t
 stonith_api_time(uint32_t nodeid, const char *uname, bool in_progress)
 {
-	crm_info("trace");
     int rc = 0;
     char *name = NULL;
 
@@ -2752,7 +2688,6 @@ const char *i_hate_pils(int rc);
 const char *
 i_hate_pils(int rc)
 {
-	crm_info("trace");
     return PIL_strerror(rc);
 }
 #endif

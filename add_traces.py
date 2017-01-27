@@ -102,18 +102,18 @@ else:
 
 
 
-recursive_add_traces('./pengine')
-recursive_add_traces('./cib')
-recursive_add_traces('./crmd')
-recursive_add_traces('./lrmd')
-recursive_add_traces('./lib')
+# recursive_add_traces('./pengine')
+# recursive_add_traces('./cib')
+# recursive_add_traces('./crmd')
+# recursive_add_traces('./lrmd')
+# recursive_add_traces('./lib')
 
-remove_traces('./lib/common/mainloop.c')
-remove_traces('./lib/common/xml.c')
-remove_traces('./lib/common/logging.c')
-remove_traces('./lib/common/utils.c')
+# remove_traces('./lib/common/mainloop.c')
+# remove_traces('./lib/common/xml.c')
+# remove_traces('./lib/common/logging.c')
+# remove_traces('./lib/common/utils.c')
 
-#recursive_remove_traces()
+recursive_remove_traces()
 
 
 '''add_traces('./lib/common/mainloop.c')'''
