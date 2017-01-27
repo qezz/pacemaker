@@ -614,7 +614,7 @@ set_standby(cib_t * the_cib, const char *uuid, const char *scope, const char *st
 
     if (safe_str_eq(scope, "reboot") || safe_str_eq(scope, XML_CIB_TAG_STATUS)) {
         scope = XML_CIB_TAG_STATUS;
-        attr_id = crm_strdup_printf("transient-standby-%.256s", uuid);
+        attr_id = crm_strdup_printf("status-%.256s-standby", uuid);
 
     } else {
         scope = XML_CIB_TAG_NODES;
