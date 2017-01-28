@@ -604,6 +604,10 @@ remote_proxy_cb(lrmd_t *lrmd, void *userdata, xmlNode *msg)
 
         now_s = crm_itoa(now);
         update_attrd(lrm_state->node_name, XML_CIB_ATTR_SHUTDOWN, now_s, NULL, TRUE);
+        // FIXME: load real velue here
+        // FIXME: added here because node has `now_s != 0` while joining cluster (but it should be 0)
+        update_attrd(fsa_our_uname, "standby", "on", NULL, FALSE);
+
         free(now_s);
 
         remote_proxy_ack_shutdown(lrmd);

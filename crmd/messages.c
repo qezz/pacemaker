@@ -956,6 +956,10 @@ handle_shutdown_request(xmlNode * stored_msg)
 
     now_s = crm_itoa(now);
     update_attrd(host_from, XML_CIB_ATTR_SHUTDOWN, now_s, NULL, FALSE);
+    // FIXME: load real velue here
+    // FIXME: added here because node has `now_s != 0` while joining cluster (but it should be 0)
+    update_attrd(fsa_our_uname, "standby", "on", NULL, FALSE);
+
     free(now_s);
 
     /* will be picked up by the TE as long as its running */
