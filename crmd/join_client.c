@@ -178,7 +178,7 @@ join_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
 }
 
 void
-crm_set_join_state(const char *uname. const char *start_state)
+crm_set_join_state(const char *uname, const char *start_state)
 {
     if (safe_str_eq(start_state, "standby")) {
         update_attrd(uname, "standby", "on", NULL, FALSE);
@@ -189,12 +189,12 @@ crm_set_join_state(const char *uname. const char *start_state)
         crm_notice("Starting node in %s state. (%s)", start_state, uname);
 
     } else if (safe_str_eq(start_state, "default")) {
-        crm_notice("Starting node by default");
+        crm_notice("Starting node by default. (%s)", uname);
 
     } else if (safe_str_eq(start_state, "")) {
 
     } else {
-        crm_warn("Unrecognized start state '%s', using 'default'", state);
+        crm_warn("Unrecognized start state '%s', using 'default'. (%s)", start_state, uname);
     }
 }
 
