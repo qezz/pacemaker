@@ -178,10 +178,8 @@ join_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
 }
 
 void
-crm_set_join_state(const char *uuid)
+crm_set_join_state(const char *uname. const char *start_state)
 {
-    const char *start_state = daemon_option("node_start_state");
-
     if (safe_str_eq(start_state, "standby")) {
         update_attrd(uname, "standby", "on", NULL, FALSE);
 	crm_notice("Starting node in %s state. (%s)", start_state, uname);
@@ -212,6 +210,7 @@ do_cl_join_finalize_respond(long long action,
     gboolean was_nack = TRUE;
     static gboolean first_join = TRUE;
     ha_msg_input_t *input = fsa_typed_data(fsa_dt_ha_msg);
+    const char *start_state = daemon_option("node_start_state");
 
     int join_id = -1;
     const char *op = crm_element_value(input->msg, F_CRM_TASK);
@@ -259,13 +258,6 @@ do_cl_join_finalize_respond(long long action,
         crm_debug("Confirming join-%d: sending local operation history to %s",
                   join_id, fsa_our_dc);
 
-        if (send_standby) {
-            add_start_state(reply, start_state);
-        }
-
-        crm_debug("check reply after adding \"start_state\": )");
-        crm_log_xml_debug(reply, "reply");
-
         /*
          * If this is the node's first join since the crmd started on it, clear
          * any previous transient node attributes, to handle the case where
@@ -283,6 +275,10 @@ do_cl_join_finalize_respond(long long action,
             erase_status_tag(fsa_our_uname, XML_TAG_TRANSIENT_NODEATTRS, 0);
             update_attrd(fsa_our_uname, "terminate", NULL, NULL, FALSE);
             update_attrd(fsa_our_uname, XML_CIB_ATTR_SHUTDOWN, "0", NULL, FALSE);
+
+            if (send_standby) {
+                crm_set_join_state(fsa_our_uname, start_state);
+            }
         }
 
         send_cluster_message(crm_get_peer(0, fsa_our_dc), crm_msg_crmd, reply, TRUE);
