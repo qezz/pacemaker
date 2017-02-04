@@ -181,20 +181,20 @@ void
 crm_set_join_state(const char *uname, const char *start_state)
 {
     if (safe_str_eq(start_state, "standby")) {
+	crm_notice("Starting node in %s state (%s)", start_state, uname);
         update_attrd(uname, "standby", "on", NULL, FALSE);
-	crm_notice("Starting node in %s state. (%s)", start_state, uname);
 
     } else if (safe_str_eq(start_state, "online")) {
+        crm_notice("Starting node in %s state (%s)", start_state, uname);
         update_attrd(uname, "standby", "off", NULL, FALSE);
-        crm_notice("Starting node in %s state. (%s)", start_state, uname);
 
     } else if (safe_str_eq(start_state, "default")) {
-        crm_notice("Starting node by default. (%s)", uname);
+        crm_notice("Starting node by default (%s)", uname);
 
     } else if (safe_str_eq(start_state, "")) {
 
     } else {
-        crm_warn("Unrecognized start state '%s', using 'default'. (%s)", start_state, uname);
+        crm_warn("Unrecognized start state '%s', using 'default' (%s)", start_state, uname);
     }
 }
 
