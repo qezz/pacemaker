@@ -177,6 +177,29 @@ join_query_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
     free_xml(generation);
 }
 
+void
+crm_set_join_state(const char *uuid)
+{
+    const char *start_state = daemon_option("node_start_state");
+
+    if (safe_str_eq(start_state, "standby")) {
+        update_attrd(uname, "standby", "on", NULL, FALSE);
+	crm_notice("Starting node in %s state. (%s)", start_state, uname);
+
+    } else if (safe_str_eq(start_state, "online")) {
+        update_attrd(uname, "standby", "off", NULL, FALSE);
+        crm_notice("Starting node in %s state. (%s)", start_state, uname);
+
+    } else if (safe_str_eq(start_state, "default")) {
+        crm_notice("Starting node by default");
+
+    } else if (safe_str_eq(start_state, "")) {
+
+    } else {
+        crm_warn("Unrecognized start state '%s', using 'default'", state);
+    }
+}
+
 /*	A_CL_JOIN_RESULT	*/
 /* aka. this is notification that we have (or have not) been accepted */
 void
@@ -189,7 +212,6 @@ do_cl_join_finalize_respond(long long action,
     gboolean was_nack = TRUE;
     static gboolean first_join = TRUE;
     ha_msg_input_t *input = fsa_typed_data(fsa_dt_ha_msg);
-    const char *start_state = daemon_option("node_start_state");
 
     int join_id = -1;
     const char *op = crm_element_value(input->msg, F_CRM_TASK);
