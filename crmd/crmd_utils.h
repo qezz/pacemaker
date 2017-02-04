@@ -92,7 +92,6 @@ void crm_update_quorum(gboolean quorum, gboolean force_update);
 void erase_status_tag(const char *uname, const char *tag, int options);
 void update_attrd(const char *host, const char *name, const char *value, const char *user_name, gboolean is_remote_node);
 void update_attrd_remote_node_removed(const char *host, const char *user_name);
-void crm_set_join_state(crm_node_t *peer, const char *start_state);
 
 int crmd_join_phase_count(enum crm_join_phase phase);
 void crmd_join_phase_log(int level);
