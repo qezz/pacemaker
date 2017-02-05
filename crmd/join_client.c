@@ -271,10 +271,7 @@ do_cl_join_finalize_respond(long long action,
             update_attrd(fsa_our_uname, "terminate", NULL, NULL, FALSE);
             update_attrd(fsa_our_uname, XML_CIB_ATTR_SHUTDOWN, "0", NULL, FALSE);
 
-            crm_debug("start_state: %s", start_state);
-            crm_debug("BEFORE");
             if (start_state) {
-	            crm_debug("if (start_state)");
                 crm_set_join_state(fsa_our_uname, start_state);
             }
         }
