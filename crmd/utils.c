@@ -1001,6 +1001,8 @@ erase_xpath_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void 
                         "Deletion of \"%s\": %s (rc=%d)", xpath, pcmk_strerror(rc), rc);
 }
 
+//test
+
 void
 erase_status_tag(const char *uname, const char *tag, int options)
 {
