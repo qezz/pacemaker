@@ -1016,6 +1016,45 @@ erase_status_tag(const char *uname, const char *tag, int options)
     }
 }
 
+static void
+crm_set_join_state(const char *uname, const char *start_state)
+{
+    if (safe_str_eq(start_state, "standby")) {
+        crm_notice("Starting node in %s state (%s)", start_state, uname);
+        update_attrd(uname, XML_CIB_ATTR_STANDBY, "on", NULL, FALSE);
+    } else if (safe_str_eq(start_state, "online")) {
+        crm_notice("Starting node in %s state (%s)", start_state, uname);
+        update_attrd(uname, XML_CIB_ATTR_STANDBY, "off", NULL, FALSE);
+    } else if (safe_str_eq(start_state, "default")) {
+        crm_notice("Starting node by default (%s)", uname);
+    } else {
+        crm_warn("Unrecognized start state '%s', using 'default' (%s)", start_state, uname);
+    }
+}
+
+static void
+init_attrs_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
+{
+    char *start_state = user_data;
+
+ //   do_crm_log_unlikely(rc == 0 ? LOG_DEBUG : LOG_NOTICE,
+  //                      "Deletion of \"%s\": %s (rc=%d)", xpath, pcmk_strerror(rc), rc);
+    crm_set_join_state(fsa_our_uname, start_state);
+}
+
+void
+init_transient_attrs(const char *uname, const char *start_state)
+{
+    if (fsa_cib_conn && uname) {
+        int rc;
+        char *xpath = crm_strdup_printf("//node_state[@uname='%s']/%s", uname, XML_TAG_TRANSIENT_NODEATTRS);
+
+        crm_info("Erasing transient attributes for %s", uname);
+        rc = fsa_cib_conn->cmds->delete(fsa_cib_conn, xpath, NULL, cib_quorum_override | cib_xpath);
+        fsa_register_cib_callback(rc, FALSE, strdup(start_state), init_attrs_callback);
+    }
+}
+
 crm_ipc_t *attrd_ipc = NULL;
 
 #if !HAVE_ATOMIC_ATTRD
