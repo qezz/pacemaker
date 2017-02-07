@@ -260,7 +260,6 @@ do_cl_join_finalize_respond(long long action,
 
             update_attrd(fsa_our_uname, "terminate", NULL, NULL, FALSE);
             update_attrd(fsa_our_uname, XML_CIB_ATTR_SHUTDOWN, "0", NULL, FALSE);
-
         }
 
         send_cluster_message(crm_get_peer(0, fsa_our_dc), crm_msg_crmd, reply, TRUE);
