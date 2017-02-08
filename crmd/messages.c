@@ -1051,7 +1051,7 @@ send_remote_state_message(const char *node_name, gboolean node_up)
 void
 add_start_state(xmlNode * msg, const char * state)
 {
-    if (safe_str_eq(state, "standby")) {
+    if (safe_str_eq(state, "standby")) {          // mb XML_CIB_ATTR_STANDBY ?
         crm_xml_add(msg, "start_state", "standby");
     } else if (safe_str_eq(state, "online")) {
         crm_xml_add(msg, "start_state", "online");

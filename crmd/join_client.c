@@ -241,9 +241,6 @@ do_cl_join_finalize_respond(long long action,
             add_start_state(reply, start_state);
         }
 
-        crm_debug("check reply after adding \"start_state\": )");
-        crm_log_xml_debug(reply, "reply");
-
         /*
          * If this is the node's first join since the crmd started on it, clear
          * any previous transient node attributes, to handle the case where

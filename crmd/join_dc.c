@@ -482,11 +482,11 @@ void
 crm_set_join_state(crm_node_t *peer, const char *start_state)
 {
 	if (safe_str_eq(start_state, "standby")) {
-		set_standby(fsa_cib_conn, peer->uuid, XML_CIB_TAG_STATUS, "on");
+            update_attrd(peer->uname, XML_CIB_ATTR_STANDBY, "on", NULL, FALSE);
 	} else if (safe_str_eq(start_state, "online")) {
-		set_standby(fsa_cib_conn, peer->uuid, XML_CIB_TAG_STATUS, "off");
+            update_attrd(peer->uname, XML_CIB_ATTR_STANDBY, "off", NULL, FALSE);            
 	} else {
-		return;
+	    return;
 	}
 
 	crm_notice("Starting node in %s state. (%s)", start_state, peer->uname);
