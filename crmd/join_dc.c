@@ -524,7 +524,14 @@ do_dc_join_ack(long long action,
      *   be started in due time
      */
 
-    update_status_tag(join_from, start_state);
+   crm_info("join_from: %s", join_from);
+   crm_info("start_state: %s", start_state);
+
+    if (start_state) {
+        update_status_tag(join_from, start_state);
+    } else {
+        erase_status_tag(join_from, XML_CIB_TAG_LRM, cib_scope_local);
+    }
 
     if (safe_str_eq(join_from, fsa_our_uname)) {
         xmlNode *now_dc_lrmd_state = do_lrm_query(TRUE, fsa_our_uname);
