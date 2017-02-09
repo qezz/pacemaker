@@ -1039,6 +1039,7 @@ update_status_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, voi
     char *uname = data[0];
     char *start_state = data[1];
     char *xpath = data[2];
+    crm_info("callback");
 
     do_crm_log_unlikely(rc == 0 ? LOG_DEBUG : LOG_NOTICE,
                         "Erasing of \"%s\": %s (rc=%d)", xpath, pcmk_strerror(rc), rc);
@@ -1051,10 +1052,12 @@ update_status_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, voi
 void
 update_status_tag(const char *uname, const char *start_state)
 {
+    crm_info("trace");
     if (fsa_cib_conn && uname) {
         int rc;
         char *xpath = crm_strdup_printf("//node_state[@uname='%s']/%s", uname, XML_CIB_TAG_LRM);
         const char **data = malloc(sizeof(char*)*3);
+        crm_info("fsa_cib_conn && uname");
         data[0] = strdup(uname);
         data[1] = strdup(start_state);
         data[2] = strdup(xpath);

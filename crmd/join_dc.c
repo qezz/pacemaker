@@ -528,6 +528,7 @@ do_dc_join_ack(long long action,
    crm_info("start_state: %s", start_state);
 
     if (start_state) {
+        crm_info("do_dc_join_ack");
         update_status_tag(join_from, start_state);
     } else {
         erase_status_tag(join_from, XML_CIB_TAG_LRM, cib_scope_local);
