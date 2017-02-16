@@ -1038,6 +1038,7 @@ init_attrs_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
     free(data[0]);
     free(data[1]);
     free(data[2]);
+    free(data);
 }
 
 void
