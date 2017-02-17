@@ -80,6 +80,7 @@ send_stonith_update(crm_action_t * action, const char *target, const char *uuid)
     xmlNode *node_state = NULL;
 
     const char *start_state = daemon_option("node_start_state");
+    crm_info("start_state: %s", start_state);
 
     CRM_CHECK(target != NULL, return);
     CRM_CHECK(uuid != NULL, return);
