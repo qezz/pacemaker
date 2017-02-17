@@ -23,6 +23,7 @@
 size_t
 strnlen(const char *s, size_t maxlen)
 {
+	crm_info("my trace");
     const char *eospos;
 
     eospos = memchr(s, (int)'\0', maxlen);

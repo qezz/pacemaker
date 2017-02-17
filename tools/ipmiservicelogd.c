@@ -224,6 +224,7 @@ getStringExecOutput(char *args[])
 char *
 getSerialNumber(void)
 {
+	crm_info("my trace");
     char *dmiArgs[] = {
         "dmidecode",
         "--string",
@@ -237,6 +238,7 @@ getSerialNumber(void)
 char *
 getProductName(void)
 {
+	crm_info("my trace");
     char *dmiArgs[] = {
         "dmidecode",
         "--string",
@@ -250,12 +252,14 @@ getProductName(void)
 static void
 con_usage(const char *name, const char *help, void *cb_data)
 {
+	crm_info("my trace");
     printf("\n%s%s", name, help);
 }
 
 static void
 usage(const char *progname)
 {
+	crm_info("my trace");
     printf("Usage:\n");
     printf(" %s <con_parms>\n", progname);
     printf(" Where <con_parms> is one of:");
@@ -265,6 +269,7 @@ usage(const char *progname)
 void
 ipmi2servicelog(struct sl_data_bmc *bmc_data)
 {
+	crm_info("my trace");
     servicelog *slog = NULL;
     struct sl_event sl_event;
     uint64_t new_id = 0;
@@ -351,6 +356,7 @@ sensor_threshold_event_handler(ipmi_sensor_t * sensor,
                                unsigned int raw_value,
                                double value, void *cb_data, ipmi_event_t * event)
 {
+	crm_info("my trace");
     ipmi_entity_t *ent = ipmi_sensor_get_entity(sensor);
     int id, instance;
     char name[IPMI_ENTITY_NAME_LEN];
@@ -415,6 +421,7 @@ sensor_discrete_event_handler(ipmi_sensor_t * sensor,
                               int offset,
                               int severity, int prev_severity, void *cb_data, ipmi_event_t * event)
 {
+	crm_info("my trace");
     ipmi_entity_t *ent = ipmi_sensor_get_entity(sensor);
     int id, instance;
     char name[IPMI_ENTITY_NAME_LEN];
@@ -480,6 +487,7 @@ sensor_discrete_event_handler(ipmi_sensor_t * sensor,
 static void
 sensor_change(enum ipmi_update_e op, ipmi_entity_t * ent, ipmi_sensor_t * sensor, void *cb_data)
 {
+	crm_info("my trace");
     int rv;
 
     if (op == IPMI_ADDED) {
@@ -500,6 +508,7 @@ sensor_change(enum ipmi_update_e op, ipmi_entity_t * ent, ipmi_sensor_t * sensor
 static void
 entity_change(enum ipmi_update_e op, ipmi_domain_t * domain, ipmi_entity_t * entity, void *cb_data)
 {
+	crm_info("my trace");
     int rv;
     int id, instance;
 
@@ -524,6 +533,7 @@ setup_done(ipmi_domain_t * domain,
            int err,
            unsigned int conn_num, unsigned int port_num, int still_connected, void *user_data)
 {
+	crm_info("my trace");
     int rv;
 
     /* Register a callback functin entity_change. When a new entities 

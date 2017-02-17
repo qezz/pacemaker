@@ -126,6 +126,7 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int option_index = 0;
     int argerr = 0;
     int flag;
@@ -252,6 +253,7 @@ main(int argc, char **argv)
 int
 do_work(void)
 {
+	crm_info("my trace");
     int ret = 1;
 
     /* construct the request */
@@ -389,6 +391,7 @@ do_work(void)
 void
 crmadmin_ipc_connection_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_err("Connection to CRMd was terminated");
     if (mainloop) {
         g_main_quit(mainloop);
@@ -405,6 +408,7 @@ struct ipc_client_callbacks crm_callbacks = {
 gboolean
 do_init(void)
 {
+	crm_info("my trace");
     mainloop_io_t *source =
         mainloop_add_ipc_client(CRM_SYSTEM_CRMD, G_PRIORITY_DEFAULT, 0, NULL, &crm_callbacks);
 
@@ -431,6 +435,7 @@ do_init(void)
 static bool
 validate_crm_message(xmlNode * msg, const char *sys, const char *uuid, const char *msg_type)
 {
+	crm_info("my trace");
     const char *type = NULL;
     const char *crm_msg_reference = NULL;
 
@@ -461,6 +466,7 @@ validate_crm_message(xmlNode * msg, const char *sys, const char *uuid, const cha
 int
 admin_msg_callback(const char *buffer, ssize_t length, gpointer userdata)
 {
+	crm_info("my trace");
     static int received_responses = 0;
     xmlNode *xml = string2xml(buffer);
 
@@ -513,6 +519,7 @@ admin_msg_callback(const char *buffer, ssize_t length, gpointer userdata)
 gboolean
 admin_message_timeout(gpointer data)
 {
+	crm_info("my trace");
     fprintf(stderr, "No messages received in %d seconds.. aborting\n",
             (int)message_timeout_ms / 1000);
     crm_err("No messages received in %d seconds", (int)message_timeout_ms / 1000);
@@ -524,6 +531,7 @@ admin_message_timeout(gpointer data)
 gboolean
 is_node_online(xmlNode * node_state)
 {
+	crm_info("my trace");
     const char *uname = crm_element_value(node_state, XML_ATTR_UNAME);
     const char *join_state = crm_element_value(node_state, XML_NODE_JOIN_STATE);
     const char *exp_state = crm_element_value(node_state, XML_NODE_EXPECTED);
@@ -546,6 +554,7 @@ is_node_online(xmlNode * node_state)
 int
 do_find_node_list(xmlNode * xml_node)
 {
+	crm_info("my trace");
     int found = 0;
     xmlNode *node = NULL;
     xmlNode *nodes = get_object_root(XML_CIB_TAG_NODES, xml_node);

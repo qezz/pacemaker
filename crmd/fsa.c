@@ -90,6 +90,7 @@ void init_dotfile(void);
 void
 init_dotfile(void)
 {
+	crm_info("my trace");
     do_dot_log(DOT_PREFIX "digraph \"g\" {");
     do_dot_log(DOT_PREFIX "	size = \"30,30\"");
     do_dot_log(DOT_PREFIX "	graph [");
@@ -150,6 +151,7 @@ static long long startup_actions =
 enum crmd_fsa_state
 s_crmd_fsa(enum crmd_fsa_cause cause)
 {
+	crm_info("my trace");
     fsa_data_t *fsa_data = NULL;
     long long register_copy = fsa_input_register;
     long long new_actions = A_NOTHING;
@@ -263,6 +265,7 @@ s_crmd_fsa(enum crmd_fsa_cause cause)
 void
 s_crmd_fsa_actions(fsa_data_t * fsa_data)
 {
+	crm_info("my trace");
     /*
      * Process actions in order of priority but do only one
      * action at a time to avoid complicating the ordering.
@@ -451,6 +454,7 @@ s_crmd_fsa_actions(fsa_data_t * fsa_data)
 void
 log_fsa_input(fsa_data_t * stored_msg)
 {
+	crm_info("my trace");
     CRM_ASSERT(stored_msg);
     crm_trace("Processing queued input %d", stored_msg->id);
     if (stored_msg->fsa_cause == C_CCM_CALLBACK) {
@@ -475,6 +479,7 @@ do_state_transition(long long actions,
                     enum crmd_fsa_state cur_state,
                     enum crmd_fsa_state next_state, fsa_data_t * msg_data)
 {
+	crm_info("my trace");
     int level = LOG_INFO;
     long long tmp = actions;
     gboolean clear_recovery_bit = TRUE;
@@ -664,11 +669,13 @@ do_state_transition(long long actions,
 void
 dump_rsc_info(void)
 {
+	crm_info("my trace");
 }
 
 void
 ghash_print_node(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     const char *text = user_data;
     const char *uname = key;
     const char *value_s = value;

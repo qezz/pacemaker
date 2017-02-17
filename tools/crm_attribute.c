@@ -114,6 +114,7 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     cib_t *the_cib = NULL;
     int rc = pcmk_ok;
 

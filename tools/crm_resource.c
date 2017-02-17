@@ -44,6 +44,7 @@ GMainLoop *mainloop = NULL;
 static gboolean
 resource_ipc_timeout(gpointer data)
 {
+	crm_info("my trace");
     fprintf(stderr, "No messages received in %d seconds.. aborting\n",
             (int)message_timeout_ms / 1000);
     crm_err("No messages received in %d seconds", (int)message_timeout_ms / 1000);
@@ -53,6 +54,7 @@ resource_ipc_timeout(gpointer data)
 static void
 resource_ipc_connection_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_info("Connection to CRMd was terminated");
     crm_exit(1);
 }
@@ -60,6 +62,7 @@ resource_ipc_connection_destroy(gpointer user_data)
 static void
 start_mainloop(void)
 {
+	crm_info("my trace");
     if (crmd_replies_needed == 0) {
         return;
     }
@@ -75,6 +78,7 @@ start_mainloop(void)
 static int
 resource_ipc_callback(const char *buffer, ssize_t length, gpointer userdata)
 {
+	crm_info("my trace");
     xmlNode *msg = string2xml(buffer);
 
     fprintf(stderr, ".");
@@ -238,6 +242,7 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     char rsc_cmd = 'L';
 
     const char *rsc_id = NULL;

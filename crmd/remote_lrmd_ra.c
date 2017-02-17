@@ -89,6 +89,7 @@ static GList *fail_all_monitor_cmds(GList * list);
 static void
 free_cmd(gpointer user_data)
 {
+	crm_info("my trace");
     remote_ra_cmd_t *cmd = user_data;
 
     if (!cmd) {
@@ -117,6 +118,7 @@ free_cmd(gpointer user_data)
 static int
 generate_callid(void)
 {
+	crm_info("my trace");
     static int remote_ra_callid = 0;
 
     remote_ra_callid++;
@@ -130,6 +132,7 @@ generate_callid(void)
 static gboolean
 recurring_helper(gpointer data)
 {
+	crm_info("my trace");
     remote_ra_cmd_t *cmd = data;
     lrm_state_t *connection_rsc = NULL;
 
@@ -149,6 +152,7 @@ recurring_helper(gpointer data)
 static gboolean
 start_delay_helper(gpointer data)
 {
+	crm_info("my trace");
     remote_ra_cmd_t *cmd = data;
     lrm_state_t *connection_rsc = NULL;
 
@@ -171,6 +175,7 @@ start_delay_helper(gpointer data)
 static void
 remote_node_up(const char *node_name)
 {
+	crm_info("my trace");
     int call_opt, call_id = 0;
     xmlNode *update, *state;
     crm_node_t *node;
@@ -241,6 +246,7 @@ enum down_opts {
 static void
 remote_node_down(const char *node_name, const enum down_opts opts)
 {
+	crm_info("my trace");
     xmlNode *update;
     int call_id = 0;
     int call_opt = crmd_cib_smart_opt();
@@ -287,6 +293,7 @@ remote_node_down(const char *node_name, const enum down_opts opts)
 static void
 check_remote_node_state(remote_ra_cmd_t *cmd)
 {
+	crm_info("my trace");
     /* Only successful actions can change node state */
     if (cmd->rc != PCMK_OCF_OK) {
         return;
@@ -340,6 +347,7 @@ check_remote_node_state(remote_ra_cmd_t *cmd)
 static void
 report_remote_ra_result(remote_ra_cmd_t * cmd)
 {
+	crm_info("my trace");
     lrmd_event_data_t op = { 0, };
 
     check_remote_node_state(cmd);
@@ -393,12 +401,14 @@ report_remote_ra_result(remote_ra_cmd_t * cmd)
 static void
 update_remaining_timeout(remote_ra_cmd_t * cmd)
 {
+	crm_info("my trace");
     cmd->remaining_timeout = ((cmd->timeout / 1000) - (time(NULL) - cmd->start_time)) * 1000;
 }
 
 static gboolean
 retry_start_cmd_cb(gpointer data)
 {
+	crm_info("my trace");
     lrm_state_t *lrm_state = data;
     remote_ra_data_t *ra_data = lrm_state->remote_ra_data;
     remote_ra_cmd_t *cmd = NULL;
@@ -438,6 +448,7 @@ retry_start_cmd_cb(gpointer data)
 static gboolean
 connection_takeover_timeout_cb(gpointer data)
 {
+	crm_info("my trace");
     lrm_state_t *lrm_state = NULL;
     remote_ra_cmd_t *cmd = data;
 
@@ -455,6 +466,7 @@ connection_takeover_timeout_cb(gpointer data)
 static gboolean
 monitor_timeout_cb(gpointer data)
 {
+	crm_info("my trace");
     lrm_state_t *lrm_state = NULL;
     remote_ra_cmd_t *cmd = data;
 
@@ -488,6 +500,7 @@ monitor_timeout_cb(gpointer data)
 void
 remote_lrm_op_callback(lrmd_event_data_t * op)
 {
+	crm_info("my trace");
     gboolean cmd_handled = FALSE;
     lrm_state_t *lrm_state = NULL;
     remote_ra_data_t *ra_data = NULL;
@@ -636,6 +649,7 @@ remote_lrm_op_callback(lrmd_event_data_t * op)
 static void
 handle_remote_ra_stop(lrm_state_t * lrm_state, remote_ra_cmd_t * cmd)
 {
+	crm_info("my trace");
     remote_ra_data_t *ra_data = NULL;
 
     CRM_ASSERT(lrm_state);
@@ -670,6 +684,7 @@ handle_remote_ra_stop(lrm_state_t * lrm_state, remote_ra_cmd_t * cmd)
 static int
 handle_remote_ra_start(lrm_state_t * lrm_state, remote_ra_cmd_t * cmd, int timeout_ms)
 {
+	crm_info("my trace");
     const char *server = NULL;
     lrmd_key_value_t *tmp = NULL;
     int port = 0;
@@ -690,6 +705,7 @@ handle_remote_ra_start(lrm_state_t * lrm_state, remote_ra_cmd_t * cmd, int timeo
 static gboolean
 handle_remote_ra_exec(gpointer user_data)
 {
+	crm_info("my trace");
     int rc = 0;
     lrm_state_t *lrm_state = user_data;
     remote_ra_data_t *ra_data = lrm_state->remote_ra_data;
@@ -786,6 +802,7 @@ handle_remote_ra_exec(gpointer user_data)
 static void
 remote_ra_data_init(lrm_state_t * lrm_state)
 {
+	crm_info("my trace");
     remote_ra_data_t *ra_data = NULL;
 
     if (lrm_state->remote_ra_data) {
@@ -800,6 +817,7 @@ remote_ra_data_init(lrm_state_t * lrm_state)
 void
 remote_ra_cleanup(lrm_state_t * lrm_state)
 {
+	crm_info("my trace");
     remote_ra_data_t *ra_data = lrm_state->remote_ra_data;
 
     if (!ra_data) {
@@ -821,6 +839,7 @@ remote_ra_cleanup(lrm_state_t * lrm_state)
 gboolean
 is_remote_lrmd_ra(const char *agent, const char *provider, const char *id)
 {
+	crm_info("my trace");
     if (agent && provider && !strcmp(agent, REMOTE_LRMD_RA) && !strcmp(provider, "pacemaker")) {
         return TRUE;
     }
@@ -834,6 +853,7 @@ is_remote_lrmd_ra(const char *agent, const char *provider, const char *id)
 lrmd_rsc_info_t *
 remote_ra_get_rsc_info(lrm_state_t * lrm_state, const char *rsc_id)
 {
+	crm_info("my trace");
     lrmd_rsc_info_t *info = NULL;
 
     if ((lrm_state_find(rsc_id))) {
@@ -851,6 +871,7 @@ remote_ra_get_rsc_info(lrm_state_t * lrm_state, const char *rsc_id)
 static gboolean
 is_remote_ra_supported_action(const char *action)
 {
+	crm_info("my trace");
     if (!action) {
         return FALSE;
     } else if (strcmp(action, "start") &&
@@ -867,6 +888,7 @@ is_remote_ra_supported_action(const char *action)
 static GList *
 fail_all_monitor_cmds(GList * list)
 {
+	crm_info("my trace");
     GList *rm_list = NULL;
     remote_ra_cmd_t *cmd = NULL;
     GListPtr gIter = NULL;
@@ -898,6 +920,7 @@ fail_all_monitor_cmds(GList * list)
 static GList *
 remove_cmd(GList * list, const char *action, int interval)
 {
+	crm_info("my trace");
     remote_ra_cmd_t *cmd = NULL;
     GListPtr gIter = NULL;
 
@@ -918,6 +941,7 @@ remove_cmd(GList * list, const char *action, int interval)
 int
 remote_ra_cancel(lrm_state_t * lrm_state, const char *rsc_id, const char *action, int interval)
 {
+	crm_info("my trace");
     lrm_state_t *connection_rsc = NULL;
     remote_ra_data_t *ra_data = NULL;
 
@@ -942,6 +966,7 @@ remote_ra_cancel(lrm_state_t * lrm_state, const char *rsc_id, const char *action
 static remote_ra_cmd_t *
 handle_dup_monitor(remote_ra_data_t *ra_data, int interval, const char *userdata)
 {
+	crm_info("my trace");
     GList *gIter = NULL;
     remote_ra_cmd_t *cmd = NULL;
 
@@ -1075,6 +1100,7 @@ remote_ra_exec(lrm_state_t * lrm_state, const char *rsc_id, const char *action, 
 void
 remote_ra_fail(const char *node_name)
 {
+	crm_info("my trace");
     lrm_state_t *lrm_state = lrm_state_find(node_name);
 
     if (lrm_state && lrm_state_is_connected(lrm_state)) {
@@ -1111,6 +1137,7 @@ remote_ra_fail(const char *node_name)
 void
 remote_ra_process_pseudo(xmlNode *xml)
 {
+	crm_info("my trace");
     xmlXPathObjectPtr search = xpath_search(xml, XPATH_PSEUDO_FENCE);
 
     if (numXpathResults(search) == 1) {

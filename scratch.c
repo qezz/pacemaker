@@ -36,6 +36,7 @@
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int flag;
     xmlNode *top = NULL;
     const char *xml_file = NULL;

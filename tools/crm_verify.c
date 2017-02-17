@@ -73,6 +73,7 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     xmlNode *cib_object = NULL;
     xmlNode *status = NULL;
     int argerr = 0;

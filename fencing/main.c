@@ -73,6 +73,7 @@ static void stonith_cleanup(void);
 static int32_t
 st_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
+	crm_info("my trace");
     if (stonith_shutdown_flag) {
         crm_info("Ignoring new client [%d] during shutdown", crm_ipcs_client_pid(c));
         return -EPERM;
@@ -87,6 +88,7 @@ st_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 static void
 st_ipc_created(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_trace("Connection created for %p", c);
 }
 
@@ -94,6 +96,7 @@ st_ipc_created(qb_ipcs_connection_t * c)
 static int32_t
 st_ipc_dispatch(qb_ipcs_connection_t * qbc, void *data, size_t size)
 {
+	crm_info("my trace");
     uint32_t id = 0;
     uint32_t flags = 0;
     int call_options = 0;
@@ -159,6 +162,7 @@ st_ipc_dispatch(qb_ipcs_connection_t * qbc, void *data, size_t size)
 static int32_t
 st_ipc_closed(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_client_t *client = crm_client_get(c);
 
     if (client == NULL) {
@@ -175,6 +179,7 @@ st_ipc_closed(qb_ipcs_connection_t * c)
 static void
 st_ipc_destroy(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_trace("Connection %p destroyed", c);
     st_ipc_closed(c);
 }
@@ -182,6 +187,7 @@ st_ipc_destroy(qb_ipcs_connection_t * c)
 static void
 stonith_peer_callback(xmlNode * msg, void *private_data)
 {
+	crm_info("my trace");
     const char *remote_peer = crm_element_value(msg, F_ORIG);
     const char *op = crm_element_value(msg, F_STONITH_OPERATION);
 
@@ -197,6 +203,7 @@ stonith_peer_callback(xmlNode * msg, void *private_data)
 static void
 stonith_peer_hb_callback(HA_Message * msg, void *private_data)
 {
+	crm_info("my trace");
     xmlNode *xml = convert_ha_message(NULL, msg, __FUNCTION__);
 
     stonith_peer_callback(xml, private_data);
@@ -206,6 +213,7 @@ stonith_peer_hb_callback(HA_Message * msg, void *private_data)
 static void
 stonith_peer_hb_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     if (stonith_shutdown_flag) {
         crm_info("Heartbeat disconnection complete... exiting");
     } else {
@@ -221,6 +229,7 @@ stonith_peer_ais_callback(cpg_handle_t handle,
                           const struct cpg_name *groupName,
                           uint32_t nodeid, uint32_t pid, void *msg, size_t msg_len)
 {
+	crm_info("my trace");
     uint32_t kind = 0;
     xmlNode *xml = NULL;
     const char *from = NULL;
@@ -249,6 +258,7 @@ stonith_peer_ais_callback(cpg_handle_t handle,
 static void
 stonith_peer_cs_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_err("Corosync connection terminated");
     stonith_shutdown(0);
 }
@@ -257,6 +267,7 @@ stonith_peer_cs_destroy(gpointer user_data)
 void
 do_local_reply(xmlNode * notify_src, const char *client_id, gboolean sync_reply, gboolean from_peer)
 {
+	crm_info("my trace");
     /* send callback to originating child */
     crm_client_t *client_obj = NULL;
     int local_rc = pcmk_ok;
@@ -299,6 +310,7 @@ do_local_reply(xmlNode * notify_src, const char *client_id, gboolean sync_reply,
 long long
 get_stonith_flag(const char *name)
 {
+	crm_info("my trace");
     if (safe_str_eq(name, T_STONITH_NOTIFY_FENCE)) {
         return 0x01;
 
@@ -314,6 +326,7 @@ get_stonith_flag(const char *name)
 static void
 stonith_notify_client(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
 
     xmlNode *update_msg = user_data;
     crm_client_t *client = value;
@@ -346,6 +359,7 @@ stonith_notify_client(gpointer key, gpointer value, gpointer user_data)
 void
 do_stonith_async_timeout_update(const char *client_id, const char *call_id, int timeout)
 {
+	crm_info("my trace");
     crm_client_t *client = NULL;
     xmlNode *notify_data = NULL;
 
@@ -375,6 +389,7 @@ do_stonith_async_timeout_update(const char *client_id, const char *call_id, int 
 void
 do_stonith_notify(int options, const char *type, int result, xmlNode * data)
 {
+	crm_info("my trace");
     /* TODO: Standardize the contents of data */
     xmlNode *update_msg = create_xml_node(NULL, "notify");
 
@@ -399,6 +414,7 @@ static void
 do_stonith_notify_config(int options, const char *op, int rc,
                          const char *desc, int active)
 {
+	crm_info("my trace");
     xmlNode *notify_data = create_xml_node(NULL, op);
 
     CRM_CHECK(notify_data != NULL, return);
@@ -413,18 +429,21 @@ do_stonith_notify_config(int options, const char *op, int rc,
 void
 do_stonith_notify_device(int options, const char *op, int rc, const char *desc)
 {
+	crm_info("my trace");
     do_stonith_notify_config(options, op, rc, desc, g_hash_table_size(device_list));
 }
 
 void
 do_stonith_notify_level(int options, const char *op, int rc, const char *desc)
 {
+	crm_info("my trace");
     do_stonith_notify_config(options, op, rc, desc, g_hash_table_size(topology));
 }
 
 static void
 topology_remove_helper(const char *node, int level)
 {
+	crm_info("my trace");
     int rc;
     char *desc = NULL;
     xmlNode *data = create_xml_node(NULL, XML_TAG_FENCING_LEVEL);
@@ -443,6 +462,7 @@ topology_remove_helper(const char *node, int level)
 static void
 remove_cib_device(xmlXPathObjectPtr xpathObj)
 {
+	crm_info("my trace");
     int max = numXpathResults(xpathObj), lpc = 0;
 
     for (lpc = 0; lpc < max; lpc++) {
@@ -468,6 +488,7 @@ remove_cib_device(xmlXPathObjectPtr xpathObj)
 static void
 handle_topology_change(xmlNode *match, bool remove) 
 {
+	crm_info("my trace");
     int rc;
     char *desc = NULL;
 
@@ -492,6 +513,7 @@ handle_topology_change(xmlNode *match, bool remove)
 static void
 remove_fencing_topology(xmlXPathObjectPtr xpathObj)
 {
+	crm_info("my trace");
     int max = numXpathResults(xpathObj), lpc = 0;
 
     for (lpc = 0; lpc < max; lpc++) {
@@ -521,6 +543,7 @@ remove_fencing_topology(xmlXPathObjectPtr xpathObj)
 static void
 register_fencing_topology(xmlXPathObjectPtr xpathObj)
 {
+	crm_info("my trace");
     int max = numXpathResults(xpathObj), lpc = 0;
 
     for (lpc = 0; lpc < max; lpc++) {
@@ -552,6 +575,7 @@ register_fencing_topology(xmlXPathObjectPtr xpathObj)
 static void
 fencing_topology_init()
 {
+	crm_info("my trace");
     xmlXPathObjectPtr xpathObj = NULL;
     const char *xpath = "//" XML_TAG_FENCING_LEVEL;
 
@@ -582,6 +606,7 @@ fencing_topology_init()
 static node_t *
 our_node_allowed_for(resource_t *rsc)
 {
+	crm_info("my trace");
     GHashTableIter iter;
     node_t *node = NULL;
 
@@ -607,6 +632,7 @@ our_node_allowed_for(resource_t *rsc)
  */
 static void cib_device_update(resource_t *rsc, pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     node_t *node = NULL;
     const char *value = NULL;
     const char *rclass = NULL;
@@ -719,6 +745,7 @@ extern node_t *create_node(const char *id, const char *uname, const char *type, 
 static void
 cib_devices_update(void)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     pe_working_set_t data_set;
 
@@ -746,6 +773,7 @@ cib_devices_update(void)
 static void
 update_cib_stonith_devices_v2(const char *event, xmlNode * msg)
 {
+	crm_info("my trace");
     xmlNode *change = NULL;
     char *reason = NULL;
     bool needs_update = FALSE;
@@ -807,6 +835,7 @@ update_cib_stonith_devices_v2(const char *event, xmlNode * msg)
 static void
 update_cib_stonith_devices_v1(const char *event, xmlNode * msg)
 {
+	crm_info("my trace");
     const char *reason = "none";
     gboolean needs_update = FALSE;
     xmlXPathObjectPtr xpath_obj = NULL;
@@ -868,6 +897,7 @@ update_cib_stonith_devices_v1(const char *event, xmlNode * msg)
 static void
 update_cib_stonith_devices(const char *event, xmlNode * msg)
 {
+	crm_info("my trace");
     int format = 1;
     xmlNode *patchset = get_message_xml(msg, F_CIB_UPDATE_RESULT);
 
@@ -901,6 +931,7 @@ update_cib_stonith_devices(const char *event, xmlNode * msg)
 gboolean
 node_has_attr(const char *node, const char *name, const char *value)
 {
+	crm_info("my trace");
     char xpath[XPATH_MAX];
     xmlNode *match;
     int n;
@@ -925,6 +956,7 @@ node_has_attr(const char *node, const char *name, const char *value)
 static void
 update_fencing_topology(const char *event, xmlNode * msg)
 {
+	crm_info("my trace");
     int format = 1;
     const char *xpath;
     xmlXPathObjectPtr xpathObj = NULL;
@@ -1022,6 +1054,7 @@ static bool have_cib_devices = FALSE;
 static void
 update_cib_cache_cb(const char *event, xmlNode * msg)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     xmlNode *stonith_enabled_xml = NULL;
     xmlNode *stonith_watchdog_xml = NULL;
@@ -1127,6 +1160,7 @@ update_cib_cache_cb(const char *event, xmlNode * msg)
 static void
 init_cib_cache_cb(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("my trace");
     crm_info("Updating device list from the cib: init");
     have_cib_devices = TRUE;
     local_cib = copy_xml(output);
@@ -1138,6 +1172,7 @@ init_cib_cache_cb(xmlNode * msg, int call_id, int rc, xmlNode * output, void *us
 static void
 stonith_shutdown(int nsig)
 {
+	crm_info("my trace");
     stonith_shutdown_flag = TRUE;
     crm_info("Terminating with  %d clients", crm_hash_table_size(client_connections));
     if (mainloop != NULL && g_main_is_running(mainloop)) {
@@ -1151,6 +1186,7 @@ stonith_shutdown(int nsig)
 static void
 cib_connection_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     if (stonith_shutdown_flag) {
         crm_info("Connection to the CIB closed.");
         return;
@@ -1166,6 +1202,7 @@ cib_connection_destroy(gpointer user_data)
 static void
 stonith_cleanup(void)
 {
+	crm_info("my trace");
     if (cib_api) {
         cib_api->cmds->signoff(cib_api);
     }
@@ -1199,6 +1236,7 @@ static struct crm_option long_options[] = {
 static void
 setup_cib(void)
 {
+	crm_info("my trace");
     int rc, retries = 0;
     static cib_t *(*cib_new_fn) (void) = NULL;
 
@@ -1255,6 +1293,7 @@ struct qb_ipcs_service_handlers ipc_callbacks = {
 static void
 st_peer_update_callback(enum crm_status_type type, crm_node_t * node, const void *data)
 {
+	crm_info("my trace");
     if ((type != crm_status_processes) && !is_set(node->flags, crm_remote_node)) {
         xmlNode *query = NULL;
 
@@ -1282,6 +1321,7 @@ st_peer_update_callback(enum crm_status_type type, crm_node_t * node, const void
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int flag;
     int rc = 0;
     int lpc = 0;

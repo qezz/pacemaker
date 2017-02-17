@@ -24,6 +24,7 @@ extern int sys_nerr;
 char *
 strerror(int errnum)
 {
+	crm_info("my trace");
     static char whaterr[32];
 
     if (errnum < 0) {

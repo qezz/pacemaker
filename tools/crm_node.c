@@ -88,6 +88,7 @@ static struct crm_option long_options[] = {
 static int
 cib_remove_node(uint32_t id, const char *name)
 {
+	crm_info("my trace");
     int rc;
     cib_t *cib = NULL;
     xmlNode *node = NULL;
@@ -133,6 +134,7 @@ int tools_remove_node_cache(const char *node, const char *target);
 
 int tools_remove_node_cache(const char *node, const char *target)
 {
+	crm_info("my trace");
     int n = 0;
     int rc = -1;
     char *name = NULL;
@@ -228,6 +230,7 @@ int tools_remove_node_cache(const char *node, const char *target)
 static gint
 compare_node_uname(gconstpointer a, gconstpointer b)
 {
+	crm_info("my trace");
     const crm_node_t *a_node = a;
     const crm_node_t *b_node = b;
     return strcmp(a_node->uname?a_node->uname:"", b_node->uname?b_node->uname:"");
@@ -236,6 +239,7 @@ compare_node_uname(gconstpointer a, gconstpointer b)
 static int
 node_mcp_dispatch(const char *buffer, ssize_t length, gpointer userdata)
 {
+	crm_info("my trace");
     xmlNode *msg = string2xml(buffer);
 
     if (msg) {
@@ -295,12 +299,14 @@ node_mcp_dispatch(const char *buffer, ssize_t length, gpointer userdata)
 static void
 node_mcp_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_exit(ENOTCONN);
 }
 
 static gboolean
 try_pacemaker(int command, enum cluster_type_e stack)
 {
+	crm_info("my trace");
     struct ipc_client_callbacks node_callbacks = {
         .dispatch = node_mcp_dispatch,
         .destroy = node_mcp_destroy
@@ -374,6 +380,7 @@ void oc_ev_special(const oc_ev_t *, oc_ev_class_t, int);
 static gboolean
 read_local_hb_uuid(void)
 {
+	crm_info("my trace");
     cl_uuid_t uuid;
     char *buffer = NULL;
     long start = 0, read_len = 0;
@@ -424,6 +431,7 @@ read_local_hb_uuid(void)
 static void
 ccm_age_callback(oc_ed_t event, void *cookie, size_t size, const void *data)
 {
+	crm_info("my trace");
     int lpc;
     int node_list_size;
     const oc_ev_membership_t *oc = (const oc_ev_membership_t *)data;
@@ -476,6 +484,7 @@ ccm_age_callback(oc_ed_t event, void *cookie, size_t size, const void *data)
 static gboolean
 ccm_age_connect(int *ccm_fd)
 {
+	crm_info("my trace");
     gboolean did_fail = FALSE;
     int ret = 0;
 
@@ -525,6 +534,7 @@ ccm_age_connect(int *ccm_fd)
 static gboolean
 try_heartbeat(int command, enum cluster_type_e stack)
 {
+	crm_info("my trace");
     crm_debug("Attempting to process %c command", command);
 
     if (command == 'i') {
@@ -573,6 +583,7 @@ try_heartbeat(int command, enum cluster_type_e stack)
 #  define MAX_NODES 256
 static bool valid_cman_name(const char *name, uint32_t nodeid) 
 {
+	crm_info("my trace");
     bool rc = TRUE;
 
     /* Yes, %d, because that's what CMAN does */
@@ -589,6 +600,7 @@ static bool valid_cman_name(const char *name, uint32_t nodeid)
 static gboolean
 try_cman(int command, enum cluster_type_e stack)
 {
+	crm_info("my trace");
 
     int rc = -1, lpc = 0, node_count = 0;
     cman_node_t node;
@@ -670,6 +682,7 @@ try_cman(int command, enum cluster_type_e stack)
 static void
 ais_membership_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_err("AIS connection terminated");
     ais_fd_sync = -1;
     crm_exit(ENOTCONN);
@@ -678,6 +691,7 @@ ais_membership_destroy(gpointer user_data)
 static gint
 member_sort(gconstpointer a, gconstpointer b)
 {
+	crm_info("my trace");
     const crm_node_t *node_a = a;
     const crm_node_t *node_b = b;
 
@@ -687,6 +701,7 @@ member_sort(gconstpointer a, gconstpointer b)
 static void
 crm_add_member(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     GList **list = user_data;
     crm_node_t *node = value;
 
@@ -700,6 +715,7 @@ ais_membership_dispatch(cpg_handle_t handle,
                           const struct cpg_name *groupName,
                           uint32_t nodeid, uint32_t pid, void *msg, size_t msg_len)
 {
+	crm_info("my trace");
     uint32_t kind = 0;
     const char *from = NULL;
     char *data = pcmk_message_common_cs(handle, nodeid, pid, msg, &kind, &from);
@@ -764,6 +780,7 @@ ais_membership_dispatch(cpg_handle_t handle,
 static gboolean
 try_corosync(int command, enum cluster_type_e stack)
 {
+	crm_info("my trace");
     int rc = 0;
     int quorate = 0;
     uint32_t quorum_type = 0;
@@ -824,6 +841,7 @@ try_corosync(int command, enum cluster_type_e stack)
 static gboolean
 try_openais(int command, enum cluster_type_e stack)
 {
+	crm_info("my trace");
     static crm_cluster_t cluster;
 
     cluster.destroy = ais_membership_destroy;
@@ -875,6 +893,7 @@ int set_cluster_type(enum cluster_type_e type);
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int flag = 0;
     int argerr = 0;
     uint32_t nodeid = 0;

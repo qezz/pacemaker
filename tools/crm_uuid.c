@@ -63,6 +63,7 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int flag;
     int rc = 0;
     int index = 0;
@@ -104,6 +105,7 @@ main(int argc, char **argv)
 int
 read_local_hb_uuid(void)
 {
+	crm_info("my trace");
     int rc = 0;
     cl_uuid_t uuid;
     char *buffer = NULL;
@@ -160,6 +162,7 @@ read_local_hb_uuid(void)
 int
 write_local_hb_uuid(const char *new_value)
 {
+	crm_info("my trace");
     int fd;
     int rc = 0;
     cl_uuid_t uuid;

@@ -58,6 +58,7 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int flag;
     int index = 0;
     int argerr = 0;
@@ -124,6 +125,7 @@ main(int argc, char **argv)
 int
 crmd_init(void)
 {
+	crm_info("my trace");
     int exit_code = 0;
     enum crmd_fsa_state state;
 

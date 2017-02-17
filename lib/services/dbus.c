@@ -26,6 +26,7 @@ struct db_getall_data {
 DBusConnection *
 pcmk_dbus_connect(void)
 {
+	crm_info("my trace");
     DBusError err;
     DBusConnection *connection;
 
@@ -45,6 +46,7 @@ pcmk_dbus_connect(void)
 void
 pcmk_dbus_disconnect(DBusConnection *connection)
 {
+	crm_info("my trace");
     return;
 }
 
@@ -67,6 +69,7 @@ bool
 pcmk_dbus_find_error(DBusPendingCall *pending, DBusMessage *reply,
                      DBusError *ret)
 {
+	crm_info("my trace");
     DBusError error;
 
     dbus_error_init(&error);
@@ -150,6 +153,7 @@ DBusMessage *
 pcmk_dbus_send_recv(DBusMessage *msg, DBusConnection *connection,
                     DBusError *error, int timeout)
 {
+	crm_info("my trace");
     const char *method = NULL;
     DBusMessage *reply = NULL;
     DBusPendingCall* pending = NULL;
@@ -247,6 +251,7 @@ bool
 pcmk_dbus_type_check(DBusMessage *msg, DBusMessageIter *field, int expected,
                      const char *function, int line)
 {
+	crm_info("my trace");
     int dtype = 0;
     DBusMessageIter lfield;
 
@@ -283,6 +288,7 @@ pcmk_dbus_type_check(DBusMessage *msg, DBusMessageIter *field, int expected,
 static char *
 pcmk_dbus_lookup_result(DBusMessage *reply, struct db_getall_data *data)
 {
+	crm_info("my trace");
     DBusError error;
     char *output = NULL;
     DBusMessageIter dict;
@@ -370,6 +376,7 @@ pcmk_dbus_lookup_result(DBusMessage *reply, struct db_getall_data *data)
 static void
 pcmk_dbus_lookup_cb(DBusPendingCall *pending, void *user_data)
 {
+	crm_info("my trace");
     DBusMessage *reply = NULL;
     char *value = NULL;
 
@@ -450,6 +457,7 @@ static void
 pcmk_dbus_connection_dispatch_status(DBusConnection *connection,
                               DBusDispatchStatus new_status, void *data)
 {
+	crm_info("my trace");
     crm_trace("New status %d for connection %p", new_status, connection);
     if (new_status == DBUS_DISPATCH_DATA_REMAINS){
         conn_dispatches = g_list_prepend(conn_dispatches, connection);
@@ -459,6 +467,7 @@ pcmk_dbus_connection_dispatch_status(DBusConnection *connection,
 static void
 pcmk_dbus_connections_dispatch()
 {
+	crm_info("my trace");
     GList *gIter = NULL;
 
     for (gIter = conn_dispatches; gIter != NULL; gIter = gIter->next) {
@@ -496,6 +505,7 @@ dbus_watch_flags_to_string(int flags)
 static int
 pcmk_dbus_watch_dispatch(gpointer userdata)
 {
+	crm_info("my trace");
     bool oom = FALSE;
     DBusWatch *watch = userdata;
     int flags = dbus_watch_get_flags(watch);
@@ -530,6 +540,7 @@ pcmk_dbus_watch_dispatch(gpointer userdata)
 static void
 pcmk_dbus_watch_destroy(gpointer userdata)
 {
+	crm_info("my trace");
     mainloop_io_t *client = dbus_watch_get_data(userdata);
     crm_trace("Destroyed %p", client);
 }
@@ -543,6 +554,7 @@ struct mainloop_fd_callbacks pcmk_dbus_cb = {
 static dbus_bool_t
 pcmk_dbus_watch_add(DBusWatch *watch, void *data)
 {
+	crm_info("my trace");
     int fd = dbus_watch_get_unix_fd(watch);
 
     mainloop_io_t *client = mainloop_add_fd(
@@ -556,6 +568,7 @@ pcmk_dbus_watch_add(DBusWatch *watch, void *data)
 static void
 pcmk_dbus_watch_toggle(DBusWatch *watch, void *data)
 {
+	crm_info("my trace");
     mainloop_io_t *client = dbus_watch_get_data(watch);
     crm_notice("DBus client %p is now %s",
                client, (dbus_watch_get_enabled(watch)? "enabled" : "disabled"));
@@ -565,6 +578,7 @@ pcmk_dbus_watch_toggle(DBusWatch *watch, void *data)
 static void
 pcmk_dbus_watch_remove(DBusWatch *watch, void *data)
 {
+	crm_info("my trace");
     mainloop_io_t *client = dbus_watch_get_data(watch);
 
     crm_trace("Removed client %p (%p)", client, data);
@@ -574,6 +588,7 @@ pcmk_dbus_watch_remove(DBusWatch *watch, void *data)
 static gboolean
 pcmk_dbus_timeout_dispatch(gpointer data)
 {
+	crm_info("my trace");
     crm_info("Timeout %p expired", data);
     dbus_timeout_handle(data);
     return FALSE;
@@ -582,6 +597,7 @@ pcmk_dbus_timeout_dispatch(gpointer data)
 static dbus_bool_t
 pcmk_dbus_timeout_add(DBusTimeout *timeout, void *data)
 {
+	crm_info("my trace");
     guint id = g_timeout_add(dbus_timeout_get_interval(timeout),
                              pcmk_dbus_timeout_dispatch, timeout);
 
@@ -596,6 +612,7 @@ pcmk_dbus_timeout_add(DBusTimeout *timeout, void *data)
 static void
 pcmk_dbus_timeout_remove(DBusTimeout *timeout, void *data)
 {
+	crm_info("my trace");
     void *vid = dbus_timeout_get_data(timeout);
     guint id = GPOINTER_TO_UINT(vid);
 
@@ -610,6 +627,7 @@ pcmk_dbus_timeout_remove(DBusTimeout *timeout, void *data)
 static void
 pcmk_dbus_timeout_toggle(DBusTimeout *timeout, void *data)
 {
+	crm_info("my trace");
     bool enabled = dbus_timeout_get_enabled(timeout);
 
     crm_trace("Toggling timeout for %p to %s", timeout, enabled?"off":"on");
@@ -626,6 +644,7 @@ pcmk_dbus_timeout_toggle(DBusTimeout *timeout, void *data)
 void
 pcmk_dbus_connection_setup_with_select(DBusConnection *c)
 {
+	crm_info("my trace");
     dbus_connection_set_exit_on_disconnect(c, FALSE);
     dbus_connection_set_timeout_functions(c, pcmk_dbus_timeout_add,
                                           pcmk_dbus_timeout_remove,

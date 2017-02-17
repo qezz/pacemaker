@@ -43,6 +43,7 @@ gboolean test_role_expression(xmlNode * expr, enum rsc_role_e role, crm_time_t *
 gboolean
 test_ruleset(xmlNode * ruleset, GHashTable * node_hash, crm_time_t * now)
 {
+	crm_info("my trace");
     gboolean ruleset_default = TRUE;
     xmlNode *rule = NULL;
 
@@ -61,12 +62,14 @@ test_ruleset(xmlNode * ruleset, GHashTable * node_hash, crm_time_t * now)
 gboolean
 test_rule(xmlNode * rule, GHashTable * node_hash, enum rsc_role_e role, crm_time_t * now)
 {
+	crm_info("my trace");
     return pe_test_rule_re(rule, node_hash, role, now, NULL);
 }
 
 gboolean
 pe_test_rule_re(xmlNode * rule, GHashTable * node_hash, enum rsc_role_e role, crm_time_t * now, pe_re_match_data_t * match_data)
 {
+	crm_info("my trace");
     xmlNode *expr = NULL;
     gboolean test = TRUE;
     gboolean empty = TRUE;
@@ -107,12 +110,14 @@ pe_test_rule_re(xmlNode * rule, GHashTable * node_hash, enum rsc_role_e role, cr
 gboolean
 test_expression(xmlNode * expr, GHashTable * node_hash, enum rsc_role_e role, crm_time_t * now)
 {
+	crm_info("my trace");
     return pe_test_expression_re(expr, node_hash, role, now, NULL);
 }
 
 gboolean
 pe_test_expression_re(xmlNode * expr, GHashTable * node_hash, enum rsc_role_e role, crm_time_t * now, pe_re_match_data_t * match_data)
 {
+	crm_info("my trace");
     gboolean accept = FALSE;
     const char *uname = NULL;
 
@@ -164,6 +169,7 @@ pe_test_expression_re(xmlNode * expr, GHashTable * node_hash, enum rsc_role_e ro
 enum expression_type
 find_expression_type(xmlNode * expr)
 {
+	crm_info("my trace");
     const char *tag = NULL;
     const char *attr = NULL;
 
@@ -195,6 +201,7 @@ find_expression_type(xmlNode * expr)
 gboolean
 test_role_expression(xmlNode * expr, enum rsc_role_e role, crm_time_t * now)
 {
+	crm_info("my trace");
     gboolean accept = FALSE;
     const char *op = NULL;
     const char *value = NULL;
@@ -236,12 +243,14 @@ test_role_expression(xmlNode * expr, enum rsc_role_e role, crm_time_t * now)
 gboolean
 test_attr_expression(xmlNode * expr, GHashTable * hash, crm_time_t * now)
 {
+	crm_info("my trace");
     return pe_test_attr_expression_re(expr, hash, now, NULL);
 }
 
 gboolean
 pe_test_attr_expression_re(xmlNode * expr, GHashTable * hash, crm_time_t * now, pe_re_match_data_t * match_data)
 {
+	crm_info("my trace");
     gboolean accept = FALSE;
     gboolean attr_allocated = FALSE;
     int cmp = 0;
@@ -393,6 +402,7 @@ pe_test_attr_expression_re(xmlNode * expr, GHashTable * hash, crm_time_t * now, 
 static int
 phase_of_the_moon(crm_time_t * now)
 {
+	crm_info("my trace");
     uint32_t epact, diy, goldn;
     uint32_t y;
 
@@ -409,6 +419,7 @@ phase_of_the_moon(crm_time_t * now)
 static gboolean
 decodeNVpair(const char *srcstring, char separator, char **name, char **value)
 {
+	crm_info("my trace");
     int lpc = 0;
     int len = 0;
     const char *temp = NULL;
@@ -493,6 +504,7 @@ decodeNVpair(const char *srcstring, char separator, char **name, char **value)
 gboolean
 cron_range_satisfied(crm_time_t * now, xmlNode * cron_spec)
 {
+	crm_info("my trace");
     const char *value = NULL;
     char *value_low = NULL;
     char *value_high = NULL;
@@ -541,6 +553,7 @@ cron_range_satisfied(crm_time_t * now, xmlNode * cron_spec)
 crm_time_t *
 parse_xml_duration(crm_time_t * start, xmlNode * duration_spec)
 {
+	crm_info("my trace");
     crm_time_t *end = NULL;
     const char *value = NULL;
 
@@ -561,6 +574,7 @@ parse_xml_duration(crm_time_t * start, xmlNode * duration_spec)
 gboolean
 test_date_expression(xmlNode * time_expr, crm_time_t * now)
 {
+	crm_info("my trace");
     crm_time_t *start = NULL;
     crm_time_t *end = NULL;
     const char *value = NULL;
@@ -631,6 +645,7 @@ typedef struct sorted_set_s {
 static gint
 sort_pairs(gconstpointer a, gconstpointer b)
 {
+	crm_info("my trace");
     const sorted_set_t *pair_a = a;
     const sorted_set_t *pair_b = b;
 
@@ -660,6 +675,7 @@ sort_pairs(gconstpointer a, gconstpointer b)
 static void
 populate_hash(xmlNode * nvpair_list, GHashTable * hash, gboolean overwrite, xmlNode * top)
 {
+	crm_info("my trace");
     const char *name = NULL;
     const char *value = NULL;
     const char *old_value = NULL;
@@ -733,6 +749,7 @@ get_versioned_rule(xmlNode * attr_set)
 static gboolean
 versioned_attr(xmlNode * versioned_attrs, const char * name)
 {
+	crm_info("my trace");
     xmlNode *attrs = NULL;
     xmlNode *attr = NULL;
 
@@ -754,6 +771,7 @@ versioned_attr(xmlNode * versioned_attrs, const char * name)
 static void
 add_versioned_attributes(xmlNode * attr_set, xmlNode * versioned_attrs)
 {
+	crm_info("my trace");
     xmlNode *attr_set_copy = NULL;
     xmlNode *rule = NULL;
 
@@ -810,6 +828,7 @@ typedef struct unpack_data_s {
 static void
 unpack_attr_set(gpointer data, gpointer user_data)
 {
+	crm_info("my trace");
     sorted_set_t *pair = data;
     unpack_data_t *unpack_data = user_data;
 
@@ -830,6 +849,7 @@ unpack_attr_set(gpointer data, gpointer user_data)
 static void
 unpack_versioned_attr_set(gpointer data, gpointer user_data)
 {
+	crm_info("my trace");
     sorted_set_t *pair = data;
     unpack_data_t *unpack_data = user_data;
 
@@ -845,6 +865,7 @@ make_pairs_and_populate_data(xmlNode * top, xmlNode * xml_obj, const char *set_n
                              GHashTable * node_hash, void * hash, const char *always_first,
                              gboolean overwrite, crm_time_t * now, unpack_data_t * data)
 {
+	crm_info("my trace");
     GListPtr unsorted = NULL;
     const char *score = NULL;
     sorted_set_t *pair = NULL;
@@ -897,6 +918,7 @@ unpack_instance_attributes(xmlNode * top, xmlNode * xml_obj, const char *set_nam
                            GHashTable * node_hash, GHashTable * hash, const char *always_first,
                            gboolean overwrite, crm_time_t * now)
 {
+	crm_info("my trace");
     unpack_data_t data;
     GListPtr pairs = make_pairs_and_populate_data(top, xml_obj, set_name, node_hash, hash,
                                                   always_first, overwrite, now, &data);
@@ -911,6 +933,7 @@ void
 pe_unpack_versioned_attributes(xmlNode * top, xmlNode * xml_obj, const char *set_name,
                                GHashTable * node_hash, xmlNode * hash, crm_time_t * now)
 {
+	crm_info("my trace");
     unpack_data_t data;
     GListPtr pairs = make_pairs_and_populate_data(top, xml_obj, set_name, node_hash, hash,
                                                   NULL, FALSE, now, &data);
@@ -924,6 +947,7 @@ pe_unpack_versioned_attributes(xmlNode * top, xmlNode * xml_obj, const char *set
 char *
 pe_expand_re_matches(const char *string, pe_re_match_data_t *match_data)
 {
+	crm_info("my trace");
     size_t len = 0;
     int i;
     const char *p, *last_match_index;

@@ -33,6 +33,7 @@ extern char **environ;
 int
 unsetenv(const char *name)
 {
+	crm_info("my trace");
     const size_t len = strlen(name);
     char **ep;
 

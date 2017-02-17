@@ -86,6 +86,7 @@ void update_process_peers(void);
 void
 enable_crmd_as_root(gboolean enable)
 {
+	crm_info("my trace");
     if (enable) {
         pcmk_children[pcmk_child_crmd].uid = NULL;
     } else {
@@ -96,6 +97,7 @@ enable_crmd_as_root(gboolean enable)
 void
 enable_mgmtd(gboolean enable)
 {
+	crm_info("my trace");
     if (enable) {
         pcmk_children[pcmk_child_mgmtd].start_seq = 7;
     } else {
@@ -106,6 +108,7 @@ enable_mgmtd(gboolean enable)
 static uint32_t
 get_process_list(void)
 {
+	crm_info("my trace");
     int lpc = 0;
     uint32_t procs = crm_get_cluster_proc();
 
@@ -120,6 +123,7 @@ get_process_list(void)
 static void
 pcmk_process_exit(pcmk_child_t * child)
 {
+	crm_info("my trace");
     child->pid = 0;
     child->active_before_startup = FALSE;
 
@@ -156,6 +160,7 @@ pcmk_process_exit(pcmk_child_t * child)
 static void
 pcmk_child_exit(mainloop_child_t * p, pid_t pid, int core, int signo, int exitcode)
 {
+	crm_info("my trace");
     pcmk_child_t *child = mainloop_child_userdata(p);
     const char *name = mainloop_child_name(p);
 
@@ -198,6 +203,7 @@ pcmk_child_exit(mainloop_child_t * p, pid_t pid, int core, int signo, int exitco
 static gboolean
 stop_child(pcmk_child_t * child, int signal)
 {
+	crm_info("my trace");
     if (signal == 0) {
         signal = SIGTERM;
     }
@@ -231,6 +237,7 @@ static char *opts_vgrind[] = { NULL, NULL, NULL, NULL, NULL };
 static gboolean
 start_child(pcmk_child_t * child)
 {
+	crm_info("my trace");
     int lpc = 0;
     uid_t uid = 0;
     gid_t gid = 0;
@@ -355,6 +362,7 @@ start_child(pcmk_child_t * child)
 static gboolean
 escalate_shutdown(gpointer data)
 {
+	crm_info("my trace");
 
     pcmk_child_t *child = data;
 
@@ -369,6 +377,7 @@ escalate_shutdown(gpointer data)
 static gboolean
 pcmk_shutdown_worker(gpointer user_data)
 {
+	crm_info("my trace");
     static int phase = 0;
     static time_t next_log = 0;
     static int max = SIZEOF(pcmk_children);
@@ -443,18 +452,21 @@ pcmk_shutdown_worker(gpointer user_data)
 static void
 pcmk_ignore(int nsig)
 {
+	crm_info("my trace");
     crm_info("Ignoring signal %s (%d)", strsignal(nsig), nsig);
 }
 
 static void
 pcmk_sigquit(int nsig)
 {
+	crm_info("my trace");
     pcmk_panic(__FUNCTION__);
 }
 
 void
 pcmk_shutdown(int nsig)
 {
+	crm_info("my trace");
     if (shutdown_trigger == NULL) {
         shutdown_trigger = mainloop_add_trigger(G_PRIORITY_HIGH, pcmk_shutdown_worker, NULL);
     }
@@ -464,6 +476,7 @@ pcmk_shutdown(int nsig)
 static int32_t
 pcmk_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
     if (crm_client_new(c, uid, gid) == NULL) {
         return -EIO;
@@ -474,6 +487,7 @@ pcmk_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 static void
 pcmk_ipc_created(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
 }
 
@@ -481,6 +495,7 @@ pcmk_ipc_created(qb_ipcs_connection_t * c)
 static int32_t
 pcmk_ipc_dispatch(qb_ipcs_connection_t * qbc, void *data, size_t size)
 {
+	crm_info("my trace");
     uint32_t id = 0;
     uint32_t flags = 0;
     const char *task = NULL;
@@ -526,6 +541,7 @@ pcmk_ipc_dispatch(qb_ipcs_connection_t * qbc, void *data, size_t size)
 static int32_t
 pcmk_ipc_closed(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_client_t *client = crm_client_get(c);
 
     if (client == NULL) {
@@ -539,6 +555,7 @@ pcmk_ipc_closed(qb_ipcs_connection_t * c)
 static void
 pcmk_ipc_destroy(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
     pcmk_ipc_closed(c);
 }
@@ -560,6 +577,7 @@ struct qb_ipcs_service_handlers mcp_ipc_callbacks = {
 void
 update_process_clients(crm_client_t *client)
 {
+	crm_info("my trace");
     GHashTableIter iter;
     crm_node_t *node = NULL;
     xmlNode *update = create_xml_node(NULL, "nodes");
@@ -600,6 +618,7 @@ update_process_clients(crm_client_t *client)
 void
 update_process_peers(void)
 {
+	crm_info("my trace");
     /* Do nothing for corosync-2 based clusters */
 
     char buffer[1024];
@@ -635,6 +654,7 @@ update_process_peers(void)
 gboolean
 update_node_processes(uint32_t id, const char *uname, uint32_t procs)
 {
+	crm_info("my trace");
     gboolean changed = FALSE;
     crm_node_t *node = crm_get_peer(id, uname);
 
@@ -680,6 +700,7 @@ static struct crm_option long_options[] = {
 static void
 mcp_chown(const char *path, uid_t uid, gid_t gid)
 {
+	crm_info("my trace");
     int rc = chown(path, uid, gid);
 
     if (rc < 0) {
@@ -691,6 +712,7 @@ mcp_chown(const char *path, uid_t uid, gid_t gid)
 static gboolean
 check_active_before_startup_processes(gpointer user_data)
 {
+	crm_info("my trace");
     int start_seq = 1, lpc = 0;
     static int max = SIZEOF(pcmk_children);
     gboolean keep_tracking = FALSE;
@@ -727,6 +749,7 @@ check_active_before_startup_processes(gpointer user_data)
 static bool
 find_and_track_existing_processes(void)
 {
+	crm_info("my trace");
     DIR *dp;
     struct dirent *entry;
     int start_tracker = 0;
@@ -778,6 +801,7 @@ find_and_track_existing_processes(void)
 static void
 init_children_processes(void)
 {
+	crm_info("my trace");
     int start_seq = 1, lpc = 0;
     static int max = SIZEOF(pcmk_children);
 
@@ -807,6 +831,7 @@ init_children_processes(void)
 static void
 mcp_cpg_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_err("Connection destroyed");
     crm_exit(ENOTCONN);
 }
@@ -827,6 +852,7 @@ mcp_cpg_deliver(cpg_handle_t handle,
                  const struct cpg_name *groupName,
                  uint32_t nodeid, uint32_t pid, void *msg, size_t msg_len)
 {
+	crm_info("my trace");
     xmlNode *xml = string2xml(msg);
     const char *task = crm_element_value(xml, F_CRM_TASK);
 
@@ -867,6 +893,7 @@ mcp_cpg_membership(cpg_handle_t handle,
                     const struct cpg_address *left_list, size_t left_list_entries,
                     const struct cpg_address *joined_list, size_t joined_list_entries)
 {
+	crm_info("my trace");
     /* Update peer cache if needed */
     pcmk_cpg_membership(handle, groupName, member_list, member_list_entries,
                         left_list, left_list_entries,
@@ -879,6 +906,7 @@ mcp_cpg_membership(cpg_handle_t handle,
 static gboolean
 mcp_quorum_callback(unsigned long long seq, gboolean quorate)
 {
+	crm_info("my trace");
     pcmk_quorate = quorate;
     return TRUE;
 }
@@ -886,6 +914,7 @@ mcp_quorum_callback(unsigned long long seq, gboolean quorate)
 static void
 mcp_quorum_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_info("connection lost");
 }
 
@@ -893,6 +922,7 @@ mcp_quorum_destroy(gpointer user_data)
 static gboolean
 mcp_cman_dispatch(unsigned long long seq, gboolean quorate)
 {
+	crm_info("my trace");
     pcmk_quorate = quorate;
     return TRUE;
 }
@@ -900,6 +930,7 @@ mcp_cman_dispatch(unsigned long long seq, gboolean quorate)
 static void
 mcp_cman_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_info("connection closed");
 }
 #endif
@@ -907,6 +938,7 @@ mcp_cman_destroy(gpointer user_data)
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int rc;
     int flag;
     int argerr = 0;

@@ -168,6 +168,7 @@ static struct crm_option long_options[] = {
 static void
 print_xml_output(xmlNode * xml)
 {
+	crm_info("my trace");
     char *buffer;
 
     if (!xml) {
@@ -200,6 +201,7 @@ print_xml_output(xmlNode * xml)
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int argerr = 0;
     int flag;
     const char *source = NULL;
@@ -512,6 +514,7 @@ main(int argc, char **argv)
 int
 do_work(xmlNode * input, int call_options, xmlNode ** output)
 {
+	crm_info("my trace");
     /* construct the request */
     the_cib->call_timeout = message_timeout_ms;
     if (strcasecmp(CIB_OP_REPLACE, cib_action) == 0
@@ -536,6 +539,7 @@ do_work(xmlNode * input, int call_options, xmlNode ** output)
 int
 do_init(void)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
 
     the_cib = cib_new();
@@ -551,6 +555,7 @@ do_init(void)
 void
 cib_connection_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_err("Connection to the CIB terminated... exiting");
     g_main_quit(mainloop);
     return;
@@ -559,6 +564,7 @@ cib_connection_destroy(gpointer user_data)
 void
 cibadmin_op_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("my trace");
     exit_code = rc;
 
     if (rc != 0) {

@@ -28,6 +28,7 @@ const char *attr_set_type = XML_TAG_ATTR_SETS;
 static int
 do_find_resource(const char *rsc, resource_t * the_rsc, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     int found = 0;
     GListPtr lpc = NULL;
 
@@ -59,6 +60,7 @@ do_find_resource(const char *rsc, resource_t * the_rsc, pe_working_set_t * data_
 int
 cli_resource_search(const char *rsc, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     int found = 0;
     resource_t *the_rsc = NULL;
     resource_t *parent = NULL;
@@ -101,6 +103,7 @@ cli_resource_search(const char *rsc, pe_working_set_t * data_set)
 resource_t *
 find_rsc_or_clone(const char *rsc, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     resource_t *the_rsc = pe_find_resource(data_set->resources, rsc);
 
     if (the_rsc == NULL) {
@@ -117,6 +120,7 @@ static int
 find_resource_attr(cib_t * the_cib, const char *attr, const char *rsc, const char *set_type,
                    const char *set_name, const char *attr_id, const char *attr_name, char **value)
 {
+	crm_info("my trace");
     int offset = 0;
     static int xpath_max = 1024;
     int rc = pcmk_ok;
@@ -195,6 +199,7 @@ static resource_t *
 find_matching_attr_resource(resource_t * rsc, const char * rsc_id, const char * attr_set, const char * attr_id,
                             const char * attr_name, cib_t * cib, const char * cmd)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     char *lookup_id = NULL;
     char *local_attr_id = NULL;
@@ -256,6 +261,7 @@ cli_resource_update_attribute(const char *rsc_id, const char *attr_set, const ch
                   const char *attr_name, const char *attr_value, bool recursive,
                   cib_t * cib, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     static bool need_init = TRUE;
 
@@ -418,6 +424,7 @@ int
 cli_resource_delete_attribute(const char *rsc_id, const char *attr_set, const char *attr_id,
                      const char *attr_name, cib_t * cib, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     xmlNode *xml_obj = NULL;
 
     int rc = pcmk_ok;
@@ -483,6 +490,7 @@ send_lrm_rsc_op(crm_ipc_t * crmd_channel, const char *op,
                 const char *host_uname, const char *rsc_id,
                 bool only_failed, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     char *our_pid = NULL;
     char *key = NULL;
     int rc = -ECOMM;
@@ -585,6 +593,7 @@ static int
 cli_delete_attr(cib_t * cib_conn, const char * host_uname, const char * attr_name,
                 pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     node_t *node = pe_find_node(data_set->nodes, host_uname);
     int attr_options = attrd_opt_none;
 
@@ -606,6 +615,7 @@ int
 cli_resource_delete(cib_t *cib_conn, crm_ipc_t * crmd_channel, const char *host_uname,
                resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     node_t *node = NULL;
 
@@ -683,6 +693,7 @@ cli_resource_delete(cib_t *cib_conn, crm_ipc_t * crmd_channel, const char *host_
 void
 cli_resource_check(cib_t * cib_conn, resource_t *rsc)
 {
+	crm_info("my trace");
     int need_nl = 0;
     char *role_s = NULL;
     char *managed = NULL;
@@ -723,6 +734,7 @@ int
 cli_resource_fail(crm_ipc_t * crmd_channel, const char *host_uname,
              const char *rsc_id, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     crm_warn("Failing: %s", rsc_id);
     return send_lrm_rsc_op(crmd_channel, CRM_OP_LRM_FAIL, host_uname, rsc_id, FALSE, data_set);
 }
@@ -730,6 +742,7 @@ cli_resource_fail(crm_ipc_t * crmd_channel, const char *host_uname,
 static GHashTable *
 generate_resource_params(resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GHashTable *params = NULL;
     GHashTable *meta = NULL;
     GHashTable *combined = NULL;
@@ -778,6 +791,7 @@ generate_resource_params(resource_t * rsc, pe_working_set_t * data_set)
 
 static bool resource_is_running_on(resource_t *rsc, const char *host) 
 {
+	crm_info("my trace");
     bool found = TRUE;
     GListPtr hIter = NULL;
     GListPtr hosts = NULL;
@@ -826,6 +840,7 @@ static bool resource_is_running_on(resource_t *rsc, const char *host)
 static GList *
 get_active_resources(const char *host, GList *rsc_list)
 {
+	crm_info("my trace");
     GList *rIter = NULL;
     GList *active = NULL;
 
@@ -848,6 +863,7 @@ get_active_resources(const char *host, GList *rsc_list)
 
 static GList *subtract_lists(GList *from, GList *items) 
 {
+	crm_info("my trace");
     GList *item = NULL;
     GList *result = g_list_copy(from);
 
@@ -867,6 +883,7 @@ static GList *subtract_lists(GList *from, GList *items)
 
 static void dump_list(GList *items, const char *tag) 
 {
+	crm_info("my trace");
     int lpc = 0;
     GList *item = NULL;
 
@@ -878,6 +895,7 @@ static void dump_list(GList *items, const char *tag)
 
 static void display_list(GList *items, const char *tag) 
 {
+	crm_info("my trace");
     GList *item = NULL;
 
     for (item = items; item != NULL; item = item->next) {
@@ -904,6 +922,7 @@ static void display_list(GList *items, const char *tag)
 int
 update_working_set_xml(pe_working_set_t *data_set, xmlNode **xml)
 {
+	crm_info("my trace");
     if (cli_config_update(xml, NULL, FALSE) == FALSE) {
         return -ENOKEY;
     }
@@ -926,6 +945,7 @@ update_working_set_xml(pe_working_set_t *data_set, xmlNode **xml)
 static int
 update_working_set_from_cib(pe_working_set_t * data_set, cib_t *cib)
 {
+	crm_info("my trace");
     xmlNode *cib_xml_copy = NULL;
     int rc;
 
@@ -946,6 +966,7 @@ update_working_set_from_cib(pe_working_set_t * data_set, cib_t *cib)
 static int
 update_dataset(cib_t *cib, pe_working_set_t * data_set, bool simulate)
 {
+	crm_info("my trace");
     char *pid = NULL;
     char *shadow_file = NULL;
     cib_t *shadow_cib = NULL;
@@ -1005,6 +1026,7 @@ update_dataset(cib_t *cib, pe_working_set_t * data_set, bool simulate)
 static int
 max_delay_for_resource(pe_working_set_t * data_set, resource_t *rsc) 
 {
+	crm_info("my trace");
     int delay = 0;
     int max_delay = 0;
 
@@ -1038,6 +1060,7 @@ max_delay_for_resource(pe_working_set_t * data_set, resource_t *rsc)
 static int
 max_delay_in(pe_working_set_t * data_set, GList *resources) 
 {
+	crm_info("my trace");
     int max_delay = 0;
     GList *item = NULL;
 
@@ -1077,6 +1100,7 @@ max_delay_in(pe_working_set_t * data_set, GList *resources)
 int
 cli_resource_restart(resource_t * rsc, const char *host, int timeout_ms, cib_t * cib)
 {
+	crm_info("my trace");
     int rc = 0;
     int lpc = 0;
     int before = 0;
@@ -1354,6 +1378,7 @@ done:
 static bool
 actions_are_pending(GListPtr actions)
 {
+	crm_info("my trace");
     GListPtr action;
 
     for (action = actions; action != NULL; action = action->next) {
@@ -1375,6 +1400,7 @@ actions_are_pending(GListPtr actions)
 static void
 print_pending_actions(GListPtr actions)
 {
+	crm_info("my trace");
     GListPtr action;
 
     fprintf(stderr, "Pending actions:\n");
@@ -1414,6 +1440,7 @@ print_pending_actions(GListPtr actions)
 int
 wait_till_stable(int timeout_ms, cib_t * cib)
 {
+	crm_info("my trace");
     pe_working_set_t data_set;
     int rc = -1;
     int timeout_s = timeout_ms? ((timeout_ms + 999) / 1000) : WAIT_DEFAULT_TIMEOUT_S;
@@ -1453,6 +1480,7 @@ wait_till_stable(int timeout_ms, cib_t * cib)
 int
 cli_resource_execute(const char *rsc_id, const char *rsc_action, GHashTable *override_hash, cib_t * cib, pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     svc_action_t *op = NULL;
     const char *rtype = NULL;
@@ -1582,6 +1610,7 @@ cli_resource_execute(const char *rsc_id, const char *rsc_action, GHashTable *ove
 int
 cli_resource_move(const char *rsc_id, const char *host_name, cib_t * cib, pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     int rc = -EINVAL;
     int count = 0;
     node_t *current = NULL;

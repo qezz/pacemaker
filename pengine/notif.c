@@ -29,6 +29,7 @@ typedef struct notify_entry_s {
 static gint
 sort_notify_entries(gconstpointer a, gconstpointer b)
 {
+	crm_info("my trace");
     int tmp;
     const notify_entry_t *entry_a = a;
     const notify_entry_t *entry_b = b;
@@ -73,6 +74,7 @@ sort_notify_entries(gconstpointer a, gconstpointer b)
 
 static notify_entry_t *dup_notify_entry(notify_entry_t *entry)
 {
+	crm_info("my trace");
     notify_entry_t *dup = malloc(sizeof(notify_entry_t));
 
     CRM_ASSERT(dup != NULL);
@@ -84,6 +86,7 @@ static notify_entry_t *dup_notify_entry(notify_entry_t *entry)
 static char *
 expand_node_list(GListPtr list)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     char *node_list = NULL;
 
@@ -113,6 +116,7 @@ expand_node_list(GListPtr list)
 static void
 expand_list(GListPtr list, char **rsc_list, char **node_list)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     const char *uname = NULL;
     const char *rsc_id = NULL;
@@ -198,6 +202,7 @@ expand_list(GListPtr list, char **rsc_list, char **node_list)
 static void
 dup_attr(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     add_hash_param(user_data, key, value);
 }
 
@@ -205,6 +210,7 @@ static action_t *
 pe_notify(resource_t * rsc, node_t * node, action_t * op, action_t * confirm,
           notify_data_t * n_data, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     char *key = NULL;
     action_t *trigger = NULL;
     const char *value = NULL;
@@ -249,6 +255,7 @@ pe_notify(resource_t * rsc, node_t * node, action_t * op, action_t * confirm,
 static void
 pe_post_notify(resource_t * rsc, node_t * node, notify_data_t * n_data, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     action_t *notify = NULL;
 
     CRM_CHECK(rsc != NULL, return);
@@ -287,6 +294,7 @@ notify_data_t *
 create_notification_boundaries(resource_t * rsc, const char *action, action_t * start,
                                action_t * end, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     /* Create the pseudo ops that precede and follow the actual notifications */
 
     /*
@@ -405,6 +413,7 @@ void
 collect_notification_data(resource_t * rsc, gboolean state, gboolean activity,
                           notify_data_t * n_data)
 {
+	crm_info("my trace");
 
     if(n_data->allowed_nodes == NULL) {
         n_data->allowed_nodes = rsc->allowed_nodes;
@@ -498,6 +507,7 @@ collect_notification_data(resource_t * rsc, gboolean state, gboolean activity,
 gboolean
 expand_notification_data(notify_data_t * n_data, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     /* Expand the notification entries into a key=value hashtable
      * This hashtable is later used in action2xml()
      */
@@ -599,6 +609,7 @@ expand_notification_data(notify_data_t * n_data, pe_working_set_t * data_set)
 void
 create_notifications(resource_t * rsc, notify_data_t * n_data, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     action_t *stop = NULL;
     action_t *start = NULL;
@@ -686,6 +697,7 @@ create_notifications(resource_t * rsc, notify_data_t * n_data, pe_working_set_t 
 void
 free_notification_data(notify_data_t * n_data)
 {
+	crm_info("my trace");
     if (n_data == NULL) {
         return;
     }
@@ -707,6 +719,7 @@ create_secondary_notification(pe_action_t *action, resource_t *rsc,
                               pe_action_t *stonith_op,
                               pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     notify_data_t *n_data;
 
     crm_info("Creating secondary notification for %s", action->uuid);

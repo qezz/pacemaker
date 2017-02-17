@@ -26,6 +26,7 @@
 char *
 strndup(const char *str, size_t len)
 {
+	crm_info("my trace");
     size_t n = strnlen(str, len);
     char *new = (char *)malloc(len + 1);
 

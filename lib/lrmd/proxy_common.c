@@ -37,6 +37,7 @@ GHashTable *proxy_table = NULL;
 void
 remote_proxy_notify_destroy(lrmd_t *lrmd, const char *session_id)
 {
+	crm_info("my trace");
     /* sending to the remote node that an ipc connection has been destroyed */
     xmlNode *msg = create_xml_node(NULL, T_LRMD_IPC_PROXY);
     crm_xml_add(msg, F_LRMD_IPC_OP, LRMD_IPC_OP_DESTROY);
@@ -53,6 +54,7 @@ remote_proxy_notify_destroy(lrmd_t *lrmd, const char *session_id)
 void
 remote_proxy_ack_shutdown(lrmd_t *lrmd)
 {
+	crm_info("my trace");
     xmlNode *msg = create_xml_node(NULL, T_LRMD_IPC_PROXY);
     crm_xml_add(msg, F_LRMD_IPC_OP, LRMD_IPC_OP_SHUTDOWN_ACK);
     lrmd_internal_proxy_send(lrmd, msg);
@@ -62,6 +64,7 @@ remote_proxy_ack_shutdown(lrmd_t *lrmd)
 void
 remote_proxy_relay_event(lrmd_t *lrmd, const char *session_id, xmlNode *msg)
 {
+	crm_info("my trace");
     /* sending to the remote node an event msg. */
     xmlNode *event = create_xml_node(NULL, T_LRMD_IPC_PROXY);
     crm_xml_add(event, F_LRMD_IPC_OP, LRMD_IPC_OP_EVENT);
@@ -75,6 +78,7 @@ remote_proxy_relay_event(lrmd_t *lrmd, const char *session_id, xmlNode *msg)
 void
 remote_proxy_relay_response(lrmd_t *lrmd, const char *session_id, xmlNode *msg, int msg_id)
 {
+	crm_info("my trace");
     /* sending to the remote node a response msg. */
     xmlNode *response = create_xml_node(NULL, T_LRMD_IPC_PROXY);
     crm_xml_add(response, F_LRMD_IPC_OP, LRMD_IPC_OP_RESPONSE);
@@ -88,6 +92,7 @@ remote_proxy_relay_response(lrmd_t *lrmd, const char *session_id, xmlNode *msg, 
 void
 remote_proxy_end_session(const char *session)
 {
+	crm_info("my trace");
     remote_proxy_t *proxy = g_hash_table_lookup(proxy_table, session);
 
     if (proxy == NULL) {
@@ -103,6 +108,7 @@ remote_proxy_end_session(const char *session)
 void
 remote_proxy_free(gpointer data)
 {
+	crm_info("my trace");
     remote_proxy_t *proxy = data;
 
     crm_trace("freed proxy session ID %s", proxy->session_id);

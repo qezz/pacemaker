@@ -49,12 +49,14 @@ GList *inflight_ops = NULL;
 svc_action_t *
 services_action_create(const char *name, const char *action, int interval, int timeout)
 {
+	crm_info("my trace");
     return resources_action_create(name, "lsb", NULL, name, action, interval, timeout, NULL, 0);
 }
 
 const char *
 resources_find_service_class(const char *agent)
 {
+	crm_info("my trace");
     /* Priority is:
      * - lsb
      * - systemd
@@ -93,6 +95,7 @@ resources_action_create(const char *name, const char *standard, const char *prov
                         const char *agent, const char *action, int interval, int timeout,
                         GHashTable * params, enum svc_action_flags flags)
 {
+	crm_info("my trace");
     svc_action_t *op = NULL;
 
     /*
@@ -349,6 +352,7 @@ services_action_create_generic(const char *exec, const char *args[])
 void
 services_set_op_pending(svc_action_t *op, DBusPendingCall *pending)
 {
+	crm_info("my trace");
     if (op->opaque->pending && (op->opaque->pending != pending)) {
         if (pending) {
             crm_info("Lost pending %s DBus call (%p)", op->id, op->opaque->pending);
@@ -369,6 +373,7 @@ services_set_op_pending(svc_action_t *op, DBusPendingCall *pending)
 void
 services_action_cleanup(svc_action_t * op)
 {
+	crm_info("my trace");
     if(op->opaque == NULL) {
         return;
     }
@@ -405,6 +410,7 @@ services_action_cleanup(svc_action_t * op)
 void
 services_action_free(svc_action_t * op)
 {
+	crm_info("my trace");
     unsigned int i;
 
     if (op == NULL) {
@@ -447,6 +453,7 @@ services_action_free(svc_action_t * op)
 gboolean
 cancel_recurring_action(svc_action_t * op)
 {
+	crm_info("my trace");
     crm_info("Cancelling %s operation %s", op->standard, op->id);
 
     if (recurring_actions) {
@@ -464,6 +471,7 @@ cancel_recurring_action(svc_action_t * op)
 gboolean
 services_action_cancel(const char *name, const char *action, int interval)
 {
+	crm_info("my trace");
     svc_action_t *op = NULL;
     char id[512];
 
@@ -571,6 +579,7 @@ handle_duplicate_recurring(svc_action_t * op, void (*action_callback) (svc_actio
 static gboolean
 action_async_helper(svc_action_t * op)
 {
+	crm_info("my trace");
     if (op->standard && strcasecmp(op->standard, "upstart") == 0) {
 #if SUPPORT_UPSTART
         return upstart_job_exec(op, FALSE);
@@ -591,6 +600,7 @@ action_async_helper(svc_action_t * op)
 void
 services_add_inflight_op(svc_action_t * op)
 {
+	crm_info("my trace");
     if (op == NULL) {
         return;
     }
@@ -634,6 +644,7 @@ static gboolean processing_blocked_ops = FALSE;
 gboolean
 is_op_blocked(const char *rsc)
 {
+	crm_info("my trace");
     GList *gIter = NULL;
     svc_action_t *op = NULL;
 
@@ -650,6 +661,7 @@ is_op_blocked(const char *rsc)
 void
 handle_blocked_ops(void)
 {
+	crm_info("my trace");
     GList *executed_ops = NULL;
     GList *gIter = NULL;
     svc_action_t *op = NULL;
@@ -691,6 +703,7 @@ handle_blocked_ops(void)
 gboolean
 services_action_sync(svc_action_t * op)
 {
+	crm_info("my trace");
     gboolean rc = TRUE;
 
     if (op == NULL) {
@@ -723,12 +736,14 @@ services_action_sync(svc_action_t * op)
 GList *
 get_directory_list(const char *root, gboolean files, gboolean executable)
 {
+	crm_info("my trace");
     return services_os_get_directory_list(root, files, executable);
 }
 
 GList *
 services_list(void)
 {
+	crm_info("my trace");
     return resources_list_agents("lsb", NULL);
 }
 
@@ -736,6 +751,7 @@ services_list(void)
 static GList *
 resources_os_list_hb_agents(void)
 {
+	crm_info("my trace");
     return services_os_get_directory_list(HB_RA_DIR, TRUE, TRUE);
 }
 #endif
@@ -743,6 +759,7 @@ resources_os_list_hb_agents(void)
 GList *
 resources_list_standards(void)
 {
+	crm_info("my trace");
     GList *standards = NULL;
     GList *agents = NULL;
 
@@ -784,6 +801,7 @@ resources_list_standards(void)
 GList *
 resources_list_providers(const char *standard)
 {
+	crm_info("my trace");
     if (strcasecmp(standard, "ocf") == 0) {
         return resources_os_list_ocf_providers();
     }
@@ -794,6 +812,7 @@ resources_list_providers(const char *standard)
 GList *
 resources_list_agents(const char *standard, const char *provider)
 {
+	crm_info("my trace");
     if (standard == NULL || strcasecmp(standard, "service") == 0) {
         GList *tmp1;
         GList *tmp2;

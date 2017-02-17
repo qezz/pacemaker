@@ -98,6 +98,7 @@ struct uuid {
 static void
 uuid_pack(const struct uuid *uu, uuid_t ptr)
 {
+	crm_info("my trace");
     __u32 tmp;
     unsigned char *out = ptr;
 
@@ -131,6 +132,7 @@ uuid_pack(const struct uuid *uu, uuid_t ptr)
 static void
 uuid_unpack(const uuid_t in, struct uuid *uu)
 {
+	crm_info("my trace");
     const __u8 *ptr = in;
     __u32 tmp;
 
@@ -161,12 +163,14 @@ uuid_unpack(const uuid_t in, struct uuid *uu)
 void
 uuid_clear(uuid_t uu)
 {
+	crm_info("my trace");
     memset(uu, 0, 16);
 }
 
 int
 uuid_compare(const uuid_t uu1, const uuid_t uu2)
 {
+	crm_info("my trace");
     struct uuid uuid1, uuid2;
 
     uuid_unpack(uu1, &uuid1);
@@ -182,6 +186,7 @@ uuid_compare(const uuid_t uu1, const uuid_t uu2)
 void
 uuid_copy(uuid_t dst, const uuid_t src)
 {
+	crm_info("my trace");
     unsigned char *cp1;
     const unsigned char *cp2;
     int i;
@@ -194,6 +199,7 @@ uuid_copy(uuid_t dst, const uuid_t src)
 int
 uuid_is_null(const uuid_t uu)
 {
+	crm_info("my trace");
     const unsigned char *cp;
     int i;
 
@@ -207,6 +213,7 @@ uuid_is_null(const uuid_t uu)
 int
 uuid_parse(const char *in, uuid_t uu)
 {
+	crm_info("my trace");
     struct uuid uuid;
     int i;
     const char *cp;
@@ -247,6 +254,7 @@ uuid_parse(const char *in, uuid_t uu)
 void
 uuid_unparse(const uuid_t uu, char *out)
 {
+	crm_info("my trace");
     struct uuid uuid;
 
     uuid_unpack(uu, &uuid);
@@ -289,6 +297,7 @@ uuid_unparse(const uuid_t uu, char *out)
 static int
 get_random_fd(void)
 {
+	crm_info("my trace");
     struct timeval tv;
     static int fd = -2;
     int i;
@@ -314,6 +323,7 @@ get_random_fd(void)
 static void
 get_random_bytes(void *buf, int nbytes)
 {
+	crm_info("my trace");
     int i, n = nbytes, fd = get_random_fd();
     int lose_counter = 0;
     unsigned char *cp = (unsigned char *)buf;
@@ -347,6 +357,7 @@ get_random_bytes(void *buf, int nbytes)
 static int
 get_node_id(unsigned char *node_id)
 {
+	crm_info("my trace");
 #ifdef HAVE_NET_IF_H
     int sd;
     struct ifreq ifr, *ifrp;
@@ -423,6 +434,7 @@ get_node_id(unsigned char *node_id)
 static int
 get_clock(__u32 * clock_high, __u32 * clock_low, __u16 * ret_clock_seq)
 {
+	crm_info("my trace");
     static int adjustment = 0;
     static struct timeval last = { 0, 0 };
     static __u16 clock_seq;
@@ -464,6 +476,7 @@ get_clock(__u32 * clock_high, __u32 * clock_low, __u16 * ret_clock_seq)
 void
 uuid_generate_random(uuid_t out)
 {
+	crm_info("my trace");
     uuid_t buf;
     struct uuid uu;
 
@@ -479,6 +492,7 @@ uuid_generate_random(uuid_t out)
 static void
 uuid_generate_time(uuid_t out)
 {
+	crm_info("my trace");
     static unsigned char node_id[6];
     static int has_init = 0;
     struct uuid uu;
@@ -507,6 +521,7 @@ uuid_generate_time(uuid_t out)
 void
 uuid_generate(uuid_t out)
 {
+	crm_info("my trace");
     if (get_random_fd() >= 0) {
         uuid_generate_random(out);
     } else {

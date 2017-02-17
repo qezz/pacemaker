@@ -77,6 +77,7 @@ gboolean cib_common_callback(qb_ipcs_connection_t * c, void *data, size_t size,
 #if !SUPPORT_PLUGIN
 static gboolean cib_read_legacy_mode(void)
 {
+	crm_info("my trace");
     static gboolean init = TRUE;
     static gboolean legacy = FALSE;
 
@@ -94,6 +95,7 @@ static gboolean cib_read_legacy_mode(void)
 
 gboolean cib_legacy_mode(void)
 {
+	crm_info("my trace");
 #if SUPPORT_PLUGIN
     return TRUE;
 #else
@@ -108,6 +110,7 @@ gboolean cib_legacy_mode(void)
 static int32_t
 cib_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
     if (cib_shutdown_flag) {
         crm_info("Ignoring new client [%d] during shutdown", crm_ipcs_client_pid(c));
@@ -123,12 +126,14 @@ cib_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 static void
 cib_ipc_created(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
 }
 
 static int32_t
 cib_ipc_dispatch_rw(qb_ipcs_connection_t * c, void *data, size_t size)
 {
+	crm_info("my trace");
     crm_client_t *client = crm_client_get(c);
 
     crm_trace("%p message from %s", c, client->id);
@@ -138,6 +143,7 @@ cib_ipc_dispatch_rw(qb_ipcs_connection_t * c, void *data, size_t size)
 static int32_t
 cib_ipc_dispatch_ro(qb_ipcs_connection_t * c, void *data, size_t size)
 {
+	crm_info("my trace");
     crm_client_t *client = crm_client_get(c);
 
     crm_trace("%p message from %s", c, client->id);
@@ -148,6 +154,7 @@ cib_ipc_dispatch_ro(qb_ipcs_connection_t * c, void *data, size_t size)
 static int32_t
 cib_ipc_closed(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_client_t *client = crm_client_get(c);
 
     if (client == NULL) {
@@ -161,6 +168,7 @@ cib_ipc_closed(qb_ipcs_connection_t * c)
 static void
 cib_ipc_destroy(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
     cib_ipc_closed(c);
     if (cib_shutdown_flag) {
@@ -188,6 +196,7 @@ void
 cib_common_callback_worker(uint32_t id, uint32_t flags, xmlNode * op_request,
                            crm_client_t * cib_client, gboolean privileged)
 {
+	crm_info("my trace");
     const char *op = crm_element_value(op_request, F_CIB_OPERATION);
 
     if (crm_str_eq(op, CRM_OP_REGISTER, TRUE)) {
@@ -248,6 +257,7 @@ cib_common_callback_worker(uint32_t id, uint32_t flags, xmlNode * op_request,
 int32_t
 cib_common_callback(qb_ipcs_connection_t * c, void *data, size_t size, gboolean privileged)
 {
+	crm_info("my trace");
     uint32_t id = 0;
     uint32_t flags = 0;
     int call_options = 0;
@@ -308,6 +318,7 @@ int sync_our_cib(xmlNode * request, gboolean all);
 static gboolean
 cib_digester_cb(gpointer data)
 {
+	crm_info("my trace");
     if (cib_is_master) {
         char buffer[32];
         xmlNode *ping = create_xml_node(NULL, "ping");
@@ -334,6 +345,7 @@ cib_digester_cb(gpointer data)
 static void
 process_ping_reply(xmlNode *reply) 
 {
+	crm_info("my trace");
     uint64_t seq = 0;
     const char *host = crm_element_value(reply, F_ORIG);
 
@@ -393,6 +405,7 @@ static void
 do_local_notify(xmlNode * notify_src, const char *client_id,
                 gboolean sync_reply, gboolean from_peer)
 {
+	crm_info("my trace");
     /* send callback to originating child */
     crm_client_t *client_obj = NULL;
     int local_rc = pcmk_ok;
@@ -458,6 +471,7 @@ do_local_notify(xmlNode * notify_src, const char *client_id,
 static void
 local_notify_destroy_callback(gpointer data)
 {
+	crm_info("my trace");
     cib_local_notify_t *notify = data;
 
     free_xml(notify->notify_src);
@@ -468,6 +482,7 @@ local_notify_destroy_callback(gpointer data)
 static void
 check_local_notify(int bcast_id)
 {
+	crm_info("my trace");
     cib_local_notify_t *notify = NULL;
 
     if (!local_notify_queue) {
@@ -487,6 +502,7 @@ static void
 queue_local_notify(xmlNode * notify_src, const char *client_id, gboolean sync_reply,
                    gboolean from_peer)
 {
+	crm_info("my trace");
     cib_local_notify_t *notify = calloc(1, sizeof(cib_local_notify_t));
 
     notify->notify_src = notify_src;
@@ -508,6 +524,7 @@ parse_local_options_v1(crm_client_t * cib_client, int call_type, int call_option
                     const char *op, gboolean * local_notify, gboolean * needs_reply,
                     gboolean * process, gboolean * needs_forward)
 {
+	crm_info("my trace");
     if (cib_op_modifies(call_type)
         && !(call_options & cib_inhibit_bcast)) {
         /* we need to send an update anyway */
@@ -546,6 +563,7 @@ parse_local_options_v2(crm_client_t * cib_client, int call_type, int call_option
                     const char *op, gboolean * local_notify, gboolean * needs_reply,
                     gboolean * process, gboolean * needs_forward)
 {
+	crm_info("my trace");
     if (cib_op_modifies(call_type)) {
         if(safe_str_eq(op, CIB_OP_MASTER) || safe_str_eq(op, CIB_OP_SLAVE)) {
             /* Always handle these locally */
@@ -593,6 +611,7 @@ parse_local_options(crm_client_t * cib_client, int call_type, int call_options, 
                     const char *op, gboolean * local_notify, gboolean * needs_reply,
                     gboolean * process, gboolean * needs_forward)
 {
+	crm_info("my trace");
     if(cib_legacy_mode()) {
         parse_local_options_v1(cib_client, call_type, call_options, host,
                                op, local_notify, needs_reply, process, needs_forward);
@@ -607,6 +626,7 @@ parse_peer_options_v1(int call_type, xmlNode * request,
                    gboolean * local_notify, gboolean * needs_reply, gboolean * process,
                    gboolean * needs_forward)
 {
+	crm_info("my trace");
     const char *op = NULL;
     const char *host = NULL;
     const char *delegated = NULL;
@@ -705,6 +725,7 @@ parse_peer_options_v2(int call_type, xmlNode * request,
                    gboolean * local_notify, gboolean * needs_reply, gboolean * process,
                    gboolean * needs_forward)
 {
+	crm_info("my trace");
     const char *host = NULL;
     const char *delegated = crm_element_value(request, F_CIB_DELEGATED);
     const char *op = crm_element_value(request, F_CIB_OPERATION);
@@ -819,6 +840,7 @@ parse_peer_options(int call_type, xmlNode * request,
                    gboolean * local_notify, gboolean * needs_reply, gboolean * process,
                    gboolean * needs_forward)
 {
+	crm_info("my trace");
     /* TODO: What happens when an update comes in after node A
      * requests the CIB from node B, but before it gets the reply (and
      * sends out the replace operation)
@@ -835,6 +857,7 @@ parse_peer_options(int call_type, xmlNode * request,
 static void
 forward_request(xmlNode * request, crm_client_t * cib_client, int call_options)
 {
+	crm_info("my trace");
     const char *op = crm_element_value(request, F_CIB_OPERATION);
     const char *host = crm_element_value(request, F_CIB_HOST);
 
@@ -860,6 +883,7 @@ forward_request(xmlNode * request, crm_client_t * cib_client, int call_options)
 static gboolean
 send_peer_reply(xmlNode * msg, xmlNode * result_diff, const char *originator, gboolean broadcast)
 {
+	crm_info("my trace");
     CRM_ASSERT(msg != NULL);
 
     if (broadcast) {
@@ -916,6 +940,7 @@ void
 cib_process_request(xmlNode * request, gboolean force_synchronous, gboolean privileged,
                     gboolean unused, crm_client_t * cib_client)
 {
+	crm_info("my trace");
     int call_type = 0;
     int call_options = 0;
 
@@ -1172,6 +1197,7 @@ cib_process_request(xmlNode * request, gboolean force_synchronous, gboolean priv
 int
 cib_process_command(xmlNode * request, xmlNode ** reply, xmlNode ** cib_diff, gboolean privileged)
 {
+	crm_info("my trace");
     xmlNode *input = NULL;
     xmlNode *output = NULL;
     xmlNode *result_cib = NULL;
@@ -1388,6 +1414,7 @@ cib_process_command(xmlNode * request, xmlNode ** reply, xmlNode ** cib_diff, gb
 gint
 cib_GCompareFunc(gconstpointer a, gconstpointer b)
 {
+	crm_info("my trace");
     const xmlNode *a_msg = a;
     const xmlNode *b_msg = b;
 
@@ -1413,6 +1440,7 @@ cib_GCompareFunc(gconstpointer a, gconstpointer b)
 void
 cib_ha_peer_callback(HA_Message * msg, void *private_data)
 {
+	crm_info("my trace");
     xmlNode *xml = convert_ha_message(NULL, msg, __FUNCTION__);
 
     cib_peer_callback(xml, private_data);
@@ -1423,6 +1451,7 @@ cib_ha_peer_callback(HA_Message * msg, void *private_data)
 void
 cib_peer_callback(xmlNode * msg, void *private_data)
 {
+	crm_info("my trace");
     const char *reason = NULL;
     const char *originator = crm_element_value(msg, F_ORIG);
 
@@ -1466,6 +1495,7 @@ int (*ccm_api_handle_event) (const oc_ev_t * token) = NULL;
 void
 cib_client_status_callback(const char *node, const char *client, const char *status, void *private)
 {
+	crm_info("my trace");
     /* Heartbeat only */
     crm_node_t *peer = NULL;
 
@@ -1495,6 +1525,7 @@ cib_client_status_callback(const char *node, const char *client, const char *sta
 int
 cib_ccm_dispatch(gpointer user_data)
 {
+	crm_info("my trace");
     int rc = 0;
     oc_ev_t *ccm_token = (oc_ev_t *) user_data;
 
@@ -1521,6 +1552,7 @@ int current_instance = 0;
 void
 cib_ccm_msg_callback(oc_ed_t event, void *cookie, size_t size, const void *data)
 {
+	crm_info("my trace");
     gboolean update_id = FALSE;
     const oc_ev_membership_t *membership = data;
 
@@ -1583,12 +1615,14 @@ cib_ccm_msg_callback(oc_ed_t event, void *cookie, size_t size, const void *data)
 gboolean
 can_write(int flags)
 {
+	crm_info("my trace");
     return TRUE;
 }
 
 static gboolean
 cib_force_exit(gpointer data)
 {
+	crm_info("my trace");
     crm_notice("Forcing exit!");
     terminate_cib(__FUNCTION__, -1);
     return FALSE;
@@ -1597,6 +1631,7 @@ cib_force_exit(gpointer data)
 static void
 disconnect_remote_client(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     crm_client_t *a_client = value;
 
     crm_err("Disconnecting %s... Not implemented", crm_str(a_client->name));
@@ -1605,6 +1640,7 @@ disconnect_remote_client(gpointer key, gpointer value, gpointer user_data)
 void
 cib_shutdown(int nsig)
 {
+	crm_info("my trace");
     struct qb_ipcs_stats srv_stats;
 
     if (cib_shutdown_flag == FALSE) {
@@ -1671,6 +1707,7 @@ cib_shutdown(int nsig)
 void
 initiate_exit(void)
 {
+	crm_info("my trace");
     int active = 0;
     xmlNode *leaving = NULL;
 
@@ -1705,6 +1742,7 @@ extern int remote_tls_fd;
 void
 terminate_cib(const char *caller, int fast)
 {
+	crm_info("my trace");
     crm_info("%s: Exiting%s...", caller,
              (fast < 0)? " fast" : mainloop ? " from mainloop" : "");
 

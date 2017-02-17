@@ -54,12 +54,14 @@ static int batch_flag = 0;
 static char *
 get_shadow_prompt(const char *name)
 {
+	crm_info("my trace");
     return crm_strdup_printf("shadow[%.40s] # ", name);
 }
 
 static void
 shadow_setup(char *name, gboolean do_switch)
 {
+	crm_info("my trace");
     const char *prompt = getenv("PS1");
     const char *shell = getenv("SHELL");
     char *new_prompt = get_shadow_prompt(name);
@@ -97,6 +99,7 @@ shadow_setup(char *name, gboolean do_switch)
 static void
 shadow_teardown(char *name)
 {
+	crm_info("my trace");
     const char *prompt = getenv("PS1");
     char *our_prompt = get_shadow_prompt(name);
 
@@ -158,6 +161,7 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int rc = 0;
     int flag;
     int argerr = 0;

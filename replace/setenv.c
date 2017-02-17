@@ -28,6 +28,7 @@
 int
 setenv(const char *name, const char *value, int why)
 {
+	crm_info("my trace");
     int rc = -1;
 
     if (name && value) {

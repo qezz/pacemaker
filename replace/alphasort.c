@@ -50,6 +50,7 @@
 int
 alphasort(const void *dirent1, const void *dirent2)
 {
+	crm_info("my trace");
     return (strcmp((*(const struct dirent **)dirent1)->d_name,
                    (*(const struct dirent **)dirent2)->d_name));
 }

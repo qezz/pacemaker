@@ -67,6 +67,7 @@ xmlNode *cib_copy = NULL;
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int argerr = 0;
     int flag;
     int attempts = 0;
@@ -176,6 +177,7 @@ main(int argc, char **argv)
 void
 usage(const char *cmd, int exit_status)
 {
+	crm_info("my trace");
     FILE *stream;
 
     stream = exit_status != 0 ? stderr : stdout;
@@ -187,6 +189,7 @@ usage(const char *cmd, int exit_status)
 void
 cib_connection_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     cib_t *conn = user_data;
 
     crm_err("Connection to the CIB terminated... exiting");
@@ -198,6 +201,7 @@ cib_connection_destroy(gpointer user_data)
 void
 cibmon_diff(const char *event, xmlNode * msg)
 {
+	crm_info("my trace");
     int rc = -1;
     const char *op = NULL;
     unsigned int log_level = LOG_INFO;
@@ -255,5 +259,6 @@ cibmon_diff(const char *event, xmlNode * msg)
 void
 cibmon_shutdown(int nsig)
 {
+	crm_info("my trace");
     crm_exit(pcmk_ok);
 }

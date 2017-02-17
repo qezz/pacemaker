@@ -54,6 +54,7 @@ void do_cib_notify(int options, const char *op, xmlNode * update,
 static void
 need_pre_notify(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     crm_client_t *client = value;
 
     if (is_set(client->options, cib_notify_pre)) {
@@ -66,6 +67,7 @@ need_pre_notify(gpointer key, gpointer value, gpointer user_data)
 static void
 need_post_notify(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     crm_client_t *client = value;
 
     if (is_set(client->options, cib_notify_post)) {
@@ -78,6 +80,7 @@ need_post_notify(gpointer key, gpointer value, gpointer user_data)
 static gboolean
 cib_notify_send_one(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     const char *type = NULL;
     gboolean do_send = FALSE;
 
@@ -137,6 +140,7 @@ cib_notify_send_one(gpointer key, gpointer value, gpointer user_data)
 static void
 cib_notify_send(xmlNode * xml)
 {
+	crm_info("my trace");
     struct iovec *iov;
     struct cib_notification_s update;
 
@@ -166,6 +170,7 @@ cib_notify_send(xmlNode * xml)
 void
 cib_pre_notify(int options, const char *op, xmlNode * existing, xmlNode * update)
 {
+	crm_info("my trace");
     xmlNode *update_msg = NULL;
     const char *type = NULL;
     const char *id = NULL;
@@ -222,6 +227,7 @@ cib_pre_notify(int options, const char *op, xmlNode * existing, xmlNode * update
 void
 cib_post_notify(int options, const char *op, xmlNode * update, int result, xmlNode * new_obj)
 {
+	crm_info("my trace");
     gboolean needed = FALSE;
 
     g_hash_table_foreach(client_connections, need_post_notify, &needed);
@@ -236,6 +242,7 @@ void
 cib_diff_notify(int options, const char *client, const char *call_id, const char *op,
                 xmlNode * update, int result, xmlNode * diff)
 {
+	crm_info("my trace");
     int add_updates = 0;
     int add_epoch = 0;
     int add_admin_epoch = 0;
@@ -278,6 +285,7 @@ void
 do_cib_notify(int options, const char *op, xmlNode * update,
               int result, xmlNode * result_data, const char *msg_type)
 {
+	crm_info("my trace");
     xmlNode *update_msg = NULL;
     const char *id = NULL;
 
@@ -323,6 +331,7 @@ do_cib_notify(int options, const char *op, xmlNode * update,
 void
 attach_cib_generation(xmlNode * msg, const char *field, xmlNode * a_cib)
 {
+	crm_info("my trace");
     xmlNode *generation = create_xml_node(NULL, XML_CIB_TAG_GENERATION_TUPPLE);
 
     if (a_cib != NULL) {
@@ -335,6 +344,7 @@ attach_cib_generation(xmlNode * msg, const char *field, xmlNode * a_cib)
 void
 cib_replace_notify(const char *origin, xmlNode * update, int result, xmlNode * diff)
 {
+	crm_info("my trace");
     xmlNode *replace_msg = NULL;
 
     int add_updates = 0;

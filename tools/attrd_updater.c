@@ -83,6 +83,7 @@ static int do_update(char command, const char *attr_node, const char *attr_name,
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int index = 0;
     int argerr = 0;
     int attr_options = attrd_opt_none;
@@ -208,6 +209,7 @@ main(int argc, char **argv)
 static int
 send_attrd_query(const char *name, const char *host, xmlNode **reply)
 {
+	crm_info("my trace");
     int rc;
     crm_ipc_t *ipc;
     xmlNode *query;
@@ -253,6 +255,7 @@ send_attrd_query(const char *name, const char *host, xmlNode **reply)
 static int
 validate_attrd_reply(xmlNode *reply, const char *attr_name)
 {
+	crm_info("my trace");
     const char *reply_attr;
 
     if (reply == NULL) {
@@ -291,6 +294,7 @@ validate_attrd_reply(xmlNode *reply, const char *attr_name)
 static gboolean
 print_attrd_values(xmlNode *reply, const char *attr_name)
 {
+	crm_info("my trace");
     xmlNode *child;
     const char *reply_host, *reply_value;
     gboolean have_values = FALSE;
@@ -328,6 +332,7 @@ print_attrd_values(xmlNode *reply, const char *attr_name)
 static int
 do_query(const char *attr_name, const char *attr_node, gboolean query_all)
 {
+	crm_info("my trace");
     xmlNode *reply = NULL;
     int rc;
 
@@ -374,6 +379,7 @@ do_update(char command, const char *attr_node, const char *attr_name,
           const char *attr_value, const char *attr_section,
           const char *attr_set, const char *attr_dampen, int attr_options)
 {
+	crm_info("my trace");
     int rc = attrd_update_delegate(NULL, command, attr_node, attr_name,
                                    attr_value, attr_section, attr_set,
                                    attr_dampen, NULL, attr_options);

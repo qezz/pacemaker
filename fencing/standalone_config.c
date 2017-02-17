@@ -57,6 +57,7 @@ static struct topology *topo_list;
 static struct device *
 find_device(const char *name)
 {
+	crm_info("my trace");
     struct device *dev = NULL;
 
     for (dev = dev_list; dev != NULL; dev = dev->next) {
@@ -71,6 +72,7 @@ find_device(const char *name)
 static struct topology *
 find_topology(const char *name)
 {
+	crm_info("my trace");
     struct topology *topo = NULL;
 
     for (topo = topo_list; topo != NULL; topo = topo->next) {
@@ -85,6 +87,7 @@ find_topology(const char *name)
 static void
 add_device(struct device *dev)
 {
+	crm_info("my trace");
     dev->next = dev_list;
     dev_list = dev;
 }
@@ -92,6 +95,7 @@ add_device(struct device *dev)
 static void
 add_topology(struct topology *topo)
 {
+	crm_info("my trace");
     topo->next = topo_list;
     topo_list = topo;
 }
@@ -99,6 +103,7 @@ add_topology(struct topology *topo)
 int
 standalone_cfg_add_device(const char *device, const char *agent)
 {
+	crm_info("my trace");
     struct device *dev = NULL;
 
     if (!device || !agent) {
@@ -121,6 +126,7 @@ standalone_cfg_add_device(const char *device, const char *agent)
 int
 standalone_cfg_add_device_options(const char *device, const char *key, const char *value)
 {
+	crm_info("my trace");
     struct device *dev;
 
     if (!device || !key || !value) {
@@ -143,6 +149,7 @@ standalone_cfg_add_device_options(const char *device, const char *key, const cha
 int
 standalone_cfg_add_node(const char *node, const char *device, const char *ports)
 {
+	crm_info("my trace");
     struct device *dev;
     char **ptr;
     char *tmp;
@@ -190,6 +197,7 @@ standalone_cfg_add_node(const char *node, const char *device, const char *ports)
 int
 standalone_cfg_add_node_priority(const char *node, const char *device, unsigned int level)
 {
+	crm_info("my trace");
     struct topology *topo = NULL;
     int new = 0;
 
@@ -219,6 +227,7 @@ standalone_cfg_add_node_priority(const char *node, const char *device, unsigned 
 static int
 destroy_topology(void)
 {
+	crm_info("my trace");
     struct topology *topo = NULL;
     int i;
 
@@ -239,6 +248,7 @@ destroy_topology(void)
 static int
 destroy_devices(void)
 {
+	crm_info("my trace");
     struct device *dev = NULL;
     int i;
 
@@ -263,6 +273,7 @@ destroy_devices(void)
 static int
 cfg_register_topology(struct topology *topo)
 {
+	crm_info("my trace");
     stonith_key_value_t *devices = NULL;
     xmlNode *data;
     char *dump;
@@ -290,6 +301,7 @@ cfg_register_topology(struct topology *topo)
 static int
 cfg_register_device(struct device *dev)
 {
+	crm_info("my trace");
     stonith_key_value_t *params = NULL;
     xmlNode *data;
     char *dump;
@@ -324,6 +336,7 @@ cfg_register_device(struct device *dev)
 int
 standalone_cfg_commit(void)
 {
+	crm_info("my trace");
     struct device *dev = NULL;
     struct topology *topo = NULL;
 

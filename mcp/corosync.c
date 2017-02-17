@@ -51,6 +51,7 @@ static corosync_cfg_handle_t cfg_handle;
 static void
 cfg_shutdown_callback(corosync_cfg_handle_t h, corosync_cfg_shutdown_flags_t flags)
 {
+	crm_info("my trace");
     crm_info("Corosync wants to shut down: %s",
              (flags == COROSYNC_CFG_SHUTDOWN_FLAG_IMMEDIATE) ? "immediate" :
              (flags == COROSYNC_CFG_SHUTDOWN_FLAG_REGARDLESS) ? "forced" : "optional");
@@ -66,6 +67,7 @@ static corosync_cfg_callbacks_t cfg_callbacks = {
 static int
 pcmk_cfg_dispatch(gpointer user_data)
 {
+	crm_info("my trace");
     corosync_cfg_handle_t *handle = (corosync_cfg_handle_t *) user_data;
     cs_error_t rc = corosync_cfg_dispatch(*handle, CS_DISPATCH_ALL);
 
@@ -78,6 +80,7 @@ pcmk_cfg_dispatch(gpointer user_data)
 static void
 cfg_connection_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_err("Connection destroyed");
     cfg_handle = 0;
 
@@ -87,6 +90,7 @@ cfg_connection_destroy(gpointer user_data)
 gboolean
 cluster_disconnect_cfg(void)
 {
+	crm_info("my trace");
     if (cfg_handle) {
         corosync_cfg_finalize(cfg_handle);
         cfg_handle = 0;
@@ -110,6 +114,7 @@ cluster_disconnect_cfg(void)
 gboolean
 cluster_connect_cfg(uint32_t * nodeid)
 {
+	crm_info("my trace");
     cs_error_t rc;
     int fd = 0, retries = 0;
 
@@ -155,6 +160,7 @@ static int
 get_config_opt(confdb_handle_t config,
                hdb_handle_t object_handle, const char *key, char **value, const char *fallback)
 {
+	crm_info("my trace");
     size_t len = 0;
     char *env_key = NULL;
     const char *env_value = NULL;
@@ -200,6 +206,7 @@ get_config_opt(confdb_handle_t config,
 static confdb_handle_t
 config_find_init(confdb_handle_t config)
 {
+	crm_info("my trace");
     cs_error_t rc = CS_OK;
     confdb_handle_t local_handle = OBJECT_PARENT_HANDLE;
 
@@ -215,6 +222,7 @@ config_find_init(confdb_handle_t config)
 static hdb_handle_t
 config_find_next(confdb_handle_t config, const char *name, confdb_handle_t top_handle)
 {
+	crm_info("my trace");
     cs_error_t rc = CS_OK;
     hdb_handle_t local_handle = 0;
 
@@ -238,6 +246,7 @@ static int
 get_config_opt(uint64_t unused, cmap_handle_t object_handle, const char *key, char **value,
                const char *fallback)
 {
+	crm_info("my trace");
     int rc = 0, retries = 0;
 
     cs_repeat(retries, 5, rc = cmap_get_string(object_handle, key, value));
@@ -264,6 +273,7 @@ get_config_opt(uint64_t unused, cmap_handle_t object_handle, const char *key, ch
 gboolean
 mcp_read_config(void)
 {
+	crm_info("my trace");
     int rc = CS_OK;
     int retries = 0;
 

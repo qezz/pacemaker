@@ -190,6 +190,7 @@ crm_trigger_t *refresh_trigger = NULL;
 static void
 blank_screen(void)
 {
+	crm_info("my trace");
 #if CURSES_ENABLED
     int lpc = 0;
 
@@ -205,6 +206,7 @@ blank_screen(void)
 static gboolean
 mon_timer_popped(gpointer data)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
 
 #if CURSES_ENABLED
@@ -230,6 +232,7 @@ mon_timer_popped(gpointer data)
 static void
 mon_cib_connection_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     print_as("Connection to the CIB terminated\n");
     if (cib) {
         cib->cmds->signoff(cib);
@@ -244,6 +247,7 @@ mon_cib_connection_destroy(gpointer user_data)
 static void
 mon_shutdown(int nsig)
 {
+	crm_info("my trace");
     clean_up(EX_OK);
 }
 
@@ -259,6 +263,7 @@ static sighandler_t ncurses_winch_handler;
 static void
 mon_winresize(int nsig)
 {
+	crm_info("my trace");
     static int not_done;
     int lines = 0, cols = 0;
 
@@ -279,6 +284,7 @@ mon_winresize(int nsig)
 int
 cib_connect(gboolean full)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     static gboolean need_pass = TRUE;
 
@@ -421,6 +427,7 @@ static struct crm_option long_options[] = {
 static const char *
 get_option_desc(char c)
 {
+	crm_info("my trace");
     int lpc;
 
     for (lpc = 0; long_options[lpc].name != NULL; lpc++) {
@@ -444,6 +451,7 @@ get_option_desc(char c)
 static gboolean
 detect_user_input(GIOChannel *channel, GIOCondition condition, gpointer unused)
 {
+	crm_info("my trace");
     int c;
     gboolean config_mode = FALSE;
 
@@ -539,6 +547,7 @@ refresh:
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int flag;
     int argerr = 0;
     int exit_code = 0;
@@ -832,6 +841,7 @@ main(int argc, char **argv)
 static int
 count_resources(pe_working_set_t * data_set, resource_t * rsc)
 {
+	crm_info("my trace");
     int count = 0;
     GListPtr gIter = NULL;
 
@@ -861,6 +871,7 @@ count_resources(pe_working_set_t * data_set, resource_t * rsc)
 static void
 print_simple_status(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     int nodes_online = 0;
     int nodes_standby = 0;
@@ -914,6 +925,7 @@ static void
 print_nvpair(FILE *stream, const char *name, const char *value,
              const char *units, time_t epoch_time)
 {
+	crm_info("my trace");
     /* print name= */
     switch (output_format) {
         case mon_output_plain:
@@ -991,6 +1003,7 @@ print_nvpair(FILE *stream, const char *name, const char *value,
 static void
 print_node_start(FILE *stream, node_t *node)
 {
+	crm_info("my trace");
     char *node_name;
 
     switch (output_format) {
@@ -1026,6 +1039,7 @@ print_node_start(FILE *stream, node_t *node)
 static void
 print_node_end(FILE *stream)
 {
+	crm_info("my trace");
     switch (output_format) {
         case mon_output_html:
         case mon_output_cgi:
@@ -1050,6 +1064,7 @@ print_node_end(FILE *stream)
 static void
 print_resources_heading(FILE *stream)
 {
+	crm_info("my trace");
     const char *heading;
 
     if (group_by_node) {
@@ -1095,6 +1110,7 @@ print_resources_heading(FILE *stream)
 static void
 print_resources_closing(FILE *stream, gboolean printed_heading)
 {
+	crm_info("my trace");
     const char *heading;
 
     /* What type of resources we did or did not display */
@@ -1142,6 +1158,7 @@ print_resources_closing(FILE *stream, gboolean printed_heading)
 static void
 print_resources(FILE *stream, pe_working_set_t *data_set, int print_opts)
 {
+	crm_info("my trace");
     GListPtr rsc_iter;
     const char *prefix = NULL;
     gboolean printed_heading = FALSE;
@@ -1224,6 +1241,7 @@ static void
 print_rsc_history_start(FILE *stream, pe_working_set_t *data_set, node_t *node,
                         resource_t *rsc, const char *rsc_id, gboolean all)
 {
+	crm_info("my trace");
     time_t last_failure = 0;
     int failcount = rsc? get_failcount_full(node, rsc, &last_failure, FALSE, NULL, data_set) : 0;
 
@@ -1356,6 +1374,7 @@ print_rsc_history_start(FILE *stream, pe_working_set_t *data_set, node_t *node,
 static void
 print_rsc_history_end(FILE *stream)
 {
+	crm_info("my trace");
     switch (output_format) {
         case mon_output_html:
         case mon_output_cgi:
@@ -1387,6 +1406,7 @@ static void
 print_op_history(FILE *stream, pe_working_set_t *data_set, node_t *node,
                  xmlNode *xml_op, const char *task, const char *interval, int rc)
 {
+	crm_info("my trace");
     const char *value = NULL;
     const char *call = crm_element_value(xml_op, XML_LRM_ATTR_CALLID);
 
@@ -1485,6 +1505,7 @@ static void
 print_rsc_history(FILE *stream, pe_working_set_t *data_set, node_t *node,
                   xmlNode *rsc_entry, gboolean operations)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     GListPtr op_list = NULL;
     gboolean printed = FALSE;
@@ -1557,6 +1578,7 @@ static void
 print_node_history(FILE *stream, pe_working_set_t *data_set,
                    xmlNode *node_state, gboolean operations)
 {
+	crm_info("my trace");
     node_t *node = pe_find_node_id(data_set->nodes, ID(node_state));
     xmlNode *lrm_rsc = NULL;
     xmlNode *rsc_entry = NULL;
@@ -1594,6 +1616,7 @@ print_node_history(FILE *stream, pe_working_set_t *data_set,
 static gboolean
 print_attr_msg(FILE *stream, node_t * node, GListPtr rsc_list, const char *attrname, const char *attrvalue)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
 
     for (gIter = rsc_list; gIter != NULL; gIter = gIter->next) {
@@ -1667,6 +1690,7 @@ print_attr_msg(FILE *stream, node_t * node, GListPtr rsc_list, const char *attrn
 static int
 compare_attribute(gconstpointer a, gconstpointer b)
 {
+	crm_info("my trace");
     int rc;
 
     rc = strcmp((const char *)a, (const char *)b);
@@ -1677,6 +1701,7 @@ compare_attribute(gconstpointer a, gconstpointer b)
 static void
 create_attr_list(gpointer name, gpointer value, gpointer data)
 {
+	crm_info("my trace");
     int i;
     const char *filt_str[] = FILTER_STR;
 
@@ -1701,6 +1726,7 @@ struct mon_attr_data {
 static void
 print_node_attribute(gpointer name, gpointer user_data)
 {
+	crm_info("my trace");
     const char *value = NULL;
     struct mon_attr_data *data = (struct mon_attr_data *) user_data;
 
@@ -1757,6 +1783,7 @@ print_node_attribute(gpointer name, gpointer user_data)
 static void
 print_node_summary(FILE *stream, pe_working_set_t * data_set, gboolean operations)
 {
+	crm_info("my trace");
     xmlNode *node_state = NULL;
     xmlNode *cib_status = get_object_root(XML_CIB_TAG_STATUS, data_set->input);
 
@@ -1810,6 +1837,7 @@ print_node_summary(FILE *stream, pe_working_set_t * data_set, gboolean operation
 static void
 print_ticket(gpointer name, gpointer value, gpointer data)
 {
+	crm_info("my trace");
     ticket_t *ticket = (ticket_t *) value;
     FILE *stream = (FILE *) data;
 
@@ -1863,6 +1891,7 @@ print_ticket(gpointer name, gpointer value, gpointer data)
 static void
 print_cluster_tickets(FILE *stream, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     /* Print section heading */
     switch (output_format) {
         case mon_output_plain:
@@ -1919,6 +1948,7 @@ print_cluster_tickets(FILE *stream, pe_working_set_t * data_set)
 static char *
 get_node_display_name(node_t *node)
 {
+	crm_info("my trace");
     char *node_name;
     const char *node_host = NULL;
     const char *node_id = NULL;
@@ -1984,6 +2014,7 @@ get_node_display_name(node_t *node)
  */
 static void print_ban(FILE *stream, node_t *node, rsc_to_node_t *location)
 {
+	crm_info("my trace");
     char *node_name = NULL;
 
     switch (output_format) {
@@ -2027,6 +2058,7 @@ static void print_ban(FILE *stream, node_t *node, rsc_to_node_t *location)
  */
 static void print_neg_locations(FILE *stream, pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     GListPtr gIter, gIter2;
 
     /* Print section heading */
@@ -2082,6 +2114,7 @@ static void print_neg_locations(FILE *stream, pe_working_set_t *data_set)
 static void
 crm_mon_get_parameters(resource_t *rsc, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     get_rsc_attributes(rsc->parameters, rsc, NULL, data_set);
     crm_trace("Beekhof: unpacked params for %s (%d)", rsc->id, g_hash_table_size(rsc->parameters));
     if(rsc->children) {
@@ -2103,6 +2136,7 @@ crm_mon_get_parameters(resource_t *rsc, pe_working_set_t * data_set)
 static void
 print_node_attributes(FILE *stream, pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
 
     /* Print section heading */
@@ -2169,6 +2203,7 @@ print_node_attributes(FILE *stream, pe_working_set_t *data_set)
 static int
 get_resource_display_options(void)
 {
+	crm_info("my trace");
     int print_opts;
 
     /* Determine basic output format */
@@ -2216,6 +2251,7 @@ get_resource_display_options(void)
 static const char *
 crm_now_string(void)
 {
+	crm_info("my trace");
     time_t a_time = time(NULL);
     char *since_epoch = ctime(&a_time);
 
@@ -2235,6 +2271,7 @@ crm_now_string(void)
 static void
 print_cluster_summary_header(FILE *stream)
 {
+	crm_info("my trace");
     switch (output_format) {
         case mon_output_html:
         case mon_output_cgi:
@@ -2259,6 +2296,7 @@ print_cluster_summary_header(FILE *stream)
 static void
 print_cluster_summary_footer(FILE *stream)
 {
+	crm_info("my trace");
     switch (output_format) {
         case mon_output_cgi:
         case mon_output_html:
@@ -2284,6 +2322,7 @@ print_cluster_summary_footer(FILE *stream)
 static void
 print_cluster_times(FILE *stream, pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     const char *last_written = crm_element_value(data_set->input, XML_CIB_ATTR_WRITTEN);
     const char *user = crm_element_value(data_set->input, XML_ATTR_UPDATE_USER);
     const char *client = crm_element_value(data_set->input, XML_ATTR_UPDATE_CLIENT);
@@ -2345,6 +2384,7 @@ print_cluster_times(FILE *stream, pe_working_set_t *data_set)
 static void
 print_cluster_stack(FILE *stream, const char *stack_s)
 {
+	crm_info("my trace");
     switch (output_format) {
         case mon_output_plain:
         case mon_output_console:
@@ -2375,6 +2415,7 @@ print_cluster_stack(FILE *stream, const char *stack_s)
 static void
 print_cluster_dc(FILE *stream, pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     node_t *dc = data_set->dc_node;
     xmlNode *dc_version = get_xpath_object("//nvpair[@name='dc-version']",
                                            data_set->input, LOG_DEBUG);
@@ -2440,6 +2481,7 @@ print_cluster_dc(FILE *stream, pe_working_set_t *data_set)
 static void
 print_cluster_counts(FILE *stream, pe_working_set_t *data_set, const char *stack_s)
 {
+	crm_info("my trace");
     int nnodes = g_list_length(data_set->nodes);
     int nresources = count_resources(data_set, NULL);
     xmlNode *quorum_node = get_xpath_object("//nvpair[@name='" XML_ATTR_EXPECTED_VOTES "']",
@@ -2536,6 +2578,7 @@ print_cluster_counts(FILE *stream, pe_working_set_t *data_set, const char *stack
 static void
 print_cluster_options(FILE *stream, pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     switch (output_format) {
         case mon_output_plain:
         case mon_output_console:
@@ -2630,6 +2673,7 @@ print_cluster_options(FILE *stream, pe_working_set_t *data_set)
 static const char *
 get_cluster_stack(pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     xmlNode *stack = get_xpath_object("//nvpair[@name='cluster-infrastructure']",
                                       data_set->input, LOG_DEBUG);
     return stack? crm_element_value(stack, XML_NVPAIR_ATTR_VALUE) : "unknown";
@@ -2645,6 +2689,7 @@ get_cluster_stack(pe_working_set_t *data_set)
 static void
 print_cluster_summary(FILE *stream, pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     const char *stack_s = get_cluster_stack(data_set);
     gboolean header_printed = FALSE;
 
@@ -2706,6 +2751,7 @@ print_cluster_summary(FILE *stream, pe_working_set_t *data_set)
 static void
 print_failed_action(FILE *stream, xmlNode *xml_op)
 {
+	crm_info("my trace");
     const char *op_key = crm_element_value(xml_op, XML_LRM_ATTR_TASK_KEY);
     const char *op_key_attr = "op_key";
     const char *last = crm_element_value(xml_op, XML_RSC_OP_LAST_CHANGE);
@@ -2830,6 +2876,7 @@ print_failed_action(FILE *stream, xmlNode *xml_op)
 static void
 print_failed_actions(FILE *stream, pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     xmlNode *xml_op = NULL;
 
     /* Print section heading */
@@ -2891,6 +2938,7 @@ print_failed_actions(FILE *stream, pe_working_set_t *data_set)
 static void
 print_status(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     int print_opts = get_resource_display_options();
 
@@ -3070,6 +3118,7 @@ print_status(pe_working_set_t * data_set)
 static void
 print_xml_status(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     FILE *stream = stdout;
     GListPtr gIter = NULL;
     int print_opts = get_resource_display_options();
@@ -3178,6 +3227,7 @@ print_xml_status(pe_working_set_t * data_set)
 static int
 print_html_status(pe_working_set_t * data_set, const char *filename)
 {
+	crm_info("my trace");
     FILE *stream;
     GListPtr gIter = NULL;
     char *filename_tmp = NULL;
@@ -3341,12 +3391,14 @@ print_html_status(pe_working_set_t * data_set, const char *filename)
 static int
 snmp_input(int operation, netsnmp_session * session, int reqid, netsnmp_pdu * pdu, void *magic)
 {
+	crm_info("my trace");
     return 1;
 }
 
 static netsnmp_session *
 crm_snmp_init(const char *target, char *community)
 {
+	crm_info("my trace");
     static netsnmp_session *session = NULL;
 
 #  ifdef NETSNMPV53
@@ -3401,6 +3453,7 @@ static int
 send_snmp_trap(const char *node, const char *rsc, const char *task, int target_rc, int rc,
                int status, const char *desc)
 {
+	crm_info("my trace");
     int ret = 1;
 
 #if ENABLE_SNMP
@@ -3469,6 +3522,7 @@ send_snmp_trap(const char *node, const char *rsc, const char *task, int target_r
 static void
 print_recipient_status(smtp_recipient_t recipient, const char *mailbox, void *arg)
 {
+	crm_info("my trace");
     const smtp_status_t *status;
 
     status = smtp_recipient_status(recipient);
@@ -3543,6 +3597,7 @@ event_cb(smtp_session_t session, int event_no, void *arg, ...)
 static void
 crm_smtp_debug(const char *buf, int buflen, int writing, void *arg)
 {
+	crm_info("my trace");
     char type = 0;
     int lpc = 0, last = 0, level = *(int *)arg;
 
@@ -3574,6 +3629,7 @@ static int
 send_custom_trap(const char *node, const char *rsc, const char *task, int target_rc, int rc,
                  int status, const char *desc)
 {
+	crm_info("my trace");
     pid_t pid;
 
     /*setenv needs chars, these are ints */
@@ -3616,6 +3672,7 @@ static int
 send_smtp_trap(const char *node, const char *rsc, const char *task, int target_rc, int rc,
                int status, const char *desc)
 {
+	crm_info("my trace");
 #if ENABLE_ESMTP
     smtp_session_t session;
     smtp_message_t message;
@@ -3764,6 +3821,7 @@ send_smtp_trap(const char *node, const char *rsc, const char *task, int target_r
 static void
 handle_rsc_op(xmlNode * xml, const char *node_id)
 {
+	crm_info("my trace");
     int rc = -1;
     int status = -1;
     int action = -1;
@@ -3874,6 +3932,7 @@ handle_rsc_op(xmlNode * xml, const char *node_id)
 static gboolean
 mon_trigger_refresh(gpointer user_data)
 {
+	crm_info("my trace");
     mainloop_set_trigger(refresh_trigger);
     return FALSE;
 }
@@ -3881,6 +3940,7 @@ mon_trigger_refresh(gpointer user_data)
 #define NODE_PATT "/lrm[@id="
 static char *get_node_from_xpath(const char *xpath) 
 {
+	crm_info("my trace");
     char *nodeid = NULL;
     char *tmp = strstr(xpath, NODE_PATT);
 
@@ -3898,6 +3958,7 @@ static char *get_node_from_xpath(const char *xpath)
 
 static void crm_diff_update_v2(const char *event, xmlNode * msg) 
 {
+	crm_info("my trace");
     xmlNode *change = NULL;
     xmlNode *diff = get_message_xml(msg, F_CIB_UPDATE_RESULT);
 
@@ -3999,6 +4060,7 @@ static void crm_diff_update_v2(const char *event, xmlNode * msg)
 
 static void crm_diff_update_v1(const char *event, xmlNode * msg) 
 {
+	crm_info("my trace");
     /* Process operation updates */
     xmlXPathObject *xpathObj = xpath_search(msg,
                                             "//" F_CIB_UPDATE_RESULT "//" XML_TAG_DIFF_ADDED
@@ -4016,6 +4078,7 @@ static void crm_diff_update_v1(const char *event, xmlNode * msg)
 void
 crm_diff_update(const char *event, xmlNode * msg)
 {
+	crm_info("my trace");
     int rc = -1;
     long now = time(NULL);
     static bool stale = FALSE;
@@ -4099,6 +4162,7 @@ crm_diff_update(const char *event, xmlNode * msg)
 gboolean
 mon_refresh_display(gpointer user_data)
 {
+	crm_info("my trace");
     xmlNode *cib_copy = copy_xml(current_cib);
     pe_working_set_t data_set;
 
@@ -4164,6 +4228,7 @@ mon_refresh_display(gpointer user_data)
 void
 mon_st_callback(stonith_t * st, stonith_event_t * e)
 {
+	crm_info("my trace");
     char *desc = crm_strdup_printf("Operation %s requested by %s for peer %s: %s (ref=%s)",
                                  e->operation, e->origin, e->target, pcmk_strerror(e->result),
                                  e->id);
@@ -4186,6 +4251,7 @@ mon_st_callback(stonith_t * st, stonith_event_t * e)
 void
 clean_up(int rc)
 {
+	crm_info("my trace");
 #if ENABLE_SNMP
     netsnmp_session *session = crm_snmp_init(NULL, NULL);
 

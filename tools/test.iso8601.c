@@ -52,6 +52,7 @@ static struct crm_option long_options[] = {
 static void
 log_time_period(int log_level, crm_time_period_t * dtp, int flags)
 {
+	crm_info("my trace");
     char *end = NULL;
     char *start = NULL;
 
@@ -72,6 +73,7 @@ log_time_period(int log_level, crm_time_period_t * dtp, int flags)
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int rc = 0;
     int argerr = 0;
     int flag;

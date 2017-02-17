@@ -25,6 +25,7 @@ bool print_pending = TRUE;
 void
 cli_resource_print_cts_constraints(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     xmlNode *xml_obj = NULL;
     xmlNode *lifetime = NULL;
     xmlNode *cib_constraints = get_object_root(XML_CIB_TAG_CONSTRAINTS, data_set->input);
@@ -62,6 +63,7 @@ cli_resource_print_cts_constraints(pe_working_set_t * data_set)
 void
 cli_resource_print_cts(resource_t * rsc)
 {
+	crm_info("my trace");
     GListPtr lpc = NULL;
     const char *host = NULL;
     bool needs_quorum = TRUE;
@@ -113,6 +115,7 @@ cli_resource_print_cts(resource_t * rsc)
 void
 cli_resource_print_raw(resource_t * rsc)
 {
+	crm_info("my trace");
     GListPtr lpc = NULL;
     GListPtr children = rsc->children;
 
@@ -130,6 +133,7 @@ cli_resource_print_raw(resource_t * rsc)
 int
 cli_resource_print_list(pe_working_set_t * data_set, bool raw)
 {
+	crm_info("my trace");
     int found = 0;
 
     GListPtr lpc = NULL;
@@ -162,6 +166,7 @@ int
 cli_resource_print_operations(const char *rsc_id, const char *host_uname, bool active,
                          pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     resource_t *rsc = NULL;
     int opts = pe_print_printf | pe_print_rsconly | pe_print_suppres_nl;
     GListPtr ops = find_operations(rsc_id, host_uname, active, data_set);
@@ -206,6 +211,7 @@ cli_resource_print_operations(const char *rsc_id, const char *host_uname, bool a
 void
 cli_resource_print_location(resource_t * rsc, const char *prefix)
 {
+	crm_info("my trace");
     GListPtr lpc = NULL;
     GListPtr list = rsc->rsc_location;
     int offset = 0;
@@ -233,6 +239,7 @@ cli_resource_print_location(resource_t * rsc, const char *prefix)
 void
 cli_resource_print_colocation(resource_t * rsc, bool dependents, bool recursive, int offset)
 {
+	crm_info("my trace");
     char *prefix = NULL;
     GListPtr lpc = NULL;
     GListPtr list = rsc->rsc_cons;
@@ -296,6 +303,7 @@ cli_resource_print_colocation(resource_t * rsc, bool dependents, bool recursive,
 int
 cli_resource_print(const char *rsc, pe_working_set_t * data_set, bool expanded)
 {
+	crm_info("my trace");
     char *rsc_xml = NULL;
     resource_t *the_rsc = find_rsc_or_clone(rsc, data_set);
     int opts = pe_print_printf;
@@ -329,6 +337,7 @@ cli_resource_print(const char *rsc, pe_working_set_t * data_set, bool expanded)
 int
 cli_resource_print_attribute(const char *rsc, const char *attr, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     int rc = -ENXIO;
     node_t *current = NULL;
     GHashTable *params = NULL;
@@ -380,6 +389,7 @@ cli_resource_print_attribute(const char *rsc, const char *attr, pe_working_set_t
 int
 cli_resource_print_property(const char *rsc, const char *attr, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     const char *value = NULL;
     resource_t *the_rsc = pe_find_resource(data_set->resources, rsc);
 

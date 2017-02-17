@@ -62,6 +62,7 @@ gboolean bringing_nodes_online = FALSE;
 static void
 inject_transient_attr(xmlNode * cib_node, const char *name, const char *value)
 {
+	crm_info("my trace");
     xmlNode *attrs = NULL;
     xmlNode *container = NULL;
     xmlNode *nvp = NULL;
@@ -97,6 +98,7 @@ inject_transient_attr(xmlNode * cib_node, const char *name, const char *value)
 static void
 update_failcounts(xmlNode * cib_node, const char *resource, int interval, int rc)
 {
+	crm_info("my trace");
     if (rc == 0) {
         return;
 
@@ -121,6 +123,7 @@ update_failcounts(xmlNode * cib_node, const char *resource, int interval, int rc
 static void
 create_node_entry(cib_t * cib_conn, const char *node)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     int max = strlen(new_node_template) + strlen(node) + 1;
     char *xpath = NULL;
@@ -150,6 +153,7 @@ create_node_entry(cib_t * cib_conn, const char *node)
 static lrmd_event_data_t *
 create_op(xmlNode * cib_resource, const char *task, int interval, int outcome)
 {
+	crm_info("my trace");
     lrmd_event_data_t *op = NULL;
     xmlNode *xop = NULL;
 
@@ -182,6 +186,7 @@ create_op(xmlNode * cib_resource, const char *task, int interval, int outcome)
 static xmlNode *
 inject_op(xmlNode * cib_resource, lrmd_event_data_t * op, int target_rc)
 {
+	crm_info("my trace");
     return create_operation_update(cib_resource, op, CRM_FEATURE_SET, target_rc, NULL, crm_system_name,
                                    LOG_DEBUG_2);
 }
@@ -189,6 +194,7 @@ inject_op(xmlNode * cib_resource, lrmd_event_data_t * op, int target_rc)
 static xmlNode *
 inject_node_state(cib_t * cib_conn, const char *node, const char *uuid)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     int max = strlen(rsc_template) + strlen(node) + 1;
     char *xpath = NULL;
@@ -240,6 +246,7 @@ inject_node_state(cib_t * cib_conn, const char *node, const char *uuid)
 static xmlNode *
 modify_node(cib_t * cib_conn, char *node, gboolean up)
 {
+	crm_info("my trace");
     xmlNode *cib_node = inject_node_state(cib_conn, node, NULL);
 
     if (up) {
@@ -262,6 +269,7 @@ modify_node(cib_t * cib_conn, char *node, gboolean up)
 static xmlNode *
 find_resource_xml(xmlNode * cib_node, const char *resource)
 {
+	crm_info("my trace");
     char *xpath = NULL;
     xmlNode *match = NULL;
     const char *node = crm_element_value(cib_node, XML_ATTR_UNAME);
@@ -281,6 +289,7 @@ static xmlNode *
 inject_resource(xmlNode * cib_node, const char *resource, const char *rclass, const char *rtype,
                 const char *rprovider)
 {
+	crm_info("my trace");
     xmlNode *lrm = NULL;
     xmlNode *container = NULL;
     xmlNode *cib_resource = NULL;
@@ -343,6 +352,7 @@ inject_resource(xmlNode * cib_node, const char *resource, const char *rclass, co
 static int
 find_ticket_state(cib_t * the_cib, const char *ticket_id, xmlNode ** ticket_state_xml)
 {
+	crm_info("my trace");
     int offset = 0;
     static int xpath_max = 1024;
     int rc = pcmk_ok;
@@ -387,6 +397,7 @@ static int
 set_ticket_state_attr(const char *ticket_id, const char *attr_name,
                       const char *attr_value, cib_t * cib, int cib_options)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     xmlNode *xml_top = NULL;
     xmlNode *ticket_state_xml = NULL;
@@ -425,6 +436,7 @@ modify_configuration(pe_working_set_t * data_set, cib_t *cib,
                      GListPtr op_inject, GListPtr ticket_grant, GListPtr ticket_revoke,
                      GListPtr ticket_standby, GListPtr ticket_activate)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     GListPtr gIter = NULL;
 
@@ -614,6 +626,7 @@ modify_configuration(pe_working_set_t * data_set, cib_t *cib,
 static gboolean
 exec_pseudo_action(crm_graph_t * graph, crm_action_t * action)
 {
+	crm_info("my trace");
     const char *node = crm_element_value(action->xml, XML_LRM_ATTR_TARGET);
     const char *task = crm_element_value(action->xml, XML_LRM_ATTR_TASK_KEY);
 
@@ -627,6 +640,7 @@ exec_pseudo_action(crm_graph_t * graph, crm_action_t * action)
 static gboolean
 exec_rsc_action(crm_graph_t * graph, crm_action_t * action)
 {
+	crm_info("my trace");
     int rc = 0;
     GListPtr gIter = NULL;
     lrmd_event_data_t *op = NULL;
@@ -745,6 +759,7 @@ exec_rsc_action(crm_graph_t * graph, crm_action_t * action)
 static gboolean
 exec_crmd_action(crm_graph_t * graph, crm_action_t * action)
 {
+	crm_info("my trace");
     const char *node = crm_element_value(action->xml, XML_LRM_ATTR_TARGET);
     const char *task = crm_element_value(action->xml, XML_LRM_ATTR_TASK);
     xmlNode *rsc = first_named_child(action->xml, XML_CIB_TAG_RESOURCE);
@@ -763,6 +778,7 @@ exec_crmd_action(crm_graph_t * graph, crm_action_t * action)
 static gboolean
 exec_stonith_action(crm_graph_t * graph, crm_action_t * action)
 {
+	crm_info("my trace");
     const char *op = crm_meta_value(action->params, "stonith_action");
     char *target = crm_element_value_copy(action->xml, XML_LRM_ATTR_TARGET);
 
@@ -800,6 +816,7 @@ exec_stonith_action(crm_graph_t * graph, crm_action_t * action)
 int
 run_simulation(pe_working_set_t * data_set, cib_t *cib, GListPtr op_fail_list, bool quiet)
 {
+	crm_info("my trace");
     crm_graph_t *transition = NULL;
     enum transition_status graph_rc = -1;
 

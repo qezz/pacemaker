@@ -54,6 +54,7 @@ void
 register_fsa_error_adv(enum crmd_fsa_cause cause, enum crmd_fsa_input input,
                        fsa_data_t * cur_data, void *new_data, const char *raised_from)
 {
+	crm_info("my trace");
     /* save the current actions if any */
     if (fsa_actions != A_NOTHING) {
         register_fsa_input_adv(cur_data ? cur_data->fsa_cause : C_FSA_INTERNAL,
@@ -75,6 +76,7 @@ register_fsa_input_adv(enum crmd_fsa_cause cause, enum crmd_fsa_input input,
                        void *data, long long with_actions,
                        gboolean prepend, const char *raised_from)
 {
+	crm_info("my trace");
     unsigned old_len = g_list_length(fsa_message_queue);
     fsa_data_t *fsa_data = NULL;
 
@@ -190,6 +192,7 @@ register_fsa_input_adv(enum crmd_fsa_cause cause, enum crmd_fsa_input input,
 void
 fsa_dump_queue(int log_level)
 {
+	crm_info("my trace");
     int offset = 0;
     GListPtr lpc = NULL;
 
@@ -207,6 +210,7 @@ fsa_dump_queue(int log_level)
 ha_msg_input_t *
 copy_ha_msg_input(ha_msg_input_t * orig)
 {
+	crm_info("my trace");
     ha_msg_input_t *copy = NULL;
     xmlNodePtr data = NULL;
 
@@ -227,6 +231,7 @@ copy_ha_msg_input(ha_msg_input_t * orig)
 void
 delete_fsa_input(fsa_data_t * fsa_data)
 {
+	crm_info("my trace");
     lrmd_event_data_t *op = NULL;
     xmlNode *foo = NULL;
 
@@ -269,6 +274,7 @@ delete_fsa_input(fsa_data_t * fsa_data)
 fsa_data_t *
 get_message(void)
 {
+	crm_info("my trace");
     fsa_data_t *message = g_list_nth_data(fsa_message_queue, 0);
 
     fsa_message_queue = g_list_remove(fsa_message_queue, message);
@@ -280,12 +286,14 @@ get_message(void)
 gboolean
 is_message(void)
 {
+	crm_info("my trace");
     return (g_list_length(fsa_message_queue) > 0);
 }
 
 void *
 fsa_typed_data_adv(fsa_data_t * fsa_data, enum fsa_data_type a_type, const char *caller)
 {
+	crm_info("my trace");
     void *ret_val = NULL;
 
     if (fsa_data == NULL) {
@@ -312,6 +320,7 @@ do_msg_route(long long action,
              enum crmd_fsa_state cur_state,
              enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("my trace");
     ha_msg_input_t *input = fsa_typed_data(fsa_dt_ha_msg);
 
     route_message(msg_data->fsa_cause, input->msg);
@@ -320,6 +329,7 @@ do_msg_route(long long action,
 void
 route_message(enum crmd_fsa_cause cause, xmlNode * input)
 {
+	crm_info("my trace");
     ha_msg_input_t fsa_input;
     enum crmd_fsa_input result = I_NULL;
 
@@ -358,6 +368,7 @@ route_message(enum crmd_fsa_cause cause, xmlNode * input)
 gboolean
 relay_message(xmlNode * msg, gboolean originated_locally)
 {
+	crm_info("my trace");
     int dest = 1;
     int is_for_dc = 0;
     int is_for_dcib = 0;
@@ -493,6 +504,7 @@ static gboolean
 process_hello_message(xmlNode * hello,
                       char **client_name, char **major_version, char **minor_version)
 {
+	crm_info("my trace");
     const char *local_client_name;
     const char *local_major_version;
     const char *local_minor_version;
@@ -533,6 +545,7 @@ process_hello_message(xmlNode * hello,
 gboolean
 crmd_authorize_message(xmlNode * client_msg, crm_client_t * curr_client, const char *proxy_session)
 {
+	crm_info("my trace");
     char *client_name = NULL;
     char *major_version = NULL;
     char *minor_version = NULL;
@@ -600,6 +613,7 @@ crmd_authorize_message(xmlNode * client_msg, crm_client_t * curr_client, const c
 enum crmd_fsa_input
 handle_message(xmlNode * msg, enum crmd_fsa_cause cause)
 {
+	crm_info("my trace");
     const char *type = NULL;
 
     CRM_CHECK(msg != NULL, return I_NULL);
@@ -620,6 +634,7 @@ handle_message(xmlNode * msg, enum crmd_fsa_cause cause)
 static enum crmd_fsa_input
 handle_failcount_op(xmlNode * stored_msg)
 {
+	crm_info("my trace");
     const char *rsc = NULL;
     const char *uname = NULL;
     gboolean is_remote_node = FALSE;
@@ -665,6 +680,7 @@ handle_failcount_op(xmlNode * stored_msg)
 static enum crmd_fsa_input
 handle_remote_state(xmlNode *msg)
 {
+	crm_info("my trace");
     const char *remote_uname = ID(msg);
     const char *remote_is_up = crm_element_value(msg, XML_NODE_IN_CLUSTER);
     crm_node_t *remote_peer;
@@ -683,6 +699,7 @@ handle_remote_state(xmlNode *msg)
 enum crmd_fsa_input
 handle_request(xmlNode * stored_msg, enum crmd_fsa_cause cause)
 {
+	crm_info("my trace");
     xmlNode *msg = NULL;
     const char *op = crm_element_value(stored_msg, F_CRM_TASK);
 
@@ -879,6 +896,7 @@ handle_request(xmlNode * stored_msg, enum crmd_fsa_cause cause)
 void
 handle_response(xmlNode * stored_msg)
 {
+	crm_info("my trace");
     const char *op = crm_element_value(stored_msg, F_CRM_TASK);
 
     if (op == NULL) {
@@ -916,6 +934,7 @@ handle_response(xmlNode * stored_msg)
 enum crmd_fsa_input
 handle_shutdown_request(xmlNode * stored_msg)
 {
+	crm_info("my trace");
     /* handle here to avoid potential version issues
      *   where the shutdown message/procedure may have
      *   been changed in later versions.
@@ -949,6 +968,7 @@ extern gboolean process_te_message(xmlNode * msg, xmlNode * xml_data);
 gboolean
 send_msg_via_ipc(xmlNode * msg, const char *sys)
 {
+	crm_info("my trace");
     gboolean send_ok = TRUE;
     crm_client_t *client_channel = crm_client_get_by_id(sys);
 
@@ -999,6 +1019,7 @@ send_msg_via_ipc(xmlNode * msg, const char *sys)
 ha_msg_input_t *
 new_ha_msg_input(xmlNode * orig)
 {
+	crm_info("my trace");
     ha_msg_input_t *input_copy = NULL;
 
     input_copy = calloc(1, sizeof(ha_msg_input_t));
@@ -1010,6 +1031,7 @@ new_ha_msg_input(xmlNode * orig)
 void
 delete_ha_msg_input(ha_msg_input_t * orig)
 {
+	crm_info("my trace");
     if (orig == NULL) {
         return;
     }
@@ -1027,6 +1049,7 @@ delete_ha_msg_input(ha_msg_input_t * orig)
 void
 send_remote_state_message(const char *node_name, gboolean node_up)
 {
+	crm_info("my trace");
     /* If we don't have a DC, or the message fails, we have a failsafe:
      * the DC will eventually pick up the change via the CIB node state.
      * The message allows it to happen sooner if possible.

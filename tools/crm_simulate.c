@@ -59,6 +59,7 @@ char *use_date = NULL;
 static void
 get_date(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     int value = 0;
     time_t original_date = 0;
 
@@ -84,6 +85,7 @@ get_date(pe_working_set_t * data_set)
 static void
 print_cluster_status(pe_working_set_t * data_set, long options)
 {
+	crm_info("my trace");
     char *online_nodes = NULL;
     char *online_remote_nodes = NULL;
     char *online_remote_containers = NULL;
@@ -207,6 +209,7 @@ print_cluster_status(pe_working_set_t * data_set, long options)
 static char *
 create_action_name(action_t * action)
 {
+	crm_info("my trace");
     char *action_name = NULL;
     const char *prefix = NULL;
     const char *action_host = NULL;
@@ -277,6 +280,7 @@ create_action_name(action_t * action)
 static void
 create_dotfile(pe_working_set_t * data_set, const char *dot_file, gboolean all_actions)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     FILE *dot_strm = fopen(dot_file, "w");
 
@@ -383,6 +387,7 @@ create_dotfile(pe_working_set_t * data_set, const char *dot_file, gboolean all_a
 static void
 setup_input(const char *input, const char *output)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     cib_t *cib_conn = NULL;
     xmlNode *cib_object = NULL;
@@ -516,6 +521,7 @@ static struct crm_option long_options[] = {
 static void
 profile_one(const char *xml_file)
 {
+	crm_info("my trace");
     xmlNode *cib_object = NULL;
     pe_working_set_t data_set;
 
@@ -551,6 +557,7 @@ profile_one(const char *xml_file)
 static int
 profile_all(const char *dir)
 {
+	crm_info("my trace");
     struct dirent **namelist;
 
     int lpc = 0;
@@ -586,6 +593,7 @@ profile_all(const char *dir)
 static int
 count_resources(pe_working_set_t * data_set, resource_t * rsc)
 {
+	crm_info("my trace");
     int count = 0;
     GListPtr gIter = NULL;
 
@@ -606,6 +614,7 @@ count_resources(pe_working_set_t * data_set, resource_t * rsc)
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int rc = 0;
     guint modified = 0;
 

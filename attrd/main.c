@@ -51,6 +51,7 @@ int attrd_error = pcmk_ok;
 
 static void
 attrd_shutdown(int nsig) {
+	crm_info("my trace");
     shutting_down = TRUE;
     crm_info("Shutting down");
 
@@ -66,6 +67,7 @@ attrd_cpg_dispatch(cpg_handle_t handle,
                  const struct cpg_name *groupName,
                  uint32_t nodeid, uint32_t pid, void *msg, size_t msg_len)
 {
+	crm_info("my trace");
     uint32_t kind = 0;
     xmlNode *xml = NULL;
     const char *from = NULL;
@@ -94,6 +96,7 @@ attrd_cpg_dispatch(cpg_handle_t handle,
 static void
 attrd_cpg_destroy(gpointer unused)
 {
+	crm_info("my trace");
     if (shutting_down) {
         crm_info("Corosync disconnection complete");
 
@@ -107,6 +110,7 @@ attrd_cpg_destroy(gpointer unused)
 static void
 attrd_cib_replaced_cb(const char *event, xmlNode * msg)
 {
+	crm_info("my trace");
     crm_notice("Updating all attributes after %s event", event);
     if(election_state(writer) == election_won) {
         write_attributes(TRUE, FALSE);
@@ -116,6 +120,7 @@ attrd_cib_replaced_cb(const char *event, xmlNode * msg)
 static void
 attrd_cib_destroy_cb(gpointer user_data)
 {
+	crm_info("my trace");
     cib_t *conn = user_data;
 
     conn->cmds->signoff(conn);  /* Ensure IPC is cleaned up */
@@ -136,6 +141,7 @@ attrd_cib_destroy_cb(gpointer user_data)
 static cib_t *
 attrd_cib_connect(int max_retry)
 {
+	crm_info("my trace");
     int rc = -ENOTCONN;
     static int attempts = 0;
     cib_t *connection = cib_new();
@@ -185,6 +191,7 @@ attrd_cib_connect(int max_retry)
 static int32_t
 attrd_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
     if (shutting_down) {
         crm_info("Ignoring new client [%d] during shutdown", crm_ipcs_client_pid(c));
@@ -200,12 +207,14 @@ attrd_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 static void
 attrd_ipc_created(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
 }
 
 static int32_t
 attrd_ipc_dispatch(qb_ipcs_connection_t * c, void *data, size_t size)
 {
+	crm_info("my trace");
     uint32_t id = 0;
     uint32_t flags = 0;
     crm_client_t *client = crm_client_get(c);
@@ -268,6 +277,7 @@ attrd_ipc_dispatch(qb_ipcs_connection_t * c, void *data, size_t size)
 static int32_t
 attrd_ipc_closed(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_client_t *client = crm_client_get(c);
     if (client == NULL) {
         return 0;
@@ -281,6 +291,7 @@ attrd_ipc_closed(qb_ipcs_connection_t * c)
 static void
 attrd_ipc_destroy(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
     attrd_ipc_closed(c);
 }
@@ -306,6 +317,7 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     int flag = 0;
     int index = 0;

@@ -31,6 +31,7 @@
 void
 native_add_running(resource_t * rsc, node_t * node, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = rsc->running_on;
 
     CRM_CHECK(node != NULL, return);
@@ -125,6 +126,7 @@ extern void force_non_unique_clone(resource_t * rsc, const char *rid, pe_working
 gboolean
 native_unpack(resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     resource_t *parent = uber_parent(rsc);
     native_variant_data_t *native_data = NULL;
     const char *class = crm_element_value(rsc->xml, XML_AGENT_ATTR_CLASS);
@@ -160,6 +162,7 @@ native_unpack(resource_t * rsc, pe_working_set_t * data_set)
 resource_t *
 native_find_rsc(resource_t * rsc, const char *id, node_t * on_node, int flags)
 {
+	crm_info("my trace");
     gboolean match = FALSE;
     resource_t *result = NULL;
     GListPtr gIter = rsc->children;
@@ -230,6 +233,7 @@ char *
 native_parameter(resource_t * rsc, node_t * node, gboolean create, const char *name,
                  pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     char *value_copy = NULL;
     const char *value = NULL;
     GHashTable *hash = rsc->parameters;
@@ -273,6 +277,7 @@ native_parameter(resource_t * rsc, node_t * node, gboolean create, const char *n
 gboolean
 native_active(resource_t * rsc, gboolean all)
 {
+	crm_info("my trace");
     GListPtr gIter = rsc->running_on;
 
     for (; gIter != NULL; gIter = gIter->next) {
@@ -300,6 +305,7 @@ struct print_data_s {
 static void
 native_print_attr(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     long options = ((struct print_data_s *)user_data)->options;
     void *print_data = ((struct print_data_s *)user_data)->print_data;
 
@@ -309,6 +315,7 @@ native_print_attr(gpointer key, gpointer value, gpointer user_data)
 static const char *
 native_pending_state(resource_t * rsc)
 {
+	crm_info("my trace");
     const char *pending_state = NULL;
 
     if (safe_str_eq(rsc->pending_task, CRMD_ACTION_START)) {
@@ -337,6 +344,7 @@ native_pending_state(resource_t * rsc)
 static const char *
 native_pending_task(resource_t * rsc)
 {
+	crm_info("my trace");
     const char *pending_task = NULL;
 
     if (safe_str_eq(rsc->pending_task, CRMD_ACTION_NOTIFY)) {
@@ -363,6 +371,7 @@ native_pending_task(resource_t * rsc)
 static enum rsc_role_e
 native_displayable_role(resource_t *rsc)
 {
+	crm_info("my trace");
     enum rsc_role_e role = rsc->role;
 
     if ((role == RSC_ROLE_STARTED)
@@ -376,6 +385,7 @@ native_displayable_role(resource_t *rsc)
 static const char *
 native_displayable_state(resource_t *rsc, long options)
 {
+	crm_info("my trace");
     const char *rsc_state = NULL;
 
     if (options & pe_print_pending) {
@@ -390,6 +400,7 @@ native_displayable_state(resource_t *rsc, long options)
 static void
 native_print_xml(resource_t * rsc, const char *pre_text, long options, void *print_data)
 {
+	crm_info("my trace");
     const char *class = crm_element_value(rsc->xml, XML_AGENT_ATTR_CLASS);
     const char *prov = crm_element_value(rsc->xml, XML_AGENT_ATTR_PROVIDER);
     const char *rsc_state = native_displayable_state(rsc, options);
@@ -461,12 +472,14 @@ native_print_xml(resource_t * rsc, const char *pre_text, long options, void *pri
 static inline const char *
 comma_if(int i)
 {
+	crm_info("my trace");
     return i? ", " : "";
 }
 
 void
 native_print(resource_t * rsc, const char *pre_text, long options, void *print_data)
 {
+	crm_info("my trace");
     node_t *node = NULL;
     const char *desc = NULL;
     const char *class = crm_element_value(rsc->xml, XML_AGENT_ATTR_CLASS);
@@ -719,6 +732,7 @@ native_print(resource_t * rsc, const char *pre_text, long options, void *print_d
 void
 native_free(resource_t * rsc)
 {
+	crm_info("my trace");
     pe_rsc_trace(rsc, "Freeing resource action list (not the data)");
     common_free(rsc);
 }
@@ -726,6 +740,7 @@ native_free(resource_t * rsc)
 enum rsc_role_e
 native_resource_state(const resource_t * rsc, gboolean current)
 {
+	crm_info("my trace");
     enum rsc_role_e role = rsc->next_role;
 
     if (current) {
@@ -738,6 +753,7 @@ native_resource_state(const resource_t * rsc, gboolean current)
 node_t *
 native_location(resource_t * rsc, GListPtr * list, gboolean current)
 {
+	crm_info("my trace");
     node_t *one = NULL;
     GListPtr result = NULL;
 
@@ -780,6 +796,7 @@ native_location(resource_t * rsc, GListPtr * list, gboolean current)
 static void
 get_rscs_brief(GListPtr rsc_list, GHashTable * rsc_table, GHashTable * active_table)
 {
+	crm_info("my trace");
     GListPtr gIter = rsc_list;
 
     for (; gIter != NULL; gIter = gIter->next) {
@@ -848,6 +865,7 @@ get_rscs_brief(GListPtr rsc_list, GHashTable * rsc_table, GHashTable * active_ta
 static void
 destroy_node_table(gpointer data)
 {
+	crm_info("my trace");
     GHashTable *node_table = data;
 
     if (node_table) {
@@ -859,6 +877,7 @@ void
 print_rscs_brief(GListPtr rsc_list, const char *pre_text, long options,
                  void *print_data, gboolean print_all)
 {
+	crm_info("my trace");
     GHashTable *rsc_table = g_hash_table_new_full(crm_str_hash, g_str_equal, free, free);
     GHashTable *active_table = g_hash_table_new_full(crm_str_hash, g_str_equal,
                                                      free, destroy_node_table);

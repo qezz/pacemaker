@@ -23,6 +23,7 @@ update_without_attrd(const char *host_uuid, const char *name, const char *value,
                      const char *user_name, gboolean is_remote_node,
                      char command)
 {
+	crm_info("my trace");
     int call_opt = cib_none;
 
     if (fsa_cib_conn == NULL) {
@@ -50,6 +51,7 @@ static void
 log_attrd_error(const char *host, const char *name, const char *value,
                 gboolean is_remote, char command, int rc)
 {
+	crm_info("my trace");
     const char *display_command; /* for commands without name/value */
     const char *node_type = (is_remote? "Pacemaker Remote" : "cluster");
     gboolean shutting_down = is_set(fsa_input_register, R_SHUTDOWN);
@@ -85,6 +87,7 @@ update_attrd_helper(const char *host, const char *name, const char *value,
                     const char *user_name, gboolean is_remote_node,
                     char command)
 {
+	crm_info("my trace");
     int rc;
     int max = 5;
     int attrd_opts = attrd_opt_none;
@@ -151,12 +154,14 @@ void
 update_attrd(const char *host, const char *name, const char *value,
              const char *user_name, gboolean is_remote_node)
 {
+	crm_info("my trace");
     update_attrd_helper(host, name, value, user_name, is_remote_node, 'U');
 }
 
 void
 update_attrd_remote_node_removed(const char *host, const char *user_name)
 {
+	crm_info("my trace");
     crm_trace("Asking attrd to purge Pacemaker Remote node %s", host);
     update_attrd_helper(host, NULL, NULL, user_name, TRUE, 'C');
 }

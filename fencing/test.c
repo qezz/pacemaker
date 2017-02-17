@@ -94,6 +94,7 @@ int verbose = 0;
 static void
 dispatch_helper(int timeout)
 {
+	crm_info("my trace");
     int rc;
 
     crm_debug("Looking for notification");
@@ -113,6 +114,7 @@ dispatch_helper(int timeout)
 static void
 st_callback(stonith_t * st, stonith_event_t * e)
 {
+	crm_info("my trace");
     if (st->state == stonith_disconnected) {
         crm_exit(ENOTCONN);
     }
@@ -130,12 +132,14 @@ st_callback(stonith_t * st, stonith_event_t * e)
 static void
 st_global_callback(stonith_t * stonith, stonith_callback_data_t * data)
 {
+	crm_info("my trace");
     crm_notice("Call id %d completed with rc %d", data->call_id, data->rc);
 }
 
 static void
 passive_test(void)
 {
+	crm_info("my trace");
     int rc = 0;
 
     rc = st->cmds->connect(st, crm_system_name, &pollfd.fd);
@@ -179,6 +183,7 @@ passive_test(void)
 static void
 run_fence_failure_test(void)
 {
+	crm_info("my trace");
     stonith_key_value_t *params = NULL;
 
     params = stonith_key_value_add(params, "pcmk_host_map", "false_1_node1=1,2 false_1_node2=3,4");
@@ -203,6 +208,7 @@ run_fence_failure_test(void)
 static void
 run_fence_failure_rollover_test(void)
 {
+	crm_info("my trace");
     stonith_key_value_t *params = NULL;
 
     params = stonith_key_value_add(params, "pcmk_host_map", "false_1_node1=1,2 false_1_node2=3,4");
@@ -239,6 +245,7 @@ run_fence_failure_rollover_test(void)
 static void
 run_standard_test(void)
 {
+	crm_info("my trace");
     stonith_key_value_t *params = NULL;
 
     params = stonith_key_value_add(params, "pcmk_host_map", "false_1_node1=1,2 false_1_node2=3,4");
@@ -283,6 +290,7 @@ run_standard_test(void)
 static void
 sanity_tests(void)
 {
+	crm_info("my trace");
     int rc = 0;
 
     rc = st->cmds->connect(st, crm_system_name, &pollfd.fd);
@@ -305,6 +313,7 @@ sanity_tests(void)
 static void
 standard_dev_test(void)
 {
+	crm_info("my trace");
     int rc = 0;
     char *tmp = NULL;
     stonith_key_value_t *params = NULL;
@@ -368,6 +377,7 @@ static void
 static void
 mainloop_callback(stonith_t * stonith, stonith_callback_data_t * data)
 {
+	crm_info("my trace");
     callback_rc = data->rc;
     iterate_mainloop_tests(TRUE);
 }
@@ -375,6 +385,7 @@ mainloop_callback(stonith_t * stonith, stonith_callback_data_t * data)
 static int
 register_callback_helper(int callid)
 {
+	crm_info("my trace");
     return st->cmds->register_callback(st,
                                        callid,
                                        MAINLOOP_DEFAULT_TIMEOUT,
@@ -384,6 +395,7 @@ register_callback_helper(int callid)
 static void
 test_async_fence_pass(int check_event)
 {
+	crm_info("my trace");
     int rc = 0;
 
     if (check_event) {
@@ -408,6 +420,7 @@ test_async_fence_pass(int check_event)
 static void
 test_async_fence_custom_timeout(int check_event)
 {
+	crm_info("my trace");
     int rc = 0;
     static time_t begin = 0;
 
@@ -440,6 +453,7 @@ test_async_fence_custom_timeout(int check_event)
 static void
 test_async_fence_timeout(int check_event)
 {
+	crm_info("my trace");
     int rc = 0;
 
     if (check_event) {
@@ -463,6 +477,7 @@ test_async_fence_timeout(int check_event)
 static void
 test_async_monitor(int check_event)
 {
+	crm_info("my trace");
     int rc = 0;
 
     if (check_event) {
@@ -487,6 +502,7 @@ test_async_monitor(int check_event)
 static void
 test_register_async_devices(int check_event)
 {
+	crm_info("my trace");
     char buf[16] = { 0, };
     stonith_key_value_t *params = NULL;
 
@@ -517,6 +533,7 @@ test_register_async_devices(int check_event)
 static void
 try_mainloop_connect(int check_event)
 {
+	crm_info("my trace");
     int tries = 10;
     int i = 0;
     int rc = 0;
@@ -541,6 +558,7 @@ try_mainloop_connect(int check_event)
 static void
 iterate_mainloop_tests(gboolean event_ready)
 {
+	crm_info("my trace");
     static mainloop_test_iteration_cb callbacks[] = {
         try_mainloop_connect,
         test_register_async_devices,
@@ -562,6 +580,7 @@ iterate_mainloop_tests(gboolean event_ready)
 static gboolean
 trigger_iterate_mainloop_tests(gpointer user_data)
 {
+	crm_info("my trace");
     iterate_mainloop_tests(FALSE);
     return TRUE;
 }
@@ -569,6 +588,7 @@ trigger_iterate_mainloop_tests(gpointer user_data)
 static void
 test_shutdown(int nsig)
 {
+	crm_info("my trace");
     int rc = 0;
 
     if (st) {
@@ -587,6 +607,7 @@ test_shutdown(int nsig)
 static void
 mainloop_tests(void)
 {
+	crm_info("my trace");
     trig = mainloop_add_trigger(G_PRIORITY_HIGH, trigger_iterate_mainloop_tests, NULL);
     mainloop_set_trigger(trig);
     mainloop_add_signal(SIGTERM, test_shutdown);
@@ -599,6 +620,7 @@ mainloop_tests(void)
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int argerr = 0;
     int flag;
     int option_index = 0;

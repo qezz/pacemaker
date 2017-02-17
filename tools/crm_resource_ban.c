@@ -23,6 +23,7 @@ char *move_lifetime = NULL;
 static char *
 parse_cli_lifetime(const char *input)
 {
+	crm_info("my trace");
     char *later_s = NULL;
     crm_time_t *now = NULL;
     crm_time_t *later = NULL;
@@ -60,6 +61,7 @@ parse_cli_lifetime(const char *input)
 int
 cli_resource_ban(const char *rsc_id, const char *host, GListPtr allnodes, cib_t * cib_conn)
 {
+	crm_info("my trace");
     char *later_s = NULL;
     int rc = pcmk_ok;
     char *id = NULL;
@@ -154,6 +156,7 @@ cli_resource_ban(const char *rsc_id, const char *host, GListPtr allnodes, cib_t 
 int
 cli_resource_prefer(const char *rsc_id, const char *host, cib_t * cib_conn)
 {
+	crm_info("my trace");
     char *later_s = parse_cli_lifetime(move_lifetime);
     int rc = pcmk_ok;
     char *id = NULL;
@@ -228,6 +231,7 @@ cli_resource_prefer(const char *rsc_id, const char *host, cib_t * cib_conn)
 int
 cli_resource_clear(const char *rsc_id, const char *host, GListPtr allnodes, cib_t * cib_conn)
 {
+	crm_info("my trace");
     char *id = NULL;
     int rc = pcmk_ok;
     xmlNode *fragment = NULL;

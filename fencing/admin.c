@@ -113,6 +113,7 @@ struct {
 static int
 try_mainloop_connect(void)
 {
+	crm_info("my trace");
     stonith_t *st = async_fence_data.st;
     int tries = 10;
     int i = 0;
@@ -138,6 +139,7 @@ try_mainloop_connect(void)
 static void
 notify_callback(stonith_t * st, stonith_event_t * e)
 {
+	crm_info("my trace");
     if (e->result != pcmk_ok) {
         return;
     }
@@ -153,6 +155,7 @@ notify_callback(stonith_t * st, stonith_event_t * e)
 static void
 fence_callback(stonith_t * stonith, stonith_callback_data_t * data)
 {
+	crm_info("my trace");
     async_fence_data.rc = data->rc;
 
     g_main_loop_quit(mainloop);
@@ -161,6 +164,7 @@ fence_callback(stonith_t * stonith, stonith_callback_data_t * data)
 static gboolean
 async_fence_helper(gpointer user_data)
 {
+	crm_info("my trace");
     stonith_t *st = async_fence_data.st;
     int call_id = 0;
 
@@ -193,6 +197,7 @@ async_fence_helper(gpointer user_data)
 static int
 mainloop_fencing(stonith_t * st, const char *target, const char *action, int timeout, int tolerance)
 {
+	crm_info("my trace");
     crm_trigger_t *trig;
 
     async_fence_data.st = st;
@@ -215,6 +220,7 @@ static int
 handle_level(stonith_t *st, char *target, int fence_level,
              stonith_key_value_t *devices, bool added)
 {
+	crm_info("my trace");
     char *node = NULL;
     char *pattern = NULL;
     char *name = NULL;
@@ -244,6 +250,7 @@ static int
 show_history(stonith_t *st, const char *target, int timeout, int quiet,
              int verbose)
 {
+	crm_info("my trace");
     stonith_history_t *history, *hp, *latest = NULL;
     int rc = 0;
 
@@ -321,6 +328,7 @@ show_history(stonith_t *st, const char *target, int timeout, int quiet,
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int flag;
     int rc = 0;
     int quiet = 0;

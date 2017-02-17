@@ -74,6 +74,7 @@ gnutls_anon_server_credentials_t anon_cred_s;
 static void
 debug_log(int level, const char *str)
 {
+	crm_info("my trace");
     fputs(str, stderr);
 }
 #endif
@@ -88,6 +89,7 @@ int cib_remote_msg(gpointer data);
 static void
 remote_connection_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     return;
 }
 
@@ -95,6 +97,7 @@ remote_connection_destroy(gpointer user_data)
 int
 init_remote_listener(int port, gboolean encrypted)
 {
+	crm_info("my trace");
     int rc;
     int *ssock = NULL;
     struct sockaddr_in saddr;
@@ -178,6 +181,7 @@ init_remote_listener(int port, gboolean encrypted)
 static int
 check_group_membership(const char *usr, const char *grp)
 {
+	crm_info("my trace");
     int index = 0;
     struct passwd *pwd = NULL;
     struct group *group = NULL;
@@ -219,6 +223,7 @@ check_group_membership(const char *usr, const char *grp)
 static gboolean
 cib_remote_auth(xmlNode * login)
 {
+	crm_info("my trace");
     const char *user = NULL;
     const char *pass = NULL;
     const char *tmp = NULL;
@@ -266,6 +271,7 @@ cib_remote_auth(xmlNode * login)
 static gboolean
 remote_auth_timeout_cb(gpointer data)
 {
+	crm_info("my trace");
     crm_client_t *client = data;
 
     client->remote->auth_timeout = 0;
@@ -283,6 +289,7 @@ remote_auth_timeout_cb(gpointer data)
 int
 cib_remote_listen(gpointer data)
 {
+	crm_info("my trace");
     int csock = 0;
     unsigned laddr;
     struct sockaddr_in addr;
@@ -363,6 +370,7 @@ cib_remote_listen(gpointer data)
 void
 cib_remote_connection_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_client_t *client = user_data;
     int csock = 0;
 
@@ -415,6 +423,7 @@ cib_remote_connection_destroy(gpointer user_data)
 static void
 cib_handle_remote_msg(crm_client_t * client, xmlNode * command)
 {
+	crm_info("my trace");
     const char *value = NULL;
 
     value = crm_element_name(command);
@@ -474,6 +483,7 @@ cib_handle_remote_msg(crm_client_t * client, xmlNode * command)
 int
 cib_remote_msg(gpointer data)
 {
+	crm_info("my trace");
     xmlNode *command = NULL;
     crm_client_t *client = data;
     int disconnected = 0;
@@ -573,6 +583,7 @@ static int
 construct_pam_passwd(int num_msg, const struct pam_message **msg,
                      struct pam_response **response, void *data)
 {
+	crm_info("my trace");
     int count = 0;
     struct pam_response *reply;
     char *string = (char *)data;
@@ -635,6 +646,7 @@ construct_pam_passwd(int num_msg, const struct pam_message **msg,
 int
 authenticate_user(const char *user, const char *passwd)
 {
+	crm_info("my trace");
 #ifndef HAVE_PAM
     gboolean pass = TRUE;
 #else

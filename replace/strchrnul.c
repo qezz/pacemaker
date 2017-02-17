@@ -6,6 +6,7 @@
 char *
 strchrnul(const char *s, int c_in)
 {
+	crm_info("my trace");
     char c = c_in;
 
     while (*s && (*s != c))

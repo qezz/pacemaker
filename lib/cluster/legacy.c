@@ -55,6 +55,7 @@ hdb_handle_t ais_ipc_handle = 0;
 #if SUPPORT_CMAN
 static bool valid_cman_name(const char *name, uint32_t nodeid) 
 {
+	crm_info("my trace");
     bool rc = TRUE;
 
     /* Yes, %d, because that's what CMAN does */
@@ -72,6 +73,7 @@ static bool valid_cman_name(const char *name, uint32_t nodeid)
 static gboolean
 plugin_get_details(uint32_t * id, char **uname)
 {
+	crm_info("my trace");
     struct iovec iov;
     int retries = 0;
     int rc = CS_OK;
@@ -134,6 +136,7 @@ plugin_get_details(uint32_t * id, char **uname)
 bool
 send_plugin_text(int class, struct iovec *iov)
 {
+	crm_info("my trace");
     int rc = CS_OK;
     int retries = 0;
     int buf_len = sizeof(cs_ipc_header_response_t);
@@ -185,6 +188,7 @@ send_plugin_text(int class, struct iovec *iov)
 void
 terminate_cs_connection(crm_cluster_t *cluster)
 {
+	crm_info("my trace");
     crm_info("Disconnecting from Corosync");
 
     if (is_classic_ais_cluster()) {
@@ -221,6 +225,7 @@ terminate_cs_connection(crm_cluster_t *cluster)
 void
 plugin_handle_membership(AIS_Message *msg)
 {
+	crm_info("my trace");
     if (msg->header.id == crm_class_members || msg->header.id == crm_class_quorum) {
         xmlNode *member = NULL;
         const char *value = NULL;
@@ -279,6 +284,7 @@ plugin_default_deliver_message(cpg_handle_t handle,
                                const struct cpg_name *groupName,
                                uint32_t nodeid, uint32_t pid, void *msg, size_t msg_len)
 {
+	crm_info("my trace");
     uint32_t kind = 0;
     const char *from = NULL;
     char *data = pcmk_message_common_cs(handle, nodeid, pid, msg, &kind, &from);
@@ -289,6 +295,7 @@ plugin_default_deliver_message(cpg_handle_t handle,
 int
 plugin_dispatch(gpointer user_data)
 {
+	crm_info("my trace");
     int rc = CS_OK;
     crm_cluster_t *cluster = (crm_cluster_t *) user_data;
 
@@ -328,6 +335,7 @@ plugin_dispatch(gpointer user_data)
 static void
 plugin_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_err("AIS connection terminated");
     ais_fd_sync = -1;
     crm_exit(ENOTCONN);
@@ -338,6 +346,7 @@ plugin_destroy(gpointer user_data)
 static int
 pcmk_cman_dispatch(gpointer user_data)
 {
+	crm_info("my trace");
     int rc = cman_dispatch(pcmk_cman_handle, CMAN_DISPATCH_ALL);
 
     if (rc < 0) {
@@ -353,6 +362,7 @@ pcmk_cman_dispatch(gpointer user_data)
 static void
 cman_event_callback(cman_handle_t handle, void *privdata, int reason, int arg)
 {
+	crm_info("my trace");
     int rc = 0, lpc = 0, node_count = 0;
 
     cman_cluster_t cluster;
@@ -493,6 +503,7 @@ cluster_connect_quorum(gboolean(*dispatch) (unsigned long long, gboolean),
 static gboolean
 init_cs_connection_classic(crm_cluster_t * cluster)
 {
+	crm_info("my trace");
     int rc;
     int pid = 0;
     char *pid_s = NULL;
@@ -563,6 +574,7 @@ init_cs_connection_classic(crm_cluster_t * cluster)
 static int
 pcmk_mcp_dispatch(const char *buffer, ssize_t length, gpointer userdata)
 {
+	crm_info("my trace");
     xmlNode *msg = string2xml(buffer);
 
     if (msg && is_classic_ais_cluster()) {
@@ -592,6 +604,7 @@ pcmk_mcp_dispatch(const char *buffer, ssize_t length, gpointer userdata)
 static void
 pcmk_mcp_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     void (*callback) (gpointer data) = user_data;
 
     if (callback) {
@@ -602,6 +615,7 @@ pcmk_mcp_destroy(gpointer user_data)
 gboolean
 init_cs_connection(crm_cluster_t * cluster)
 {
+	crm_info("my trace");
     int retries = 0;
 
     static struct ipc_client_callbacks mcp_callbacks = {
@@ -642,12 +656,14 @@ init_cs_connection(crm_cluster_t * cluster)
 char *
 classic_node_name(uint32_t nodeid)
 {
+	crm_info("my trace");
     return NULL;                /* Always use the uname() default for localhost.  No way to look up peers */
 }
 
 char *
 cman_node_name(uint32_t nodeid)
 {
+	crm_info("my trace");
     char *name = NULL;
 
 #  if SUPPORT_CMAN
@@ -678,6 +694,7 @@ extern int set_cluster_type(enum cluster_type_e type);
 gboolean
 init_cs_connection_once(crm_cluster_t * cluster)
 {
+	crm_info("my trace");
     crm_node_t *peer = NULL;
     enum cluster_type_e stack = get_cluster_type();
 
@@ -729,6 +746,7 @@ init_cs_connection_once(crm_cluster_t * cluster)
 gboolean
 check_message_sanity(const AIS_Message * msg, const char *data)
 {
+	crm_info("my trace");
     gboolean sane = TRUE;
     int dest = msg->host.type;
     int tmp_size = msg->header.size - sizeof(AIS_Message);
@@ -794,6 +812,7 @@ static int
 get_config_opt(confdb_handle_t config,
                hdb_handle_t object_handle, const char *key, char **value, const char *fallback)
 {
+	crm_info("my trace");
     size_t len = 0;
     char *env_key = NULL;
     const char *env_value = NULL;
@@ -839,6 +858,7 @@ get_config_opt(confdb_handle_t config,
 static confdb_handle_t
 config_find_init(confdb_handle_t config)
 {
+	crm_info("my trace");
     cs_error_t rc = CS_OK;
     confdb_handle_t local_handle = OBJECT_PARENT_HANDLE;
 
@@ -854,6 +874,7 @@ config_find_init(confdb_handle_t config)
 static hdb_handle_t
 config_find_next(confdb_handle_t config, const char *name, confdb_handle_t top_handle)
 {
+	crm_info("my trace");
     cs_error_t rc = CS_OK;
     hdb_handle_t local_handle = 0;
 
@@ -876,6 +897,7 @@ config_find_next(confdb_handle_t config, const char *name, confdb_handle_t top_h
 enum cluster_type_e
 find_corosync_variant(void)
 {
+	crm_info("my trace");
     confdb_handle_t config;
     enum cluster_type_e found = pcmk_cluster_unknown;
 
@@ -930,6 +952,7 @@ find_corosync_variant(void)
 gboolean
 crm_is_corosync_peer_active(const crm_node_t * node)
 {
+	crm_info("my trace");
     enum crm_proc_flag proc = crm_proc_none;
 
     if (node == NULL) {

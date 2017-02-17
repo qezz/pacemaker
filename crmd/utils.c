@@ -38,6 +38,7 @@ do_timer_control(long long action,
                  enum crmd_fsa_state cur_state,
                  enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("my trace");
     gboolean timer_op_ok = TRUE;
 
     if (action & A_DC_TIMER_STOP) {
@@ -75,6 +76,7 @@ do_timer_control(long long action,
 const char *
 get_timer_desc(fsa_timer_t * timer)
 {
+	crm_info("my trace");
     if (timer == election_trigger) {
         return "Election Trigger";
 
@@ -103,6 +105,7 @@ get_timer_desc(fsa_timer_t * timer)
 gboolean
 crm_timer_popped(gpointer data)
 {
+	crm_info("my trace");
     fsa_timer_t *timer = (fsa_timer_t *) data;
 
     if (timer == wait_timer
@@ -161,6 +164,7 @@ crm_timer_popped(gpointer data)
 gboolean
 is_timer_started(fsa_timer_t * timer)
 {
+	crm_info("my trace");
     if (timer->period_ms > 0) {
         if (transition_timer->source_id == 0) {
             return FALSE;
@@ -174,6 +178,7 @@ is_timer_started(fsa_timer_t * timer)
 gboolean
 crm_timer_start(fsa_timer_t * timer)
 {
+	crm_info("my trace");
     const char *timer_desc = get_timer_desc(timer);
 
     if (timer->source_id == 0 && timer->period_ms > 0) {
@@ -199,6 +204,7 @@ crm_timer_start(fsa_timer_t * timer)
 gboolean
 crm_timer_stop(fsa_timer_t * timer)
 {
+	crm_info("my trace");
     const char *timer_desc = get_timer_desc(timer);
 
     if (timer == NULL) {
@@ -223,6 +229,7 @@ crm_timer_stop(fsa_timer_t * timer)
 const char *
 fsa_input2string(enum crmd_fsa_input input)
 {
+	crm_info("my trace");
     const char *inputAsText = NULL;
 
     switch (input) {
@@ -341,6 +348,7 @@ fsa_input2string(enum crmd_fsa_input input)
 const char *
 fsa_state2string(enum crmd_fsa_state state)
 {
+	crm_info("my trace");
     const char *stateAsText = NULL;
 
     switch (state) {
@@ -402,6 +410,7 @@ fsa_state2string(enum crmd_fsa_state state)
 const char *
 fsa_cause2string(enum crmd_fsa_cause cause)
 {
+	crm_info("my trace");
     const char *causeAsText = NULL;
 
     switch (cause) {
@@ -463,6 +472,7 @@ fsa_cause2string(enum crmd_fsa_cause cause)
 const char *
 fsa_action2string(long long action)
 {
+	crm_info("my trace");
     const char *actionAsText = NULL;
 
     switch (action) {
@@ -673,6 +683,7 @@ fsa_action2string(long long action)
 void
 fsa_dump_inputs(int log_level, const char *text, long long input_register)
 {
+	crm_info("my trace");
     if (input_register == A_NOTHING) {
         return;
     }
@@ -757,6 +768,7 @@ fsa_dump_inputs(int log_level, const char *text, long long input_register)
 void
 fsa_dump_actions(long long action, const char *text)
 {
+	crm_info("my trace");
     if (is_set(action, A_READCONFIG)) {
         crm_trace("Action %.16llx (A_READCONFIG) %s", A_READCONFIG, text);
     }
@@ -921,6 +933,7 @@ fsa_dump_actions(long long action, const char *text)
 gboolean
 update_dc(xmlNode * msg)
 {
+	crm_info("my trace");
     char *last_dc = fsa_our_dc;
     const char *dc_version = NULL;
     const char *welcome_from = NULL;
@@ -987,6 +1000,7 @@ update_dc(xmlNode * msg)
 static void
 erase_xpath_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("my trace");
     char *xpath = user_data;
 
     do_crm_log_unlikely(rc == 0 ? LOG_DEBUG : LOG_NOTICE,
@@ -996,6 +1010,7 @@ erase_xpath_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void 
 void
 erase_status_tag(const char *uname, const char *tag, int options)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     char xpath[STATUS_PATH_MAX];
     int cib_opts = cib_quorum_override | cib_xpath | options;
@@ -1011,6 +1026,7 @@ erase_status_tag(const char *uname, const char *tag, int options)
 static void
 crm_set_join_state(const char *uname, const char *start_state)
 {
+	crm_info("my trace");
     if (safe_str_eq(start_state, "standby")) {
         crm_notice("Forcing node %s to join in %s state per configured environment", uname, start_state);
         update_attrd(uname, XML_CIB_ATTR_STANDBY, "on", NULL, FALSE);
@@ -1027,6 +1043,7 @@ crm_set_join_state(const char *uname, const char *start_state)
 static void
 init_attrs_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("my trace");
     char **data = (char**)user_data;
     char *uname = data[0];
     char *start_state = data[1];
@@ -1043,6 +1060,7 @@ init_attrs_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *
 void
 init_transient_attrs(const char *uname, const char *start_state, int options)
 {
+	crm_info("my trace");
     if (fsa_cib_conn && uname) {
         int rc;
         int cib_opts = cib_quorum_override | cib_xpath | options;
@@ -1060,6 +1078,7 @@ init_transient_attrs(const char *uname, const char *start_state, int options)
 
 void crmd_peer_down(crm_node_t *peer, bool full) 
 {
+	crm_info("my trace");
     if(full && peer->state == NULL) {
         crm_update_peer_state(__FUNCTION__, peer, CRM_NODE_LOST, 0);
         crm_update_peer_proc(__FUNCTION__, peer, crm_proc_none, NULL);

@@ -66,6 +66,7 @@ static int do_update_resource(const char *node_name, lrmd_rsc_info_t * rsc, lrmd
 static void
 lrm_connection_destroy(void)
 {
+	crm_info("my trace");
     if (is_set(fsa_input_register, R_LRM_CONNECTED)) {
         crm_crit("LRM Connection failed");
         register_fsa_input(C_FSA_INTERNAL, I_ERROR, NULL);
@@ -80,6 +81,7 @@ lrm_connection_destroy(void)
 static char *
 make_stop_id(const char *rsc, int call_id)
 {
+	crm_info("my trace");
     char *op_id = NULL;
 
     op_id = calloc(1, strlen(rsc) + 34);
@@ -92,6 +94,7 @@ make_stop_id(const char *rsc, int call_id)
 static void
 copy_instance_keys(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     if (strstr(key, CRM_META "_") == NULL) {
         g_hash_table_replace(user_data, strdup((const char *)key), strdup((const char *)value));
     }
@@ -100,6 +103,7 @@ copy_instance_keys(gpointer key, gpointer value, gpointer user_data)
 static void
 copy_meta_keys(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     if (strstr(key, CRM_META "_") != NULL) {
         g_hash_table_replace(user_data, strdup((const char *)key), strdup((const char *)value));
     }
@@ -117,6 +121,7 @@ copy_meta_keys(gpointer key, gpointer value, gpointer user_data)
 static gboolean
 history_remove_recurring_op(rsc_history_t *history, const lrmd_event_data_t *op)
 {
+	crm_info("my trace");
     GList *iter;
 
     for (iter = history->recurring_op_list; iter != NULL; iter = iter->next) {
@@ -143,6 +148,7 @@ history_remove_recurring_op(rsc_history_t *history, const lrmd_event_data_t *op)
 static void
 history_free_recurring_ops(rsc_history_t *history)
 {
+	crm_info("my trace");
     GList *iter;
 
     for (iter = history->recurring_op_list; iter != NULL; iter = iter->next) {
@@ -161,6 +167,7 @@ history_free_recurring_ops(rsc_history_t *history)
 void
 history_free(gpointer data)
 {
+	crm_info("my trace");
     rsc_history_t *history = (rsc_history_t*)data;
 
     if (history->stop_params) {
@@ -182,6 +189,7 @@ history_free(gpointer data)
 static void
 update_history_cache(lrm_state_t * lrm_state, lrmd_rsc_info_t * rsc, lrmd_event_data_t * op)
 {
+	crm_info("my trace");
     int target_rc = 0;
     rsc_history_t *entry = NULL;
 
@@ -293,6 +301,7 @@ send_task_ok_ack(lrm_state_t *lrm_state, ha_msg_input_t *input,
                  const char *rsc_id, lrmd_rsc_info_t *rsc, const char *task,
                  const char *ack_host, const char *ack_sys)
 {
+	crm_info("my trace");
     lrmd_event_data_t *op = construct_op(lrm_state, input->xml, rsc_id, task);
 
     CRM_ASSERT(op != NULL);
@@ -305,6 +314,7 @@ send_task_ok_ack(lrm_state_t *lrm_state, ha_msg_input_t *input,
 void
 lrm_op_callback(lrmd_event_data_t * op)
 {
+	crm_info("my trace");
     const char *nodename = NULL;
     lrm_state_t *lrm_state = NULL;
 
@@ -336,6 +346,7 @@ do_lrm_control(long long action,
                enum crmd_fsa_state cur_state,
                enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("my trace");
     /* This only pertains to local lrmd connections.  Remote connections are handled as
      * resources within the pengine.  Connecting and disconnecting from remote lrmd instances
      * handled differently than the local. */
@@ -405,6 +416,7 @@ do_lrm_control(long long action,
 static gboolean
 lrm_state_verify_stopped(lrm_state_t * lrm_state, enum crmd_fsa_state cur_state, int log_level)
 {
+	crm_info("my trace");
     int counter = 0;
     gboolean rc = TRUE;
     const char *when = "lrm disconnect";
@@ -510,6 +522,7 @@ GHashTable *metadata_hash = NULL;
 static char *
 get_rsc_metadata(const char *type, const char *rclass, const char *provider, bool force)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     int len = 0;
     char *key = NULL;
@@ -566,6 +579,7 @@ static char *
 build_parameter_list(lrmd_event_data_t *op, xmlNode *metadata, xmlNode *result,
                      const char *criteria, bool target, bool invert_for_xml)
 {
+	crm_info("my trace");
     int len = 0;
     int max = 0;
     char *list = NULL;
@@ -662,6 +676,7 @@ build_parameter_list(lrmd_event_data_t *op, xmlNode *metadata, xmlNode *result,
 static bool
 resource_supports_action(xmlNode *metadata, const char *name) 
 {
+	crm_info("my trace");
     const char *value = NULL;
 
     xmlNode *action = NULL;
@@ -683,6 +698,7 @@ resource_supports_action(xmlNode *metadata, const char *name)
 static void
 append_restart_list(lrmd_event_data_t *op, xmlNode *metadata, xmlNode * update, const char *version)
 {
+	crm_info("my trace");
     char *list = NULL;
     char *digest = NULL;
     xmlNode *restart = NULL;
@@ -721,6 +737,7 @@ append_restart_list(lrmd_event_data_t *op, xmlNode *metadata, xmlNode * update, 
 static void
 append_secure_list(lrmd_event_data_t *op, xmlNode *metadata, xmlNode * update, const char *version)
 {
+	crm_info("my trace");
     char *list = NULL;
     char *digest = NULL;
     xmlNode *secure = NULL;
@@ -755,6 +772,7 @@ static gboolean
 build_operation_update(xmlNode * parent, lrmd_rsc_info_t * rsc, lrmd_event_data_t * op,
                        const char *src)
 {
+	crm_info("my trace");
     int target_rc = 0;
     xmlNode *xml_op = NULL;
     xmlNode *metadata = NULL;
@@ -815,6 +833,7 @@ build_operation_update(xmlNode * parent, lrmd_rsc_info_t * rsc, lrmd_event_data_
 static gboolean
 is_rsc_active(lrm_state_t * lrm_state, const char *rsc_id)
 {
+	crm_info("my trace");
     rsc_history_t *entry = NULL;
 
     entry = g_hash_table_lookup(lrm_state->resource_history, rsc_id);
@@ -848,6 +867,7 @@ is_rsc_active(lrm_state_t * lrm_state, const char *rsc_id)
 static gboolean
 build_active_RAs(lrm_state_t * lrm_state, xmlNode * rsc_list)
 {
+	crm_info("my trace");
     GHashTableIter iter;
     rsc_history_t *entry = NULL;
 
@@ -882,6 +902,7 @@ build_active_RAs(lrm_state_t * lrm_state, xmlNode * rsc_list)
 static xmlNode *
 do_lrm_query_internal(lrm_state_t *lrm_state, int update_flags)
 {
+	crm_info("my trace");
     xmlNode *xml_state = NULL;
     xmlNode *xml_data = NULL;
     xmlNode *rsc_list = NULL;
@@ -908,6 +929,7 @@ do_lrm_query_internal(lrm_state_t *lrm_state, int update_flags)
 xmlNode *
 do_lrm_query(gboolean is_replace, const char *node_name)
 {
+	crm_info("my trace");
     lrm_state_t *lrm_state = lrm_state_find(node_name);
     xmlNode *xml_state;
 
@@ -931,6 +953,7 @@ do_lrm_query(gboolean is_replace, const char *node_name)
 static void
 notify_deleted(lrm_state_t * lrm_state, ha_msg_input_t * input, const char *rsc_id, int rc)
 {
+	crm_info("my trace");
     lrmd_event_data_t *op = NULL;
     const char *from_sys = crm_element_value(input->msg, F_CRM_SYS_FROM);
     const char *from_host = crm_element_value(input->msg, F_CRM_HOST_FROM);
@@ -969,6 +992,7 @@ notify_deleted(lrm_state_t * lrm_state, ha_msg_input_t * input, const char *rsc_
 static gboolean
 lrm_remove_deleted_rsc(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     struct delete_event_s *event = user_data;
     struct pending_deletion_op_s *op = value;
 
@@ -982,6 +1006,7 @@ lrm_remove_deleted_rsc(gpointer key, gpointer value, gpointer user_data)
 static gboolean
 lrm_remove_deleted_op(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     const char *rsc = user_data;
     struct recurring_op_s *pending = value;
 
@@ -1004,6 +1029,7 @@ static int
 delete_rsc_status(lrm_state_t * lrm_state, const char *rsc_id, int call_options,
                   const char *user_name)
 {
+	crm_info("my trace");
     char *rsc_xpath = NULL;
     int max = 0;
     int rc = pcmk_ok;
@@ -1025,6 +1051,7 @@ static void
 delete_rsc_entry(lrm_state_t * lrm_state, ha_msg_input_t * input, const char *rsc_id,
                  GHashTableIter * rsc_gIter, int rc, const char *user_name)
 {
+	crm_info("my trace");
     struct delete_event_s event;
 
     CRM_CHECK(rsc_id != NULL, return);
@@ -1066,6 +1093,7 @@ static void
 delete_op_entry(lrm_state_t * lrm_state, lrmd_event_data_t * op, const char *rsc_id,
                 const char *key, int call_id)
 {
+	crm_info("my trace");
     xmlNode *xml_top = NULL;
 
     if (op != NULL) {
@@ -1122,6 +1150,7 @@ delete_op_entry(lrm_state_t * lrm_state, lrmd_event_data_t * op, const char *rsc
 void
 lrm_clear_last_failure(const char *rsc_id, const char *node_name)
 {
+	crm_info("my trace");
     char *attr = NULL;
     GHashTableIter iter;
     GList *lrm_state_list = lrm_state_get_list();
@@ -1163,6 +1192,7 @@ lrm_clear_last_failure(const char *rsc_id, const char *node_name)
 static gboolean
 cancel_op(lrm_state_t * lrm_state, const char *rsc_id, const char *key, int op, gboolean remove)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     char *local_key = NULL;
     struct recurring_op_s *pending = NULL;
@@ -1228,6 +1258,7 @@ struct cancel_data {
 static gboolean
 cancel_action_by_key(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     gboolean remove = FALSE;
     struct cancel_data *data = user_data;
     struct recurring_op_s *op = (struct recurring_op_s *)value;
@@ -1242,6 +1273,7 @@ cancel_action_by_key(gpointer key, gpointer value, gpointer user_data)
 static gboolean
 cancel_op_key(lrm_state_t * lrm_state, lrmd_rsc_info_t * rsc, const char *key, gboolean remove)
 {
+	crm_info("my trace");
     guint removed = 0;
     struct cancel_data data;
 
@@ -1263,6 +1295,7 @@ cancel_op_key(lrm_state_t * lrm_state, lrmd_rsc_info_t * rsc, const char *key, g
 static lrmd_rsc_info_t *
 get_lrm_resource(lrm_state_t * lrm_state, xmlNode * resource, xmlNode * op_msg, gboolean do_create)
 {
+	crm_info("my trace");
     lrmd_rsc_info_t *rsc = NULL;
     const char *id = ID(resource);
     const char *type = crm_element_value(resource, XML_ATTR_TYPE);
@@ -1316,6 +1349,7 @@ delete_resource(lrm_state_t * lrm_state,
                 ha_msg_input_t * request,
                 gboolean unregister)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
 
     crm_info("Removing resource %s for %s (%s) on %s", id, sys, user ? user : "internal", host);
@@ -1349,6 +1383,7 @@ delete_resource(lrm_state_t * lrm_state,
 static int
 get_fake_call_id(lrm_state_t *lrm_state, const char *rsc_id)
 {
+	crm_info("my trace");
     int call_id = 999999999;
     rsc_history_t *entry = NULL;
 
@@ -1372,6 +1407,7 @@ get_fake_call_id(lrm_state_t *lrm_state, const char *rsc_id)
 static void
 force_reprobe(lrm_state_t *lrm_state, const char *from_sys, const char *from_host, const char *user_name, gboolean is_remote_node)
 {
+	crm_info("my trace");
         GHashTableIter gIter;
         rsc_history_t *entry = NULL;
 
@@ -1410,6 +1446,7 @@ force_reprobe(lrm_state_t *lrm_state, const char *from_sys, const char *from_hos
 static void
 synthesize_lrmd_failure(lrm_state_t *lrm_state, xmlNode *action, int rc) 
 {
+	crm_info("my trace");
     lrmd_event_data_t *op = NULL;
     const char *operation = crm_element_value(action, XML_LRM_ATTR_TASK);
     const char *target_node = crm_element_value(action, XML_LRM_ATTR_TARGET);
@@ -1475,6 +1512,7 @@ do_lrm_invoke(long long action,
               enum crmd_fsa_state cur_state,
               enum crmd_fsa_input current_input, fsa_data_t * msg_data)
 {
+	crm_info("my trace");
     gboolean create_rsc = TRUE;
     lrm_state_t *lrm_state = NULL;
     const char *crm_op = NULL;
@@ -1805,6 +1843,7 @@ do_lrm_invoke(long long action,
 static lrmd_event_data_t *
 construct_op(lrm_state_t * lrm_state, xmlNode * rsc_op, const char *rsc_id, const char *operation)
 {
+	crm_info("my trace");
     lrmd_event_data_t *op = NULL;
     const char *op_delay = NULL;
     const char *op_timeout = NULL;
@@ -1931,6 +1970,7 @@ void
 send_direct_ack(const char *to_host, const char *to_sys,
                 lrmd_rsc_info_t * rsc, lrmd_event_data_t * op, const char *rsc_id)
 {
+	crm_info("my trace");
     xmlNode *reply = NULL;
     xmlNode *update, *iter;
     crm_node_t *peer = NULL;
@@ -1975,6 +2015,7 @@ send_direct_ack(const char *to_host, const char *to_sys,
 gboolean
 verify_stopped(enum crmd_fsa_state cur_state, int log_level)
 {
+	crm_info("my trace");
     gboolean res = TRUE;
     GList *lrm_state_list = lrm_state_get_list();
     GList *state_entry;
@@ -2001,6 +2042,7 @@ struct stop_recurring_action_s {
 static gboolean
 stop_recurring_action_by_rsc(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     gboolean remove = FALSE;
     struct stop_recurring_action_s *event = user_data;
     struct recurring_op_s *op = (struct recurring_op_s *)value;
@@ -2016,6 +2058,7 @@ stop_recurring_action_by_rsc(gpointer key, gpointer value, gpointer user_data)
 static gboolean
 stop_recurring_actions(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     gboolean remove = FALSE;
     lrm_state_t *lrm_state = user_data;
     struct recurring_op_s *op = (struct recurring_op_s *)value;
@@ -2031,6 +2074,7 @@ stop_recurring_actions(gpointer key, gpointer value, gpointer user_data)
 static void
 record_pending_op(const char *node_name, lrmd_rsc_info_t *rsc, lrmd_event_data_t *op)
 {
+	crm_info("my trace");
     CRM_CHECK(node_name != NULL, return);
     CRM_CHECK(rsc != NULL, return);
     CRM_CHECK(op != NULL, return);
@@ -2070,6 +2114,7 @@ static void
 do_lrm_rsc_op(lrm_state_t * lrm_state, lrmd_rsc_info_t * rsc, const char *operation, xmlNode * msg,
               xmlNode * request)
 {
+	crm_info("my trace");
     int call_id = 0;
     char *op_id = NULL;
     lrmd_event_data_t *op = NULL;
@@ -2239,6 +2284,7 @@ int last_resource_update = 0;
 static void
 cib_rsc_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("my trace");
     switch (rc) {
         case pcmk_ok:
         case -pcmk_err_diff_failed:
@@ -2258,6 +2304,7 @@ cib_rsc_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *use
 static int
 do_update_resource(const char *node_name, lrmd_rsc_info_t * rsc, lrmd_event_data_t * op)
 {
+	crm_info("my trace");
 /*
   <status>
   <nodes_status id=uname>
@@ -2366,12 +2413,14 @@ do_lrm_event(long long action,
              enum crmd_fsa_cause cause,
              enum crmd_fsa_state cur_state, enum crmd_fsa_input cur_input, fsa_data_t * msg_data)
 {
+	crm_info("my trace");
     CRM_CHECK(FALSE, return);
 }
 
 gboolean
 process_lrm_event(lrm_state_t * lrm_state, lrmd_event_data_t * op, struct recurring_op_s *pending)
 {
+	crm_info("my trace");
     char *op_id = NULL;
     char *op_key = NULL;
 

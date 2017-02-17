@@ -26,6 +26,7 @@ struct fail_search {
 static void
 get_failcount_by_prefix(gpointer key_p, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     struct fail_search *search = user_data;
     const char *attr_id = key_p;
     const char *match = strstr(attr_id, search->key);
@@ -57,6 +58,7 @@ int
 get_failcount(node_t *node, resource_t *rsc, time_t *last_failure,
               pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     return get_failcount_full(node, rsc, last_failure, TRUE, NULL, data_set);
 }
 
@@ -64,6 +66,7 @@ static gboolean
 is_matched_failure(const char *rsc_id, xmlNode *conf_op_xml,
                    xmlNode *lrm_op_xml)
 {
+	crm_info("my trace");
     gboolean matched = FALSE;
     const char *conf_op_name = NULL;
     int conf_op_interval = 0;
@@ -116,6 +119,7 @@ static gboolean
 block_failure(node_t *node, resource_t *rsc, xmlNode *xml_op,
               pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     char *xml_name = clone_strip(rsc->id);
     char *xpath = crm_strdup_printf("//primitive[@id='%s']//op[@on-fail='block']",
                                     xml_name);
@@ -189,6 +193,7 @@ int
 get_failcount_full(node_t *node, resource_t *rsc, time_t *last_failure,
                    bool effective, xmlNode *xml_op, pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     char *key = NULL;
     const char *value = NULL;
     struct fail_search search = { rsc, data_set, 0, 0, NULL };
@@ -271,6 +276,7 @@ int
 get_failcount_all(node_t *node, resource_t *rsc, time_t *last_failure,
                   pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     int failcount_all = 0;
 
     failcount_all = get_failcount(node, rsc, last_failure, data_set);

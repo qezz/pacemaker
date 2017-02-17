@@ -69,6 +69,7 @@ cib_process_shutdown_req(const char *op, int options, const char *section, xmlNo
                          xmlNode * input, xmlNode * existing_cib, xmlNode ** result_cib,
                          xmlNode ** answer)
 {
+	crm_info("my trace");
     int result = pcmk_ok;
     const char *host = crm_element_value(req, F_ORIG);
 
@@ -96,6 +97,7 @@ cib_process_default(const char *op, int options, const char *section, xmlNode * 
                     xmlNode * input, xmlNode * existing_cib, xmlNode ** result_cib,
                     xmlNode ** answer)
 {
+	crm_info("my trace");
     int result = pcmk_ok;
 
     crm_trace("Processing \"%s\" event", op);
@@ -119,6 +121,7 @@ int
 cib_process_quit(const char *op, int options, const char *section, xmlNode * req, xmlNode * input,
                  xmlNode * existing_cib, xmlNode ** result_cib, xmlNode ** answer)
 {
+	crm_info("my trace");
     int result = pcmk_ok;
 
     crm_trace("Processing \"%s\" event", op);
@@ -133,6 +136,7 @@ cib_process_readwrite(const char *op, int options, const char *section, xmlNode 
                       xmlNode * input, xmlNode * existing_cib, xmlNode ** result_cib,
                       xmlNode ** answer)
 {
+	crm_info("my trace");
     int result = pcmk_ok;
 
     crm_trace("Processing \"%s\" event", op);
@@ -170,6 +174,7 @@ static int sync_in_progress = 0;
 void
 send_sync_request(const char *host)
 {
+	crm_info("my trace");
     xmlNode *sync_me = create_xml_node(NULL, "sync-me");
 
     crm_info("Requesting re-sync from %s", (host? host : "all peers"));
@@ -187,6 +192,7 @@ int
 cib_process_ping(const char *op, int options, const char *section, xmlNode * req, xmlNode * input,
                  xmlNode * existing_cib, xmlNode ** result_cib, xmlNode ** answer)
 {
+	crm_info("my trace");
     const char *host = crm_element_value(req, F_ORIG);
     const char *seq = crm_element_value(req, F_CIB_PING_ID);
     char *digest = calculate_xml_versioned_digest(the_cib, FALSE, TRUE, CRM_FEATURE_SET);
@@ -234,6 +240,7 @@ int
 cib_process_sync(const char *op, int options, const char *section, xmlNode * req, xmlNode * input,
                  xmlNode * existing_cib, xmlNode ** result_cib, xmlNode ** answer)
 {
+	crm_info("my trace");
     return sync_our_cib(req, TRUE);
 }
 
@@ -241,6 +248,7 @@ int
 cib_process_upgrade_server(const char *op, int options, const char *section, xmlNode * req, xmlNode * input,
                            xmlNode * existing_cib, xmlNode ** result_cib, xmlNode ** answer)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
 
     *answer = NULL;
@@ -300,6 +308,7 @@ cib_process_sync_one(const char *op, int options, const char *section, xmlNode *
                      xmlNode * input, xmlNode * existing_cib, xmlNode ** result_cib,
                      xmlNode ** answer)
 {
+	crm_info("my trace");
     return sync_our_cib(req, FALSE);
 }
 
@@ -308,6 +317,7 @@ cib_server_process_diff(const char *op, int options, const char *section, xmlNod
                         xmlNode * input, xmlNode * existing_cib, xmlNode ** result_cib,
                         xmlNode ** answer)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
 
     if (sync_in_progress > MAX_DIFF_RETRY) {
@@ -369,6 +379,7 @@ cib_process_replace_svr(const char *op, int options, const char *section, xmlNod
                         xmlNode * input, xmlNode * existing_cib, xmlNode ** result_cib,
                         xmlNode ** answer)
 {
+	crm_info("my trace");
     const char *tag = crm_element_name(input);
     int rc =
         cib_process_replace(op, options, section, req, input, existing_cib, result_cib, answer);
@@ -381,6 +392,7 @@ cib_process_replace_svr(const char *op, int options, const char *section, xmlNod
 static int
 delete_cib_object(xmlNode * parent, xmlNode * delete_spec)
 {
+	crm_info("my trace");
     const char *object_name = NULL;
     const char *object_id = NULL;
     xmlNode *equiv_node = NULL;
@@ -440,6 +452,7 @@ cib_process_delete_absolute(const char *op, int options, const char *section, xm
                             xmlNode * input, xmlNode * existing_cib, xmlNode ** result_cib,
                             xmlNode ** answer)
 {
+	crm_info("my trace");
     xmlNode *failed = NULL;
     int result = pcmk_ok;
     xmlNode *update_section = NULL;
@@ -486,6 +499,7 @@ cib_process_delete_absolute(const char *op, int options, const char *section, xm
 gboolean
 check_generation(xmlNode * newCib, xmlNode * oldCib)
 {
+	crm_info("my trace");
     if (cib_compare_generation(newCib, oldCib) >= 0) {
         return TRUE;
     }
@@ -497,6 +511,7 @@ check_generation(xmlNode * newCib, xmlNode * oldCib)
 int
 sync_our_cib(xmlNode * request, gboolean all)
 {
+	crm_info("my trace");
     int result = pcmk_ok;
     char *digest = NULL;
     const char *host = crm_element_value(request, F_ORIG);

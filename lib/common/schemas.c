@@ -74,12 +74,14 @@ xml_log(int priority, const char *fmt, ...)
 static int
 xml_latest_schema_index(void)
 {
+	crm_info("my trace");
     return xml_schema_max - 4;
 }
 
 static int
 xml_minimum_schema_index(void)
 {
+	crm_info("my trace");
     static int best = 0;
     if (best == 0) {
         int lpc = 0;
@@ -103,12 +105,14 @@ xml_minimum_schema_index(void)
 const char *
 xml_latest_schema(void)
 {
+	crm_info("my trace");
     return get_schema_name(xml_latest_schema_index());
 }
 
 static const char *
 get_schema_root(void)
 {
+	crm_info("my trace");
     static const char *base = NULL;
 
     if (base == NULL) {
@@ -123,6 +127,7 @@ get_schema_root(void)
 static char *
 get_schema_path(const char *name, const char *file)
 {
+	crm_info("my trace");
     const char *base = get_schema_root();
 
     if (file) {
@@ -134,6 +139,7 @@ get_schema_path(const char *name, const char *file)
 static int
 schema_filter(const struct dirent *a)
 {
+	crm_info("my trace");
     int rc = 0;
     float version = 0;
 
@@ -161,6 +167,7 @@ schema_filter(const struct dirent *a)
 static int
 schema_sort(const struct dirent **a, const struct dirent **b)
 {
+	crm_info("my trace");
     int rc = 0;
     float a_version = 0.0;
     float b_version = 0.0;
@@ -183,6 +190,7 @@ __xml_schema_add(int type, float version, const char *name,
                  const char *location, const char *transform,
                  int after_transform)
 {
+	crm_info("my trace");
     int last = xml_schema_max;
 
     xml_schema_max++;
@@ -240,6 +248,7 @@ __xml_schema_add(int type, float version, const char *name,
 void
 crm_schema_init(void)
 {
+	crm_info("my trace");
     int lpc, max;
     const char *base = get_schema_root();
     struct dirent **namelist = NULL;
@@ -301,6 +310,7 @@ crm_schema_init(void)
 static gboolean
 validate_with_dtd(xmlDocPtr doc, gboolean to_logs, const char *dtd_file)
 {
+	crm_info("my trace");
     gboolean valid = TRUE;
 
     xmlDtdPtr dtd = NULL;
@@ -344,6 +354,7 @@ validate_with_dtd(xmlDocPtr doc, gboolean to_logs, const char *dtd_file)
 static void
 relaxng_invalid_stderr(void *userData, xmlErrorPtr error)
 {
+	crm_info("my trace");
     /*
        Structure xmlError
        struct _xmlError {
@@ -370,6 +381,7 @@ static gboolean
 validate_with_relaxng(xmlDocPtr doc, gboolean to_logs, const char *relaxng_file,
                       relaxng_ctx_cache_t **cached_ctx)
 {
+	crm_info("my trace");
     int rc = 0;
     gboolean valid = TRUE;
     relaxng_ctx_cache_t *ctx = NULL;
@@ -461,6 +473,7 @@ validate_with_relaxng(xmlDocPtr doc, gboolean to_logs, const char *relaxng_file,
 void
 crm_schema_cleanup(void)
 {
+	crm_info("my trace");
     int lpc;
     relaxng_ctx_cache_t *ctx = NULL;
 
@@ -505,6 +518,7 @@ crm_schema_cleanup(void)
 static gboolean
 validate_with(xmlNode *xml, int method, gboolean to_logs)
 {
+	crm_info("my trace");
     xmlDocPtr doc = NULL;
     gboolean valid = FALSE;
     int type = 0;
@@ -546,6 +560,7 @@ validate_with(xmlNode *xml, int method, gboolean to_logs)
 static void
 dump_file(const char *filename)
 {
+	crm_info("my trace");
 
     FILE *fp = NULL;
     int ch, line = 0;
@@ -574,6 +589,7 @@ dump_file(const char *filename)
 gboolean
 validate_xml_verbose(xmlNode *xml_blob)
 {
+	crm_info("my trace");
     int fd = 0;
     xmlDoc *doc = NULL;
     xmlNode *xml = NULL;
@@ -602,6 +618,7 @@ validate_xml_verbose(xmlNode *xml_blob)
 gboolean
 validate_xml(xmlNode *xml_blob, const char *validation, gboolean to_logs)
 {
+	crm_info("my trace");
     int version = 0;
 
     if (validation == NULL) {
@@ -650,6 +667,7 @@ validate_xml(xmlNode *xml_blob, const char *validation, gboolean to_logs)
 static xmlNode *
 apply_transformation(xmlNode *xml, const char *transform)
 {
+	crm_info("my trace");
     char *xform = NULL;
     xmlNode *out = NULL;
     xmlDocPtr res = NULL;
@@ -685,6 +703,7 @@ apply_transformation(xmlNode *xml, const char *transform)
 const char *
 get_schema_name(int version)
 {
+	crm_info("my trace");
     if (version < 0 || version >= xml_schema_max) {
         return "unknown";
     }
@@ -694,6 +713,7 @@ get_schema_name(int version)
 int
 get_schema_version(const char *name)
 {
+	crm_info("my trace");
     int lpc = 0;
 
     if (name == NULL) {
@@ -712,6 +732,7 @@ int
 update_validation(xmlNode **xml_blob, int *best, int max, gboolean transform,
                   gboolean to_logs)
 {
+	crm_info("my trace");
     xmlNode *xml = NULL;
     char *value = NULL;
     int max_stable_schemas = xml_latest_schema_index();
@@ -854,6 +875,7 @@ update_validation(xmlNode **xml_blob, int *best, int max, gboolean transform,
 gboolean
 cli_config_update(xmlNode **xml, int *best_version, gboolean to_logs)
 {
+	crm_info("my trace");
     gboolean rc = TRUE;
     const char *value = crm_element_value(*xml, XML_ATTR_VALIDATION);
     char *const orig_value = strdup(value == NULL ? "(none)" : value);

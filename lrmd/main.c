@@ -53,6 +53,7 @@ static gboolean lrmd_exit(gpointer data);
 static void
 stonith_connection_destroy_cb(stonith_t * st, stonith_event_t * e)
 {
+	crm_info("my trace");
     stonith_api->state = stonith_disconnected;
     crm_err("LRMD lost STONITH connection");
     stonith_connection_failed();
@@ -61,6 +62,7 @@ stonith_connection_destroy_cb(stonith_t * st, stonith_event_t * e)
 stonith_t *
 get_stonith_connection(void)
 {
+	crm_info("my trace");
     if (stonith_api && stonith_api->state == stonith_disconnected) {
         stonith_api_delete(stonith_api);
         stonith_api = NULL;
@@ -96,6 +98,7 @@ get_stonith_connection(void)
 static int32_t
 lrmd_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
     if (crm_client_new(c, uid, gid) == NULL) {
         return -EIO;
@@ -106,6 +109,7 @@ lrmd_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 static void
 lrmd_ipc_created(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_client_t *new_client = crm_client_get(c);
 
     crm_trace("Connection %p", c);
@@ -119,6 +123,7 @@ lrmd_ipc_created(qb_ipcs_connection_t * c)
 static int32_t
 lrmd_ipc_dispatch(qb_ipcs_connection_t * c, void *data, size_t size)
 {
+	crm_info("my trace");
     uint32_t id = 0;
     uint32_t flags = 0;
     crm_client_t *client = crm_client_get(c);
@@ -170,6 +175,7 @@ lrmd_ipc_dispatch(qb_ipcs_connection_t * c, void *data, size_t size)
 void
 lrmd_client_destroy(crm_client_t *client)
 {
+	crm_info("my trace");
     crm_client_destroy(client);
 
 #ifdef ENABLE_PCMK_REMOTE
@@ -185,6 +191,7 @@ lrmd_client_destroy(crm_client_t *client)
 static int32_t
 lrmd_ipc_closed(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_client_t *client = crm_client_get(c);
 
     if (client == NULL) {
@@ -203,6 +210,7 @@ lrmd_ipc_closed(qb_ipcs_connection_t * c)
 static void
 lrmd_ipc_destroy(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     lrmd_ipc_closed(c);
     crm_trace("Connection %p", c);
 }
@@ -218,6 +226,7 @@ static struct qb_ipcs_service_handlers lrmd_ipc_callbacks = {
 int
 lrmd_server_send_reply(crm_client_t * client, uint32_t id, xmlNode * reply)
 {
+	crm_info("my trace");
 
     crm_trace("sending reply to client (%s) with msg id %d", client->id, id);
     switch (client->kind) {
@@ -236,6 +245,7 @@ lrmd_server_send_reply(crm_client_t * client, uint32_t id, xmlNode * reply)
 int
 lrmd_server_send_notify(crm_client_t * client, xmlNode * msg)
 {
+	crm_info("my trace");
     crm_trace("sending notify to client (%s)", client->id);
     switch (client->kind) {
         case CRM_CLIENT_IPC:
@@ -270,6 +280,7 @@ lrmd_server_send_notify(crm_client_t * client, xmlNode * msg)
 static gboolean
 lrmd_exit(gpointer data)
 {
+	crm_info("my trace");
     crm_info("Terminating with  %d clients", crm_hash_table_size(client_connections));
 
     if (stonith_api) {
@@ -308,6 +319,7 @@ lrmd_exit(gpointer data)
 static void
 lrmd_shutdown(int nsig)
 {
+	crm_info("my trace");
 #ifdef ENABLE_PCMK_REMOTE
     crm_client_t *ipc_proxy = ipc_proxy_get_provider();
 
@@ -359,6 +371,7 @@ lrmd_shutdown(int nsig)
  */
 void handle_shutdown_ack()
 {
+	crm_info("my trace");
 #ifdef ENABLE_PCMK_REMOTE
     if (shutting_down) {
         crm_info("Received shutdown ack");
@@ -389,6 +402,7 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int flag = 0;
     int index = 0;
     const char *option = NULL;

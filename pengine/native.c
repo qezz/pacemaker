@@ -84,6 +84,7 @@ static action_t * get_first_named_action(resource_t * rsc, const char *action, g
 static gboolean
 native_choose_node(resource_t * rsc, node_t * prefer, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     /*
        1. Sort by weight
        2. color.chosen_node = the node (of those with the highest wieght)
@@ -180,6 +181,7 @@ native_choose_node(resource_t * rsc, node_t * prefer, pe_working_set_t * data_se
 static int
 node_list_attr_score(GHashTable * list, const char *attr, const char *value)
 {
+	crm_info("my trace");
     GHashTableIter iter;
     node_t *node = NULL;
     int best_score = -INFINITY;
@@ -218,6 +220,7 @@ static void
 node_hash_update(GHashTable * list1, GHashTable * list2, const char *attr, float factor,
                  gboolean only_positive)
 {
+	crm_info("my trace");
     int score = 0;
     int new_score = 0;
     GHashTableIter iter;
@@ -268,6 +271,7 @@ node_hash_update(GHashTable * list1, GHashTable * list2, const char *attr, float
 GHashTable *
 node_hash_dup(GHashTable * hash)
 {
+	crm_info("my trace");
     /* Hack! */
     GListPtr list = g_hash_table_get_values(hash);
     GHashTable *result = node_hash_from_list(list);
@@ -280,6 +284,7 @@ GHashTable *
 native_merge_weights(resource_t * rsc, const char *rhs, GHashTable * nodes, const char *attr,
                      float factor, enum pe_weights flags)
 {
+	crm_info("my trace");
     return rsc_merge_weights(rsc, rhs, nodes, attr, factor, flags);
 }
 
@@ -287,6 +292,7 @@ GHashTable *
 rsc_merge_weights(resource_t * rsc, const char *rhs, GHashTable * nodes, const char *attr,
                   float factor, enum pe_weights flags)
 {
+	crm_info("my trace");
     GHashTable *work = NULL;
     int multiplier = 1;
 
@@ -404,6 +410,7 @@ rsc_merge_weights(resource_t * rsc, const char *rhs, GHashTable * nodes, const c
 node_t *
 native_color(resource_t * rsc, node_t * prefer, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     int alloc_details = scores_log_level + 1;
 
@@ -557,6 +564,7 @@ native_color(resource_t * rsc, node_t * prefer, pe_working_set_t * data_set)
 static gboolean
 is_op_dup(resource_t * rsc, const char *name, const char *interval)
 {
+	crm_info("my trace");
     gboolean dup = FALSE;
     const char *id = NULL;
     const char *value = NULL;
@@ -599,6 +607,7 @@ void
 RecurringOp(resource_t * rsc, action_t * start, node_t * node,
             xmlNode * operation, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     char *key = NULL;
     const char *name = NULL;
     const char *value = NULL;
@@ -793,6 +802,7 @@ RecurringOp(resource_t * rsc, action_t * start, node_t * node,
 void
 Recurring(resource_t * rsc, action_t * start, node_t * node, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     if (is_not_set(rsc->flags, pe_rsc_maintenance) &&
         (node == NULL || node->details->maintenance == FALSE)) {
         xmlNode *operation = NULL;
@@ -810,6 +820,7 @@ void
 RecurringOp_Stopped(resource_t * rsc, action_t * start, node_t * node,
                     xmlNode * operation, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     char *key = NULL;
     const char *name = NULL;
     const char *role = NULL;
@@ -1017,6 +1028,7 @@ RecurringOp_Stopped(resource_t * rsc, action_t * start, node_t * node,
 void
 Recurring_Stopped(resource_t * rsc, action_t * start, node_t * node, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     if (is_not_set(rsc->flags, pe_rsc_maintenance) && 
         (node == NULL || node->details->maintenance == FALSE)) {
         xmlNode *operation = NULL;
@@ -1033,6 +1045,7 @@ Recurring_Stopped(resource_t * rsc, action_t * start, node_t * node, pe_working_
 static void
 handle_migration_actions(resource_t * rsc, node_t *current, node_t *chosen, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     action_t *migrate_to = NULL;
     action_t *migrate_from = NULL;
     action_t *start = NULL;
@@ -1109,6 +1122,7 @@ handle_migration_actions(resource_t * rsc, node_t *current, node_t *chosen, pe_w
 void
 native_create_actions(resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     action_t *start = NULL;
     node_t *chosen = NULL;
     node_t *current = NULL;
@@ -1308,6 +1322,7 @@ native_create_actions(resource_t * rsc, pe_working_set_t * data_set)
 static void
 rsc_avoids_remote_nodes(resource_t *rsc)
 {
+	crm_info("my trace");
     GHashTableIter iter;
     node_t *node = NULL;
     g_hash_table_iter_init(&iter, rsc->allowed_nodes);
@@ -1321,6 +1336,7 @@ rsc_avoids_remote_nodes(resource_t *rsc)
 void
 native_internal_constraints(resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     /* This function is on the critical path and worth optimizing as much as possible */
 
     resource_t *top = uber_parent(rsc);
@@ -1493,6 +1509,7 @@ native_internal_constraints(resource_t * rsc, pe_working_set_t * data_set)
 void
 native_rsc_colocation_lh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation_t * constraint)
 {
+	crm_info("my trace");
     if (rsc_lh == NULL) {
         pe_err("rsc_lh was NULL for %s", constraint->id);
         return;
@@ -1512,6 +1529,7 @@ enum filter_colocation_res
 filter_colocation_constraint(resource_t * rsc_lh, resource_t * rsc_rh,
                              rsc_colocation_t * constraint, gboolean preview)
 {
+	crm_info("my trace");
     if (constraint->score == 0) {
         return influence_nothing;
     }
@@ -1590,6 +1608,7 @@ filter_colocation_constraint(resource_t * rsc_lh, resource_t * rsc_rh,
 static void
 influence_priority(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation_t * constraint)
 {
+	crm_info("my trace");
     const char *rh_value = NULL;
     const char *lh_value = NULL;
     const char *attribute = "#id";
@@ -1627,6 +1646,7 @@ influence_priority(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation_t * 
 static void
 colocation_match(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation_t * constraint)
 {
+	crm_info("my trace");
     const char *tmp = NULL;
     const char *value = NULL;
     const char *attribute = "#id";
@@ -1695,6 +1715,7 @@ colocation_match(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation_t * co
 void
 native_rsc_colocation_rh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocation_t * constraint)
 {
+	crm_info("my trace");
     enum filter_colocation_res filter_results;
 
     CRM_ASSERT(rsc_lh);
@@ -1723,6 +1744,7 @@ native_rsc_colocation_rh(resource_t * rsc_lh, resource_t * rsc_rh, rsc_colocatio
 static gboolean
 filter_rsc_ticket(resource_t * rsc_lh, rsc_ticket_t * rsc_ticket)
 {
+	crm_info("my trace");
     if (rsc_ticket->role_lh != RSC_ROLE_UNKNOWN && rsc_ticket->role_lh != rsc_lh->role) {
         pe_rsc_trace(rsc_lh, "LH: Skipping constraint: \"%s\" state filter",
                      role2text(rsc_ticket->role_lh));
@@ -1735,6 +1757,7 @@ filter_rsc_ticket(resource_t * rsc_lh, rsc_ticket_t * rsc_ticket)
 void
 rsc_ticket_constraint(resource_t * rsc_lh, rsc_ticket_t * rsc_ticket, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     if (rsc_ticket == NULL) {
         pe_err("rsc_ticket was NULL");
         return;
@@ -1823,6 +1846,7 @@ rsc_ticket_constraint(resource_t * rsc_lh, rsc_ticket_t * rsc_ticket, pe_working
 enum pe_action_flags
 native_action_flags(action_t * action, node_t * node)
 {
+	crm_info("my trace");
     return action->flags;
 }
 
@@ -1830,6 +1854,7 @@ enum pe_graph_flags
 native_update_actions(action_t * first, action_t * then, node_t * node, enum pe_action_flags flags,
                       enum pe_action_flags filter, enum pe_ordering type)
 {
+	crm_info("my trace");
     /* flags == get_action_flags(first, then_node) called from update_action() */
     enum pe_graph_flags changed = pe_graph_none;
     enum pe_action_flags then_flags = then->flags;
@@ -2016,6 +2041,7 @@ native_update_actions(action_t * first, action_t * then, node_t * node, enum pe_
 void
 native_rsc_location(resource_t * rsc, rsc_to_node_t * constraint)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     GHashTableIter iter;
     node_t *node = NULL;
@@ -2084,6 +2110,7 @@ native_rsc_location(resource_t * rsc, rsc_to_node_t * constraint)
 void
 native_expand(resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
 
     CRM_ASSERT(rsc);
@@ -2126,6 +2153,7 @@ native_expand(resource_t * rsc, pe_working_set_t * data_set)
 void
 LogActions(resource_t * rsc, pe_working_set_t * data_set, gboolean terminal)
 {
+	crm_info("my trace");
     node_t *next = NULL;
     node_t *current = NULL;
 
@@ -2393,6 +2421,7 @@ LogActions(resource_t * rsc, pe_working_set_t * data_set, gboolean terminal)
 gboolean
 StopRsc(resource_t * rsc, node_t * next, gboolean optional, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
 
     CRM_ASSERT(rsc);
@@ -2431,6 +2460,7 @@ StopRsc(resource_t * rsc, node_t * next, gboolean optional, pe_working_set_t * d
 gboolean
 StartRsc(resource_t * rsc, node_t * next, gboolean optional, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     action_t *start = NULL;
 
     CRM_ASSERT(rsc);
@@ -2445,6 +2475,7 @@ StartRsc(resource_t * rsc, node_t * next, gboolean optional, pe_working_set_t * 
 gboolean
 PromoteRsc(resource_t * rsc, node_t * next, gboolean optional, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     char *key = NULL;
     GListPtr gIter = NULL;
     gboolean runnable = TRUE;
@@ -2491,6 +2522,7 @@ PromoteRsc(resource_t * rsc, node_t * next, gboolean optional, pe_working_set_t 
 gboolean
 DemoteRsc(resource_t * rsc, node_t * next, gboolean optional, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
 
     CRM_ASSERT(rsc);
@@ -2509,6 +2541,7 @@ DemoteRsc(resource_t * rsc, node_t * next, gboolean optional, pe_working_set_t *
 gboolean
 RoleError(resource_t * rsc, node_t * next, gboolean optional, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     CRM_ASSERT(rsc);
     crm_err("%s on %s", rsc->id, next ? next->details->uname : "N/A");
     CRM_CHECK(FALSE, return FALSE);
@@ -2518,6 +2551,7 @@ RoleError(resource_t * rsc, node_t * next, gboolean optional, pe_working_set_t *
 gboolean
 NullOp(resource_t * rsc, node_t * next, gboolean optional, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     CRM_ASSERT(rsc);
     pe_rsc_trace(rsc, "%s", rsc->id);
     return FALSE;
@@ -2526,6 +2560,7 @@ NullOp(resource_t * rsc, node_t * next, gboolean optional, pe_working_set_t * da
 gboolean
 DeleteRsc(resource_t * rsc, node_t * node, gboolean optional, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     if (is_set(rsc->flags, pe_rsc_failed)) {
         pe_rsc_trace(rsc, "Resource %s not deleted from %s: failed", rsc->id, node->details->uname);
         return FALSE;
@@ -2558,6 +2593,7 @@ DeleteRsc(resource_t * rsc, node_t * node, gboolean optional, pe_working_set_t *
 static char *
 increment_clone(char *last_rsc_id)
 {
+	crm_info("my trace");
     int lpc = 0;
     int len = 0;
     char *tmp = NULL;
@@ -2627,6 +2663,7 @@ increment_clone(char *last_rsc_id)
 static node_t *
 probe_grouped_clone(resource_t * rsc, node_t * node, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     node_t *running = NULL;
     resource_t *top = uber_parent(rsc);
 
@@ -2673,6 +2710,7 @@ gboolean
 native_create_probe(resource_t * rsc, node_t * node, action_t * complete,
                     gboolean force, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     enum pe_ordering flags = pe_order_optional;
     char *key = NULL;
     action_t *probe = NULL;
@@ -2862,6 +2900,7 @@ native_create_probe(resource_t * rsc, node_t * node, action_t * complete,
 static void
 native_start_constraints(resource_t * rsc, action_t * stonith_op, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     node_t *target;
     GListPtr gIter = NULL;
     action_t *all_stopped = get_pseudo_op(ALL_STOPPED, data_set);
@@ -2907,6 +2946,7 @@ native_start_constraints(resource_t * rsc, action_t * stonith_op, pe_working_set
 static void
 native_stop_constraints(resource_t * rsc, action_t * stonith_op, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     char *key = NULL;
     GListPtr gIter = NULL;
     GListPtr action_list = NULL;
@@ -3056,6 +3096,7 @@ native_stop_constraints(resource_t * rsc, action_t * stonith_op, pe_working_set_
 void
 rsc_stonith_ordering(resource_t * rsc, action_t * stonith_op, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     if (rsc->children) {
         GListPtr gIter = NULL;
 
@@ -3084,6 +3125,7 @@ enum stack_activity {
 static action_t *
 get_first_named_action(resource_t * rsc, const char *action, gboolean only_valid, node_t * current)
 {
+	crm_info("my trace");
     action_t *a = NULL;
     GListPtr action_list = NULL;
     char *key = generate_op_key(rsc->id, action, 0);
@@ -3115,6 +3157,7 @@ get_first_named_action(resource_t * rsc, const char *action, gboolean only_valid
 void
 ReloadRsc(resource_t * rsc, node_t *node, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     action_t *other = NULL;
     action_t *reload = NULL;
@@ -3166,6 +3209,7 @@ ReloadRsc(resource_t * rsc, node_t *node, pe_working_set_t * data_set)
 void
 native_append_meta(resource_t * rsc, xmlNode * xml)
 {
+	crm_info("my trace");
     char *value = g_hash_table_lookup(rsc->meta, XML_RSC_ATTR_INCARNATION);
     resource_t *iso_parent, *last_parent, *parent;
 

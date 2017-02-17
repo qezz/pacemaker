@@ -75,6 +75,7 @@ void attrd_peer_remove(const char *host, gboolean uncache, const char *source);
 static gboolean
 send_attrd_message(crm_node_t * node, xmlNode * data)
 {
+	crm_info("my trace");
     crm_xml_add(data, F_TYPE, T_ATTRD);
     crm_xml_add(data, F_ATTRD_IGNORE_LOCALLY, "atomic-version"); /* Tell older versions to ignore our messages */
     crm_xml_add(data, F_ATTRD_VERSION, ATTRD_PROTOCOL_VERSION);
@@ -86,6 +87,7 @@ send_attrd_message(crm_node_t * node, xmlNode * data)
 static gboolean
 attribute_timer_cb(gpointer data)
 {
+	crm_info("my trace");
     attribute_t *a = data;
     crm_trace("Dampen interval expired for %s in state %d", a->id, election_state(writer));
     write_or_elect_attribute(a);
@@ -95,6 +97,7 @@ attribute_timer_cb(gpointer data)
 static void
 free_attribute_value(gpointer data)
 {
+	crm_info("my trace");
     attribute_value_t *v = data;
 
     free(v->nodename);
@@ -106,6 +109,7 @@ free_attribute_value(gpointer data)
 void
 free_attribute(gpointer data)
 {
+	crm_info("my trace");
     attribute_t *a = data;
     if(a) {
         free(a->id);
@@ -143,6 +147,7 @@ build_attribute_xml(
 static attribute_t *
 create_attribute(xmlNode *xml)
 {
+	crm_info("my trace");
     int dampen = 0;
     const char *value = crm_element_value(xml, F_ATTRD_DAMPEN);
     attribute_t *a = calloc(1, sizeof(attribute_t));
@@ -189,6 +194,7 @@ create_attribute(xmlNode *xml)
 void
 attrd_client_peer_remove(const char *client_name, xmlNode *xml)
 {
+	crm_info("my trace");
     const char *host = crm_element_value(xml, F_ATTRD_HOST);
 
     if (host) {
@@ -212,6 +218,7 @@ attrd_client_peer_remove(const char *client_name, xmlNode *xml)
 void
 attrd_client_update(xmlNode *xml)
 {
+	crm_info("my trace");
     attribute_t *a = NULL;
     attribute_value_t *v = NULL;
     char *key = crm_element_value_copy(xml, F_ATTRD_KEY);
@@ -326,6 +333,7 @@ attrd_client_update(xmlNode *xml)
 void
 attrd_client_refresh(void)
 {
+	crm_info("my trace");
     GHashTableIter iter;
     attribute_t *a = NULL;
 
@@ -353,6 +361,7 @@ attrd_client_refresh(void)
  */
 static xmlNode *build_query_reply(const char *attr, const char *host)
 {
+	crm_info("my trace");
     xmlNode *reply = create_xml_node(NULL, __FUNCTION__);
     attribute_t *a;
 
@@ -418,6 +427,7 @@ static xmlNode *build_query_reply(const char *attr, const char *host)
 void
 attrd_client_query(crm_client_t *client, uint32_t id, uint32_t flags, xmlNode *query)
 {
+	crm_info("my trace");
     const char *attr;
     const char *origin = crm_element_value(query, F_ORIG);
     ssize_t rc;
@@ -457,6 +467,7 @@ attrd_client_query(crm_client_t *client, uint32_t id, uint32_t flags, xmlNode *q
 void
 attrd_peer_message(crm_node_t *peer, xmlNode *xml)
 {
+	crm_info("my trace");
     int peer_state = 0;
     const char *v = crm_element_value(xml, F_ATTRD_VERSION);
     const char *op = crm_element_value(xml, F_ATTRD_TASK);
@@ -556,6 +567,7 @@ attrd_peer_message(crm_node_t *peer, xmlNode *xml)
 void
 attrd_peer_sync(crm_node_t *peer, xmlNode *xml)
 {
+	crm_info("my trace");
     GHashTableIter aIter;
     GHashTableIter vIter;
 
@@ -591,6 +603,7 @@ attrd_peer_sync(crm_node_t *peer, xmlNode *xml)
 void
 attrd_peer_remove(const char *host, gboolean uncache, const char *source)
 {
+	crm_info("my trace");
     attribute_t *a = NULL;
     GHashTableIter aIter;
 
@@ -623,6 +636,7 @@ attrd_peer_remove(const char *host, gboolean uncache, const char *source)
 static attribute_value_t *
 attrd_lookup_or_create_value(GHashTable *values, const char *host, xmlNode *xml)
 {
+	crm_info("my trace");
     attribute_value_t *v = g_hash_table_lookup(values, host);
     int is_remote = 0;
 
@@ -657,6 +671,7 @@ attrd_lookup_or_create_value(GHashTable *values, const char *host, xmlNode *xml)
 void
 attrd_peer_update(crm_node_t *peer, xmlNode *xml, const char *host, bool filter)
 {
+	crm_info("my trace");
     bool changed = FALSE;
     attribute_t *a;
     attribute_value_t *v = NULL;
@@ -795,6 +810,7 @@ attrd_peer_update(crm_node_t *peer, xmlNode *xml, const char *host, bool filter)
 void
 write_or_elect_attribute(attribute_t *a)
 {
+	crm_info("my trace");
     enum election_result rc = election_state(writer);
     if(rc == election_won) {
         write_attribute(a);
@@ -814,6 +830,7 @@ write_or_elect_attribute(attribute_t *a)
 gboolean
 attrd_election_cb(gpointer user_data)
 {
+	crm_info("my trace");
     crm_trace("Election complete");
 
     free(peer_writer);
@@ -831,6 +848,7 @@ attrd_election_cb(gpointer user_data)
 void
 attrd_peer_change_cb(enum crm_status_type kind, crm_node_t *peer, const void *data)
 {
+	crm_info("my trace");
     if ((kind == crm_status_nstate) || (kind == crm_status_rstate)) {
         if (safe_str_eq(peer->state, CRM_NODE_MEMBER)) {
             /* If we're the writer, send new peers a list of all attributes
@@ -855,6 +873,7 @@ attrd_peer_change_cb(enum crm_status_type kind, crm_node_t *peer, const void *da
 static void
 attrd_cib_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("my trace");
     int level = LOG_ERR;
     GHashTableIter iter;
     const char *peer = NULL;
@@ -907,6 +926,7 @@ attrd_cib_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *u
 void
 write_attributes(bool all, bool peer_discovered)
 {
+	crm_info("my trace");
     GHashTableIter iter;
     attribute_t *a = NULL;
 
@@ -928,6 +948,7 @@ write_attributes(bool all, bool peer_discovered)
 static void
 build_update_element(xmlNode *parent, attribute_t *a, const char *nodeid, const char *value)
 {
+	crm_info("my trace");
     char *set = NULL;
     char *uuid = NULL;
     xmlNode *xml_obj = NULL;
@@ -981,6 +1002,7 @@ build_update_element(xmlNode *parent, attribute_t *a, const char *nodeid, const 
 void
 write_attribute(attribute_t *a)
 {
+	crm_info("my trace");
     int private_updates = 0, cib_updates = 0;
     xmlNode *xml_top = NULL;
     attribute_value_t *v = NULL;

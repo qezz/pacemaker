@@ -71,6 +71,7 @@ static struct crm_option long_options[] = {
 static void
 print_patch(xmlNode *patch)
 {
+	crm_info("my trace");
     char *buffer = dump_xml_formatted(patch);
 
     printf("%s\n", crm_str(buffer));
@@ -81,6 +82,7 @@ print_patch(xmlNode *patch)
 static int
 apply_patch(xmlNode *input, xmlNode *patch, gboolean as_cib)
 {
+	crm_info("my trace");
     int rc;
     xmlNode *output = copy_xml(input);
 
@@ -109,6 +111,7 @@ apply_patch(xmlNode *input, xmlNode *patch, gboolean as_cib)
 static void
 log_patch_cib_versions(xmlNode *patch)
 {
+	crm_info("my trace");
     int add[] = { 0, 0, 0 };
     int del[] = { 0, 0, 0 };
 
@@ -128,6 +131,7 @@ log_patch_cib_versions(xmlNode *patch)
 static void
 strip_patch_cib_version(xmlNode *patch, const char **vfields, size_t nvfields)
 {
+	crm_info("my trace");
     int format = 1;
 
     crm_element_value_int(patch, "format", &format);
@@ -171,6 +175,7 @@ static int
 generate_patch(xmlNode *object_1, xmlNode *object_2, const char *xml_file_2,
                gboolean as_cib, gboolean no_version)
 {
+	crm_info("my trace");
     xmlNode *output = NULL;
 
     const char *vfields[] = {
@@ -220,6 +225,7 @@ generate_patch(xmlNode *object_1, xmlNode *object_2, const char *xml_file_2,
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     gboolean apply = FALSE;
     gboolean raw_1 = FALSE;
     gboolean raw_2 = FALSE;

@@ -27,5 +27,6 @@ void nosuchfunctionname(void);
 void
 nosuchfunctionname(void)
 {
+//	crm_info("my trace");
     return;
 }

@@ -126,12 +126,14 @@ static xmlNode *stonith_construct_async_reply(async_command_t * cmd, const char 
 static gboolean
 is_action_required(const char *action, stonith_device_t *device)
 {
+	crm_info("my trace");
     return device && device->automatic_unfencing && safe_str_eq(action, "on");
 }
 
 static int
 get_action_delay_max(stonith_device_t * device, const char * action)
 {
+	crm_info("my trace");
     const char *value = NULL;
     int delay_max_ms = 0;
 
@@ -170,6 +172,7 @@ get_action_delay_max(stonith_device_t * device, const char * action)
 static int
 get_action_timeout(stonith_device_t * device, const char *action, int default_timeout)
 {
+	crm_info("my trace");
     if (action && device && device->params) {
         char buffer[64] = { 0, };
         const char *value = NULL;
@@ -197,6 +200,7 @@ get_action_timeout(stonith_device_t * device, const char *action, int default_ti
 static void
 free_async_command(async_command_t * cmd)
 {
+	crm_info("my trace");
     if (!cmd) {
         return;
     }
@@ -223,6 +227,7 @@ free_async_command(async_command_t * cmd)
 static async_command_t *
 create_async_command(xmlNode * msg)
 {
+	crm_info("my trace");
     async_command_t *cmd = NULL;
     xmlNode *op = get_xpath_object("//@" F_STONITH_ACTION, msg, LOG_ERR);
     const char *action = crm_element_value(op, F_STONITH_ACTION);
@@ -257,6 +262,7 @@ create_async_command(xmlNode * msg)
 static int
 get_action_limit(stonith_device_t * device)
 {
+	crm_info("my trace");
     const char *value = NULL;
     int action_limit = 1;
 
@@ -275,6 +281,7 @@ get_action_limit(stonith_device_t * device)
 static int
 get_active_cmds(stonith_device_t * device)
 {
+	crm_info("my trace");
     int counter = 0;
     GListPtr gIter = NULL;
     GListPtr gIterNext = NULL;
@@ -297,6 +304,7 @@ get_active_cmds(stonith_device_t * device)
 static gboolean
 stonith_device_execute(stonith_device_t * device)
 {
+	crm_info("my trace");
     int exec_rc = 0;
     const char *action_str = NULL;
     async_command_t *cmd = NULL;
@@ -401,12 +409,14 @@ stonith_device_execute(stonith_device_t * device)
 static gboolean
 stonith_device_dispatch(gpointer user_data)
 {
+	crm_info("my trace");
     return stonith_device_execute(user_data);
 }
 
 static gboolean
 start_delay_helper(gpointer data)
 {
+	crm_info("my trace");
     async_command_t *cmd = data;
     stonith_device_t *device = NULL;
 
@@ -423,6 +433,7 @@ start_delay_helper(gpointer data)
 static void
 schedule_stonith_command(async_command_t * cmd, stonith_device_t * device)
 {
+	crm_info("my trace");
     int delay_max = 0;
 
     CRM_CHECK(cmd != NULL, return);
@@ -464,6 +475,7 @@ schedule_stonith_command(async_command_t * cmd, stonith_device_t * device)
 void
 free_device(gpointer data)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     stonith_device_t *device = data;
 
@@ -494,6 +506,7 @@ free_device(gpointer data)
 static GHashTable *
 build_port_aliases(const char *hostmap, GListPtr * targets)
 {
+	crm_info("my trace");
     char *name = NULL;
     int last = 0, lpc = 0, max = 0, added = 0;
     GHashTable *aliases =
@@ -562,6 +575,7 @@ build_port_aliases(const char *hostmap, GListPtr * targets)
 static void
 parse_host_line(const char *line, int max, GListPtr * output)
 {
+	crm_info("my trace");
     int lpc = 0;
     int last = 0;
 
@@ -616,6 +630,7 @@ parse_host_line(const char *line, int max, GListPtr * output)
 static GListPtr
 parse_host_list(const char *hosts)
 {
+	crm_info("my trace");
     int lpc = 0;
     int max = 0;
     int last = 0;
@@ -655,6 +670,7 @@ GHashTable *metadata_cache = NULL;
 static xmlNode *
 get_agent_metadata(const char *agent)
 {
+	crm_info("my trace");
     xmlNode *xml = NULL;
     char *buffer = NULL;
 
@@ -687,6 +703,7 @@ get_agent_metadata(const char *agent)
 static gboolean
 is_nodeid_required(xmlNode * xml)
 {
+	crm_info("my trace");
     xmlXPathObjectPtr xpath = NULL;
 
     if (stand_alone) {
@@ -710,6 +727,7 @@ is_nodeid_required(xmlNode * xml)
 static char *
 add_action(char *actions, const char *action)
 {
+	crm_info("my trace");
     static size_t len = 256;
     int offset = 0;
 
@@ -730,6 +748,7 @@ add_action(char *actions, const char *action)
 static void
 read_action_metadata(stonith_device_t *device)
 {
+	crm_info("my trace");
     xmlXPathObjectPtr xpath = NULL;
     int max = 0;
     int lpc = 0;
@@ -786,6 +805,7 @@ read_action_metadata(stonith_device_t *device)
 static stonith_device_t *
 build_device_from_xml(xmlNode * msg)
 {
+	crm_info("my trace");
     const char *value = NULL;
     xmlNode *dev = get_xpath_object("//" F_STONITH_DEVICE, msg, LOG_ERR);
     stonith_device_t *device = NULL;
@@ -835,6 +855,7 @@ build_device_from_xml(xmlNode * msg)
 static const char *
 target_list_type(stonith_device_t * dev)
 {
+	crm_info("my trace");
     const char *check_type = NULL;
 
     check_type = g_hash_table_lookup(dev->params, STONITH_ATTR_HOSTCHECK);
@@ -890,6 +911,7 @@ schedule_internal_command(const char *origin,
 gboolean
 string_in_list(GListPtr list, const char *item)
 {
+	crm_info("my trace");
     int lpc = 0;
     int max = g_list_length(list);
 
@@ -908,6 +930,7 @@ string_in_list(GListPtr list, const char *item)
 static void
 status_search_cb(GPid pid, int rc, const char *output, gpointer user_data)
 {
+	crm_info("my trace");
     async_command_t *cmd = user_data;
     struct device_search_s *search = cmd->internal_user_data;
     stonith_device_t *dev = cmd->device ? g_hash_table_lookup(device_list, cmd->device) : NULL;
@@ -939,6 +962,7 @@ status_search_cb(GPid pid, int rc, const char *output, gpointer user_data)
 static void
 dynamic_list_search_cb(GPid pid, int rc, const char *output, gpointer user_data)
 {
+	crm_info("my trace");
     async_command_t *cmd = user_data;
     struct device_search_s *search = cmd->internal_user_data;
     stonith_device_t *dev = cmd->device ? g_hash_table_lookup(device_list, cmd->device) : NULL;
@@ -992,6 +1016,7 @@ dynamic_list_search_cb(GPid pid, int rc, const char *output, gpointer user_data)
  */
 static int
 device_params_diff(GHashTable *first, GHashTable *second) {
+	crm_info("my trace");
     char *key = NULL;
     char *value = NULL;
     GHashTableIter gIter;
@@ -1023,6 +1048,7 @@ device_params_diff(GHashTable *first, GHashTable *second) {
 static stonith_device_t *
 device_has_duplicate(stonith_device_t * device)
 {
+	crm_info("my trace");
     stonith_device_t *dup = g_hash_table_lookup(device_list, device->id);
 
     if (!dup) {
@@ -1047,6 +1073,7 @@ device_has_duplicate(stonith_device_t * device)
 int
 stonith_device_register(xmlNode * msg, const char **desc, gboolean from_cib)
 {
+	crm_info("my trace");
     stonith_device_t *dup = NULL;
     stonith_device_t *device = build_device_from_xml(msg);
 
@@ -1094,6 +1121,7 @@ stonith_device_register(xmlNode * msg, const char **desc, gboolean from_cib)
 int
 stonith_device_remove(const char *id, gboolean from_cib)
 {
+	crm_info("my trace");
     stonith_device_t *device = g_hash_table_lookup(device_list, id);
 
     if (!device) {
@@ -1128,6 +1156,7 @@ stonith_device_remove(const char *id, gboolean from_cib)
 static int
 count_active_levels(stonith_topology_t * tp)
 {
+	crm_info("my trace");
     int lpc = 0;
     int count = 0;
 
@@ -1142,6 +1171,7 @@ count_active_levels(stonith_topology_t * tp)
 void
 free_topology_entry(gpointer data)
 {
+	crm_info("my trace");
     stonith_topology_t *tp = data;
 
     int lpc = 0;
@@ -1160,6 +1190,7 @@ free_topology_entry(gpointer data)
 
 char *stonith_level_key(xmlNode *level, int mode)
 {
+	crm_info("my trace");
     if(mode == -1) {
         mode = stonith_level_kind(level);
     }
@@ -1185,6 +1216,7 @@ char *stonith_level_key(xmlNode *level, int mode)
 
 int stonith_level_kind(xmlNode * level)
 {
+	crm_info("my trace");
     int mode = 0;
     const char *target = crm_element_value(level, XML_ATTR_STONITH_TARGET);
 
@@ -1211,6 +1243,7 @@ int stonith_level_kind(xmlNode * level)
 static stonith_key_value_t *
 parse_device_list(const char *devices)
 {
+	crm_info("my trace");
     int lpc = 0;
     int max = 0;
     int last = 0;
@@ -1254,6 +1287,7 @@ parse_device_list(const char *devices)
 int
 stonith_level_register(xmlNode *msg, char **desc)
 {
+	crm_info("my trace");
     int id = 0;
     xmlNode *level;
     int mode;
@@ -1329,6 +1363,7 @@ stonith_level_register(xmlNode *msg, char **desc)
 int
 stonith_level_remove(xmlNode *msg, char **desc)
 {
+	crm_info("my trace");
     int id = 0;
     stonith_topology_t *tp;
     char *target;
@@ -1374,6 +1409,7 @@ stonith_level_remove(xmlNode *msg, char **desc)
 static int
 stonith_device_action(xmlNode * msg, char **output)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     xmlNode *dev = get_xpath_object("//" F_STONITH_DEVICE, msg, LOG_ERR);
     const char *id = crm_element_value(dev, F_STONITH_DEVICE);
@@ -1408,6 +1444,7 @@ stonith_device_action(xmlNode * msg, char **output)
 static void
 search_devices_record_result(struct device_search_s *search, const char *device, gboolean can_fence)
 {
+	crm_info("my trace");
     search->replies_received++;
 
     if (can_fence && device) {
@@ -1443,6 +1480,7 @@ static gboolean
 localhost_is_eligible(const stonith_device_t *device, const char *action,
                       const char *target, gboolean allow_suicide)
 {
+	crm_info("my trace");
     gboolean localhost_is_target = safe_str_eq(target, stonith_our_uname);
 
     if (device && action && device->on_target_actions
@@ -1463,6 +1501,7 @@ localhost_is_eligible(const stonith_device_t *device, const char *action,
 static void
 can_fence_host_with_device(stonith_device_t * dev, struct device_search_s *search)
 {
+	crm_info("my trace");
     gboolean can = FALSE;
     const char *check_type = NULL;
     const char *host = search->host;
@@ -1560,6 +1599,7 @@ can_fence_host_with_device(stonith_device_t * dev, struct device_search_s *searc
 static void
 search_devices(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     stonith_device_t *dev = value;
     struct device_search_s *search = user_data;
 
@@ -1655,6 +1695,7 @@ static void
 add_action_specific_attributes(xmlNode *xml, const char *action,
                                stonith_device_t *device)
 {
+	crm_info("my trace");
     int action_specific_timeout;
     int delay_max;
 
@@ -1694,6 +1735,7 @@ static void
 add_disallowed(xmlNode *xml, const char *action, stonith_device_t *device,
                const char *target, gboolean allow_suicide)
 {
+	crm_info("my trace");
     if (!localhost_is_eligible(device, action, target, allow_suicide)) {
         crm_trace("Action %s on %s is disallowed for local host",
                   action, device->id);
@@ -1715,6 +1757,7 @@ static void
 add_action_reply(xmlNode *xml, const char *action, stonith_device_t *device,
                const char *target, gboolean allow_suicide)
 {
+	crm_info("my trace");
     xmlNode *child = create_xml_node(xml, F_STONITH_ACTION);
 
     crm_xml_add(child, XML_ATTR_ID, action);
@@ -1725,6 +1768,7 @@ add_action_reply(xmlNode *xml, const char *action, stonith_device_t *device,
 static void
 stonith_query_capable_device_cb(GList * devices, void *user_data)
 {
+	crm_info("my trace");
     struct st_query_data *query = user_data;
     int available_devices = 0;
     xmlNode *dev = NULL;
@@ -1817,6 +1861,7 @@ stonith_query_capable_device_cb(GList * devices, void *user_data)
 static void
 stonith_query(xmlNode * msg, const char *remote_peer, const char *client_id, int call_options)
 {
+	crm_info("my trace");
     struct st_query_data *query = NULL;
     const char *action = NULL;
     const char *target = NULL;
@@ -1854,6 +1899,7 @@ stonith_query(xmlNode * msg, const char *remote_peer, const char *client_id, int
 static void
 log_operation(async_command_t * cmd, int rc, int pid, const char *next, const char *output)
 {
+	crm_info("my trace");
     if (rc == 0) {
         next = NULL;
     }
@@ -1882,6 +1928,7 @@ log_operation(async_command_t * cmd, int rc, int pid, const char *next, const ch
 static void
 stonith_send_async_reply(async_command_t * cmd, const char *output, int rc, GPid pid)
 {
+	crm_info("my trace");
     xmlNode *reply = NULL;
     gboolean bcast = FALSE;
 
@@ -1940,6 +1987,7 @@ stonith_send_async_reply(async_command_t * cmd, const char *output, int rc, GPid
 void
 unfence_cb(GPid pid, int rc, const char *output, gpointer user_data)
 {
+	crm_info("my trace");
     async_command_t * cmd = user_data;
     stonith_device_t *dev = g_hash_table_lookup(device_list, cmd->device);
 
@@ -1961,6 +2009,7 @@ unfence_cb(GPid pid, int rc, const char *output, gpointer user_data)
 static void
 cancel_stonith_command(async_command_t * cmd)
 {
+	crm_info("my trace");
     stonith_device_t *device;
 
     CRM_CHECK(cmd != NULL, return);
@@ -1980,6 +2029,7 @@ cancel_stonith_command(async_command_t * cmd)
 static void
 st_child_done(GPid pid, int rc, const char *output, gpointer user_data)
 {
+	crm_info("my trace");
     stonith_device_t *device = NULL;
     stonith_device_t *next_device = NULL;
     async_command_t *cmd = user_data;
@@ -2098,6 +2148,7 @@ st_child_done(GPid pid, int rc, const char *output, gpointer user_data)
 static gint
 sort_device_priority(gconstpointer a, gconstpointer b)
 {
+	crm_info("my trace");
     const stonith_device_t *dev_a = a;
     const stonith_device_t *dev_b = b;
 
@@ -2112,6 +2163,7 @@ sort_device_priority(gconstpointer a, gconstpointer b)
 static void
 stonith_fence_get_devices_cb(GList * devices, void *user_data)
 {
+	crm_info("my trace");
     async_command_t *cmd = user_data;
     stonith_device_t *device = NULL;
 
@@ -2146,6 +2198,7 @@ stonith_fence_get_devices_cb(GList * devices, void *user_data)
 static int
 stonith_fence(xmlNode * msg)
 {
+	crm_info("my trace");
     const char *device_id = NULL;
     stonith_device_t *device = NULL;
     async_command_t *cmd = create_async_command(msg);
@@ -2190,6 +2243,7 @@ stonith_fence(xmlNode * msg)
 xmlNode *
 stonith_construct_reply(xmlNode * request, const char *output, xmlNode * data, int rc)
 {
+	crm_info("my trace");
     int lpc = 0;
     xmlNode *reply = NULL;
 
@@ -2230,6 +2284,7 @@ stonith_construct_reply(xmlNode * request, const char *output, xmlNode * data, i
 static xmlNode *
 stonith_construct_async_reply(async_command_t * cmd, const char *output, xmlNode * data, int rc)
 {
+	crm_info("my trace");
     xmlNode *reply = NULL;
 
     crm_trace("Creating a basic reply");
@@ -2262,6 +2317,7 @@ stonith_construct_async_reply(async_command_t * cmd, const char *output, xmlNode
 
 bool fencing_peer_active(crm_node_t *peer)
 {
+	crm_info("my trace");
     if (peer == NULL) {
         return FALSE;
     } else if (peer->uname == NULL) {
@@ -2283,6 +2339,7 @@ bool fencing_peer_active(crm_node_t *peer)
 static const char *
 check_alternate_host(const char *target)
 {
+	crm_info("my trace");
     const char *alternate_host = NULL;
 
     crm_trace("Checking if we (%s) can fence %s", stonith_our_uname, target);
@@ -2315,6 +2372,7 @@ static void
 stonith_send_reply(xmlNode * reply, int call_options, const char *remote_peer,
                    const char *client_id)
 {
+	crm_info("my trace");
     if (remote_peer) {
         send_cluster_message(crm_get_peer(0, remote_peer), crm_msg_stonith_ng, reply, FALSE);
     } else {
@@ -2326,6 +2384,7 @@ static int
 handle_request(crm_client_t * client, uint32_t id, uint32_t flags, xmlNode * request,
                const char *remote_peer)
 {
+	crm_info("my trace");
     int call_options = 0;
     int rc = -EOPNOTSUPP;
 
@@ -2554,6 +2613,7 @@ handle_request(crm_client_t * client, uint32_t id, uint32_t flags, xmlNode * req
 static void
 handle_reply(crm_client_t * client, xmlNode * request, const char *remote_peer)
 {
+	crm_info("my trace");
     const char *op = crm_element_value(request, F_STONITH_OPERATION);
 
     if (crm_str_eq(op, STONITH_OP_QUERY, TRUE)) {
@@ -2573,6 +2633,7 @@ void
 stonith_command(crm_client_t * client, uint32_t id, uint32_t flags, xmlNode * request,
                 const char *remote_peer)
 {
+	crm_info("my trace");
     int call_options = 0;
     int rc = 0;
     gboolean is_reply = FALSE;

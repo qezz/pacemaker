@@ -39,6 +39,7 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int rc = 0;
     int lpc = 0;
     int flag = 0;

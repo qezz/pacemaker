@@ -31,6 +31,7 @@
 char *
 crm_concat(const char *prefix, const char *suffix, char join)
 {
+	crm_info("my trace");
     int len = 0;
     char *new_str = NULL;
 
@@ -49,6 +50,7 @@ crm_concat(const char *prefix, const char *suffix, char join)
 char *
 crm_itoa_stack(int an_int, char *buffer, size_t len)
 {
+	crm_info("my trace");
     if (buffer != NULL) {
         snprintf(buffer, len, "%d", an_int);
     }
@@ -59,6 +61,7 @@ crm_itoa_stack(int an_int, char *buffer, size_t len)
 char *
 crm_itoa(int an_int)
 {
+	crm_info("my trace");
     int len = 32;
     char *buffer = NULL;
 
@@ -73,12 +76,14 @@ crm_itoa(int an_int)
 void
 g_hash_destroy_str(gpointer data)
 {
+	crm_info("my trace");
     free(data);
 }
 
 long long
 crm_int_helper(const char *text, char **end_text)
 {
+	crm_info("my trace");
     long long result = -1;
     char *local_end_text = NULL;
     int saved_errno = 0;
@@ -124,6 +129,7 @@ crm_int_helper(const char *text, char **end_text)
 int
 crm_parse_int(const char *text, const char *default_text)
 {
+	crm_info("my trace");
     int atoi_result = -1;
 
     if (text != NULL) {
@@ -149,6 +155,7 @@ crm_parse_int(const char *text, const char *default_text)
 gboolean
 safe_str_neq(const char *a, const char *b)
 {
+	crm_info("my trace");
     if (a == b) {
         return FALSE;
 
@@ -164,6 +171,7 @@ safe_str_neq(const char *a, const char *b)
 gboolean
 crm_is_true(const char *s)
 {
+	crm_info("my trace");
     gboolean ret = FALSE;
 
     if (s != NULL) {
@@ -175,6 +183,7 @@ crm_is_true(const char *s)
 int
 crm_str_to_boolean(const char *s, int *ret)
 {
+	crm_info("my trace");
     if (s == NULL) {
         return -1;
 
@@ -196,6 +205,7 @@ crm_str_to_boolean(const char *s, int *ret)
 char *
 crm_strip_trailing_newline(char *str)
 {
+	crm_info("my trace");
     int len;
 
     if (str == NULL) {
@@ -212,6 +222,7 @@ crm_strip_trailing_newline(char *str)
 gboolean
 crm_str_eq(const char *a, const char *b, gboolean use_case)
 {
+	crm_info("my trace");
     if (use_case) {
         return g_strcmp0(a, b) == 0;
 
@@ -241,6 +252,7 @@ crm_str_eq(const char *a, const char *b, gboolean use_case)
 gboolean
 crm_ends_with(const char *s, const char *match)
 {
+	crm_info("my trace");
     if ((s == NULL) || (match == NULL)) {
         return FALSE;
     } else {
@@ -267,6 +279,7 @@ crm_ends_with(const char *s, const char *match)
 guint
 g_str_hash_traditional(gconstpointer v)
 {
+	crm_info("my trace");
     const signed char *p;
     guint32 h = 0;
 
@@ -279,6 +292,7 @@ g_str_hash_traditional(gconstpointer v)
 guint
 crm_strcase_hash(gconstpointer v)
 {
+	crm_info("my trace");
     const signed char *p;
     guint32 h = 0;
 
@@ -291,6 +305,7 @@ crm_strcase_hash(gconstpointer v)
 char *
 add_list_element(char *list, const char *value)
 {
+	crm_info("my trace");
     int len = 0;
     int last = 0;
 
@@ -310,6 +325,7 @@ add_list_element(char *list, const char *value)
 bool
 crm_compress_string(const char *data, int length, int max, char **result, unsigned int *result_len)
 {
+	crm_info("my trace");
     int rc;
     char *compressed = NULL;
     char *uncompressed = strdup(data);

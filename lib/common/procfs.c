@@ -45,6 +45,7 @@
 int
 crm_procfs_process_info(struct dirent *entry, char *name, int *pid)
 {
+	crm_info("my trace");
     int fd, local_pid;
     FILE *file;
     struct stat statbuf;
@@ -116,6 +117,7 @@ crm_procfs_process_info(struct dirent *entry, char *name, int *pid)
 int
 crm_procfs_pid_of(const char *name)
 {
+	crm_info("my trace");
     DIR *dp;
     struct dirent *entry;
     int pid = 0;

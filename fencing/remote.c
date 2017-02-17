@@ -93,12 +93,14 @@ static int get_op_total_timeout(const remote_fencing_op_t *op,
 static gint
 sort_strings(gconstpointer a, gconstpointer b)
 {
+	crm_info("my trace");
     return strcmp(a, b);
 }
 
 static void
 free_remote_query(gpointer data)
 {
+	crm_info("my trace");
     if (data) {
         st_query_result_t *query = data;
 
@@ -126,6 +128,7 @@ struct peer_count_data {
 static void
 count_peer_device(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     device_properties_t *props = (device_properties_t*)value;
     struct peer_count_data *data = user_data;
 
@@ -149,6 +152,7 @@ static int
 count_peer_devices(const remote_fencing_op_t *op, const st_query_result_t *peer,
                    gboolean verified_only)
 {
+	crm_info("my trace");
     struct peer_count_data data;
 
     data.op = op;
@@ -174,6 +178,7 @@ static device_properties_t *
 find_peer_device(const remote_fencing_op_t *op, const st_query_result_t *peer,
                  const char *device)
 {
+	crm_info("my trace");
     device_properties_t *props = g_hash_table_lookup(peer->devices, device);
 
     return (props && !props->executed[op->phase]
@@ -195,6 +200,7 @@ static gboolean
 grab_peer_device(const remote_fencing_op_t *op, st_query_result_t *peer,
                  const char *device, gboolean verified_devices_only)
 {
+	crm_info("my trace");
     device_properties_t *props = find_peer_device(op, peer, device);
 
     if ((props == NULL) || (verified_devices_only && !props->verified)) {
@@ -210,6 +216,7 @@ grab_peer_device(const remote_fencing_op_t *op, st_query_result_t *peer,
 static void
 clear_remote_op_timers(remote_fencing_op_t * op)
 {
+	crm_info("my trace");
     if (op->query_timer) {
         g_source_remove(op->query_timer);
         op->query_timer = 0;
@@ -227,6 +234,7 @@ clear_remote_op_timers(remote_fencing_op_t * op)
 static void
 free_remote_op(gpointer data)
 {
+	crm_info("my trace");
     remote_fencing_op_t *op = data;
 
     crm_trace("Free'ing op %s for %s", op->id, op->target);
@@ -267,6 +275,7 @@ free_remote_op(gpointer data)
 static const char *
 op_requested_action(const remote_fencing_op_t *op)
 {
+	crm_info("my trace");
     return ((op->phase > st_phase_requested)? "reboot" : op->action);
 }
 
@@ -279,6 +288,7 @@ op_requested_action(const remote_fencing_op_t *op)
 static void
 op_phase_off(remote_fencing_op_t *op)
 {
+	crm_info("my trace");
     crm_info("Remapping multiple-device reboot of %s (%s) to off",
              op->target, op->id);
     op->phase = st_phase_off;
@@ -298,6 +308,7 @@ op_phase_off(remote_fencing_op_t *op)
 static void
 op_phase_on(remote_fencing_op_t *op)
 {
+	crm_info("my trace");
     GListPtr iter = NULL;
 
     crm_info("Remapped off of %s complete, remapping to on for %s.%.8s",
@@ -332,6 +343,7 @@ op_phase_on(remote_fencing_op_t *op)
 static void
 undo_op_remap(remote_fencing_op_t *op)
 {
+	crm_info("my trace");
     if (op->phase > 0) {
         crm_info("Undoing remap of reboot of %s for %s.%.8s",
                  op->target, op->client_name, op->id);
@@ -343,6 +355,7 @@ undo_op_remap(remote_fencing_op_t *op)
 static xmlNode *
 create_op_done_notify(remote_fencing_op_t * op, int rc)
 {
+	crm_info("my trace");
     xmlNode *notify_data = create_xml_node(NULL, T_STONITH_NOTIFY_FENCE);
 
     crm_xml_add_int(notify_data, "state", op->state);
@@ -361,6 +374,7 @@ create_op_done_notify(remote_fencing_op_t * op, int rc)
 static void
 bcast_result_to_peers(remote_fencing_op_t * op, int rc)
 {
+	crm_info("my trace");
     static int count = 0;
     xmlNode *bcast = create_xml_node(NULL, T_STONITH_REPLY);
     xmlNode *notify_data = create_op_done_notify(op, rc);
@@ -382,6 +396,7 @@ bcast_result_to_peers(remote_fencing_op_t * op, int rc)
 static void
 handle_local_reply_and_notify(remote_fencing_op_t * op, xmlNode * data, int rc)
 {
+	crm_info("my trace");
     xmlNode *notify_data = NULL;
     xmlNode *reply = NULL;
 
@@ -414,6 +429,7 @@ handle_local_reply_and_notify(remote_fencing_op_t * op, xmlNode * data, int rc)
 static void
 handle_duplicates(remote_fencing_op_t * op, xmlNode * data, int rc)
 {
+	crm_info("my trace");
     GListPtr iter = NULL;
 
     for (iter = op->duplicates; iter != NULL; iter = iter->next) {
@@ -461,6 +477,7 @@ handle_duplicates(remote_fencing_op_t * op, xmlNode * data, int rc)
 static void
 remote_op_done(remote_fencing_op_t * op, xmlNode * data, int rc, int dup)
 {
+	crm_info("my trace");
     int level = LOG_ERR;
     const char *subt = NULL;
     xmlNode *local_data = NULL;
@@ -537,6 +554,7 @@ remote_op_done(remote_fencing_op_t * op, xmlNode * data, int rc, int dup)
 static gboolean
 remote_op_watchdog_done(gpointer userdata)
 {
+	crm_info("my trace");
     remote_fencing_op_t *op = userdata;
 
     op->op_timer_one = 0;
@@ -551,6 +569,7 @@ remote_op_watchdog_done(gpointer userdata)
 static gboolean
 remote_op_timeout_one(gpointer userdata)
 {
+	crm_info("my trace");
     remote_fencing_op_t *op = userdata;
 
     op->op_timer_one = 0;
@@ -564,6 +583,7 @@ remote_op_timeout_one(gpointer userdata)
 static gboolean
 remote_op_timeout(gpointer userdata)
 {
+	crm_info("my trace");
     remote_fencing_op_t *op = userdata;
 
     op->op_timer_total = 0;
@@ -596,6 +616,7 @@ remote_op_timeout(gpointer userdata)
 static gboolean
 remote_op_query_timeout(gpointer data)
 {
+	crm_info("my trace");
     remote_fencing_op_t *op = data;
 
     op->query_timer = 0;
@@ -621,6 +642,7 @@ remote_op_query_timeout(gpointer data)
 static gboolean
 topology_is_empty(stonith_topology_t *tp)
 {
+	crm_info("my trace");
     int i;
 
     if (tp == NULL) {
@@ -645,6 +667,7 @@ topology_is_empty(stonith_topology_t *tp)
 static void
 add_required_device(remote_fencing_op_t *op, const char *device)
 {
+	crm_info("my trace");
     GListPtr match  = g_list_find_custom(op->automatic_list, device,
                                          sort_strings);
 
@@ -663,6 +686,7 @@ add_required_device(remote_fencing_op_t *op, const char *device)
 static void
 remove_required_device(remote_fencing_op_t *op, const char *device)
 {
+	crm_info("my trace");
     GListPtr match = g_list_find_custom(op->automatic_list, device,
                                         sort_strings);
 
@@ -675,6 +699,7 @@ remove_required_device(remote_fencing_op_t *op, const char *device)
 static void
 set_op_device_list(remote_fencing_op_t * op, GListPtr devices)
 {
+	crm_info("my trace");
     GListPtr lpc = NULL;
 
     if (op->devices_list) {
@@ -699,6 +724,7 @@ set_op_device_list(remote_fencing_op_t * op, GListPtr devices)
 static gboolean
 topology_matches(const stonith_topology_t *tp, const char *node)
 {
+	crm_info("my trace");
     regex_t r_patt;
 
     CRM_CHECK(node && tp && tp->target, return FALSE);
@@ -743,6 +769,7 @@ topology_matches(const stonith_topology_t *tp, const char *node)
 stonith_topology_t *
 find_topology_for_host(const char *host) 
 {
+	crm_info("my trace");
     GHashTableIter tIter;
     stonith_topology_t *tp = g_hash_table_lookup(topology, host);
 
@@ -775,6 +802,7 @@ find_topology_for_host(const char *host)
 static int
 stonith_topology_next(remote_fencing_op_t * op)
 {
+	crm_info("my trace");
     stonith_topology_t *tp = NULL;
 
     if (op->target) {
@@ -825,6 +853,7 @@ stonith_topology_next(remote_fencing_op_t * op)
 static void
 merge_duplicates(remote_fencing_op_t * op)
 {
+	crm_info("my trace");
     GHashTableIter iter;
     remote_fencing_op_t *other = NULL;
 
@@ -887,6 +916,7 @@ merge_duplicates(remote_fencing_op_t * op)
 
 static uint32_t fencing_active_peers(void)
 {
+	crm_info("my trace");
     uint32_t count = 0;
     crm_node_t *entry;
     GHashTableIter gIter;
@@ -903,6 +933,7 @@ static uint32_t fencing_active_peers(void)
 int
 stonith_manual_ack(xmlNode * msg, remote_fencing_op_t * op)
 {
+	crm_info("my trace");
     xmlNode *dev = get_xpath_object("//@" F_STONITH_TARGET, msg, LOG_ERR);
 
     op->state = st_done;
@@ -921,6 +952,7 @@ stonith_manual_ack(xmlNode * msg, remote_fencing_op_t * op)
 char *
 stonith_get_peer_name(unsigned int nodeid)
 {
+	crm_info("my trace");
     crm_node_t *node = crm_find_peer(nodeid, NULL);
     char *nodename = NULL;
 
@@ -955,6 +987,7 @@ stonith_get_peer_name(unsigned int nodeid)
 void *
 create_remote_stonith_op(const char *client, xmlNode * request, gboolean peer)
 {
+	crm_info("my trace");
     remote_fencing_op_t *op = NULL;
     xmlNode *dev = get_xpath_object("//@" F_STONITH_TARGET, request, LOG_TRACE);
     int call_options = 0;
@@ -1046,6 +1079,7 @@ create_remote_stonith_op(const char *client, xmlNode * request, gboolean peer)
 remote_fencing_op_t *
 initiate_remote_stonith_op(crm_client_t * client, xmlNode * request, gboolean manual_ack)
 {
+	crm_info("my trace");
     int query_timeout = 0;
     xmlNode *query = NULL;
     const char *client_id = NULL;
@@ -1122,6 +1156,7 @@ enum find_best_peer_options {
 static st_query_result_t *
 find_best_peer(const char *device, remote_fencing_op_t * op, enum find_best_peer_options options)
 {
+	crm_info("my trace");
     GListPtr iter = NULL;
     gboolean verified_devices_only = (options & FIND_PEER_VERIFIED_ONLY) ? TRUE : FALSE;
 
@@ -1162,6 +1197,7 @@ find_best_peer(const char *device, remote_fencing_op_t * op, enum find_best_peer
 static st_query_result_t *
 stonith_choose_peer(remote_fencing_op_t * op)
 {
+	crm_info("my trace");
     const char *device = NULL;
     st_query_result_t *peer = NULL;
     uint32_t active = fencing_active_peers();
@@ -1222,6 +1258,7 @@ static int
 get_device_timeout(const remote_fencing_op_t *op, const st_query_result_t *peer,
                    const char *device)
 {
+	crm_info("my trace");
     device_properties_t *props;
 
     if (!peer || !device) {
@@ -1255,6 +1292,7 @@ struct timeout_data {
 static void
 add_device_timeout(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     const char *device_id = key;
     device_properties_t *props = value;
     struct timeout_data *timeout = user_data;
@@ -1269,6 +1307,7 @@ add_device_timeout(gpointer key, gpointer value, gpointer user_data)
 static int
 get_peer_timeout(const remote_fencing_op_t *op, const st_query_result_t *peer)
 {
+	crm_info("my trace");
     struct timeout_data timeout;
 
     timeout.op = op;
@@ -1284,6 +1323,7 @@ static int
 get_op_total_timeout(const remote_fencing_op_t *op,
                      const st_query_result_t *chosen_peer)
 {
+	crm_info("my trace");
     int total_timeout = 0;
     stonith_topology_t *tp = find_topology_for_host(op->target);
 
@@ -1328,6 +1368,7 @@ get_op_total_timeout(const remote_fencing_op_t *op,
 static void
 report_timeout_period(remote_fencing_op_t * op, int op_timeout)
 {
+	crm_info("my trace");
     GListPtr iter = NULL;
     xmlNode *update = NULL;
     const char *client_node = NULL;
@@ -1390,6 +1431,7 @@ static void
 advance_op_topology(remote_fencing_op_t *op, const char *device, xmlNode *msg,
                     int rc)
 {
+	crm_info("my trace");
     /* Advance to the next device at this topology level, if any */
     if (op->devices) {
         op->devices = op->devices->next;
@@ -1432,6 +1474,7 @@ advance_op_topology(remote_fencing_op_t *op, const char *device, xmlNode *msg,
 void
 call_remote_stonith(remote_fencing_op_t * op, st_query_result_t * peer)
 {
+	crm_info("my trace");
     const char *device = NULL;
     int timeout = op->base_timeout;
 
@@ -1594,6 +1637,7 @@ call_remote_stonith(remote_fencing_op_t * op, st_query_result_t * peer)
 static gint
 sort_peers(gconstpointer a, gconstpointer b)
 {
+	crm_info("my trace");
     const st_query_result_t *peer_a = a;
     const st_query_result_t *peer_b = b;
 
@@ -1607,6 +1651,7 @@ sort_peers(gconstpointer a, gconstpointer b)
 static gboolean
 all_topology_devices_found(remote_fencing_op_t * op)
 {
+	crm_info("my trace");
     GListPtr device = NULL;
     GListPtr iter = NULL;
     device_properties_t *match = NULL;
@@ -1660,6 +1705,7 @@ parse_action_specific(xmlNode *xml, const char *peer, const char *device,
                       const char *action, remote_fencing_op_t *op,
                       enum st_remap_phase phase, device_properties_t *props)
 {
+	crm_info("my trace");
     props->custom_action_timeout[phase] = 0;
     crm_element_value_int(xml, F_STONITH_ACTION_TIMEOUT,
                           &props->custom_action_timeout[phase]);
@@ -1710,6 +1756,7 @@ static void
 add_device_properties(xmlNode *xml, remote_fencing_op_t *op,
                       st_query_result_t *result, const char *device)
 {
+	crm_info("my trace");
     xmlNode *child;
     int verified = 0;
     device_properties_t *props = calloc(1, sizeof(device_properties_t));
@@ -1758,6 +1805,7 @@ add_device_properties(xmlNode *xml, remote_fencing_op_t *op,
 static st_query_result_t *
 add_result(remote_fencing_op_t *op, const char *host, int ndevices, xmlNode *xml)
 {
+	crm_info("my trace");
     st_query_result_t *result = calloc(1, sizeof(st_query_result_t));
     xmlNode *child;
 
@@ -1800,6 +1848,7 @@ add_result(remote_fencing_op_t *op, const char *host, int ndevices, xmlNode *xml
 int
 process_remote_stonith_query(xmlNode * msg)
 {
+	crm_info("my trace");
     int ndevices = 0;
     gboolean host_is_target = FALSE;
     gboolean have_all_replies = FALSE;
@@ -1896,6 +1945,7 @@ process_remote_stonith_query(xmlNode * msg)
 int
 process_remote_stonith_exec(xmlNode * msg)
 {
+	crm_info("my trace");
     int rc = 0;
     const char *id = NULL;
     const char *device = NULL;
@@ -2021,6 +2071,7 @@ process_remote_stonith_exec(xmlNode * msg)
 int
 stonith_fence_history(xmlNode * msg, xmlNode ** output)
 {
+	crm_info("my trace");
     int rc = 0;
     const char *target = NULL;
     xmlNode *dev = get_xpath_object("//@" F_STONITH_TARGET, msg, LOG_TRACE);
@@ -2076,6 +2127,7 @@ stonith_fence_history(xmlNode * msg, xmlNode ** output)
 gboolean
 stonith_check_fence_tolerance(int tolerance, const char *target, const char *action)
 {
+	crm_info("my trace");
     GHashTableIter iter;
     time_t now = time(NULL);
     remote_fencing_op_t *rop = NULL;

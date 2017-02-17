@@ -39,6 +39,7 @@ STATUS event2status(struct sl_event *event);
 const char *
 status2char(STATUS status)
 {
+	crm_info("my trace");
     switch (status) {
         default:
         case STATUS_GREEN:
@@ -53,6 +54,7 @@ status2char(STATUS status)
 STATUS
 event2status(struct sl_event * event)
 {
+	crm_info("my trace");
     STATUS status = STATUS_GREEN;
 
     crm_debug("Severity = %d, Disposition = %d", event->severity, event->disposition);

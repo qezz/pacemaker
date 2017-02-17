@@ -78,6 +78,7 @@ void attrd_perform_update(attr_hash_entry_t * hash_entry);
 static void
 free_hash_entry(gpointer data)
 {
+	crm_info("my trace");
     attr_hash_entry_t *entry = data;
 
     if (entry == NULL) {
@@ -97,6 +98,7 @@ free_hash_entry(gpointer data)
 static int32_t
 attrd_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
     if (need_shutdown) {
         crm_info("Ignoring new client [%d] during shutdown", crm_ipcs_client_pid(c));
@@ -112,6 +114,7 @@ attrd_ipc_accept(qb_ipcs_connection_t * c, uid_t uid, gid_t gid)
 static void
 attrd_ipc_created(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
 }
 
@@ -119,6 +122,7 @@ attrd_ipc_created(qb_ipcs_connection_t * c)
 static int32_t
 attrd_ipc_dispatch(qb_ipcs_connection_t * c, void *data, size_t size)
 {
+	crm_info("my trace");
     uint32_t id = 0;
     uint32_t flags = 0;
     crm_client_t *client = crm_client_get(c);
@@ -147,6 +151,7 @@ attrd_ipc_dispatch(qb_ipcs_connection_t * c, void *data, size_t size)
 static int32_t
 attrd_ipc_closed(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_client_t *client = crm_client_get(c);
 
     if (client == NULL) {
@@ -161,6 +166,7 @@ attrd_ipc_closed(qb_ipcs_connection_t * c)
 static void
 attrd_ipc_destroy(qb_ipcs_connection_t * c)
 {
+	crm_info("my trace");
     crm_trace("Connection %p", c);
     attrd_ipc_closed(c);
 }
@@ -176,6 +182,7 @@ struct qb_ipcs_service_handlers ipc_callbacks = {
 static void
 attrd_shutdown(int nsig)
 {
+	crm_info("my trace");
     need_shutdown = TRUE;
     crm_info("Exiting");
     if (mainloop != NULL && g_main_is_running(mainloop)) {
@@ -188,6 +195,7 @@ attrd_shutdown(int nsig)
 static void
 usage(const char *cmd, int exit_status)
 {
+	crm_info("my trace");
     FILE *stream;
 
     stream = exit_status ? stderr : stdout;
@@ -206,6 +214,7 @@ usage(const char *cmd, int exit_status)
 static void
 stop_attrd_timer(attr_hash_entry_t * hash_entry)
 {
+	crm_info("my trace");
     if (hash_entry != NULL && hash_entry->timer_id != 0) {
         crm_trace("Stopping %s timer", hash_entry->id);
         g_source_remove(hash_entry->timer_id);
@@ -216,6 +225,7 @@ stop_attrd_timer(attr_hash_entry_t * hash_entry)
 static void
 log_hash_entry(int level, attr_hash_entry_t * entry, const char *text)
 {
+	crm_info("my trace");
     do_crm_log(level, "%s: Set: %s, Name: %s, Value: %s, Timeout: %s",
                text, entry->section, entry->id, entry->value, entry->dampen);
 }
@@ -223,6 +233,7 @@ log_hash_entry(int level, attr_hash_entry_t * entry, const char *text)
 static attr_hash_entry_t *
 find_hash_entry(xmlNode * msg)
 {
+	crm_info("my trace");
     const char *value = NULL;
     const char *attr = crm_element_value(msg, F_ATTRD_ATTRIBUTE);
     attr_hash_entry_t *hash_entry = NULL;
@@ -286,6 +297,7 @@ find_hash_entry(xmlNode * msg)
 static void
 process_xml_request(xmlNode *xml)
 {
+	crm_info("my trace");
     attr_hash_entry_t *hash_entry = NULL;
     const char *from = crm_element_value(xml, F_ORIG);
     const char *op = crm_element_value(xml, F_ATTRD_TASK);
@@ -314,6 +326,7 @@ process_xml_request(xmlNode *xml)
 static void
 attrd_ha_connection_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     crm_trace("Invoked");
     if (need_shutdown) {
         /* we signed out, so this is expected */
@@ -332,6 +345,7 @@ attrd_ha_connection_destroy(gpointer user_data)
 static void
 attrd_ha_callback(HA_Message * msg, void *private_data)
 {
+	crm_info("my trace");
     xmlNode *xml = convert_ha_message(NULL, msg, __FUNCTION__);
 
     process_xml_request(xml);
@@ -346,6 +360,7 @@ attrd_cs_dispatch(cpg_handle_t handle,
                  const struct cpg_name *groupName,
                  uint32_t nodeid, uint32_t pid, void *msg, size_t msg_len)
 {
+	crm_info("my trace");
     uint32_t kind = 0;
     xmlNode *xml = NULL;
     const char *from = NULL;
@@ -374,6 +389,7 @@ attrd_cs_dispatch(cpg_handle_t handle,
 static void
 attrd_cs_destroy(gpointer unused)
 {
+	crm_info("my trace");
     if (need_shutdown) {
         /* we signed out, so this is expected */
         crm_info("Corosync disconnection complete");
@@ -392,6 +408,7 @@ attrd_cs_destroy(gpointer unused)
 static void
 attrd_cib_connection_destroy(gpointer user_data)
 {
+	crm_info("my trace");
     cib_t *conn = user_data;
 
     conn->cmds->signoff(conn);  /* Ensure IPC is cleaned up */
@@ -411,6 +428,7 @@ attrd_cib_connection_destroy(gpointer user_data)
 static void
 update_for_hash_entry(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     attr_hash_entry_t *entry = value;
 
     if (entry->value != NULL || entry->stored_value != NULL) {
@@ -421,6 +439,7 @@ update_for_hash_entry(gpointer key, gpointer value, gpointer user_data)
 static void
 local_update_for_hash_entry(gpointer key, gpointer value, gpointer user_data)
 {
+	crm_info("my trace");
     attr_hash_entry_t *entry = value;
 
     if (entry->timer_id == 0) {
@@ -435,6 +454,7 @@ local_update_for_hash_entry(gpointer key, gpointer value, gpointer user_data)
 static void
 do_cib_replaced(const char *event, xmlNode * msg)
 {
+	crm_info("my trace");
     crm_info("Updating all attributes after %s event", event);
     g_hash_table_foreach(attr_hash, local_update_for_hash_entry, NULL);
 }
@@ -442,6 +462,7 @@ do_cib_replaced(const char *event, xmlNode * msg)
 static gboolean
 cib_connect(void *user_data)
 {
+	crm_info("my trace");
     static int attempts = 1;
     static int max_retry = 20;
     gboolean was_err = FALSE;
@@ -505,6 +526,7 @@ cib_connect(void *user_data)
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     int flag = 0;
     int argerr = 0;
     crm_cluster_t cluster;
@@ -639,6 +661,7 @@ struct attrd_callback_s {
 static void
 free_attrd_callback(void *user_data)
 {
+	crm_info("my trace");
     struct attrd_callback_s *data = user_data;
 
     free(data->attr);
@@ -649,6 +672,7 @@ free_attrd_callback(void *user_data)
 static void
 attrd_cib_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *user_data)
 {
+	crm_info("my trace");
     attr_hash_entry_t *hash_entry = NULL;
     struct attrd_callback_s *data = user_data;
 
@@ -690,6 +714,7 @@ attrd_cib_callback(xmlNode * msg, int call_id, int rc, xmlNode * output, void *u
 void
 attrd_perform_update(attr_hash_entry_t * hash_entry)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     struct attrd_callback_s *data = NULL;
     const char *user_name = NULL;
@@ -778,6 +803,7 @@ attrd_perform_update(attr_hash_entry_t * hash_entry)
 static char *
 expand_attr_value(const char *value, const char *old_value)
 {
+	crm_info("my trace");
     int value_len = strlen(value);
     char *expanded = NULL;
 
@@ -815,6 +841,7 @@ expand_attr_value(const char *value, const char *old_value)
 static void
 update_local_attr(xmlNode *msg, attr_hash_entry_t *hash_entry)
 {
+	crm_info("my trace");
     const char *value = crm_element_value(msg, F_ATTRD_VALUE);
     char *expanded = NULL;
 
@@ -867,6 +894,7 @@ update_local_attr(xmlNode *msg, attr_hash_entry_t *hash_entry)
 void
 attrd_local_callback(xmlNode * msg)
 {
+	crm_info("my trace");
     attr_hash_entry_t *hash_entry = NULL;
     const char *from = crm_element_value(msg, F_ORIG);
     const char *op = crm_element_value(msg, F_ATTRD_TASK);
@@ -907,6 +935,7 @@ attrd_local_callback(xmlNode * msg)
 gboolean
 attrd_timer_callback(void *user_data)
 {
+	crm_info("my trace");
     stop_attrd_timer(user_data);
     attrd_trigger_update(user_data);
     return TRUE;                /* Always return true, removed cleanly by stop_attrd_timer() */
@@ -915,6 +944,7 @@ attrd_timer_callback(void *user_data)
 gboolean
 attrd_trigger_update(attr_hash_entry_t * hash_entry)
 {
+	crm_info("my trace");
     xmlNode *msg = NULL;
 
     /* send HA message to everyone */

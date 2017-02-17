@@ -65,6 +65,7 @@ extern void cleanup_alloc_calculations(pe_working_set_t * data_set);
 static ticket_t *
 find_ticket(const char *ticket_id, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     ticket_t *ticket = NULL;
 
     ticket = g_hash_table_lookup(data_set->tickets, ticket_id);
@@ -75,6 +76,7 @@ find_ticket(const char *ticket_id, pe_working_set_t * data_set)
 static void
 print_date(time_t time)
 {
+	crm_info("my trace");
     int lpc = 0;
     char date_str[26];
 
@@ -90,6 +92,7 @@ print_date(time_t time)
 static int
 print_ticket(ticket_t * ticket, gboolean raw, gboolean details)
 {
+	crm_info("my trace");
     if (raw) {
         fprintf(stdout, "%s\n", ticket->id);
         return pcmk_ok;
@@ -138,6 +141,7 @@ print_ticket(ticket_t * ticket, gboolean raw, gboolean details)
 static int
 print_ticket_list(pe_working_set_t * data_set, gboolean raw, gboolean details)
 {
+	crm_info("my trace");
     GHashTableIter iter;
     ticket_t *ticket = NULL;
 
@@ -153,6 +157,7 @@ print_ticket_list(pe_working_set_t * data_set, gboolean raw, gboolean details)
 static int
 find_ticket_state(cib_t * the_cib, const char *ticket_id, xmlNode ** ticket_state_xml)
 {
+	crm_info("my trace");
     int offset = 0;
     static int xpath_max = 1024;
     int rc = pcmk_ok;
@@ -197,6 +202,7 @@ find_ticket_state(cib_t * the_cib, const char *ticket_id, xmlNode ** ticket_stat
 static int
 find_ticket_constraints(cib_t * the_cib, const char *ticket_id, xmlNode ** ticket_cons_xml)
 {
+	crm_info("my trace");
     int offset = 0;
     static int xpath_max = 1024;
     int rc = pcmk_ok;
@@ -236,6 +242,7 @@ find_ticket_constraints(cib_t * the_cib, const char *ticket_id, xmlNode ** ticke
 static int
 dump_ticket_xml(cib_t * the_cib, const char *ticket_id)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     xmlNode *state_xml = NULL;
 
@@ -261,6 +268,7 @@ dump_ticket_xml(cib_t * the_cib, const char *ticket_id)
 static int
 dump_constraints(cib_t * the_cib, const char *ticket_id)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     xmlNode *cons_xml = NULL;
     char *cons_xml_str = NULL;
@@ -284,6 +292,7 @@ find_ticket_state_attr_legacy(cib_t * the_cib, const char *attr, const char *tic
                               const char *set_type, const char *set_name, const char *attr_id,
                               const char *attr_name, char **value)
 {
+	crm_info("my trace");
     int offset = 0;
     static int xpath_max = 1024;
     int rc = pcmk_ok;
@@ -367,6 +376,7 @@ static int
 delete_ticket_state_attr_legacy(const char *ticket_id, const char *set_name, const char *attr_id,
                                 const char *attr_name, cib_t * cib)
 {
+	crm_info("my trace");
     xmlNode *xml_obj = NULL;
 
     int rc = pcmk_ok;
@@ -409,6 +419,7 @@ static int
 get_ticket_state_attr(const char *ticket_id, const char *attr_name, const char **attr_value,
                       pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     ticket_t *ticket = NULL;
 
     CRM_ASSERT(attr_value != NULL);
@@ -430,6 +441,7 @@ get_ticket_state_attr(const char *ticket_id, const char *attr_name, const char *
 static gboolean
 ticket_warning(const char *ticket_id, const char *action)
 {
+	crm_info("my trace");
     gboolean rc = FALSE;
     int offset = 0;
     static int text_max = 1024;
@@ -477,6 +489,7 @@ static gboolean
 allow_modification(const char *ticket_id, GListPtr attr_delete,
                    GHashTable *attr_set)
 {
+	crm_info("my trace");
     const char *value = NULL;
     GListPtr list_iter = NULL;
 
@@ -511,6 +524,7 @@ static int
 modify_ticket_state(const char * ticket_id, GListPtr attr_delete, GHashTable * attr_set,
                     cib_t * cib, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     int rc = pcmk_ok;
     xmlNode *xml_top = NULL;
     xmlNode *ticket_state_xml = NULL;
@@ -601,6 +615,7 @@ modify_ticket_state(const char * ticket_id, GListPtr attr_delete, GHashTable * a
 static int
 delete_ticket_state(const char *ticket_id, cib_t * cib)
 {
+	crm_info("my trace");
     xmlNode *ticket_state_xml = NULL;
 
     int rc = pcmk_ok;
@@ -703,6 +718,7 @@ static struct crm_option long_options[] = {
 int
 main(int argc, char **argv)
 {
+	crm_info("my trace");
     pe_working_set_t data_set;
     xmlNode *cib_xml_copy = NULL;
     xmlNode *cib_constraints = NULL;

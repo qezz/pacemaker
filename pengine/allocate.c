@@ -101,6 +101,7 @@ resource_alloc_functions_t resource_class_alloc_functions[] = {
 gboolean
 update_action_flags(action_t * action, enum pe_action_flags flags, const char *source)
 {
+	crm_info("my trace");
     static unsigned long calls = 0;
     gboolean changed = FALSE;
     gboolean clear = is_set(flags, pe_action_clear);
@@ -130,6 +131,7 @@ static gboolean
 check_rsc_parameters(resource_t * rsc, node_t * node, xmlNode * rsc_entry,
                      gboolean active_here, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     int attr_lpc = 0;
     gboolean force_restart = FALSE;
     gboolean delete_resource = FALSE;
@@ -177,6 +179,7 @@ static void
 CancelXmlOp(resource_t * rsc, xmlNode * xml_op, node_t * active_node,
             const char *reason, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     int interval = 0;
     action_t *cancel = NULL;
 
@@ -221,6 +224,7 @@ static gboolean
 check_action_definition(resource_t * rsc, node_t * active_node, xmlNode * xml_op,
                         pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     char *key = NULL;
     int interval = 0;
     const char *interval_s = NULL;
@@ -355,6 +359,7 @@ check_action_definition(resource_t * rsc, node_t * active_node, xmlNode * xml_op
 static void
 check_actions_for(xmlNode * rsc_entry, resource_t * rsc, node_t * node, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     int offset = -1;
     int interval = 0;
@@ -460,6 +465,7 @@ static GListPtr
 find_rsc_list(GListPtr result, resource_t * rsc, const char *id, gboolean renamed_clones,
               gboolean partial, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     gboolean match = FALSE;
 
@@ -516,6 +522,7 @@ find_rsc_list(GListPtr result, resource_t * rsc, const char *id, gboolean rename
 static void
 check_actions(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     const char *id = NULL;
     node_t *node = NULL;
     xmlNode *lrm_rscs = NULL;
@@ -578,6 +585,7 @@ check_actions(pe_working_set_t * data_set)
 static gboolean
 apply_placement_constraints(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
 
     crm_trace("Applying constraints...");
@@ -595,6 +603,7 @@ apply_placement_constraints(pe_working_set_t * data_set)
 static gboolean
 failcount_clear_action_exists(node_t * node, resource_t * rsc)
 {
+	crm_info("my trace");
     gboolean rc = FALSE;
     char *key = crm_concat(rsc->id, CRM_OP_CLEAR_FAILCOUNT, '_');
     GListPtr list = find_actions_exact(rsc->actions, key, node);
@@ -620,6 +629,7 @@ static void
 check_migration_threshold(resource_t *rsc, node_t *node,
                           pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     int fail_count, countdown;
     resource_t *failed;
 
@@ -657,6 +667,7 @@ check_migration_threshold(resource_t *rsc, node_t *node,
 static void
 common_apply_stickiness(resource_t * rsc, node_t * node, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     if (rsc->children) {
         GListPtr gIter = rsc->children;
 
@@ -707,6 +718,7 @@ common_apply_stickiness(resource_t * rsc, node_t * node, pe_working_set_t * data
 static void
 complex_set_cmds(resource_t * rsc)
 {
+	crm_info("my trace");
     GListPtr gIter = rsc->children;
 
     rsc->cmds = &resource_class_alloc_functions[rsc->variant];
@@ -721,6 +733,7 @@ complex_set_cmds(resource_t * rsc)
 void
 set_alloc_actions(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
 
     GListPtr gIter = data_set->resources;
 
@@ -734,6 +747,7 @@ set_alloc_actions(pe_working_set_t * data_set)
 static void
 calculate_system_health(gpointer gKey, gpointer gValue, gpointer user_data)
 {
+	crm_info("my trace");
     const char *key = (const char *)gKey;
     const char *value = (const char *)gValue;
     int *system_health = (int *)user_data;
@@ -757,6 +771,7 @@ calculate_system_health(gpointer gKey, gpointer gValue, gpointer user_data)
 static gboolean
 apply_system_health(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     const char *health_strategy = pe_pref(data_set->config_hash, "node-health-strategy");
     int base_health = 0;
@@ -840,6 +855,7 @@ apply_system_health(pe_working_set_t * data_set)
 gboolean
 stage0(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     xmlNode *cib_constraints = get_object_root(XML_CIB_TAG_CONSTRAINTS, data_set->input);
 
     if (data_set->input == NULL) {
@@ -864,6 +880,7 @@ stage0(pe_working_set_t * data_set)
 gboolean
 probe_resources(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     action_t *probe_node_complete = NULL;
 
     GListPtr gIter = NULL;
@@ -915,6 +932,7 @@ probe_resources(pe_working_set_t * data_set)
 static void
 rsc_discover_filter(resource_t *rsc, node_t *node)
 {
+	crm_info("my trace");
     GListPtr gIter = rsc->children;
     resource_t *top = uber_parent(rsc);
     node_t *match;
@@ -943,6 +961,7 @@ rsc_discover_filter(resource_t *rsc, node_t *node)
 gboolean
 stage2(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
 
     crm_trace("Applying placement constraints");
@@ -985,6 +1004,7 @@ stage2(pe_working_set_t * data_set)
 gboolean
 stage3(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
 
     GListPtr gIter = data_set->resources;
 
@@ -1003,6 +1023,7 @@ stage3(pe_working_set_t * data_set)
 gboolean
 stage4(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     check_actions(data_set);
     return TRUE;
 }
@@ -1010,6 +1031,7 @@ stage4(pe_working_set_t * data_set)
 static gint
 sort_rsc_process_order(gconstpointer a, gconstpointer b, gpointer data)
 {
+	crm_info("my trace");
     int rc = 0;
     int r1_weight = -INFINITY;
     int r2_weight = -INFINITY;
@@ -1147,6 +1169,7 @@ sort_rsc_process_order(gconstpointer a, gconstpointer b, gpointer data)
 static void
 allocate_resources(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
 
     if (is_set(data_set->flags, pe_flag_have_remote_nodes)) {
@@ -1180,6 +1203,7 @@ allocate_resources(pe_working_set_t * data_set)
 static void
 cleanup_orphans(resource_t * rsc, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
 
     if (is_set(data_set->flags, pe_flag_stop_rsc_orphans) == FALSE) {
@@ -1215,6 +1239,7 @@ cleanup_orphans(resource_t * rsc, pe_working_set_t * data_set)
 gboolean
 stage5(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
 
     if (safe_str_neq(data_set->placement_strategy, "default")) {
@@ -1308,6 +1333,7 @@ stage5(pe_working_set_t * data_set)
 static gboolean
 is_managed(const resource_t * rsc)
 {
+	crm_info("my trace");
     GListPtr gIter = rsc->children;
 
     if (is_set(rsc->flags, pe_rsc_managed)) {
@@ -1328,6 +1354,7 @@ is_managed(const resource_t * rsc)
 static gboolean
 any_managed_resources(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
 
     GListPtr gIter = data_set->resources;
 
@@ -1352,6 +1379,7 @@ any_managed_resources(pe_working_set_t * data_set)
 static void
 fence_guest(pe_node_t *node, pe_action_t *done, pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     resource_t *container = node->details->remote_rsc->container;
     pe_action_t *stop = NULL;
     pe_action_t *stonith_op = NULL;
@@ -1411,6 +1439,7 @@ fence_guest(pe_node_t *node, pe_action_t *done, pe_working_set_t *data_set)
 gboolean
 stage6(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     action_t *dc_down = NULL;
     action_t *dc_fence = NULL;
     action_t *stonith_op = NULL;
@@ -1573,6 +1602,7 @@ stage6(pe_working_set_t * data_set)
 static GListPtr
 find_actions_by_task(GListPtr actions, resource_t * rsc, const char *original_key)
 {
+	crm_info("my trace");
     GListPtr list = NULL;
 
     list = find_actions(actions, original_key, NULL);
@@ -1605,6 +1635,7 @@ find_actions_by_task(GListPtr actions, resource_t * rsc, const char *original_ke
 static void
 rsc_order_then(action_t * lh_action, resource_t * rsc, order_constraint_t * order)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     GListPtr rh_actions = NULL;
     action_t *rh_action = NULL;
@@ -1659,6 +1690,7 @@ rsc_order_then(action_t * lh_action, resource_t * rsc, order_constraint_t * orde
 static void
 rsc_order_first(resource_t * lh_rsc, order_constraint_t * order, pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     GListPtr lh_actions = NULL;
     action_t *lh_action = order->lh_action;
@@ -1728,6 +1760,7 @@ extern void update_colo_start_chain(action_t * action);
 static void
 apply_remote_node_ordering(pe_working_set_t *data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = data_set->actions;
 
     if (is_set(data_set->flags, pe_flag_have_remote_nodes) == FALSE) {
@@ -1902,6 +1935,7 @@ apply_remote_node_ordering(pe_working_set_t *data_set)
 static void
 order_probes(pe_working_set_t * data_set) 
 {
+	crm_info("my trace");
 #if 0
     GListPtr gIter = NULL;
 
@@ -2024,6 +2058,7 @@ order_probes(pe_working_set_t * data_set)
 gboolean
 stage7(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
 
     apply_remote_node_ordering(data_set);
@@ -2095,6 +2130,7 @@ int transition_id = -1;
 gboolean
 stage8(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     GListPtr gIter = NULL;
     const char *value = NULL;
 
@@ -2186,6 +2222,7 @@ stage8(pe_working_set_t * data_set)
 void
 cleanup_alloc_calculations(pe_working_set_t * data_set)
 {
+	crm_info("my trace");
     if (data_set == NULL) {
         return;
     }
