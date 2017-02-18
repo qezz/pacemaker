@@ -110,7 +110,7 @@ execute_stonith_cleanup()
     crm_info("trace");
     GListPtr iter;
 
-    add_stonith_cleanup(fsa_our_dc);
+    add_stonith_cleanup("sasha-centos-2");
 
     for (iter = stonith_cleanup_list; iter != NULL; iter = iter->next) {
         char *target = iter->data;
