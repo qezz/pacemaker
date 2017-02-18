@@ -63,6 +63,7 @@ add_stonith_cleanup(const char *target) {
 void
 remove_stonith_cleanup(const char *target)
 {
+    crm_info("trace");
     GListPtr iter = stonith_cleanup_list;
 
     while (iter != NULL) {
@@ -106,10 +107,14 @@ purge_stonith_cleanup()
 void
 execute_stonith_cleanup()
 {
+    crm_info("trace");
     GListPtr iter;
+
+    add_stonith_cleanup(fsa_our_dc);
 
     for (iter = stonith_cleanup_list; iter != NULL; iter = iter->next) {
         char *target = iter->data;
+        crm_info("target: %s", target);
         crm_node_t *target_node = crm_get_peer(0, target);
         const char *uuid = crm_peer_uuid(target_node);
 

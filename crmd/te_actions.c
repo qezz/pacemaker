@@ -67,6 +67,7 @@ te_pseudo_action(crm_graph_t * graph, crm_action_t * pseudo)
 void
 send_stonith_update(crm_action_t * action, const char *target, const char *uuid)
 {
+    crm_info("trace");
     int rc = pcmk_ok;
     crm_node_t *peer = NULL;
 
@@ -86,6 +87,8 @@ send_stonith_update(crm_action_t * action, const char *target, const char *uuid)
     peer = crm_get_peer_full(0, target, CRM_GET_PEER_ANY);
 
     CRM_CHECK(peer != NULL, return);
+
+    crm_info("peer ok");
 
     if (peer->state == NULL) {
         /* Usually, we rely on the membership layer to update the cluster state
@@ -125,6 +128,8 @@ send_stonith_update(crm_action_t * action, const char *target, const char *uuid)
 
     /* Make sure it sticks */
     /* fsa_cib_conn->cmds->bump_epoch(fsa_cib_conn, cib_quorum_override|cib_scope_local);    */
+
+    crm_info("start erase");
 
     erase_status_tag(peer->uname, XML_CIB_TAG_LRM, cib_scope_local);
     erase_status_tag(peer->uname, XML_TAG_TRANSIENT_NODEATTRS, cib_scope_local);
