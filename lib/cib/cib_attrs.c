@@ -594,7 +594,8 @@ set_standby(cib_t * the_cib, const char *uuid, const char *scope, const char *st
         attr_id = crm_strdup_printf("nodes-%.256s-standby", uuid);
     }
 
-    rc = update_attr_delegate(the_cib, cib_sync_call, scope, uuid, NULL, NULL,
+//    rc = update_attr_delegate(the_cib, cib_sync_call, scope, uuid, NULL, NULL,
+    rc = update_attr_delegate(the_cib, 0, scope, uuid, NULL, NULL,
                               attr_id, "standby", standby_value, TRUE, NULL, NULL);
 
     free(attr_id);
